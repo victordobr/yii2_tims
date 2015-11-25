@@ -6,6 +6,12 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'modules' => [
+        'auth' => [
+            'class' => 'app\modules\auth\Module',
+            'userModelClass' => 'app\models\User'
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -37,7 +43,33 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                [
+                    'pattern' => 'login',
+                    'route' => 'auth/default/login'
+                ],
+                [
+                    'pattern' => '<controller:\w+>/<action:[\w-]+>/<id:\d+>',
+                    'route' => '<controller>/<action>',
+                ],
+                [
+                    'pattern' => '<controller:\w+>/<action:[\w-]+>',
+                    'route' => '<controller>/<action>',
+                ],
+                [
+                    'pattern' => '<module:\w+>/<controller:\w+>/<action:[\w-]+>/<id:\d+>',
+                    'route' => '<module>/<controller>/<action>',
+                ],
+                [
+                    'pattern' => '<module:\w+>/<controller:\w+>/<action:[\w-]+>',
+                    'route' => '<module>/<controller>/<action>',
+                ],
+            ],
+        ],
+        'db' => YII_DEBUG ? require(__DIR__ . '/local/db.php') : require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
 ];
