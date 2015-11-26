@@ -8,7 +8,7 @@ use yii\filters\AccessControl,
     yii\web\HttpException;
 //use app\base\Controller;
 use yii\web\Controller;
-use app\models\User,
+use app\modules\auth\models\mappers\classes\UserIdentity as User,
     app\modules\auth\models\forms\Login,
     app\modules\auth\models\forms\Forgot,
     app\modules\auth\models\forms\Recover;
@@ -50,9 +50,9 @@ class DefaultController extends Controller
      */
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->redirect($this->cabinetAction());
-        }
+//        if (!\Yii::$app->user->isGuest) {
+//            return $this->redirect($this->cabinetAction());
+//        }
 
         $model = new Login();
 

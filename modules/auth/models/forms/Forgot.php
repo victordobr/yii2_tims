@@ -4,7 +4,7 @@ namespace app\modules\auth\models\forms;
 
 use Yii,
     yii\base\Model,
-    app\models\data\User;
+    app\modules\auth\models\mappers\classes\UserIdentity as User;
 
 /**
  * LoginForm is the model behind the login form.

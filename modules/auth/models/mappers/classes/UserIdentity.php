@@ -4,7 +4,7 @@ namespace app\modules\auth\models\mappers\classes;
 
 use Yii,
     yii\web\IdentityInterface;
-use app\base\ActiveRecord;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -83,7 +83,7 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
         return static::findOne([
             'email' => $username,
             'activation_hash' => null,
-            'active' => 1
+            'is_active' => 1
         ]);
     }
 
@@ -138,7 +138,7 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return  Yii::$app->get('service|user')->validatePassword($password, $this->password);
+        return  Yii::$app->controller->module->auth->validatePassword($password, $this->password);
     }
 
     /**

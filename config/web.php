@@ -13,6 +13,9 @@ $config = [
         ],
     ],
     'components' => [
+        'auth' => [
+            'class' => 'app\components\Auth',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '3ao-RPi_7do6nBs85xndY-FwFezZEx7b',
@@ -20,9 +23,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
+        'user'         => [
+            'identityClass'   => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
+            'loginUrl'        => '/auth/default/login',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -48,8 +52,16 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 [
+                    'pattern' => '/',
+                    'route'   => 'auth/default/login'
+                ],
+                [
                     'pattern' => 'login',
                     'route' => 'auth/default/login'
+                ],
+                [
+                    'pattern' => 'logout',
+                    'route'   => 'auth/default/logout'
                 ],
                 [
                     'pattern' => '<controller:\w+>/<action:[\w-]+>/<id:\d+>',

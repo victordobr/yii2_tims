@@ -23,14 +23,14 @@ class m151125_164236_User_table_create extends Migration
               `agency` varchar(255) DEFAULT NULL,
               `created_at` int(10) unsigned DEFAULT NULL,
               `last_login_at` int(10) unsigned DEFAULT NULL,
+              `logins_count` int(10) unsigned DEFAULT '0',
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
 
         $this->execute("
-            INSERT INTO `User` (`id`, `type`, `email`, `password`, `first_name`, `last_name`, `phone`, `created_at`, `last_login`, `notes`, `avail_space`, `logins_count`, `company_name`, `active`) VALUES
-                    (1, 1, 'despected@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', NULL, NULL, NULL, 0, 4294967295, NULL, NULL, NULL, NULL, 1),
-                    (2, 1, 'admin@admin.admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', 'admin', NULL, 2147483647, 4294967295, NULL, 16000500, NULL, NULL, 1);
+            INSERT INTO `User` (`id`, `type_id`, `is_active`, `email`, `password`, `recover_hash`, `activation_hash`, `first_name`, `middle_name`, `last_name`, `phone`, `agency`, `created_at`, `last_login_at`) VALUES
+                (1, 1, 1, 'admin@admin.admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', NULL, NULL, 'Alex', NULL, 'Makhorin', NULL, NULL, 1448560172, NULL);
         ");
 
     }

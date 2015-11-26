@@ -85,7 +85,7 @@ class Login extends Model
             $success = Yii::$app->user->login($userModel, $this->rememberMe ? 3600 * 24 * 30 : 0);
             if($success) {
                 $userModel->logins_count++;
-                $userModel->last_login = time();
+                $userModel->last_login_at = time();
                 $userModel->save(false);
             }
             return $success;
