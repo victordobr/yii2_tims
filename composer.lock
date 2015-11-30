@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aeadf4ffe1fc8b4d233d9121c39e712e",
-    "content-hash": "10b04a01285f852fbcd7b413e6865439",
+    "hash": "8e22205d1ea2bad82efb5bdbbfff19ab",
+    "content-hash": "ec8c26157d6df9b787bc158b2ff9724e",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1803,6 +1803,98 @@
                 "yii2"
             ],
             "time": "2015-06-28 18:05:41"
+        },
+        {
+            "name": "kfosoft/php-abstract-enum",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kfosoft/php-abstract-enum.git",
+                "reference": "30d54fed85baa1af01c537d592fca2e5bb28f34c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kfosoft/php-abstract-enum/zipball/30d54fed85baa1af01c537d592fca2e5bb28f34c",
+                "reference": "30d54fed85baa1af01c537d592fca2e5bb28f34c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kfosoft\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Cyril Turkevich",
+                    "email": "cyril.turkevich@gmail.com"
+                }
+            ],
+            "description": "PHP Abstract Enum",
+            "keywords": [
+                "abstract",
+                "enum",
+                "php",
+                "php abstract enum",
+                "php base enum",
+                "php enum"
+            ],
+            "time": "2015-08-31 17:49:38"
+        },
+        {
+            "name": "kfosoft/php-int-enum-x64",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kfosoft/php-int-enum-x64.git",
+                "reference": "3ed43a48b9b712586ceb3f937376e026f3e2b0b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kfosoft/php-int-enum-x64/zipball/3ed43a48b9b712586ceb3f937376e026f3e2b0b7",
+                "reference": "3ed43a48b9b712586ceb3f937376e026f3e2b0b7",
+                "shasum": ""
+            },
+            "require": {
+                "kfosoft/php-abstract-enum": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kfosoft\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Cyril Turkevich",
+                    "email": "cyril.turkevich@gmail.com"
+                }
+            ],
+            "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
+            "keywords": [
+                "enum",
+                "mysql int types",
+                "mysql integer types",
+                "php",
+                "php enum",
+                "php mysql int types",
+                "php mysql integer types",
+                "php sql int",
+                "php sql int types",
+                "php sql integer",
+                "php sql integer types",
+                "sql int",
+                "sql int types",
+                "sql integer",
+                "sql integer types"
+            ],
+            "time": "2015-10-05 10:53:53"
         },
         {
             "name": "phpspec/php-diff",

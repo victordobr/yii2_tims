@@ -1,103 +1,139 @@
 <?php
-
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use \Yii;
+use \yii\helpers\ArrayHelper;
+use \yii\db\Query;
+use \yii\behaviors\TimestampBehavior;
+
+use \app\behaviors\PasswordAttributeBehavior;
+use \app\behaviors\ManageRolesBehavior;
+
+/**
+ * Model for table User
+ * @package app\models
+ * @version 1.0
+ * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
+ */
+class User extends base\User
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOT_ACTIVE = 0;
+    const SCENARIO_REGISTER = 'register';
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    /** @var string repeat password. */
+    public $repeatPassword;
+
+    /** @var string user full name. */
+    public $fullName;
 
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public function rules()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return ArrayHelper::merge(parent::rules(), [
+            ['repeatPassword', 'compare', 'compareAttribute' => 'password'],
+            ['is_active', 'default', 'value' => '0'],
+            ['email', 'email'],
+            ['email', 'unique'],
+            [
+                'phone',
+                'yii\validators\RegularExpressionValidator',
+                'pattern' => '/^\+\d{12,16}$/',
+                'message' => Yii::t('app',
+                    'Incorrect phone number format. Enter correct number, for example: +380671234567')
+            ],
+            ['logins_count', 'default', 'value' => 0],
+        ]);
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function scenarios()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+        return ArrayHelper::merge(parent::scenarios(), [
+            self::SCENARIO_REGISTER => array_keys($this->getAttributes())
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'repeatPassword' => Yii::t('app', 'Repeat Password'),
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => PasswordAttributeBehavior::className(),
+                'attribute' => 'password',
+            ],
+            [
+                'class' => ManageRolesBehavior::className(),
+                'userTypeAttribute' => 'type_id',
+            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'updatedAtAttribute' => false,
+            ],
+        ];
+    }
+
+    /**
+     * Returns list of users' full names
+     * @param int $limit records count
+     * @return array list of users' names
+     */
+    public static function getUserList($limit = null)
+    {
+        $query = new Query();
+        $query->select(['id', 'text' => "CONCAT(`u`.`first_name`,' ', `u`.`last_name`)"])->from(['u' => 'User']);
+
+        if (isset($limit)) {
+            $query->limit($limit);
         }
 
-        return null;
+        $query->each();
+        $command = $query->createCommand();
+
+        return $command->queryAll();
     }
 
     /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
+     * Returns list users for autocomplete widget.
+     * @return array list users for autocomplete widget.
      */
-    public static function findByUsername($username)
+    public static function getIdUsersAutocomplete()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return Yii::$app->db->createCommand("SELECT CONCAT('#', id, ' ', first_name, ' ', last_name) FROM `User`")->queryColumn();
     }
 
     /**
-     * @inheritdoc
+     * Returns list users for select2 widget.
+     * @return array Array of type id => value for Select2 widget
      */
-    public function getId()
+    public static function getSelect2Source()
     {
-        return $this->id;
+        $raw =  Yii::$app->db->createCommand("SELECT id, CONCAT(first_name, ' ', last_name) as fullName FROM `User`")->queryAll();
+        return ArrayHelper::map($raw, 'id', 'fullName');
     }
 
     /**
-     * @inheritdoc
+     * Returns user full name.
+     * @return string user full name.
      */
-    public function getAuthKey()
+    public function getFullName()
     {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

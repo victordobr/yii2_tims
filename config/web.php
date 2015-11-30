@@ -11,10 +11,21 @@ $config = [
             'class' => 'app\modules\auth\Module',
             'userModelClass' => 'app\models\User'
         ],
+        'admin'    => [
+            'class' => 'app\modules\admin\Module',
+        ],
     ],
     'components' => [
-        'auth' => [
-            'class' => 'app\components\Auth',
+        'rbacUser' => [
+            'class' => 'app\components\RbacUser',
+        ],
+        'authManager'  => [
+            'class'           => 'yii\rbac\DbManager',
+            'defaultRoles'    => ['guest'],
+            'itemTable'       => 'AuthItem',
+            'itemChildTable'  => 'AuthItemChild',
+            'assignmentTable' => 'AuthAssignment',
+            'ruleTable'       => 'AuthRule',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

@@ -10,8 +10,10 @@ namespace app\components;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use \app\models\User as UserModel;
+use \yii\base\Exception;
 
-class Auth extends \app\modules\auth\components\Auth
+class RbacUser extends \app\modules\auth\components\Auth
 {
 
     /**

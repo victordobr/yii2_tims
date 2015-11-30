@@ -27,7 +27,7 @@ class Auth extends Component
      */
     public function init()
     {
-        $this->authManager = Yii::$app->controller->module->authManager;
+        $this->authManager = Yii::$app->authManager;
     }
 
     /**
