@@ -25,7 +25,7 @@ class Module extends \app\base\Module  implements MenuInterface
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['UsersMgmt'],
                     ],
                 ],
             ],

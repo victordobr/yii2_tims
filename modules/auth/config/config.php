@@ -2,7 +2,7 @@
 return [
     'components' => [
         'auth' => [
-            'class' => 'app\components\Auth',
+            'class' => 'app\components\RbacUser',
         ],
     ],
     'params' => [

@@ -31,18 +31,17 @@
         "kartik-v/mpdf": "*",
         "kartik-v/yii2-checkbox-x": "v1.0.2",
         "kartik-v/yii2-date-range": "v1.6.3",
-        "kartik-v/yii2-editable": "dev-master#f9ecdf6",
-        "kartik-v/yii2-grid": "dev-master#7516523",
+        "kartik-v/yii2-grid": "3.0.4",
         "kartik-v/yii2-krajee-base": "v1.7.7",
-        "kartik-v/yii2-mpdf": "dev-master#f65fe85",
+        "kartik-v/yii2-mpdf": "*",
         "kartik-v/yii2-popover-x": "v1.3.1",
         "kartik-v/yii2-widget-activeform": "v1.4.4",
-        "kartik-v/yii2-widget-datepicker": "dev-master#f9ee0fd",
+        "kartik-v/yii2-widget-datepicker": "*",
         "kartik-v/yii2-widget-select2": "v2.0.3",
         "kartik-v/yii2-widget-typeahead": "v1.0.1",
-        "kartik-v/yii2-widget-growl": "*",
         "kfosoft/php-abstract-enum": "1.0",
-        "kfosoft/php-int-enum-x64": "1.0"
+        "kfosoft/php-int-enum-x64": "1.0",
+        "johnitvn/yii2-rbac-plus": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

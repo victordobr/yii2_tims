@@ -75,8 +75,8 @@ class Login extends Model
     public function login()
     {
         if ($this->validate()) {
-            Yii::$app->user->returnUrl = Yii::$app->params['cabinet']['admin'];
-            Yii::$app->defaultRoute = Yii::$app->params['cabinet']['admin'];
+            Yii::$app->user->returnUrl = Yii::$app->params['url.cabinet.admin'];
+            Yii::$app->defaultRoute = Yii::$app->params['url.cabinet.admin'];
 
             $userModel = $this->getUser();
 
