@@ -136,7 +136,7 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return  Yii::$app->controller->module->auth->validatePassword($password, $this->password);
+        return  Yii::$app->rbacUser->validatePassword($password, $this->password);
     }
 
     /**

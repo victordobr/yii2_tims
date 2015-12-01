@@ -39,7 +39,7 @@ class Auth extends Component
      * @return bool
      * @author Alex Makhorin
      */
-    public function generatePasswordHash($password)
+    static public function generatePasswordHash($password)
     {
         return sha1($password);
     }
