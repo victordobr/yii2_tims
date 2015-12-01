@@ -39,8 +39,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_id', 'email'], 'required'],
-            [['type_id', 'is_active', 'created_at', 'last_login_at', 'logins_count'], 'integer'],
+            [['email'], 'required'],
+            [['is_active', 'created_at', 'last_login_at', 'logins_count'], 'integer'],
             [['email', 'password', 'recover_hash', 'activation_hash', 'first_name', 'middle_name', 'last_name', 'agency'], 'string', 'max' => 255],
             [['phone'], 'string', 'max' => 50]
         ];
@@ -53,7 +53,6 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'type_id' => 'Type ID',
             'is_active' => 'Is Active',
             'email' => 'Email',
             'password' => 'Password',

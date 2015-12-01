@@ -77,10 +77,6 @@ class User extends base\User
                 'attribute' => 'password',
             ],
             [
-                'class' => ManageRolesBehavior::className(),
-                'userTypeAttribute' => 'type_id',
-            ],
-            [
                 'class' => TimestampBehavior::className(),
                 'updatedAtAttribute' => false,
             ],

@@ -10,7 +10,6 @@ class m151125_164236_User_table_create extends Migration
         $this->execute("
             CREATE TABLE IF NOT EXISTS `User` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `type_id` tinyint(1) unsigned NOT NULL COMMENT '1 - admin;',
               `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
               `email` varchar(255) NOT NULL,
               `password` varchar(255) NOT NULL,

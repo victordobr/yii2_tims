@@ -63,14 +63,6 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 ])
             ],
             [
-                'attribute' => 'type_id',
-                'value' => function ($model) {
-                    return app\enums\UserType::listData()[$model->type_id];
-                },
-                'filter' => \app\enums\UserType::listData(),
-                'headerOptions' => ['style' => 'width: 120px;']
-            ],
-            [
                 'attribute' => 'phone',
                 'headerOptions' => ['style' => 'width: 120px;']
             ],

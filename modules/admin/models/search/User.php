@@ -26,7 +26,7 @@ class User extends \app\models\User
     public function rules()
     {
         return [
-            [['id', 'type_id', 'logins_count', 'is_active', 'availSpace'], 'integer'],
+            [['id', 'logins_count', 'is_active', 'availSpace'], 'integer'],
             [['email', 'password', 'first_name', 'last_name', 'phone', 'fullName', 'created_at', 'last_login_at'], 'safe'],
         ];
     }
@@ -88,7 +88,6 @@ class User extends \app\models\User
 
         $query->andFilterWhere([
             'user.id' => $this->id,
-            'user.type_id' => $this->type_id,
             'user.logins_count' => $this->logins_count,
             'user.is_active' => $this->is_active,
         ]);

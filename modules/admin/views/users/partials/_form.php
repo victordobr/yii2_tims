@@ -20,11 +20,6 @@ use \kartik\checkbox\CheckboxX;
             'pluginOptions' => ['threeState' => false]
         ]); ?>
 
-        <?= $form->field($model, 'type_id')->dropDownList(app\enums\UserType::listData(), [
-            'prompt' => '',
-            'class'  => 'form-control form-field-short',
-        ]) ?>
-
         <?= $form->field($model, 'first_name')->textInput([
             'maxlength' => true,
             'class'  => 'form-control form-field-short',
