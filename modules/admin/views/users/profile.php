@@ -8,8 +8,6 @@
  * @var float|int|string $availSpace
  * @var float|int|string $usedSpace
  * @var float|int|string $freeSpace
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 use \yii\helpers\Html;
 use \yii\bootstrap\ActiveForm;

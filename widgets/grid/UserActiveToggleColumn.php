@@ -7,8 +7,6 @@ use \dosamigos\grid\ToggleColumn;
 /**
  * @package app\widgets\grid
  * @version 1.0
- * @author Cyril Turkevich
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class UserActiveToggleColumn extends ToggleColumn
 {

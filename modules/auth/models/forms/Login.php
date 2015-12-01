@@ -9,8 +9,6 @@ use app\modules\auth\models\mappers\classes\UserIdentity;
 /**
  * LoginForm is the model behind the login form.
  * @package app\modules\auth\models\forms
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class Login extends Model
 {

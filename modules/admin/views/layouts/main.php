@@ -2,8 +2,6 @@
 /**
  * @var \yii\web\View $this
  * @var string $content
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 app\assets\AppAsset::register($this);
 

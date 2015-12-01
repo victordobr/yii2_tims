@@ -16,8 +16,6 @@ use app\modules\auth\models\mappers\classes\UserIdentity as User,
 /**
  * Controller class. Implements default auth functionality.
  * @package app\modules\auth\controllers
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class DefaultController extends Controller
 {

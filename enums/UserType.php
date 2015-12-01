@@ -7,9 +7,6 @@ use \kfosoft\base\Enum;
 /**
  * UserType Enum
  * @package app\enums
- * @version 1.0
- * @author Alex Makhorin
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class UserType extends Enum
 {

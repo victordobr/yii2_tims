@@ -12,8 +12,6 @@ use \app\behaviors\ManageRolesBehavior;
 /**
  * Model for table User
  * @package app\models
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class User extends base\User
 {

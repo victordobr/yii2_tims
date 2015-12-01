@@ -13,8 +13,6 @@ use \yii\helpers\ArrayHelper;
  * Search for admin model.
  * @inheritdoc
  * @package app\modules\admin\models\search
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class UserArray extends \app\models\User
 {

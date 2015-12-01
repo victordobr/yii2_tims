@@ -8,8 +8,6 @@ use \app\models\User as UserModel;
 /**
  * Password form for validate.
  * @package app\models
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class Password extends Model
 {

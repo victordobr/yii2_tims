@@ -5,8 +5,6 @@
  * @var app\modules\admin\models\search\User $searchModel
  * @var int $autoCompleteLimit
  * @var int $modelCode Model code for suggestions
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 
 use \yii\helpers\Html;

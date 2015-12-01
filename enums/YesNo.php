@@ -7,8 +7,6 @@ use \kfosoft\base\Enum;
 /**
  * YesNo Enum
  * @package app\enums
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class YesNo extends Enum
 {

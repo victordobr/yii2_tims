@@ -13,8 +13,6 @@ use yii\db\ActiveRecord;
  * @property string $email
  * @property string $password
  * @package app\modules\auth\models
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {

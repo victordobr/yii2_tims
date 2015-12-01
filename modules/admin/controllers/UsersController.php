@@ -19,8 +19,6 @@ use \dosamigos\grid\ToggleAction;
 /**
  * UsersController implements the CRUD actions for User model.
  * @package app\modules\admin\controllers
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class UsersController extends Controller
 {

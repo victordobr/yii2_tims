@@ -8,9 +8,6 @@ use \app\interfaces\Menu as MenuInterface;
 
 /**
  * Web module for administration panel.
- * @package app\modules\admin
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class Module extends \app\base\Module  implements MenuInterface
 {

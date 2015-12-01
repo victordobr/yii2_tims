@@ -12,8 +12,6 @@ use \app\enums\UserType;
 /**
  * Application base controller.
  * @package app\base\Controller
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class Controller extends \yii\web\Controller
 {
@@ -21,7 +19,7 @@ class Controller extends \yii\web\Controller
      * Perform ajax validation.
      * @param \app\base\ActiveRecord $model model for validate.
      * @return array the error message array indexed by the attribute IDs.
-     * @author Cyril Turkevich
+     * @author Alex Makhorin
      */
     protected function performAjaxValidation(&$model)
     {
@@ -39,7 +37,7 @@ class Controller extends \yii\web\Controller
      * @param integer $id model id.
      * @return ActiveRecord the loaded model
      * @throws NotFoundHttpException if the model cannot be found
-     * @author Cyril Turkevich
+     * @author Alex Makhorin
      */
     protected function findModel($modelClass, $id)
     {
@@ -53,7 +51,7 @@ class Controller extends \yii\web\Controller
     /**
      * @return string cabinet actions.
      * @throws NotFoundHttpException
-     * @author Cyril Turkevich
+     * @author Alex Makhorin
      */
     public function cabinetAction()
     {

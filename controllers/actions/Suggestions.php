@@ -9,8 +9,6 @@ use \yii\web\Response;
  * Universal Action to get suggestions for typeahead widgets
  * @inheritdoc
  * @package app\helpers
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class Suggestions extends Action
 {

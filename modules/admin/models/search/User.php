@@ -11,8 +11,6 @@ use \app\models\traits\ColumnFilter;
 /**
  * User represents the model behind the search form about `app\models\User`.
  * @package app\modules\admin\models\search
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 class User extends \app\models\User
 {

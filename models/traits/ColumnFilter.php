@@ -8,8 +8,6 @@ use \yii\db\Query;
 /**
  * Class ColumnFilter for universal column filters
  * @package app\models\traits
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 trait ColumnFilter
 {
