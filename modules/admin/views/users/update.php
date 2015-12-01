@@ -6,7 +6,8 @@
  * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
 
-$this->title = \Yii::t('app', 'UPDATE_USER_TITLE',['id' => $model->id, 'fullName' => $model->getFullName()]) ;
+//$this->title = \Yii::t('app', 'UPDATE_USER_TITLE',['id' => $model->id, 'fullName' => $model->getFullName()]) ;
+$this->title = 'Update User #' . $model->id . ': ' . $model->getFullName();
 ?>
 <div class="user-update">
 

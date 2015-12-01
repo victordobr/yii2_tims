@@ -40,9 +40,9 @@ class User extends base\User
             [
                 'phone',
                 'yii\validators\RegularExpressionValidator',
-                'pattern' => '/^\+\d{12,16}$/',
+                'pattern' => '/^\d{10}$/',
                 'message' => Yii::t('app',
-                    'Incorrect phone number format. Enter correct number, for example: +380671234567')
+                    'Incorrect phone number format. Enter correct number, for example: 7809449360')
             ],
             ['logins_count', 'default', 'value' => 0],
         ]);

@@ -50,7 +50,7 @@ use \kartik\checkbox\CheckboxX;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? \Yii::t('app', 'Create') : \Yii::t('app', 'Save'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a( \Yii::t('app', 'Users'), ['manage'], ['class' => 'btn btn-primary'])?>
+        <?= Html::a( \Yii::t('app', '<< All Users'), ['manage'], ['class' => 'btn btn-primary'])?>
     </div>
 
     <?php ActiveForm::end(); ?>

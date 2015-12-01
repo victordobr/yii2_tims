@@ -110,7 +110,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 ]),
             ],
             [
-                'class' => \app\widgets\grid\UserActiveToggleColumn::className(),
+                'class' => \dosamigos\grid\ToggleColumn::className(),
                 'attribute' => 'is_active',
                 'onValue' => User::STATUS_ACTIVE,
                 'onLabel' => \Yii::t('app','Active'),
@@ -141,9 +141,9 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
                     },
                     'update' => function ($url, $model, $key) {
-                        if(\Yii::$app->user->id == $model->primaryKey){
-                            return '';
-                        }
+//                        if(\Yii::$app->user->id == $model->primaryKey){
+//                            return '';
+//                        }
 
                         $options = array_merge([
                             'title' => \Yii::t('yii', 'Update'),
