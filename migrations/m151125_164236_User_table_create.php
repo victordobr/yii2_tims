@@ -27,12 +27,6 @@ class m151125_164236_User_table_create extends Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
-
-        $this->execute("
-            INSERT INTO `User` (`id`, `type_id`, `is_active`, `email`, `password`, `recover_hash`, `activation_hash`, `first_name`, `middle_name`, `last_name`, `phone`, `agency`, `created_at`, `last_login_at`) VALUES
-                (1, 1, 1, 'admin@admin.admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', NULL, NULL, 'Alex', NULL, 'Makhorin', NULL, NULL, 1448560172, NULL);
-        ");
-
     }
 
     public function safeDown()

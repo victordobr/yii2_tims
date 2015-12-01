@@ -27,10 +27,10 @@ class m151130_171648_RBAC_tables_create extends Migration
         $this->db = $authManager->db;
 
         $tableOptions = null;
-//        if ($this->db->driverName === 'mysql') {
-//            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-//            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-//        }
+        if ($this->db->driverName === 'mysql') {
+            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
 
         $this->createTable($authManager->ruleTable, [
             'name' => Schema::TYPE_STRING . '(64) NOT NULL',
@@ -75,19 +75,6 @@ class m151130_171648_RBAC_tables_create extends Migration
             ALTER TABLE {$authManager->assignmentTable} ADD CONSTRAINT f_user_id
             FOREIGN KEY (user_id) REFERENCES User (id) ON UPDATE CASCADE ON DELETE CASCADE;
         ");
-
-        $auth = Yii::$app->authManager;
-
-        $admin = $auth->createRole('admin');
-        $admin->description = 'admin role';
-        $auth->add($admin);
-
-        $client = $auth->createRole('client');
-        $client->description = 'client role';
-        $auth->add($client);
-
-//        $auth->assign($admin, 2);
-        $auth->assign($admin, 1);
     }
 
     public function safeDown()
@@ -95,7 +82,7 @@ class m151130_171648_RBAC_tables_create extends Migration
         $authManager = $this->getAuthManager();
         $this->db = $authManager->db;
 
-//        $this->execute("ALTER TABLE {$authManager->assignmentTable} DROP FOREIGN KEY f_user_id;");
+        $this->execute("ALTER TABLE {$authManager->assignmentTable} DROP FOREIGN KEY f_user_id;");
 
         $this->dropTable($authManager->assignmentTable);
         $this->dropTable($authManager->itemChildTable);
