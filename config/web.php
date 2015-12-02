@@ -23,12 +23,15 @@ $config = [
             'class' => 'app\components\RbacUser',
         ],
         'media' => [
-            'class' => 'app\components\Media',
-            'uploadRoute' => 'frontend/media/chunkUpload',
+            'class' => 'app\components\media\Media',
+            'uploadRoute' => 'frontend/media/chunk-upload',
             'handleRoute' => 'frontend/media/handle',
             'dropZone' => false,
             'tmpDirectory' => '@app/web/uploads/tmp/',
             'previewDirectory' => '@app/web/uploads/gallery',
+            'acceptMimeTypes'  => 'image/jpeg,image/png,video/avi,video/mp4,video/mpeg',
+            'maxFileSize' => 30000000,
+            'maxChunkSize' => 2000000,
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

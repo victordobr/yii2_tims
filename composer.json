@@ -19,6 +19,7 @@
         "yiisoft/yii2-swiftmailer": "2.0.4",
         "bower-asset/jquery": "2.1.4",
         "bower-asset/jquery-ui": "1.11.4",
+        "bower-asset/notifyjs": "0.3.2",
         "2amigos/yii2-grid-view-library": "0.1.1",
         "2amigos/yii2-editable-widget": "0.1.4",
         "2amigos/yii2-dosamigos-asset-bundle": "0.1.0",

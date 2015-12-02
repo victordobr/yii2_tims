@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8e22205d1ea2bad82efb5bdbbfff19ab",
-    "content-hash": "ec8c26157d6df9b787bc158b2ff9724e",
+    "hash": "84adc88e49e1d24a88352bea4374f5b6",
+    "content-hash": "24db6e585c9932675af17cea97ee858c",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -776,6 +776,32 @@
                 "jquery",
                 "mask",
                 "plugins"
+            ]
+        },
+        {
+            "name": "bower-asset/notifyjs",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/notifyjs/notifyjs.git",
+                "reference": "2f88823b00125a6d60b9b596fe2ae1afb42b43ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/notifyjs/notifyjs/zipball/2f88823b00125a6d60b9b596fe2ae1afb42b43ba",
+                "reference": "2f88823b00125a6d60b9b596fe2ae1afb42b43ba",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/notify.js"
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple, versatile notification library",
+            "keywords": [
+                "notification"
             ]
         },
         {
@@ -1830,8 +1856,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP Abstract Enum",
@@ -1872,8 +1898,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
