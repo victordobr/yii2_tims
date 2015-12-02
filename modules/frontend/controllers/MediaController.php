@@ -57,8 +57,8 @@ class MediaController extends Controller
             throw new BadRequestHttpException();
         }
         (new \app\components\media\UploadHandler([
-            'upload_dir'     => Yii::$app->media->tmpDirectory,
-            'mkdir_mode'     => 0777,
+            'upload_dir' => Yii::$app->media->tmpDirectory,
+            'mkdir_mode' => 0777,
             'image_versions' => [],
         ]));
     }
@@ -72,39 +72,19 @@ class MediaController extends Controller
         }
 
         $fileData = json_decode($fileData);
-        if(empty($fileData->image[0])) {
+        if (empty($fileData->image[0])) {
             throw new HttpException(400, 'Upload failed with chunk size ' . Yii::$app->media->maxChunkSize . ' bytes. Try to decrease this value or configure PHP for larger size.');
         }
         $fileData = $fileData->image[0];
-        $filename = Yii::$app->media->tmpDirectory . '/' . $fileData->name;
-//        if (md5_file($filename) != Yii::$app->request->getBodyParam('sum')) {
-//            is_file($filename) && unlink($filename);
-//            throw new HttpException(422, 'File integrity is broken');
-//        }
+//        $filename = Yii::$app->media->tmpDirectory . '/' . $fileData->name;
 
-//        if (strpos($fileData->type, 'video/') === 0) {
-//            $model = Yii::$app->media->addVideo($fileData, Yii::$app->getUser()->id);
-//        } elseif (strpos($fileData->type, 'image/') === 0) {
-//            $model = Yii::$app->media->addImage($fileData, Yii::$app->getUser()->id);
-//        } else {
-//            is_file($filename) && unlink($filename);
-//            throw new HttpException(400, 'No data to handle');
-//        }
+        $path = Yii::$app->media->saveFileToStorage($fileData);
 
         Yii::$app->response->headers->set('Content-Type', 'text/html');
 
         return Json::encode(
             [
-
-                'id'      => 1,
-                'rank'    => 2,
-                'name'    => 3,
-                'preview' => 4,
-
-//                'id'      => $model->id,
-//                'rank'    => $model->rank,
-//                'name'    => (string)$model->title,
-//                'preview' => Yii::$app->media->getPreviewUrl($model),
+                'path' => $path,
             ]
         );
     }
