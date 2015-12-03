@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: smile
- * Date: 26.11.15
- * Time: 20:03
+ * Media.php represents Media class file.
+ * @author Alex Makhorin
  */
 
 namespace app\components\media;
@@ -12,7 +10,10 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use \yii\web\UploadedFile;
-
+/**
+ * Media class implements the component to handle media files.
+ * @author Alex Makhorin
+ */
 class Media extends Component
 {
 
@@ -49,38 +50,38 @@ class Media extends Component
 
     /**
      * Saves file to a random folder
-     * @param UploadedFile $fileData
+     * @param \stdClass $fileData, example:
+     * object(stdClass)[82]
+     *   public 'name' => string 'SampleVideo_1080x720_20mb (1).mp4' (length=33)
+     *   public 'size' => int 21069678
+     *   public 'type' => string 'video/mp4' (length=9)
+     *   public 'extension' => string 'mp4' (length=3)
+     *
+     * @return string
      * @author Alex Makhorin
      */
     public function saveFileToStorage($fileData)
     {
-        /*
-        object(stdClass)[82]
-          public 'name' => string 'SampleVideo_1080x720_20mb.mp4' (length=29)
-          public 'size' => int 21069678
-          public 'type' => string 'video/mp4' (length=9)
-          public 'url' => string 'http://tims2.localhost/files/SampleVideo_1080x720_20mb.mp4' (length=58)
-          public 'deleteUrl' => string 'http://tims2.localhost/index.php?imag=SampleVideo_1080x720_20mb.mp4' (length=67)
-          public 'deleteType' => string 'DELETE' (length=6)
-        */
-
-//        'rename(
-//                /home/makhorin/projects/tims2/httpdocs/web/uploads/tmp/SampleVideo_1080x720_20mb.mp4,
-//                /home/makhorin/projects/tims2/httpdocs/web/uploads/storage/82/evi_3779ef3b): No such file or directory'
-
         $tmpFilePath = $this->tmpDirectory . $fileData->name;
 
         $randomDir = $this->generateRandomDirectory($fileData->name);
         $randomName = $this->generateRandomName();
 
-        $newPath = $this->storageDirectory . $randomDir . '/' . $randomName;
+        $newPath = $this->storageDirectory . $randomDir . '/' . $randomName . '.' . $fileData->extension;
 
         $this->createFolders($newPath);
         rename($tmpFilePath, $newPath);
 
-        return $this->storageUrl . $randomDir . '/' . $randomName;
+        return $this->storageUrl . $randomDir . '/' . $randomName . '.' . $fileData->extension;
     }
 
+    /**
+     * Generate random directory name based on file name
+     * @param string $fileName
+     * @param int $length
+     * @return string
+     * @author Alex Makhorin
+     */
     public function generateRandomDirectory($fileName, $length = self::RANDOM_DIR_LENGTH)
     {
         return substr(md5($fileName . time()) , 0, $length);

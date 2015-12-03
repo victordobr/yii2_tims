@@ -1056,13 +1056,24 @@ class UploadHandler
         $this->destroy_image_object($file_path);
     }
 
+    /**
+     * @param string $name
+     * @return string file extension
+     */
+    protected function getExtension($name)
+    {
+        return strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    }
+
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
                                           $index = null, $content_range = null) {
+
         $file = new \stdClass();
         $file->name = $this->get_file_name($uploaded_file, $name, $size, $type, $error,
             $index, $content_range);
         $file->size = $this->fix_integer_overflow((int)$size);
         $file->type = $type;
+        $file->extension = $this->getExtension($name);
         if ($this->validate($uploaded_file, $file, $error, $index)) {
             $this->handle_form_data($file, $index);
             $upload_dir = $this->get_upload_path();
@@ -1095,7 +1106,7 @@ class UploadHandler
             }
             $file_size = $this->get_file_size($file_path, $append_file);
             if ($file_size === $file->size) {
-                $file->url = $this->get_download_url($file->name);
+//                $file->url = $this->get_download_url($file->name);
                 if ($this->is_valid_image_file($file_path)) {
                     $this->handle_image_file($file_path, $file);
                 }
@@ -1106,7 +1117,7 @@ class UploadHandler
                     $file->error = $this->get_error_message('abort');
                 }
             }
-            $this->set_additional_file_properties($file);
+//            $this->set_additional_file_properties($file);
         }
         return $file;
     }
@@ -1316,6 +1327,7 @@ class UploadHandler
             return $this->delete($print_response);
         }
         $upload = $this->get_upload_data($this->options['param_name']);
+
         // Parse the Content-Disposition header, if available:
         $content_disposition_header = $this->get_server_var('HTTP_CONTENT_DISPOSITION');
         $file_name = $content_disposition_header ?
