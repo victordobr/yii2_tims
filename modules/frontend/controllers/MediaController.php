@@ -2,14 +2,19 @@
 
 namespace app\modules\frontend\controllers;
 
+use app\models\PoliceCase;
 use \Yii;
 use \yii\base\Exception;
 use \yii\web\HttpException;
+use yii\web\NotFoundHttpException;
 use \yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
 use \app\assets\NotifyJsAsset;
+
+use app\models\Evidence;
+use app\modules\frontend\models\search\Evidence as EvidenceSearch;
 
 /**
  * UsersController implements the CRUD actions for User model.
@@ -26,23 +31,62 @@ class MediaController extends Controller
 
     public function actionUpload()
     {
-//        phpinfo(); die;
-//        echo Url::to(Yii::$app->media->uploadRoute); die;
         $uploadUrl = Yii::$app->media->uploadRoute;
         $handleUrl = Yii::$app->media->handleRoute;
         $dropZone = Yii::$app->media->dropZone;
         $maxFileSize = Yii::$app->media->maxFileSize;
         $maxChunkSize = Yii::$app->media->maxChunkSize;
         $acceptMimeTypes = Yii::$app->media->acceptMimeTypes;
+        $currentUserId = Yii::$app->user->id;
 
-        return $this->render('upload', [
-            'handleUrl' => $handleUrl,
-            'uploadUrl' => $uploadUrl,
-            'dropZone' => $dropZone,
-            'maxFileSize' => $maxFileSize,
-            'maxChunkSize' => $maxChunkSize,
-            'acceptMimeTypes' => $acceptMimeTypes,
-        ]);
+        $model = new Evidence();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $case = new PoliceCase();
+
+            //TODO: add correct statuses
+            $case->status_id = 99;
+
+            $caseSaved = $case->save(false);
+
+            if($caseSaved) {
+                $model->user_id = $currentUserId;
+                $model->case_id = $case->id;
+
+                $model->save(false);
+            }
+
+            return $this->redirect(['edit', 'id' => $model->id]);
+        } else {
+            return $this->render('upload', [
+                'model' => $model,
+                'handleUrl' => $handleUrl,
+                'uploadUrl' => $uploadUrl,
+                'dropZone' => $dropZone,
+                'maxFileSize' => $maxFileSize,
+                'maxChunkSize' => $maxChunkSize,
+                'acceptMimeTypes' => $acceptMimeTypes,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing Evidence model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionEdit($id)
+    {
+        $model = $this->findModel(Evidence::className(), $id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('edit', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

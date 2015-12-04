@@ -24,8 +24,8 @@ $config = [
         ],
         'media' => [
             'class' => 'app\components\media\Media',
-            'uploadRoute' => 'frontend/media/chunk-upload',
-            'handleRoute' => 'frontend/media/handle',
+            'uploadRoute' => '/frontend/media/chunk-upload',
+            'handleRoute' => '/frontend/media/handle',
             'dropZone' => false,
             'tmpDirectory' => '@app/web/uploads/tmp/',
             'storageDirectory' => '@app/web/uploads/storage/',

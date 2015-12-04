@@ -38,7 +38,7 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
-            ['label' => Yii::t('app', 'Upload'), 'url' => ['/frontend/default/upload']],
+            ['label' => Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
                 [

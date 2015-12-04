@@ -12,61 +12,83 @@
 use \yii\helpers\Html;
 use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
+use yii\bootstrap\ActiveForm;
 
+$this->title = 'Create Evidence';
+$this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<span class="btn btn-success fileinput-button">
-    <i class="glyphicon glyphicon-plus"></i>
-    <span>Add...</span>
-    <?= FileUpload::widget([
-        'name' => 'image',
-        'url' => $uploadUrl,
-        'options' => [
-            'accept' => $acceptMimeTypes
-        ],
-        'clientOptions' => [
+<div class="evidence-create">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <div class="evidence-form">
+
+        <?php $form = ActiveForm::begin([
+            'id' => 'evidence-form',
+            'options' => ['class' => 'form-horizontal'],
+            'fieldConfig' => [
+                'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
+                'labelOptions' => ['class' => 'col-lg-3 control-label'],
+            ],
+        ]); ?>
+
+        <?= $this->render('partials/_chunkInput', [
+            'model' => $model,
+            'attribute' => 'video_lpr',
+            'uploadUrl' => $uploadUrl,
+            'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
             'maxChunkSize' => $maxChunkSize,
             'dropZone' => $dropZone,
-        ],
-        // Also, you can specify jQuery-File-Upload events
-        // see: https://github.com/blueimp/jQuery-File-Upload/wiki/Options#processing-callback-options
-        'clientEvents' => [
-//        'fileuploadadd'      => "function(e, data) {
-//
-//                    }",
-            'fileuploadprogress' => "function(e, data) {
-                        var progress = parseInt(data.loaded / data.total * 100, 10);
-                        $('.progress-bar').css( 'width', progress + '%');
-                        $('.progress-bar span').replaceWith('<span>' + progress + '% ' + 'Uploading file' + '</span>')
-                    }",
-//        'fileuploadstart'    => "function(e, data) {
-//                    }",
-            'fileuploaddone' => "function(e, data, jqXHR) {
-                            $('.progress-bar').css( 'width', '100%');
-                            $('.progress-bar span').replaceWith('<span>100% ' + 'Processing file' + '</span>')
-                            $.ajax({
-                                type: 'POST',
-                                url: '{$handleUrl}',
-                                data: {
-                                    file: data.jqXHR.responseText
-                                },
-                                dataType: 'json',
-                                error: function(jqXHR, textStatus, errorThrown){
-                                    $.notify('Error occurred' + jqXHR.responseText, 5000);
-                                }
-                            }).done(function (resp) {
-                                $.notify('Upload complete', 'success');
-                            });
+            'handleUrl' => $handleUrl,
+        ]) ?>
 
-                    }",
-            'fileuploadfail' => "function(e, data) {
-                        $.notify('Upload failed');
-                    }",
-        ],
-    ]); ?>
-    </span>
+        <?= $this->render('partials/_chunkInput', [
+            'model' => $model,
+            'attribute' => 'video_overview_camera',
+            'uploadUrl' => $uploadUrl,
+            'acceptMimeTypes' => $acceptMimeTypes,
+            'maxFileSize' => $maxFileSize,
+            'maxChunkSize' => $maxChunkSize,
+            'dropZone' => $dropZone,
+            'handleUrl' => $handleUrl,
+        ]) ?>
 
-<div id="progress" class="progress">
-    <div class="progress-bar progress-bar-success"><span></span></div>
+        <?= $this->render('partials/_chunkInput', [
+            'model' => $model,
+            'attribute' => 'image_lpr',
+            'uploadUrl' => $uploadUrl,
+            'acceptMimeTypes' => $acceptMimeTypes,
+            'maxFileSize' => $maxFileSize,
+            'maxChunkSize' => $maxChunkSize,
+            'dropZone' => $dropZone,
+            'handleUrl' => $handleUrl,
+        ]) ?>
+
+        <?= $this->render('partials/_chunkInput', [
+            'model' => $model,
+            'attribute' => 'image_overview_camera',
+            'uploadUrl' => $uploadUrl,
+            'acceptMimeTypes' => $acceptMimeTypes,
+            'maxFileSize' => $maxFileSize,
+            'maxChunkSize' => $maxChunkSize,
+            'dropZone' => $dropZone,
+            'handleUrl' => $handleUrl,
+        ]) ?>
+
+        <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'state_id')->textInput() ?>
+
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) ?>
+            </div>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div>
 </div>
