@@ -10,6 +10,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use \yii\web\UploadedFile;
+use yii\helpers\Url;
 /**
  * Media class implements the component to handle media files.
  * @author Alex Makhorin
@@ -116,5 +117,10 @@ class Media extends Component
             mkdir($targetPath, 0777, true);
             umask($oldmask);
         }
+    }
+
+    public function createMediaUrl($relativeUrl)
+    {
+        return !empty($relativeUrl) ? Url::base(true) . $relativeUrl : null;
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "84adc88e49e1d24a88352bea4374f5b6",
-    "content-hash": "24db6e585c9932675af17cea97ee858c",
+    "hash": "d2069110619ed5c2b3574705816564f4",
+    "content-hash": "bf6c29d62c4bebf47abc33309d8c4a6e",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1504,7 +1504,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/f65fe859e01374545276d40428d6ff75e4985050",
+                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/873a4f10ba961bbf3c63c9ede82a13d407f00acf",
                 "reference": "f65fe85",
                 "shasum": ""
             },
@@ -1921,6 +1921,47 @@
                 "sql integer types"
             ],
             "time": "2015-10-05 10:53:53"
+        },
+        {
+            "name": "perminder-klair/yii2-videojs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/perminder-klair/yii2-videojs.git",
+                "reference": "9da26d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/perminder-klair/yii2-videojs/zipball/9da26d7ba054e2b9a618d8f22f795a9541501449",
+                "reference": "9da26d7",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kato\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Parminder Klair",
+                    "email": "perminder.klair@gmail.com"
+                }
+            ],
+            "description": "VideoJs Player for Yii2",
+            "keywords": [
+                " videojs",
+                "extension",
+                "yii2"
+            ],
+            "time": "2015-05-26 09:45:34"
         },
         {
             "name": "phpspec/php-diff",
@@ -2539,6 +2580,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "perminder-klair/yii2-videojs": 20,
         "kartik-v/yii2-editable": 20,
         "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-mpdf": 20,

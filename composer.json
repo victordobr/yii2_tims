@@ -27,6 +27,7 @@
         "2amigos/yii2-date-picker-widget": "1.0.5",
         "2amigos/yii2-file-upload-widget": "1.0.2",
         "imagine/imagine": "v0.5.0",
+        "perminder-klair/yii2-videojs": "dev-master#9da26d7",
         "kartik-v/bootstrap-checkbox-x": "v1.5.4",
         "kartik-v/bootstrap-popover-x": "v1.4.1",
         "kartik-v/mpdf": "*",
