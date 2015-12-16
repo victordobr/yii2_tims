@@ -6,11 +6,14 @@
 
 namespace app\components\media;
 
+use app\models\File;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use \yii\web\UploadedFile;
+use yii\web\HttpException;
 use yii\helpers\Url;
+use app\enums\FileType;
 /**
  * Media class implements the component to handle media files.
  * @author Alex Makhorin
@@ -58,7 +61,7 @@ class Media extends Component
      *   public 'type' => string 'video/mp4' (length=9)
      *   public 'extension' => string 'mp4' (length=3)
      *
-     * @return string
+     * @return int File record id
      * @author Alex Makhorin
      */
     public function saveFileToStorage($fileData)
@@ -73,7 +76,34 @@ class Media extends Component
         $this->createFolders($newPath);
         rename($tmpFilePath, $newPath);
 
-        return $this->storageUrl . $randomDir . '/' . $randomName . '.' . $fileData->extension;
+        $url = $this->storageUrl . $randomDir . '/' . $randomName . '.' . $fileData->extension;
+
+        if (strpos($fileData->type, 'video/') === 0) {
+            $type = FileType::TYPE_VIDEO;
+        } elseif (strpos($fileData->type, 'image/') === 0) {
+            $type = FileType::TYPE_IMAGE;
+        } else {
+            is_file($newPath) && unlink($newPath);
+            throw new HttpException(400, 'No data to handle');
+        }
+
+        $file = new File();
+        $file->type = $type;
+        $file->url = $url;
+        $isSaved = $file->save();
+        if(!$isSaved) {
+            throw new HttpException(500, 'DB error occured: ' . \yii\helpers\VarDumper::dumpAsString($file->getErrors()));
+        }
+
+        return $file->primaryKey;
+    }
+
+    public function assignFileToEvidence($fileId, $evidenceId)
+    {
+        $file = File::findOne($fileId);
+        $file->evidence_id = $evidenceId;
+
+        return $file->save(false);
     }
 
     /**

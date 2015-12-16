@@ -10,6 +10,7 @@ use \yii\helpers\ArrayHelper;
  */
 class Evidence extends base\Evidence
 {
+    public $fileIds = [];
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class Evidence extends base\Evidence
             [['license', 'state_id'], 'required'],
             [['case_id'], 'safe'],
             [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
-            [['video_lpr', 'video_overview_camera', 'image_lpr', 'image_overview_camera', 'license'], 'string', 'max' => 250],
+            [['license'], 'string', 'max' => 250],
             [['case_id'], 'unique']
         ];
     }
@@ -30,10 +31,6 @@ class Evidence extends base\Evidence
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'video_lpr' => 'Video from *LPR',
-            'video_overview_camera' => 'Video from Overview Camera',
-            'image_lpr' => 'Still Image from *LPR',
-            'image_overview_camera' => 'Still Image from Overview Camera',
             'license' => 'Tag number',
             'state_id' => 'Tag State',
         ]);

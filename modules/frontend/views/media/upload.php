@@ -36,7 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'attribute' => 'video_lpr',
+            'id' => 'video_lpr',
+            'label' => 'Video from *LPR',
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -47,7 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'attribute' => 'video_overview_camera',
+            'id' => 'video_overview_camera',
+            'label' => 'Video from Overview Camera',
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -58,7 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'attribute' => 'image_lpr',
+            'id' => 'image_lpr',
+            'label' => 'Still Image from *LPR',
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -69,7 +72,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'attribute' => 'image_overview_camera',
+            'id' => 'image_overview_camera',
+            'label' => 'Still Image from Overview Camera',
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,

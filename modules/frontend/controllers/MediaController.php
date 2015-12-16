@@ -39,9 +39,12 @@ class MediaController extends Controller
         $acceptMimeTypes = Yii::$app->media->acceptMimeTypes;
         $currentUserId = Yii::$app->user->id;
 
+        $post = Yii::$app->request->post();
+        $fileIds = !empty($post['Evidence']['fileIds']) ? $post['Evidence']['fileIds'] : null;
+
         $model = new Evidence();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load($post) && $model->validate()) {
             $case = new PoliceCase();
 
             //TODO: add correct statuses
@@ -53,7 +56,13 @@ class MediaController extends Controller
                 $model->user_id = $currentUserId;
                 $model->case_id = $case->id;
 
-                $model->save(false);
+                $eviSaved = $model->save(false);
+                if($eviSaved && $fileIds) {
+                    foreach ($fileIds as $fileId) {
+                        Yii::$app->media->assignFileToEvidence($fileId, $model->primaryKey);
+                    }
+
+                }
             }
 
             return $this->redirect(['edit', 'id' => $model->id]);
@@ -122,13 +131,13 @@ class MediaController extends Controller
         $fileData = $fileData->image[0];
 //        $filename = Yii::$app->media->tmpDirectory . '/' . $fileData->name;
 
-        $path = Yii::$app->media->saveFileToStorage($fileData);
+        $id = Yii::$app->media->saveFileToStorage($fileData);
 
         Yii::$app->response->headers->set('Content-Type', 'text/html');
 
         return Json::encode(
             [
-                'path' => $path,
+                'id' => $id,
             ]
         );
     }
