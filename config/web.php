@@ -11,21 +11,36 @@ $config = [
             'class' => 'app\modules\auth\Module',
             'userModelClass' => 'app\models\User'
         ],
-        'admin'    => [
+        'admin' => [
             'class' => 'app\modules\admin\Module',
+        ],
+        'frontend' => [
+            'class' => 'app\modules\frontend\Module',
         ],
     ],
     'components' => [
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
-        'authManager'  => [
-            'class'           => 'yii\rbac\DbManager',
-            'defaultRoles'    => ['guest'],
-            'itemTable'       => 'AuthItem',
-            'itemChildTable'  => 'AuthItemChild',
+        'media' => [
+            'class' => 'app\components\media\Media',
+            'uploadRoute' => '/frontend/media/chunk-upload',
+            'handleRoute' => '/frontend/media/handle',
+            'dropZone' => false,
+            'tmpDirectory' => '@app/web/uploads/tmp/',
+            'storageDirectory' => '@app/web/uploads/storage/',
+            'storageUrl' => '/uploads/storage/',
+            'acceptMimeTypes'  => 'image/jpeg,image/png,video/avi,video/mp4,video/mpeg',
+            'maxFileSize' => 30000000,
+            'maxChunkSize' => 2000000,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],
+            'itemTable' => 'AuthItem',
+            'itemChildTable' => 'AuthItemChild',
             'assignmentTable' => 'AuthAssignment',
-            'ruleTable'       => 'AuthRule',
+            'ruleTable' => 'AuthRule',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -34,10 +49,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user'         => [
-            'identityClass'   => 'app\modules\auth\models\mappers\classes\UserIdentity',
+        'user' => [
+            'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
-            'loginUrl'        => '/auth/default/login',
+            'loginUrl' => '/auth/default/login',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -62,18 +77,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
-                    'pattern' => '/',
-                    'route'   => 'auth/default/login'
-                ],
-                [
-                    'pattern' => 'login',
-                    'route' => 'auth/default/login'
-                ],
-                [
-                    'pattern' => 'logout',
-                    'route'   => 'auth/default/logout'
-                ],
+                '/' => 'auth/default/login',
+                'login' => 'auth/default/login',
+                'logout' => 'auth/default/logout',
+                'upload' => 'frontend/media/upload',
                 [
                     'pattern' => '<controller:\w+>/<action:[\w-]+>/<id:\d+>',
                     'route' => '<controller>/<action>',

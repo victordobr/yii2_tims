@@ -779,6 +779,32 @@
             ]
         },
         {
+            "name": "bower-asset/notifyjs",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/notifyjs/notifyjs.git",
+                "reference": "2f88823b00125a6d60b9b596fe2ae1afb42b43ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/notifyjs/notifyjs/zipball/2f88823b00125a6d60b9b596fe2ae1afb42b43ba",
+                "reference": "2f88823b00125a6d60b9b596fe2ae1afb42b43ba",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/notify.js"
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple, versatile notification library",
+            "keywords": [
+                "notification"
+            ]
+        },
+        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
@@ -1879,8 +1905,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP Abstract Enum",
@@ -1921,8 +1947,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
@@ -1944,6 +1970,47 @@
                 "sql integer types"
             ],
             "time": "2015-10-05 10:53:53"
+        },
+        {
+            "name": "perminder-klair/yii2-videojs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/perminder-klair/yii2-videojs.git",
+                "reference": "9da26d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/perminder-klair/yii2-videojs/zipball/9da26d7ba054e2b9a618d8f22f795a9541501449",
+                "reference": "9da26d7",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kato\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Parminder Klair",
+                    "email": "perminder.klair@gmail.com"
+                }
+            ],
+            "description": "VideoJs Player for Yii2",
+            "keywords": [
+                " videojs",
+                "extension",
+                "yii2"
+            ],
+            "time": "2015-05-26 09:45:34"
         },
         {
             "name": "phpspec/php-diff",
@@ -2561,7 +2628,13 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "perminder-klair/yii2-videojs": 20,
+        "kartik-v/yii2-editable": 20,
+        "kartik-v/yii2-grid": 20,
+        "kartik-v/yii2-mpdf": 20,
+        "kartik-v/yii2-widget-datepicker": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
