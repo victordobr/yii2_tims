@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'tags' => [
                 'source' => [
                     [
-                        'src' => Yii::$app->media->createMediaUrl($model->video_lpr),
+                        'src' => Yii::$app->media->createMediaUrl($model->videoLpr),
                     ],
                 ],
             ],
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'tags' => [
                 'source' => [
                     [
-                        'src' => Yii::$app->media->createMediaUrl($model->video_overview_camera),
+                        'src' => Yii::$app->media->createMediaUrl($model->videoOverviewCamera),
                     ],
                 ],
             ],
@@ -64,9 +64,15 @@ $this->params['breadcrumbs'][] = 'Update';
 
         <?= $form->field($model, 'user_id')->textInput() ?>
 
-        <?= $form->field($model, 'image_lpr')->textInput(['maxlength' => true]) ?>
+<!--        --><?php //$form->field($model, 'image_lpr')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'image_overview_camera')->textInput(['maxlength' => true]) ?>
+<!--        --><?php //$form->field($model, 'image_overview_camera')->textInput(['maxlength' => true]) ?>
+
+        <img src="<?= $model->imageLpr->url?>" width="250" />
+
+        <img src="<?= $model->imageOverviewCamera->url?>" width="250" />
+
+
 
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 

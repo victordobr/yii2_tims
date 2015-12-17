@@ -13,6 +13,7 @@ use \yii\helpers\Html;
 use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
+use app\enums\EvidenceFileType;
 
 $this->title = 'Create Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
@@ -36,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'id' => 'video_lpr',
-            'label' => 'Video from *LPR',
+            'attribute' => 'videoLpr',
+            'type' => EvidenceFileType::TYPE_VIDEO_LPR,
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -48,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'id' => 'video_overview_camera',
-            'label' => 'Video from Overview Camera',
+            'attribute' => 'videoOverviewCamera',
+            'type' => EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA,
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -60,8 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'id' => 'image_lpr',
-            'label' => 'Still Image from *LPR',
+            'attribute' => 'imageLpr',
+            'type' => EvidenceFileType::TYPE_IMAGE_LPR,
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,
@@ -72,8 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
-            'id' => 'image_overview_camera',
-            'label' => 'Still Image from Overview Camera',
+            'attribute' => 'imageOverviewCamera',
+            'type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA,
             'uploadUrl' => $uploadUrl,
             'acceptMimeTypes' => $acceptMimeTypes,
             'maxFileSize' => $maxFileSize,

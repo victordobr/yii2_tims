@@ -58,8 +58,9 @@ class MediaController extends Controller
 
                 $eviSaved = $model->save(false);
                 if($eviSaved && $fileIds) {
-                    foreach ($fileIds as $fileId) {
-                        Yii::$app->media->assignFileToEvidence($fileId, $model->primaryKey);
+//                    var_dump($fileIds);
+                    foreach ($fileIds as $evidence_video_type => $fileId) {
+                        Yii::$app->media->assignFileToEvidence($fileId, $model->primaryKey, $evidence_video_type);
                     }
 
                 }
@@ -118,6 +119,11 @@ class MediaController extends Controller
 
     public function actionHandle()
     {
+//        var_dump($_FILES);
+//        var_dump($_POST);
+//        var_dump($_GET);
+//        die;
+
         $fileData = Yii::$app->request->getBodyParam('file');
 
         if (!$fileData) {

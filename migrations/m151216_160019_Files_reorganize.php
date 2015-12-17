@@ -11,7 +11,8 @@ class m151216_160019_Files_reorganize extends Migration
             CREATE TABLE IF NOT EXISTS `File` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
               `evidence_id` int(10) unsigned DEFAULT NULL,
-              `type` tinyint(3) unsigned NOT NULL,
+              `file_type` tinyint(1) unsigned NOT NULL,
+              `evidence_file_type` tinyint(1) unsigned NOT NULL,
               `url` varchar(250) NOT NULL,
               `created_at` int(10) unsigned DEFAULT NULL,
               PRIMARY KEY (`id`),

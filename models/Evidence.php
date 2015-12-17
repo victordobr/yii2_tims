@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use \yii\helpers\ArrayHelper;
+use app\enums\EvidenceFileType;
 
 /**
  * This is the model class for table "Evidence".
@@ -11,6 +12,7 @@ use \yii\helpers\ArrayHelper;
 class Evidence extends base\Evidence
 {
     public $fileIds = [];
+
     /**
      * @inheritdoc
      */
@@ -33,6 +35,11 @@ class Evidence extends base\Evidence
         return ArrayHelper::merge(parent::attributeLabels(), [
             'license' => 'Tag number',
             'state_id' => 'Tag State',
+
+            'videoLpr' => 'Video from *LPR',
+            'videoOverviewCamera' => 'Video from Overview Camera',
+            'imageLpr' => 'Still Image from *LPR',
+            'imageOverviewCamera' => 'Still Image from Overview Camera',
         ]);
     }
 
@@ -48,6 +55,46 @@ class Evidence extends base\Evidence
                 'updatedAtAttribute' => null,
             ],
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFiles()
+    {
+        return $this->hasMany(File::className(), ['evidence_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVideoLpr()
+    {
+        return $this->hasOne(File::className(), ['evidence_id' => 'id'])->andWhere(['evidence_file_type' => EvidenceFileType::TYPE_VIDEO_LPR]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVideoOverviewCamera()
+    {
+        return $this->hasOne(File::className(), ['evidence_id' => 'id'])->andWhere(['evidence_file_type' => EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageLpr()
+    {
+        return $this->hasOne(File::className(), ['evidence_id' => 'id'])->andWhere(['evidence_file_type' => EvidenceFileType::TYPE_IMAGE_LPR]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageOverviewCamera()
+    {
+        return $this->hasOne(File::className(), ['evidence_id' => 'id'])->andWhere(['evidence_file_type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA]);
     }
 
 }

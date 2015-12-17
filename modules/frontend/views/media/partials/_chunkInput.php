@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this View
- * @var string $id
+ * @var string $attribute
  * @var string $uploadUrl
  * @var string $handleUrl
  * @var string $acceptMimeTypes
@@ -17,14 +17,14 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="form-group chunk-upload-input">
-    <label class="col-lg-3 control-label" for="evidence-<?= $id ?>"><?= $label ?> </label>
+    <label class="col-lg-3 control-label" for="evidence-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
 
     <div style="float: left; padding-left: 15px; padding-right: 15px; position: relative;">
                 <span class="btn btn-default fileinput-button" style="float: left">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>Add File...</span>
                     <?= FileUpload::widget([
-                        'id' => $id,
+                        'id' => $attribute,
                         'name' => 'image',
                         'url' => $uploadUrl,
                         'options' => [
@@ -42,12 +42,12 @@ use yii\bootstrap\ActiveForm;
                         }",
                             'fileuploadprogress' => "function(e, data) {
                             var progress = parseInt(data.loaded / data.total * 100, 10);
-                            $('#progress_{$id} .progress-bar').css( 'width', progress + '%');
-                            $('#progress_{$id} .progress-bar span').replaceWith('<span>' + progress + '% ' + 'Uploading file' + '</span>')
+                            $('#progress_{$attribute} .progress-bar').css( 'width', progress + '%');
+                            $('#progress_{$attribute} .progress-bar span').replaceWith('<span>' + progress + '% ' + 'Uploading file' + '</span>')
                         }",
                             'fileuploaddone' => "function(e, data, jqXHR) {
-                            $('#progress_{$id} .progress-bar').css( 'width', '100%');
-                            $('#progress_{$id} .progress-bar span').replaceWith('<span>100% ' + 'Processing file' + '</span>')
+                            $('#progress_{$attribute} .progress-bar').css( 'width', '100%');
+                            $('#progress_{$attribute} .progress-bar span').replaceWith('<span>100% ' + 'Processing file' + '</span>')
                             $.ajax({
                                 type: 'POST',
                                 url: '{$handleUrl}',
@@ -60,7 +60,7 @@ use yii\bootstrap\ActiveForm;
                                 }
                             }).done(function (resp) {
                                 $.notify('Upload complete', 'success');
-                                $('input.hidden-{$id}').val(resp.id);
+                                $('input.hidden-{$attribute}').val(resp.id);
                             });
 
                     }",
@@ -72,9 +72,9 @@ use yii\bootstrap\ActiveForm;
                 </span>
     </div>
     <div class="col-lg-5">
-        <div id="progress_<?= $id ?>" class="progress" style="display: none">
+        <div id="progress_<?= $attribute ?>" class="progress" style="display: none">
             <div class="progress-bar progress-bar-success"><span></span></div>
         </div>
     </div>
-    <?= Html::activeHiddenInput($model, 'fileIds[]', ['class' => "hidden-$id"]) ?>
+    <?= Html::activeHiddenInput($model, "fileIds[{$type}]", ['class' => "hidden-$attribute"]) ?>
 </div>

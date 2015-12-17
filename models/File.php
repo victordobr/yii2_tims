@@ -15,8 +15,8 @@ class File extends base\File
     public function rules()
     {
         return [
-            [['evidence_id', 'type', 'created_at'], 'integer'],
-            [['type', 'url'], 'required'],
+            [['evidence_id', 'file_type', 'evidence_file_type', 'created_at'], 'integer'],
+            [['file_type', 'url'], 'required'],
             [['url'], 'string', 'max' => 250]
         ];
     }
@@ -29,7 +29,8 @@ class File extends base\File
         return [
             'id' => 'ID',
             'evidence_id' => 'Evidence ID',
-            'type' => 'Type',
+            'file_type' => 'File Type',
+            'evidence_file_type' => 'Evidence File Type',
             'url' => 'Url',
             'created_at' => 'Created At',
         ];

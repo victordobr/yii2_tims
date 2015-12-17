@@ -88,7 +88,7 @@ class Media extends Component
         }
 
         $file = new File();
-        $file->type = $type;
+        $file->file_type = $type;
         $file->url = $url;
         $isSaved = $file->save();
         if(!$isSaved) {
@@ -98,10 +98,15 @@ class Media extends Component
         return $file->primaryKey;
     }
 
-    public function assignFileToEvidence($fileId, $evidenceId)
+    public function assignFileToEvidence($fileId, $evidenceId, $evidence_video_type)
     {
         $file = File::findOne($fileId);
+        if(!$file) {
+            throw new HttpException(500, 'No file found');
+        }
+
         $file->evidence_id = $evidenceId;
+        $file->evidence_file_type = $evidence_video_type;
 
         return $file->save(false);
     }
@@ -149,8 +154,8 @@ class Media extends Component
         }
     }
 
-    public function createMediaUrl($relativeUrl)
+    public function createMediaUrl($fileRecord)
     {
-        return !empty($relativeUrl) ? Url::base(true) . $relativeUrl : null;
+        return !empty($fileRecord->url) ? Url::base(true) . $fileRecord->url : null;
     }
 }
