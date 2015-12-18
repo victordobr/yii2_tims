@@ -130,4 +130,20 @@ class User extends base\User
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    /**
+     * Check user has role.
+     * @param string $roleName
+     * @return bool
+     */
+    public static function hasRole($roleName)
+    {
+        $userRoles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+
+        if (!array_key_exists($roleName, $userRoles)) {
+            return false;
+        }
+
+        return true;
+    }
 }

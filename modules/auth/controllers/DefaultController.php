@@ -2,6 +2,7 @@
 
 namespace app\modules\auth\controllers;
 
+use app\enums\Role;
 use Yii;
 use yii\filters\AccessControl,
     yii\filters\VerbFilter,
@@ -48,14 +49,21 @@ class DefaultController extends Controller
      */
     public function actionLogin()
     {
-//        if (!\Yii::$app->user->isGuest) {
-//            return $this->redirect($this->cabinetAction());
-//        }
+        if (!\Yii::$app->user->isGuest) {
+            if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
+                return $this->redirect(Yii::$app->params['url.admin.default']);
+            }
+            return $this->redirect(Yii::$app->params['url.frontend.default']);
+        }
 
         $model = new Login();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
+                return $this->redirect(Yii::$app->params['url.admin.default']);
+            }
+
+            return $this->redirect(Yii::$app->params['url.frontend.default']);
         } else {
             return $this->render('login', [
                 'model' => $model,
