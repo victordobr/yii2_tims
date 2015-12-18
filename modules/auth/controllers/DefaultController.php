@@ -50,20 +50,13 @@ class DefaultController extends Controller
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-            if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
-                return $this->redirect(Yii::$app->params['url.admin.default']);
-            }
-            return $this->redirect(Yii::$app->params['url.frontend.default']);
+            $this->actionCabinet();
         }
 
         $model = new Login();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
-                return $this->redirect(Yii::$app->params['url.admin.default']);
-            }
-
-            return $this->redirect(Yii::$app->params['url.frontend.default']);
+            $this->actionCabinet();
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -187,5 +180,18 @@ class DefaultController extends Controller
         return $this->render('activation', [
         ]);
 
+    }
+
+    /**
+     * User Cabinet
+     * @return \yii\web\Response
+     */
+    public function actionCabinet()
+    {
+        if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
+            return $this->redirect(Yii::$app->params['url.admin.default']);
+        }
+
+        return $this->redirect(Yii::$app->params['url.frontend.default']);
     }
 }
