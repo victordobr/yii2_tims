@@ -30,14 +30,12 @@ AppAsset::register($this);
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Upload', 'url' => ['/upload']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/login']] :
                 [
@@ -54,18 +52,18 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= $content ?>
+            <?= $content ?>
+        </div>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left"><img src="/images/gatekeeper_gate_logo.jpg" alt="gatekeeper gate logo" height="47"></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><img src="/images/splogo-black-dot-back.jpg" alt="splogo" height="47"></p>
     </div>
 </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>

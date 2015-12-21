@@ -11,14 +11,13 @@ body {
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    padding: 0px 15px 20px;
 }
 
 .footer {
     height: 60px;
-    background-color: #f5f5f5;
+    background-color: #222;
     border-top: 1px solid #ddd;
-    padding-top: 20px;
 }
 
 .jumbotron {
@@ -102,3 +101,19 @@ a.desc:after {
 /*.preview-block {*/
     /*width: 311px;*/
 /*}*/
+.content {
+    background: url(/images/input.jpg) no-repeat center center fixed;
+    min-height: 750px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.welcome {
+    padding-top: 15%;
+}
+.welcome .alert {
+    width: 80%;
+    text-align: center;
+    margin: 0 10%;
+}

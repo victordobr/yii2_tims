@@ -24,26 +24,36 @@ app\assets\AppAsset::register($this);
 
     echo yii\bootstrap\Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items'   => \app\modules\frontend\Module::getMenuItems(),
+        'items'   => \app\modules\frontend\Module::getNavbarItems(),
     ]);
 
     yii\bootstrap\NavBar::end();
     ?>
 
     <div class="container">
+        <div class="top-menu">
+            <?php
+            echo yii\bootstrap\Nav::widget([
+                'options' => ['class' => 'nav nav-pills nav-justified'],
+                'items'   => \app\modules\frontend\Module::getMenuItems(),
+            ]);
+            ?>
+        </div>
         <div id="page-loading">
             <div class="show-loading"></div>
             <div class="img-load"></div>
         </div>
-        <?= $content ?>
+        <div class="content">
+            <?= $content ?>
+        </div>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; ITS <?= date('Y') ?></p>
+        <p class="pull-left"><img src="/images/gatekeeper_gate_logo.jpg" alt="gatekeeper gate logo" height="47"></p>
 
-        <p class="pull-right"><?= 'Powered by <a href="http://www.kfosoftware.net/" rel="external">KFOSOFT</a>'; ?></p>
+        <p class="pull-right"><img src="/images/splogo-black-dot-back.jpg" alt="splogo" height="47"></p>
     </div>
 </footer>
 <?php $this->endBody() ?>

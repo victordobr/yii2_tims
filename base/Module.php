@@ -44,9 +44,9 @@ class Module extends \yii\base\Module
     {
         return [
             'brandLabel' => 'My TIMS',
-            'brandUrl'   => Url::to([Yii::$app->controller->cabinetAction()]),
+            'brandUrl'   => '/',
             'options'    => [
-                'class' => 'navbar-inverse navbar-fixed-top',
+                'class' => 'navbar-inverse',
             ],
         ];
     }

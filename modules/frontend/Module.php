@@ -17,35 +17,48 @@ class Module extends \app\base\Module  implements MenuInterface
     /**
      * @inheritdoc
      */
-//    public function behaviors()
-//    {
-//        return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'roles' => ['admin'],
-//                    ],
-//                ],
-//            ],
-//        ];
-//    }
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
      */
+    public static function getNavbarItems()
+    {
+        return [
+            Yii::$app->user->isGuest ?
+                ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
+                ['label' => Yii::t('app', 'Profile'), 'url' => ['/profile']],
+                [
+                    'label'       => Yii::t('app', 'Sing Out') . ' (' . Yii::$app->user->identity->username . ')',
+                    'url'         => ['/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ],
+        ];
+    }
+
     public static function getMenuItems()
     {
         return [
             ['label' => Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload']],
-            Yii::$app->user->isGuest ?
-                ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
-                [
-                    'label'       => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                    'url'         => ['/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
+            ['label' => Yii::t('app', 'Review'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Data'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Search'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Print'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Resources'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Reports'), 'url' => ['#']],
         ];
     }
 }

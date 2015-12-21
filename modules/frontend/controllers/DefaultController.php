@@ -5,7 +5,7 @@ namespace app\modules\frontend\controllers;
 
 
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use \app\modules\frontend\base\Controller;
 
 /**
  * Class DefaultController
