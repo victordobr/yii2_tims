@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $form = ActiveForm::begin([
             'id' => 'evidence-form',
+            'enableAjaxValidation' => true,
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
@@ -35,8 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]); ?>
 
+        <?= $form->errorSummary($model)?>
+
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
+            'form' => $form,
             'attribute' => 'videoLpr',
             'type' => EvidenceFileType::TYPE_VIDEO_LPR,
             'uploadUrl' => $uploadUrl,
@@ -49,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
+            'form' => $form,
             'attribute' => 'videoOverviewCamera',
             'type' => EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA,
             'uploadUrl' => $uploadUrl,
@@ -61,6 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
+            'form' => $form,
             'attribute' => 'imageLpr',
             'type' => EvidenceFileType::TYPE_IMAGE_LPR,
             'uploadUrl' => $uploadUrl,
@@ -73,6 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
+            'form' => $form,
             'attribute' => 'imageOverviewCamera',
             'type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA,
             'uploadUrl' => $uploadUrl,

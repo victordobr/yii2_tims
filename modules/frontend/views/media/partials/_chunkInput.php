@@ -14,6 +14,8 @@ use \yii\helpers\Html;
 use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
+
+$attributeHidden = $attribute.'Id';
 ?>
 
 <div class="form-group chunk-upload-input">
@@ -60,7 +62,7 @@ use yii\bootstrap\ActiveForm;
                                 }
                             }).done(function (resp) {
                                 $.notify('Upload complete', 'success');
-                                $('input.hidden-{$attribute}').val(resp.id);
+                                  $('input[name=\"Evidence[{$attributeHidden}]\"]').val(resp.id);
                             });
 
                     }",
@@ -76,5 +78,6 @@ use yii\bootstrap\ActiveForm;
             <div class="progress-bar progress-bar-success"><span></span></div>
         </div>
     </div>
-    <?= Html::activeHiddenInput($model, "fileIds[{$type}]", ['class' => "hidden-$attribute"]) ?>
+
+    <?= $form->field($model, $attributeHidden)->hiddenInput()->label(false) ?>
 </div>

@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers;
 
+use app\enums\EvidenceFileType;
 use app\models\PoliceCase;
 use \Yii;
 use \yii\base\Exception;
@@ -12,6 +13,8 @@ use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
 use \app\assets\NotifyJsAsset;
+use \yii\web\Response;
+use \yii\widgets\ActiveForm;
 
 use app\models\Evidence;
 use app\modules\frontend\models\search\Evidence as EvidenceSearch;
@@ -31,6 +34,13 @@ class MediaController extends Controller
 
     public function actionUpload()
     {
+        $model = new Evidence();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         $uploadUrl = Yii::$app->media->uploadRoute;
         $handleUrl = Yii::$app->media->handleRoute;
         $dropZone = Yii::$app->media->dropZone;
@@ -40,9 +50,17 @@ class MediaController extends Controller
         $currentUserId = Yii::$app->user->id;
 
         $post = Yii::$app->request->post();
-        $fileIds = !empty($post['Evidence']['fileIds']) ? $post['Evidence']['fileIds'] : null;
-
-        $model = new Evidence();
+        $fileIds = [];
+        if(!empty($post['Evidence'])){
+            foreach($post['Evidence'] as $fileType => $fileId){
+                switch($fileType){
+                    case 'videoLprId': $fileIds[EvidenceFileType::TYPE_VIDEO_LPR] = $fileId; break;
+                    case 'videoOverviewCameraId': $fileIds[EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA] = $fileId; break;
+                    case 'imageLprId': $fileIds[EvidenceFileType::TYPE_IMAGE_LPR] = $fileId; break;
+                    case 'imageOverviewCameraId': $fileIds[EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA] = $fileId; break;
+                }
+            }
+        }
 
         if ($model->load($post) && $model->validate()) {
             $case = new PoliceCase();
@@ -58,7 +76,6 @@ class MediaController extends Controller
 
                 $eviSaved = $model->save(false);
                 if($eviSaved && $fileIds) {
-//                    var_dump($fileIds);
                     foreach ($fileIds as $evidence_video_type => $fileId) {
                         Yii::$app->media->assignFileToEvidence($fileId, $model->primaryKey, $evidence_video_type);
                     }

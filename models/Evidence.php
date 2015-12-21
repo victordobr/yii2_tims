@@ -11,7 +11,10 @@ use app\enums\EvidenceFileType;
  */
 class Evidence extends base\Evidence
 {
-    public $fileIds = [];
+    public $videoLprId;
+    public $videoOverviewCameraId;
+    public $imageLprId;
+    public $imageOverviewCameraId;
 
     /**
      * @inheritdoc
@@ -19,7 +22,7 @@ class Evidence extends base\Evidence
     public function rules()
     {
         return [
-            [['license', 'state_id'], 'required'],
+            [['license', 'state_id', 'videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required'],
             [['case_id'], 'safe'],
             [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
             [['license'], 'string', 'max' => 250],
