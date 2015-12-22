@@ -19,7 +19,7 @@ class Evidence extends EvidenceModel
     {
         return [
             [['id', 'case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
-            [['video_lpr', 'video_overview_camera', 'image_lpr', 'image_overview_camera', 'license'], 'safe'],
+//            [['video_lpr', 'video_overview_camera', 'image_lpr', 'image_overview_camera', 'license'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class Evidence extends EvidenceModel
      */
     public function search($params)
     {
-        $query = EvidenceModel::find();
+        $query = EvidenceModel::find()->with('user');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

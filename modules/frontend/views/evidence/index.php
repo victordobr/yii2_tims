@@ -15,10 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Evidence', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -32,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'video_overview_camera',
             // 'image_lpr',
             // 'image_overview_camera',
-            // 'license',
-            // 'state_id',
-            // 'created_at',
+             'license',
+             'state_id',
+             'created_at:date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
