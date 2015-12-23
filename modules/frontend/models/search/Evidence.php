@@ -63,11 +63,11 @@ class Evidence extends EvidenceModel
             'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'video_lpr', $this->video_lpr])
-            ->andFilterWhere(['like', 'video_overview_camera', $this->video_overview_camera])
-            ->andFilterWhere(['like', 'image_lpr', $this->image_lpr])
-            ->andFilterWhere(['like', 'image_overview_camera', $this->image_overview_camera])
-            ->andFilterWhere(['like', 'license', $this->license]);
+//        $query->andFilterWhere(['like', 'video_lpr', $this->video_lpr])
+//            ->andFilterWhere(['like', 'video_overview_camera', $this->video_overview_camera])
+//            ->andFilterWhere(['like', 'image_lpr', $this->image_lpr])
+//            ->andFilterWhere(['like', 'image_overview_camera', $this->image_overview_camera])
+//            ->andFilterWhere(['like', 'license', $this->license]);
 
         return $dataProvider;
     }
