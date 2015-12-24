@@ -109,11 +109,48 @@ a.desc:after {
     -o-background-size: cover;
     background-size: cover;
 }
-.welcome {
-    padding-top: 15%;
+
+.frontend-wrapper {
+    font-family: "Open Sans",sans-serif;
 }
-.welcome .alert {
-    width: 80%;
+
+.frontend-wrapper .top-menu{
+    text-transform: uppercase;
+}
+
+
+.frontend-wrapper h1 {
+    /*color: rgb(105, 105, 105);*/
+    font-size: 24px;
+    /*font-weight: 300;*/
+    letter-spacing: -1px;
+    line-height: 24px;
+    margin: 0;
+    padding: 16px 0 10px;
+    text-transform: uppercase;
+}
+
+.frontend-wrapper .header-title {
     text-align: center;
-    margin: 0 10%;
+}
+.white-background {
+    background-color: white;
+    border-radius: 2px;
+    margin: 0 5px;
+    padding: 5px;
+}
+.right {
+    float: right;
+    margin: 0 0 5px;
+}
+.page-loading {
+    opacity: 0.5;
+    background: #ffffff url('../images/loading.gif') center center no-repeat !important;
+}
+.page-loading * {
+    background: transparent !important;
+}
+
+.page-loading td {
+    border-color: #efefef !important;
 }

@@ -18,7 +18,7 @@ app\assets\AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="wrap">
+<div class="wrap frontend-wrapper">
     <?php
     yii\bootstrap\NavBar::begin(app\base\Module::getNavBarConfig());
 
@@ -34,7 +34,7 @@ app\assets\AppAsset::register($this);
         <div class="top-menu">
             <?php
             echo yii\bootstrap\Nav::widget([
-                'options' => ['class' => 'nav nav-pills nav-justified'],
+                'options' => ['class' => 'nav nav-tabs nav-justified'],
                 'items'   => \app\modules\frontend\Module::getMenuItems(),
             ]);
             ?>

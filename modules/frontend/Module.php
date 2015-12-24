@@ -53,12 +53,12 @@ class Module extends \app\base\Module  implements MenuInterface
     {
         return [
             ['label' => Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload']],
-            ['label' => Yii::t('app', 'Review'), 'url' => ['#']],
-            ['label' => Yii::t('app', 'Data'), 'url' => ['#']],
-            ['label' => Yii::t('app', 'Search'), 'url' => ['#']],
-            ['label' => Yii::t('app', 'Print'), 'url' => ['#']],
-            ['label' => Yii::t('app', 'Resources'), 'url' => ['#']],
-            ['label' => Yii::t('app', 'Reports'), 'url' => ['#']],
+            ['label' => Yii::t('app', 'Review'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['label' => Yii::t('app', 'Data'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['label' => Yii::t('app', 'Search'), 'url' => ['/frontend/cases/search']],
+            ['label' => Yii::t('app', 'Print'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['label' => Yii::t('app', 'Resources'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['label' => Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
         ];
     }
 }

@@ -1,3 +1,3 @@
-<div class="welcome">
-    <div class="alert alert-success" role="alert">Welcome to Stop Arm</div>
+<div class="jumbotron">
+    <h1>Welcome to Stop Arm</h1>
 </div>
