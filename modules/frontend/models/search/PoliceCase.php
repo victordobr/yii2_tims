@@ -41,11 +41,22 @@ class PoliceCase extends PoliceCaseModel
      */
     public function search($params)
     {
-        $query = PoliceCaseModel::find()->with('evidence');
+        $query = PoliceCaseModel::find()
+            ->joinWith(['evidence' => function ($query) {
+                $query->from('Evidence evidence');
+            }])
+            ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->getSort()->attributes += [
+            'evidence.created_at' => [
+                'asc' => ['evidence.created_at' => SORT_ASC],
+                'desc' => ['evidence.created_at' => SORT_DESC],
+            ],
+        ];
 
         $this->load($params);
 

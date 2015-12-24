@@ -41,12 +41,28 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 ],
                 [
                     'attribute' => 'infraction_date',
-                    'headerOptions' => ['style' => 'width: 100px;']
+                    'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [
                     'label' => 'Case Number #',
                     'attribute' => 'id',
+                    'headerOptions' => ['style' => 'width: 180px;']
+                ],
+                [
+                    'label' => 'Vehicle Tag #',
+                    'attribute' => 'evidence.user_id',
                     'headerOptions' => ['style' => 'width: 100px;']
+                ],
+                [
+                    'label' => 'Uploaded Date',
+                    'attribute' => 'evidence.created_at',
+                    'format' => 'datetime',
+                    'headerOptions' => ['style' => 'width: 190px;']
+                ],
+                [
+                    'label' => 'Uploaded By',
+                    'attribute' => 'evidence.user_id',
+//                    'headerOptions' => ['style' => 'width: 100px;']
                 ],
 //            [
 //                'label' => 'Uploaded date',

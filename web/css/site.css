@@ -118,6 +118,10 @@ a.desc:after {
     text-transform: uppercase;
 }
 
+.frontend-wrapper thead{
+    text-transform: uppercase;
+}
+
 
 .frontend-wrapper h1 {
     /*color: rgb(105, 105, 105);*/
