@@ -49,7 +49,7 @@ class RbacUser extends \app\modules\auth\components\Auth
             ])
             ->setTo($model->email)
             ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['adminFrom']])
-            ->setSubject(Yii::t('app', 'ITS Service - Registration'))
+            ->setSubject(Yii::t('app', 'TIMS - Registration'))
             ->send();
 
         if (!$isSent) {

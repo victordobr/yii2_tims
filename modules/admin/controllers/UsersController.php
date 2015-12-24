@@ -193,7 +193,7 @@ class UsersController extends Controller
                     ])
                     ->setTo($model->email)
                     ->setFrom([Yii::$app->params['admin.email'] => Yii::$app->params['admin.alias']])
-                    ->setSubject(Yii::t('app', 'ITS Service - Change Email'));
+                    ->setSubject(Yii::t('app', 'TIMS - Change Email'));
 
                 if (!$mail->send()) {
                     $transaction->rollBack();

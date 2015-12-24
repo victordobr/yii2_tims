@@ -41,9 +41,9 @@ app\assets\AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; ITS <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= 'Powered by <a href="http://www.kfosoftware.net/" rel="external">KFOSOFT</a>'; ?></p>
+        <p class="pull-right"></p>
     </div>
 </footer>
 <?php $this->endBody() ?>
