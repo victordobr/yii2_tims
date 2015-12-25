@@ -18,6 +18,7 @@ use \yii\helpers\Url;
 /**
  * Class DefaultController
  * @package app\modules\frontend\controllers
+ * @author Alex Makhorin
  */
 class DefaultController extends Controller
 {
@@ -51,6 +52,7 @@ class DefaultController extends Controller
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'manage' page.
      * @return mixed
+     * @author Alex Makhorin
      */
     public function actionProfile()
     {
@@ -74,6 +76,7 @@ class DefaultController extends Controller
      * Action change user password.
      * @return string|\yii\web\Response
      * @throws \yii\web\NotFoundHttpException
+     * @author Alex Makhorin
      */
     public function actionChangePassword()
     {

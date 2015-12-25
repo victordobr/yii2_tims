@@ -22,6 +22,7 @@ use app\modules\frontend\models\search\Evidence as EvidenceSearch;
 /**
  * UsersController implements the CRUD actions for User model.
  * @package app\modules\frontend\controllers
+ * @author Alex Makhorin
  */
 class MediaController extends Controller
 {
@@ -102,6 +103,7 @@ class MediaController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @author Alex Makhorin
      */
     public function actionEdit($id)
     {
@@ -117,10 +119,10 @@ class MediaController extends Controller
     }
 
     /**
-     * Method to handle file upload thought XHR2
-     * On success returns JSON object with image info.
+     * Method to handle file upload
      * @return string
      * @throws HttpException
+     * @author Alex Makhorin
      */
     public function actionChunkUpload()
     {
@@ -136,11 +138,6 @@ class MediaController extends Controller
 
     public function actionHandle()
     {
-//        var_dump($_FILES);
-//        var_dump($_POST);
-//        var_dump($_GET);
-//        die;
-
         $fileData = Yii::$app->request->getBodyParam('file');
 
         if (!$fileData) {

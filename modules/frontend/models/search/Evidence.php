@@ -12,6 +12,8 @@ use app\models\Evidence as EvidenceModel;
  */
 class Evidence extends EvidenceModel
 {
+    public $fullName;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class Evidence extends EvidenceModel
     {
         return [
             [['id', 'case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
-//            [['video_lpr', 'video_overview_camera', 'image_lpr', 'image_overview_camera', 'license'], 'safe'],
+            [['fullName'], 'safe'],
         ];
     }
 
@@ -41,11 +43,41 @@ class Evidence extends EvidenceModel
      */
     public function search($params)
     {
-        $query = EvidenceModel::find()->with('user');
+        $query = $this->find()
+            ->select([
+                'evidence.*',
+                'case.*',
+                'user.*',
+                "CONCAT(user.first_name,' ', user.last_name) AS fullName"
+            ])
+            ->from(['evidence' => static::tableName()])
+            ->joinWith([
+                'case' => function ($query) {
+                    $query->from('PoliceCase case');
+                },
+                'user' => function ($query) {
+                    $query->from('User user');
+                },
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->getSort()->attributes['fullName'] = [
+            'asc' => ['fullName' => SORT_ASC],
+            'desc' => ['fullName' => SORT_DESC],
+        ];
+
+        $dataProvider->getSort()->attributes['case.infraction_date'] = [
+            'asc' => ['case.infraction_date' => SORT_ASC],
+            'desc' => ['case.infraction_date' => SORT_DESC],
+        ];
+
+        $dataProvider->getSort()->attributes['created_at'] = [
+            'asc' => ['evidence.created_at' => SORT_ASC],
+            'desc' => ['evidence.created_at' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -59,15 +91,15 @@ class Evidence extends EvidenceModel
             'id' => $this->id,
             'case_id' => $this->case_id,
             'user_id' => $this->user_id,
+            'license' => $this->license,
             'state_id' => $this->state_id,
             'created_at' => $this->created_at,
+//            'mailed_date' => $this->mailed_date,
+//            'officer_pin' => $this->officer_pin,
+//            'officer_id' => $this->officer_id,
         ]);
 
-//        $query->andFilterWhere(['like', 'video_lpr', $this->video_lpr])
-//            ->andFilterWhere(['like', 'video_overview_camera', $this->video_overview_camera])
-//            ->andFilterWhere(['like', 'image_lpr', $this->image_lpr])
-//            ->andFilterWhere(['like', 'image_overview_camera', $this->image_overview_camera])
-//            ->andFilterWhere(['like', 'license', $this->license]);
+        $query->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName]);
 
         return $dataProvider;
     }

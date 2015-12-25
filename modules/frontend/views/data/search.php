@@ -19,9 +19,9 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     </div>
 
     <div class="white-background">
-<!--        <div class="right">-->
-<!--            --><?php //echo Html::a(Html::encode($clearLabel), ['search'], ['class' => 'btn btn-primary']) ?>
-<!--        </div>-->
+        <!--        <div class="right">-->
+        <!--            --><?php //echo Html::a(Html::encode($clearLabel), ['search'], ['class' => 'btn btn-primary']) ?>
+        <!--        </div>-->
 
         <?php
         yii\widgets\Pjax::begin([
@@ -32,47 +32,37 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
         ?>
         <?= yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
-//        'filterModel' => $model,
-//        'filterModel' => $model,
             'columns' => [
                 [
                     'class' => 'yii\grid\SerialColumn',
                     'headerOptions' => ['style' => 'width: 50px;']
                 ],
                 [
-                    'attribute' => 'infraction_date',
+                    'attribute' => 'case.infraction_date',
+                    'format' => 'datetime',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [
                     'label' => 'Case Number #',
-                    'attribute' => 'id',
+                    'attribute' => 'case_id',
                     'headerOptions' => ['style' => 'width: 180px;']
                 ],
                 [
                     'label' => 'Vehicle Tag #',
-                    'attribute' => 'evidence.user_id',
+                    'attribute' => 'license',
                     'headerOptions' => ['style' => 'width: 100px;']
                 ],
                 [
                     'label' => 'Uploaded Date',
-                    'attribute' => 'evidence.created_at',
+                    'attribute' => 'created_at',
                     'format' => 'datetime',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [
                     'label' => 'Uploaded By',
-                    'attribute' => 'evidence.user_id',
+                    'attribute' => 'fullName',
 //                    'headerOptions' => ['style' => 'width: 100px;']
                 ],
-//            [
-//                'label' => 'Uploaded date',
-//                'attribute' => 'open_date',
-//                'headerOptions' => ['style' => 'width: 100px;']
-//            ],
-//            'infraction_date',
-//            'infraction_date',
-//            'infraction_date',
-//            'infraction_date',
             ],
         ]);
         yii\widgets\Pjax::end();

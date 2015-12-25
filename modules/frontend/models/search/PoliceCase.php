@@ -5,6 +5,7 @@ namespace app\modules\frontend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use \yii\helpers\ArrayHelper;
 use app\models\PoliceCase as PoliceCaseModel;
 
 /**
@@ -12,6 +13,8 @@ use app\models\PoliceCase as PoliceCaseModel;
  */
 class PoliceCase extends PoliceCaseModel
 {
+    public $fullName;
+
     /**
      * @inheritdoc
      */
@@ -19,8 +22,19 @@ class PoliceCase extends PoliceCaseModel
     {
         return [
             [['status_id', 'created_at', 'open_date', 'infraction_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
-            [['officer_pin'], 'string', 'max' => 250]
+            [['officer_pin'], 'string', 'max' => 250],
+            [['fullName'], 'safe'],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'fullName' => Yii::t('app', 'Full Name'),
+        ]);
     }
 
     /**
@@ -42,10 +56,21 @@ class PoliceCase extends PoliceCaseModel
     public function search($params)
     {
         $query = PoliceCaseModel::find()
-            ->joinWith(['evidence' => function ($query) {
-                $query->from('Evidence evidence');
-            }])
-            ;
+            ->select([
+                'policeCase.*',
+                'evidence.*',
+                'user.*',
+                "CONCAT(user.first_name,' ', user.last_name) AS fullName"
+            ])
+            ->from(['policeCase' => static::tableName()])
+            ->joinWith([
+                'evidence' => function ($query) {
+                    $query->from('Evidence evidence');
+                },
+                'evidence.user' => function ($query) {
+                    $query->from('User user');
+                },
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,6 +80,10 @@ class PoliceCase extends PoliceCaseModel
             'evidence.created_at' => [
                 'asc' => ['evidence.created_at' => SORT_ASC],
                 'desc' => ['evidence.created_at' => SORT_DESC],
+            ],
+            'fullName' => [
+                'asc' => ['fullName' => SORT_ASC],
+                'desc' => ['fullName' => SORT_DESC],
             ],
         ];
 
@@ -78,11 +107,7 @@ class PoliceCase extends PoliceCaseModel
             'officer_id' => $this->officer_id,
         ]);
 
-//        $query->andFilterWhere(['like', 'video_lpr', $this->video_lpr])
-//            ->andFilterWhere(['like', 'video_overview_camera', $this->video_overview_camera])
-//            ->andFilterWhere(['like', 'image_lpr', $this->image_lpr])
-//            ->andFilterWhere(['like', 'image_overview_camera', $this->image_overview_camera])
-//            ->andFilterWhere(['like', 'license', $this->license]);
+        $query->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName]);
 
         return $dataProvider;
     }
