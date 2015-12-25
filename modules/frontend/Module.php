@@ -40,7 +40,7 @@ class Module extends \app\base\Module  implements MenuInterface
         return [
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
-                ['label' => Yii::t('app', 'Profile'), 'url' => ['/profile']],
+                ['label' => Yii::t('app', 'Profile'), 'url' => ['/frontend/default/profile']],
                 [
                     'label'       => Yii::t('app', 'Sing Out') . ' (' . Yii::$app->user->identity->username . ')',
                     'url'         => ['/logout'],
