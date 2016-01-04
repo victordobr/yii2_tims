@@ -158,3 +158,22 @@ a.desc:after {
 .page-loading td {
     border-color: #efefef !important;
 }
+#w0 .img-pic{
+    background: url('../images/photo-icon.png') center center no-repeat;
+    width:80px;
+    height:80px;
+    display:block;
+    float:left;
+    padding:50px;
+    margin-left:5px;
+    background-size: 80px 80px;
+    cursor:pointer;
+}
+.form-group {
+    clear:both;
+}
+
+#video{
+    background: url('../images/video-icon.png') center center no-repeat!important;
+    background-size: 80px 80px!important;
+}

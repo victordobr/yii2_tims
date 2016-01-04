@@ -5,6 +5,8 @@ use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
 use \kato\VideojsWidget;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Evidence */
@@ -18,44 +20,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="preview-block">
-        <?= VideojsWidget::widget([
-            'options' => [
-                'class' => 'video-js vjs-default-skin vjs-big-play-centered',
-                'controls' => true,
-                'preload' => 'auto',
-                'width' => '250',
-            ],
-            'tags' => [
-                'source' => [
-                    [
-                        'src' => Yii::$app->media->createMediaUrl($model->videoLpr),
-                    ],
-                ],
-            ],
-            'multipleResolutions' => false,
-        ]);
-        ?>
-    </div>
-    <div class="preview-block">
-        <?= VideojsWidget::widget([
-            'options' => [
-                'class' => 'video-js vjs-default-skin vjs-big-play-centered',
-                'controls' => true,
-                'preload' => 'auto',
-                'width' => '250',
-            ],
-            'tags' => [
-                'source' => [
-                    [
-                        'src' => Yii::$app->media->createMediaUrl($model->videoOverviewCamera),
-                    ],
-                ],
-            ],
-            'multipleResolutions' => false,
-        ]);
-        ?>
-    </div>
     <div class="evidence-form">
 
         <?php $form = ActiveForm::begin(); ?>
@@ -64,15 +28,36 @@ $this->params['breadcrumbs'][] = 'Update';
 
         <?= $form->field($model, 'user_id')->textInput() ?>
 
-<!--        --><?php //$form->field($model, 'image_lpr')->textInput(['maxlength' => true]) ?>
 
-<!--        --><?php //$form->field($model, 'image_overview_camera')->textInput(['maxlength' => true]) ?>
+        <h2>Photo Video Evidence</h2>
 
-        <img src="<?= $model->imageLpr->url?>" width="250" />
+        <?= app\widgets\mediaPopup\MediaPopup::widget([
+            'url' => $model->imageOverviewCamera->url,
+            'type' => $model->imageOverviewCamera->file_type,
+        ])
 
-        <img src="<?= $model->imageOverviewCamera->url?>" width="250" />
+        ?>
 
+        <?= app\widgets\mediaPopup\MediaPopup::widget([
+            'url' => $model->imageLpr->url,
+            'type' => $model->imageLpr->file_type,
+        ])
+        ?>
 
+        <?= app\widgets\mediaPopup\MediaPopup::widget([
+            'url' => $model->videoLpr->url,
+            'type' => $model->videoLpr->file_type,
+
+        ])
+
+        ?>
+
+        <?= app\widgets\mediaPopup\MediaPopup::widget([
+            'url' => $model->videoOverviewCamera->url,
+            'type' => $model->videoOverviewCamera->file_type,
+        ])
+
+        ?>
 
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
@@ -83,6 +68,7 @@ $this->params['breadcrumbs'][] = 'Update';
         </div>
 
         <?php ActiveForm::end(); ?>
+
 
     </div>
 
