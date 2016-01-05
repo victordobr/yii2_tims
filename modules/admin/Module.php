@@ -38,6 +38,7 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
+            ['label' => Yii::t('app', 'Cases'), 'url' => ['/admin/cases/manage']],
             ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users/manage']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
