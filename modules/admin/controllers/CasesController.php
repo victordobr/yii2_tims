@@ -105,11 +105,12 @@ class CasesController extends Controller
     /**
      * Finds the PoliceCase model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string|ActiveRecord $modelClass model or model class.
      * @param integer $id
      * @return PoliceCase the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($modelClass, $id)
     {
         if (($model = PoliceCase::findOne($id)) !== null) {
             return $model;
