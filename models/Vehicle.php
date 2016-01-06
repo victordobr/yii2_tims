@@ -5,21 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "VehicleModelYear".
+ * This is the model class for table "Vehicle".
  *
  * @property integer $id
  * @property integer $year
  * @property string $make
  * @property string $model
  */
-class VehicleModelYear extends \yii\db\ActiveRecord
+class Vehicle extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'VehicleModelYear';
+        return 'Vehicle';
     }
 
     /**

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\VehicleModelYear */
+/* @var $model app\models\Vehicle */
 
-$this->title = 'Create Vehicle Model Year';
-$this->params['breadcrumbs'][] = ['label' => 'Vehicle Model Years', 'url' => ['index']];
+$this->title = 'Create Vehicle';
+$this->params['breadcrumbs'][] = ['label' => 'Vehicles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="vehicle-model-year-create">
+<div class="vehicle-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -3,11 +3,10 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m160106_114534_table_car_model_year extends Migration
+class m160106_152728_table_car_model_year2 extends Migration
 {
     public function up()
     {
-
         $sql = "
 CREATE TABLE IF NOT EXISTS `VehicleModelYear` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -22,15 +21,13 @@ CREATE TABLE IF NOT EXISTS `VehicleModelYear` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7269 ;";
 
         $this->execute($sql);
-
-
     }
 
     public function down()
     {
+        echo "m160106_152728_table_car_model_year2 cannot be reverted.\n";
 
-
-
+        return false;
     }
     
     /*

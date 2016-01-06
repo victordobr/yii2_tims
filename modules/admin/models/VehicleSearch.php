@@ -5,12 +5,12 @@ namespace app\modules\admin\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\VehicleModelYear;
+use app\models\Vehicle;
 
 /**
- * VehicleModelYearSearch represents the model behind the search form about `app\models\VehicleModelYear`.
+ * VehicleSearch represents the model behind the search form about `app\models\Vehicle`.
  */
-class VehicleModelYearSearch extends VehicleModelYear
+class VehicleSearch extends Vehicle
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class VehicleModelYearSearch extends VehicleModelYear
      */
     public function search($params)
     {
-        $query = VehicleModelYear::find();
+        $query = Vehicle::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

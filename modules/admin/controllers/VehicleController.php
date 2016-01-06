@@ -3,24 +3,17 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\VehicleModelYear;
-use app\modules\admin\models\VehicleModelYearSearch;
+use app\models\Vehicle;
+use app\modules\admin\models\VehicleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * Class VehicleModelYearController
- * @package app\modules\admin\controllers
- * VehicleModelYear class that is represented as the one of the based in the system. Related to Evidence Class  
- * @author Vitalii Fokov
+ * VehicleController implements the CRUD actions for Vehicle model.
  */
-class VehicleModelYearController extends Controller
+class VehicleController extends Controller
 {
-    /**
-     *
-     * @return array
-     */
     public function behaviors()
     {
         return [
@@ -34,12 +27,12 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Lists all VehicleModelYear models.
+     * Lists all Vehicle models.
      * @return mixed
      */
-    public function actionManage()
+    public function actionIndex()
     {
-        $searchModel = new VehicleModelYearSearch();
+        $searchModel = new VehicleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +42,7 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Displays a single VehicleModelYear model.
+     * Displays a single Vehicle model.
      * @param integer $id
      * @return mixed
      */
@@ -61,13 +54,13 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Creates a new VehicleModelYear model.
+     * Creates a new Vehicle model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new VehicleModelYear();
+        $model = new Vehicle();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -79,7 +72,7 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Updates an existing VehicleModelYear model.
+     * Updates an existing Vehicle model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +91,7 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Deletes an existing VehicleModelYear model.
+     * Deletes an existing Vehicle model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +104,15 @@ class VehicleModelYearController extends Controller
     }
 
     /**
-     * Finds the VehicleModelYear model based on its primary key value.
+     * Finds the Vehicle model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return VehicleModelYear the loaded model
+     * @return Vehicle the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = VehicleModelYear::findOne($id)) !== null) {
+        if (($model = Vehicle::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

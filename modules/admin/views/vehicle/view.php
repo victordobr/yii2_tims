@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\VehicleModelYear */
+/* @var $model app\models\Vehicle */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Vehicle Model Years', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Vehicles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="vehicle-model-year-view">
+<div class="vehicle-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
