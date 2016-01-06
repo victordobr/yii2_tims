@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Vehicle` (
   KEY `I_VehicleModelYear_year` (`year`),
   KEY `I_VehicleModelYear_make` (`make`),
   KEY `I_VehicleModelYear_model` (`model`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7269 ;";
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ";
 
         $this->execute($sql);
     }
@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `Vehicle` (
     {
         $this->dropTable('Vehicle');
 
-        return false;
     }
     
     /*
