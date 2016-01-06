@@ -5,10 +5,9 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Vehicle;
 use app\modules\admin\models\VehicleSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\modules\admin\base\Controller;
 /**
  * VehicleController implements the CRUD actions for Vehicle model.
  */
