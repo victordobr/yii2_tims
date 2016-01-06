@@ -48,7 +48,7 @@ class CasesController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(PoliceCase::className(), $id),
         ]);
     }
 
@@ -78,7 +78,7 @@ class CasesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(PoliceCase::className(), $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -97,9 +97,9 @@ class CasesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(PoliceCase::className(), $id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['manage']);
     }
 
     /**
