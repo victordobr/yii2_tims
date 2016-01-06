@@ -8,7 +8,7 @@ class m160106_152728_table_car_model_year2 extends Migration
     public function up()
     {
         $sql = "
-CREATE TABLE IF NOT EXISTS `VehicleModelYear` (
+CREATE TABLE IF NOT EXISTS `Vehicle` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `year` int(4) unsigned NOT NULL,
   `make` varchar(50) DEFAULT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `VehicleModelYear` (
 
     public function down()
     {
-        echo "m160106_152728_table_car_model_year2 cannot be reverted.\n";
+        $this->dropTable('Vehicle');
 
         return false;
     }
