@@ -31,3 +31,5 @@ phpunit.phar
 /config/local/console.php
 /config/local/db.php
 /config/local/params.php
+
+logs/
