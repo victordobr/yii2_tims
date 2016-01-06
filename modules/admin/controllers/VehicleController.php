@@ -48,7 +48,7 @@ class VehicleController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(Vehicle::className(), $id),
         ]);
     }
 
@@ -78,7 +78,7 @@ class VehicleController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(Vehicle::className(), $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -97,7 +97,7 @@ class VehicleController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(Vehicle::className(), $id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -105,11 +105,12 @@ class VehicleController extends Controller
     /**
      * Finds the Vehicle model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string|ActiveRecord $modelClass model or model class.
      * @param integer $id
      * @return Vehicle the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($modelClass, $id)
     {
         if (($model = Vehicle::findOne($id)) !== null) {
             return $model;
