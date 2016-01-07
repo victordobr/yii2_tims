@@ -11,7 +11,10 @@ use Yii;
  * @property integer $case_id
  * @property integer $user_id
  * @property string $license
+ * @property string $lat
+ * @property string $lng
  * @property integer $state_id
+ * @property integer $infraction_date
  * @property integer $created_at
  *
  * @property PoliceCase $case
@@ -34,9 +37,10 @@ class Evidence extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['case_id', 'license', 'state_id'], 'required'],
-            [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
+            [['case_id', 'license', 'lat', 'lng', 'state_id'], 'required'],
+            [['case_id', 'user_id', 'state_id', 'infraction_date', 'created_at'], 'integer'],
             [['license'], 'string', 'max' => 250],
+            [['lat', 'lng'], 'string', 'max' => 20],
             [['case_id'], 'unique']
         ];
     }
@@ -51,7 +55,10 @@ class Evidence extends \yii\db\ActiveRecord
             'case_id' => 'Case ID',
             'user_id' => 'User ID',
             'license' => 'License',
+            'lat' => 'Lat',
+            'lng' => 'Lng',
             'state_id' => 'State ID',
+            'infraction_date' => 'Infraction Date',
             'created_at' => 'Created At',
         ];
     }

@@ -90,6 +90,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
+        <?= $form->field($model, 'infraction_date')->widget(\yii\jui\DatePicker::classname(), [
+            //'dateFormat' => 'yyyy-MM-dd',
+//            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
+
+        <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'state_id')->textInput() ?>

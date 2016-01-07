@@ -16,14 +16,16 @@ class Evidence extends base\Evidence
     public $imageLprId;
     public $imageOverviewCameraId;
 
+    public $infractionDate;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['license', 'state_id', 'videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required'],
-//            [['case_id', 'userEmail'], 'safe'],
+            [['license', 'state_id', 'videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId', 'lat', 'lng', 'infraction_date'], 'required'],
+            ['infractionDate', 'date', 'format' => 'php:d/m/Y', 'timestampAttribute' => 'infraction_date'],
             [['case_id'], 'safe'],
             [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
             [['license'], 'string', 'max' => 250],
@@ -39,12 +41,12 @@ class Evidence extends base\Evidence
         return ArrayHelper::merge(parent::attributeLabels(), [
             'license' => 'Tag number',
             'state_id' => 'Tag State',
-
             'videoLpr' => 'Video from *LPR',
             'videoOverviewCamera' => 'Video from Overview Camera',
             'imageLpr' => 'Still Image from *LPR',
             'imageOverviewCamera' => 'Still Image from Overview Camera',
-//            'userEmail' => 'User Email'
+            'lat' => 'Latitude',
+            'lng' => 'Longitude',
         ]);
     }
 

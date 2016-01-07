@@ -27,9 +27,6 @@ class MediaPopup extends Widget
             'url' => $this->url,
             'type' => $this->type,
             'modalId' => 'modal-' .  $this->id,
-
         ]);
     }
-
 }
-

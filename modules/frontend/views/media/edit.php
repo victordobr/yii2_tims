@@ -68,8 +68,5 @@ $this->params['breadcrumbs'][] = 'Update';
         </div>
 
         <?php ActiveForm::end(); ?>
-
-
     </div>
-
 </div>
