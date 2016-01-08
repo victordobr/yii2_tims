@@ -41,6 +41,7 @@ class Module extends \app\base\Module  implements MenuInterface
             ['label' => Yii::t('app', 'Cases'), 'url' => ['/admin/cases/manage']],
             ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users/manage']],
             ['label' => Yii::t('app', 'Vehicles'), 'url' => ['/admin/vehicle/index']],
+            ['label' => Yii::t('app', 'CaseStatus'), 'url' => ['/admin/case-status/index']],
 
 
             Yii::$app->user->isGuest ?

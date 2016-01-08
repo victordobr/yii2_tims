@@ -5,9 +5,10 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\CaseStatus;
 use app\modules\admin\models\CaseStatusSearch;
-use yii\web\Controller;
+use app\modules\admin\base\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * CaseStatusController implements the CRUD actions for CaseStatus model.
@@ -49,7 +50,7 @@ class CaseStatusController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(CaseStatus::className(),$id),
         ]);
     }
 
@@ -79,7 +80,7 @@ class CaseStatusController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(CaseStatus::className(),$id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -98,7 +99,7 @@ class CaseStatusController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(CaseStatus::className(),$id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -110,12 +111,5 @@ class CaseStatusController extends Controller
      * @return CaseStatus the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-        if (($model = CaseStatus::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
+
 }
