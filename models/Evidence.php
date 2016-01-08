@@ -64,39 +64,11 @@ class Evidence extends base\Evidence
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => null,
             ],
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['infraction_date'],
+            ],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function afterFind()
-    {
-        $paidToDate = \DateTime::createFromFormat(Yii::$app->params['date.unix.format'], $this->infraction_date);
-        if ($paidToDate instanceof \DateTime) {
-            $this->infraction_date = Yii::$app->formatter->asDate($paidToDate,
-                'php:' . Yii::$app->params['date.code.format']);
-        } else {
-            $message = 'Invalid date format!';
-            Yii::error($message);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function afterValidate()
-    {
-        parent::afterValidate();
-
-        if ($this->isAttributeChanged('infraction_date') && !$this->getIsNewRecord()) {
-            $dateObject = \DateTime::createFromFormat(Yii::$app->params['date.code.format'], $this->infraction_date);
-            if ($dateObject instanceof \DateTime) {
-                $this->infraction_date = Yii::$app->formatter->asTimestamp($dateObject);
-            } else {
-                throw new \Exception('Invalid date format!');
-            }
-        }
     }
 
     /**
