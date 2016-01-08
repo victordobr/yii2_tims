@@ -11,7 +11,6 @@ use Yii;
  * @property integer $status_id
  * @property integer $created_at
  * @property integer $open_date
- * @property integer $infraction_date
  * @property integer $officer_date
  * @property integer $mailed_date
  * @property string $officer_pin
@@ -35,7 +34,7 @@ class PoliceCase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status_id', 'created_at', 'open_date', 'infraction_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
+            [['status_id', 'created_at', 'open_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
             [['officer_pin'], 'string', 'max' => 250]
         ];
     }
@@ -50,7 +49,6 @@ class PoliceCase extends \yii\db\ActiveRecord
             'status_id' => 'Status ID',
             'created_at' => 'Created At',
             'open_date' => 'Open Date',
-            'infraction_date' => 'Infraction Date',
             'officer_date' => 'Officer Date',
             'mailed_date' => 'Mailed Date',
             'officer_pin' => 'Officer Pin',

@@ -17,7 +17,7 @@ class PoliceCase extends \app\models\PoliceCase
     public function rules()
     {
         return [
-            [['id', 'status_id', 'created_at', 'open_date', 'infraction_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
+            [['id', 'status_id', 'created_at', 'open_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
             [['officer_pin'], 'safe'],
         ];
     }
@@ -59,7 +59,6 @@ class PoliceCase extends \app\models\PoliceCase
             'status_id' => $this->status_id,
             'created_at' => $this->created_at,
             'open_date' => $this->open_date,
-            'infraction_date' => $this->infraction_date,
             'officer_date' => $this->officer_date,
             'mailed_date' => $this->mailed_date,
             'officer_id' => $this->officer_id,

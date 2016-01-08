@@ -15,7 +15,7 @@ class PoliceCase extends base\PoliceCase
     public function rules()
     {
         return [
-            [['status_id', 'created_at', 'open_date', 'infraction_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
+            [['status_id', 'created_at', 'open_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
             [['officer_pin'], 'string', 'max' => 250]
         ];
     }
