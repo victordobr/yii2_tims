@@ -40,7 +40,7 @@ use branchonline\lightbox\Lightbox;
                                 <source src="<?= $url ?>" type="video/mp4">
                             </video>
                         </span>
-                    <? endif; ?>
+                    <?php endif; ?>
                     </p>
                 </div>
                 <div class="modal-footer">
