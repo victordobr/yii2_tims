@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => $model->imageOverviewCamera->file_type,
                 'title' => $model->getAttributeLabel('imageOverviewCamera'),
             ]); ?>
-        <? endif; ?>
+        <?php endif; ?>
 
         <?php if ($model->imageLpr): ?>
             <?= app\widgets\mediaPopup\MediaPopup::widget([
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => $model->imageLpr->file_type,
                 'title' => $model->getAttributeLabel('imageLpr'),
             ]); ?>
-        <? endif; ?>
+        <?php endif; ?>
 
         <?php if ($model->videoLpr): ?>
             <?= app\widgets\mediaPopup\MediaPopup::widget([
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => $model->videoLpr->file_type,
                 'title' => $model->getAttributeLabel('videoLpr'),
             ]); ?>
-        <? endif; ?>
+        <?php endif; ?>
 
         <?php if ($model->videoOverviewCamera): ?>
             <?= app\widgets\mediaPopup\MediaPopup::widget([
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => $model->videoOverviewCamera->file_type,
                 'title' => $model->getAttributeLabel('videoOverviewCamera'),
             ]); ?>
-        <? endif; ?>
+        <?php endif; ?>
     </div>
 
 
@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
-                <?php echo $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
+                <?= $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
                     'layout' => '{input}{picker}',
                     'options' => [
                         'placeholder' => 'Enter infraction date ...',
