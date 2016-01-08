@@ -37,9 +37,10 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                     'class' => 'yii\grid\SerialColumn',
                     'headerOptions' => ['style' => 'width: 50px;']
                 ],
+                'id',
                 [
-                    'attribute' => 'case.infraction_date',
-                    'format' => 'datetime',
+                    'attribute' => 'infraction_date',
+//                    'format' => 'datetime',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [

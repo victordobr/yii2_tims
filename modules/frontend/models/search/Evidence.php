@@ -14,6 +14,9 @@ class Evidence extends EvidenceModel
 {
     public $fullName;
 
+    /** @var int page size. */
+    public $pageSize = 10;
+
     /**
      * @inheritdoc
      */
@@ -21,7 +24,7 @@ class Evidence extends EvidenceModel
     {
         return [
             [['id', 'case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
-            [['fullName'], 'safe'],
+            [['fullName', 'infraction_date'], 'safe'],
         ];
     }
 
@@ -58,10 +61,13 @@ class Evidence extends EvidenceModel
                 'user' => function ($query) {
                     $query->from('User user');
                 },
-            ]);
+            ], true, 'INNER JOIN');
+
+//        var_dump($query); die;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => $this->pageSize],
         ]);
 
         $dataProvider->getSort()->attributes['fullName'] = [
@@ -69,10 +75,10 @@ class Evidence extends EvidenceModel
             'desc' => ['fullName' => SORT_DESC],
         ];
 
-        $dataProvider->getSort()->attributes['case.infraction_date'] = [
-            'asc' => ['case.infraction_date' => SORT_ASC],
-            'desc' => ['case.infraction_date' => SORT_DESC],
-        ];
+//        $dataProvider->getSort()->attributes['case.infraction_date'] = [
+//            'asc' => ['case.infraction_date' => SORT_ASC],
+//            'desc' => ['case.infraction_date' => SORT_DESC],
+//        ];
 
         $dataProvider->getSort()->attributes['created_at'] = [
             'asc' => ['evidence.created_at' => SORT_ASC],
