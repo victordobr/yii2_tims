@@ -95,11 +95,13 @@ a.desc:after {
     display: block;
     position: relative;
 }
+
 .chunk-upload-input .progress {
     margin: 5px 0;
 }
+
 /*.preview-block {*/
-    /*width: 311px;*/
+/*width: 311px;*/
 /*}*/
 .content {
     background: url(/images/input.jpg) no-repeat center center fixed;
@@ -111,17 +113,16 @@ a.desc:after {
 }
 
 .frontend-wrapper {
-    font-family: "Open Sans",sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
-.frontend-wrapper .top-menu{
+.frontend-wrapper .top-menu {
     text-transform: uppercase;
 }
 
-.frontend-wrapper thead{
+.frontend-wrapper thead {
     text-transform: uppercase;
 }
-
 
 .frontend-wrapper h1 {
     /*color: rgb(105, 105, 105);*/
@@ -137,20 +138,24 @@ a.desc:after {
 .frontend-wrapper .header-title {
     text-align: center;
 }
+
 .white-background {
     background-color: white;
     border-radius: 2px;
     margin: 0 5px;
     padding: 5px;
 }
+
 .right {
     float: right;
     margin: 0 0 5px;
 }
+
 .page-loading {
     opacity: 0.5;
     background: #ffffff url('../images/loading.gif') center center no-repeat !important;
 }
+
 .page-loading * {
     background: transparent !important;
 }
@@ -158,22 +163,38 @@ a.desc:after {
 .page-loading td {
     border-color: #efefef !important;
 }
-#w0 .img-pic{
-    background: url('../images/photo-icon.png') center center no-repeat;
-    width:80px;
-    height:80px;
-    display:block;
-    float:left;
-    padding:50px;
-    margin-left:5px;
-    background-size: 80px 80px;
-    cursor:pointer;
-}
+
 .form-group {
-    clear:both;
+    clear: both;
 }
 
-#video{
-    background: url('../images/video-icon.png') center center no-repeat!important;
-    background-size: 80px 80px!important;
+#video {
+    background: url('../images/video-icon.png') center center no-repeat !important;
+    background-size: 80px 80px !important;
+}
+
+#evidence-form .form-group {
+    margin-bottom: 5px;
+}
+
+/*div.required label:after {*/
+    /*content: " *";*/
+    /*color: #a94442;*/
+/*}*/
+
+.media-popup-wrapper{
+    display: inline-block;
+    padding: 0 10px 0 0;
+}
+
+.media-popup-wrapper a {
+    color: #333;
+    cursor: pointer;
+}
+
+.evidence-media {
+    padding: 0 0 20px 292px;
+}
+.lightbox-thumb img {
+    width: 500px;
 }

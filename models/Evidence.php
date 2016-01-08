@@ -18,13 +18,16 @@ class Evidence extends base\Evidence
 
     public $infractionDate;
 
+    const SCENARIO_UPLOAD = 'upload';
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['license', 'state_id', 'videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId', 'lat', 'lng', 'infraction_date'], 'required'],
+            [['license', 'state_id', 'lat', 'lng', 'infraction_date'], 'required'],
+            [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
             ['infractionDate', 'date', 'format' => 'php:d/m/Y', 'timestampAttribute' => 'infraction_date'],
             [['case_id'], 'safe'],
             [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
@@ -62,6 +65,38 @@ class Evidence extends base\Evidence
                 'updatedAtAttribute' => null,
             ],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        $paidToDate = \DateTime::createFromFormat(Yii::$app->params['date.unix.format'], $this->infraction_date);
+        if ($paidToDate instanceof \DateTime) {
+            $this->infraction_date = Yii::$app->formatter->asDate($paidToDate,
+                'php:' . Yii::$app->params['date.code.format']);
+        } else {
+            $message = 'Invalid date format!';
+            Yii::error($message);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterValidate()
+    {
+        parent::afterValidate();
+
+        if ($this->isAttributeChanged('infraction_date') && !$this->getIsNewRecord()) {
+            $dateObject = \DateTime::createFromFormat(Yii::$app->params['date.code.format'], $this->infraction_date);
+            if ($dateObject instanceof \DateTime) {
+                $this->infraction_date = Yii::$app->formatter->asTimestamp($dateObject);
+            } else {
+                throw new \Exception('Invalid date format!');
+            }
+        }
     }
 
     /**

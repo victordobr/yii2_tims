@@ -18,7 +18,7 @@ use yii\bootstrap\ActiveForm;
 $attributeHidden = $attribute.'Id';
 ?>
 
-<div class="form-group chunk-upload-input">
+<div class="form-group chunk-upload-input required">
     <label class="col-lg-3 control-label" for="evidence-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
 
     <div style="float: left; padding-left: 15px; padding-right: 15px; position: relative;">

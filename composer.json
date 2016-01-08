@@ -41,6 +41,8 @@
         "kartik-v/yii2-widget-datepicker": "*",
         "kartik-v/yii2-widget-select2": "v2.0.3",
         "kartik-v/yii2-widget-typeahead": "v1.0.1",
+        "kartik-v/yii2-icons": "*",
+        "branchonline/yii2-lightbox": "*",
         "kfosoft/php-abstract-enum": "1.0",
         "kfosoft/php-int-enum-x64": "1.0",
         "johnitvn/yii2-rbac-plus": "*"

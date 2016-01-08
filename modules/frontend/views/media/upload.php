@@ -14,6 +14,7 @@ use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
+use kartik\date\DatePicker;
 
 $this->title = 'Create Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
@@ -35,8 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'labelOptions' => ['class' => 'col-lg-3 control-label'],
             ],
         ]); ?>
-
-        <?= $form->errorSummary($model)?>
 
         <?= $this->render('partials/_chunkInput', [
             'model' => $model,
@@ -90,16 +89,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
-        <?= $form->field($model, 'infraction_date')->widget(\yii\jui\DatePicker::classname(), [
-            //'dateFormat' => 'yyyy-MM-dd',
-//            'dateFormat' => 'dd-MM-yyyy',
-        ]) ?>
+        <?php echo $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
+            'layout' => '{input}{picker}',
+            'options' => [
+                'placeholder' => 'Enter infraction date ...',
+            ],
+            'pluginOptions' => [
+                'format' => Yii::$app->params['date.view.format.column'],
+            ]
+        ]);
+        ?>
+
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
-
         <?= $form->field($model, 'state_id')->textInput() ?>
+        <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-8">
