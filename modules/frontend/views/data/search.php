@@ -37,7 +37,6 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                     'class' => 'yii\grid\SerialColumn',
                     'headerOptions' => ['style' => 'width: 50px;']
                 ],
-                'id',
                 [
                     'attribute' => 'infraction_date',
 //                    'format' => 'datetime',
@@ -63,6 +62,11 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                     'label' => 'Uploaded By',
                     'attribute' => 'fullName',
 //                    'headerOptions' => ['style' => 'width: 100px;']
+                ],
+                [
+                    'label' => 'Elapsed time, days',
+                    'attribute' => 'elapsedTime',
+                    'headerOptions' => ['style' => 'width: 50px;']
                 ],
             ],
         ]);

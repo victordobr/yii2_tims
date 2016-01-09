@@ -24,6 +24,7 @@ class DataController extends Controller
     {
         $model = new EvidenceSearch;
         $dataProvider = $model->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
 
         return $this->render('search', [
             'model' => $model,

@@ -14,8 +14,11 @@ class Evidence extends EvidenceModel
 {
     public $fullName;
 
-    /** @var int page size. */
-    public $pageSize = 10;
+    public $elapsedTime;
+
+    const SQL_SELECT_FULL_NAME = "CONCAT(user.first_name,' ', user.last_name)";
+
+    const SQL_SELECT_ELAPSED_TIME = "datediff(NOW(), FROM_UNIXTIME(evidence.infraction_date))";
 
     /**
      * @inheritdoc
@@ -23,8 +26,8 @@ class Evidence extends EvidenceModel
     public function rules()
     {
         return [
-            [['id', 'case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
-            [['fullName', 'infraction_date'], 'safe'],
+            [['id', 'case_id', 'user_id', 'state_id', 'infraction_date', 'created_at'], 'integer'],
+            [['license', 'lat', 'lng', 'fullName', 'elapsedTime'], 'safe'],
         ];
     }
 
@@ -48,26 +51,28 @@ class Evidence extends EvidenceModel
     {
         $query = $this->find()
             ->select([
-                'evidence.*',
-                'case.*',
-                'user.*',
-                "CONCAT(user.first_name,' ', user.last_name) AS fullName"
+                'id' => 'evidence.id',
+                'case_id' => 'evidence.case_id',
+                'license' => 'evidence.license',
+                'lat' => 'evidence.lat',
+                'lng' => 'evidence.lng',
+                'state_id' => 'evidence.state_id',
+                'infraction_date' => 'evidence.infraction_date',
+                'created_at' => 'evidence.created_at',
+
+                'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
+                'fullName' => self::SQL_SELECT_FULL_NAME,
             ])
             ->from(['evidence' => static::tableName()])
             ->joinWith([
-                'case' => function ($query) {
-                    $query->from('PoliceCase case');
-                },
+//                'case',
                 'user' => function ($query) {
                     $query->from('User user');
                 },
-            ], true, 'INNER JOIN');
-
-//        var_dump($query); die;
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => $this->pageSize],
         ]);
 
         $dataProvider->getSort()->attributes['fullName'] = [
@@ -75,14 +80,14 @@ class Evidence extends EvidenceModel
             'desc' => ['fullName' => SORT_DESC],
         ];
 
-//        $dataProvider->getSort()->attributes['case.infraction_date'] = [
-//            'asc' => ['case.infraction_date' => SORT_ASC],
-//            'desc' => ['case.infraction_date' => SORT_DESC],
-//        ];
-
         $dataProvider->getSort()->attributes['created_at'] = [
             'asc' => ['evidence.created_at' => SORT_ASC],
             'desc' => ['evidence.created_at' => SORT_DESC],
+        ];
+
+        $dataProvider->getSort()->attributes['elapsedTime'] = [
+            'asc' => ['elapsedTime' => SORT_ASC],
+            'desc' => ['elapsedTime' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -97,15 +102,17 @@ class Evidence extends EvidenceModel
             'id' => $this->id,
             'case_id' => $this->case_id,
             'user_id' => $this->user_id,
-            'license' => $this->license,
             'state_id' => $this->state_id,
-            'created_at' => $this->created_at,
-//            'mailed_date' => $this->mailed_date,
-//            'officer_pin' => $this->officer_pin,
-//            'officer_id' => $this->officer_id,
+            'infraction_date' => $this->infraction_date,
+            'evidence.created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName]);
+        $query->andFilterWhere(['like', 'license', $this->license])
+            ->andFilterWhere(['like', 'lat', $this->lat])
+            ->andFilterWhere(['like', 'lng', $this->lng]);
+
+        $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
+        $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         return $dataProvider;
     }
