@@ -52,13 +52,13 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
-            ['label' => Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload']],
-            ['label' => Yii::t('app', 'Review'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['label' => Yii::t('app', 'Data'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['label' => Yii::t('app', 'Search'), 'url' => ['/frontend/data/search']],
-            ['label' => Yii::t('app', 'Print'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['label' => Yii::t('app', 'Resources'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['label' => Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload'], /*'icon'=>'<i class="fa-3x fa fa-camera-retro"></i>'*/],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/data/search']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('asterisk') . '&nbsp;&nbsp;' . Yii::t('app', 'Settings'), 'url' => false, 'options' => ['class' => 'disabled']],
         ];
     }
 }
