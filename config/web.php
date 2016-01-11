@@ -17,8 +17,16 @@ $config = [
         'frontend' => [
             'class' => 'app\modules\frontend\Module',
         ],
+        'settings' => [
+            'class' => 'pheme\settings\Module',
+            'sourceLanguage' => 'en'
+        ],
     ],
     'components' => [
+        'settings' => [
+            'class' => 'pheme\settings\components\Settings'
+        ],
+
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
