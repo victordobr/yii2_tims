@@ -28,9 +28,10 @@ class Evidence extends base\Evidence
         return [
             [['license', 'state_id', 'lat', 'lng', 'infraction_date'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            ['infractionDate', 'date', 'format' => 'php:d/m/Y', 'timestampAttribute' => 'infraction_date'],
+//            ['infractionDate', 'date', 'format' => 'php:d/m/Y', 'timestampAttribute' => 'infraction_date'],
+            [['infraction_date', 'created_at'], 'date'],
             [['case_id'], 'safe'],
-            [['case_id', 'user_id', 'state_id', 'created_at'], 'integer'],
+            [['case_id', 'user_id', 'state_id'], 'integer'],
             [['license'], 'string', 'max' => 250],
             [['case_id'], 'unique']
         ];
@@ -67,6 +68,10 @@ class Evidence extends base\Evidence
             [
                 'class' => 'app\behaviors\IntegerStamp',
                 'attributes' => ['infraction_date'],
+            ],
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['created_at'],
             ],
         ];
     }

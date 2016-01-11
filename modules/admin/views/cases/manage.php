@@ -25,12 +25,11 @@ $this->title = 'Cases Listing';
             'status_id',
             'created_at',
             'open_date',
-            // 'officer_date',
-            // 'mailed_date',
-            // 'officer_pin',
-            // 'officer_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}'
+            ],
         ],
     ]); ?>
 

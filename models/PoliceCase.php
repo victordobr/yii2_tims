@@ -15,8 +15,42 @@ class PoliceCase extends base\PoliceCase
     public function rules()
     {
         return [
-            [['status_id', 'created_at', 'open_date', 'officer_date', 'mailed_date', 'officer_id'], 'integer'],
-            [['officer_pin'], 'string', 'max' => 250]
+            [['status_id', 'officer_id'], 'integer'],
+            [['created_at', 'open_date', 'officer_date', 'mailed_date'], 'date'],
+            [['officer_pin'], 'string', 'max' => 250],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['created_at'],
+            ],
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['open_date'],
+            ],
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['officer_date'],
+            ],
+            [
+                'class' => 'app\behaviors\IntegerStamp',
+                'attributes' => ['mailed_date'],
+            ],
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEvidence()
+    {
+        return $this->hasOne(Evidence::className(), ['case_id' => 'id']);
     }
 }

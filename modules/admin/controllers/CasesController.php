@@ -2,11 +2,14 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Evidence;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\admin\base\Controller;
-use app\modules\admin\models\search\PoliceCase;
+use app\modules\admin\models\search\PoliceCase as PoliceCaseSearch;
+use app\models\PoliceCase;
+use app\models\User;
 
 /**
  * CasesController implements the CRUD actions for PoliceCase model.
@@ -31,7 +34,7 @@ class CasesController extends Controller
      */
     public function actionManage()
     {
-        $searchModel = new PoliceCase();
+        $searchModel = new PoliceCaseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('manage', [
@@ -71,27 +74,54 @@ class CasesController extends Controller
     }
 
     /**
-     * Updates an existing PoliceCase model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * Updates an existing PoliceCase, Evidence and User model.
+     * If update is successful, the browser will be redirected to the 'manage' page.
+     * @param ineger $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel(PoliceCase::className(), $id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $case = PoliceCase::findOne($id);
+
+        $evidence = $case->evidence;
+        $user = $case->evidence->user;
+
+        if (!isset($case)) {
+            throw new NotFoundHttpException("The case was not found.");
         }
+        if (!isset($evidence)) {
+            throw new NotFoundHttpException("The evidence was not found.");
+        }
+        if (!isset($user)) {
+            throw new NotFoundHttpException("The user was not found.");
+        }
+
+        if ($case->load(Yii::$app->request->post())
+            && $evidence->load(Yii::$app->request->post())
+            && $user->load(Yii::$app->request->post())) {
+
+            $isValid = $case->validate();
+            $isValid = $evidence->validate() && $isValid;
+            $isValid = $user->validate() && $isValid;
+            if ($isValid) {
+                $case->save();
+                $evidence->save();
+                $user->save();
+            }
+            return $this->redirect(['cases/manage']);
+        }
+        return $this->render('update', [
+            'case' => $case,
+            'evidence' => $evidence,
+            'user' => $user
+        ]);
     }
 
     /**
      * Deletes an existing PoliceCase model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * If deletion is successful, the browser will be redirected to the 'manage' page.
      * @param integer $id
      * @return mixed
      */
