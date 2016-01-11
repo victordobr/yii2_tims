@@ -23,8 +23,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'open_date') ?>
 
-    <?= $form->field($model, 'infraction_date') ?>
-
     <?php // echo $form->field($model, 'officer_date') ?>
 
     <?php // echo $form->field($model, 'mailed_date') ?>

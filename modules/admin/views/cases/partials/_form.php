@@ -18,8 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'open_date')->textInput() ?>
 
-    <?= $form->field($model, 'infraction_date')->textInput() ?>
-
     <?= $form->field($model, 'officer_date')->textInput() ?>
 
     <?= $form->field($model, 'mailed_date')->textInput() ?>

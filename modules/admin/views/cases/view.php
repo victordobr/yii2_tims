@@ -32,7 +32,6 @@ $this->title = $model->id;
             'status_id',
             'created_at',
             'open_date',
-            'infraction_date',
             'officer_date',
             'mailed_date',
             'officer_pin',
