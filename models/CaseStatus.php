@@ -34,7 +34,8 @@ class CaseStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['StatusName', 'StatusDescription'], 'required'],
+            [['id','StatusName', 'StatusDescription'], 'required'],
+            ['id', 'unique'],
             [['StatusDescription'], 'string'],
             [['StatusName'], 'string', 'max' => 200]
         ];

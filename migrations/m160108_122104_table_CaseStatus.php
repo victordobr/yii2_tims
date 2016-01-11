@@ -7,13 +7,12 @@ class m160108_122104_table_CaseStatus extends Migration
 {
     public function up()
     {
-        $sql = "
-            CREATE TABLE IF NOT EXISTS `CaseStatus` (
-              `id` int(100) NOT NULL,
-              `StatusName` varchar(200) NOT NULL,
-              `StatusDescription` text NOT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ; ";
+        $sql = "CREATE TABLE IF NOT EXISTS `CaseStatus` (
+  `id` int(100) NOT NULL,
+  `StatusName` varchar(200) NOT NULL,
+  `StatusDescription` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
         $this->execute($sql);
     }
