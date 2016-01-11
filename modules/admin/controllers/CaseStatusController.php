@@ -64,7 +64,7 @@ class CaseStatusController extends Controller
         $model = new CaseStatus();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['case-status/index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,7 +83,7 @@ class CaseStatusController extends Controller
         $model = $this->findModel(CaseStatus::className(),$id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['case-status/index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
