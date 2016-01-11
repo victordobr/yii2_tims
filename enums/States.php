@@ -4,6 +4,7 @@ namespace app\enums;
 use \Yii;
 use \kfosoft\base\Enum;
 
+
 /**
  * States Enum
  * @package app\enums
@@ -221,3 +222,5 @@ class States extends Enum
         ];
     }
 }
+
+

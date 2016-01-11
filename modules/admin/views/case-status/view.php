@@ -2,17 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\ArrayHelper;
-use app\models\Product;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\PoliceCase */
+/* @var $model app\models\CaseStatus */
 
 $this->title = $model->id;
-//$this->params['breadcrumbs'][] = ['label' => 'Police Cases', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Case Statuses', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="police-case-view">
+<div class="case-status-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,15 +29,9 @@ $this->title = $model->id;
         'model' => $model,
         'attributes' => [
             'id',
-            'status_id',
-            'created_at',
-            'open_date',
-            'officer_date',
-            'mailed_date',
-            'officer_pin',
-            'officer_id',
+            'StatusName',
+            'StatusDescription:ntext',
         ],
     ]) ?>
-
 
 </div>
