@@ -17,9 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'StatusName') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'StatusDescription') ?>
+    <?= $form->field($model, 'description') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

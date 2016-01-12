@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\CaseStatus */
 
-$this->title = 'Update Case Status: ' . ' ' . $model->id;
+$this->title = 'Update Case Status: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Case Statuses', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="case-status-update">
