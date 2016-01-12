@@ -64,7 +64,7 @@ class IntegerStamp extends Behavior
     public function beforeSave($event)
     {
         foreach ($this->attributes as $attribute) {
-            if ($event->sender->isAttributeChanged($attribute)) {
+            if ($event->sender->isAttributeChanged($attribute) && !empty($event->sender->{$attribute})) {
                 $dateObject = \DateTime::createFromFormat(Yii::$app->params['date.code.format'], $event->sender->{$attribute});
                 if ($dateObject instanceof \DateTime) {
                     $this->owner->{$attribute} = Yii::$app->formatter->asTimestamp($dateObject);

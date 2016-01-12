@@ -19,7 +19,6 @@ $this->title = 'Cases Listing';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
             'id',
             'evidence.infraction_date',
             'caseStatus.StatusName',

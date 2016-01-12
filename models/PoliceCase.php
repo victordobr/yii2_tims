@@ -28,20 +28,13 @@ class PoliceCase extends base\PoliceCase
     {
         return [
             [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['created_at'],
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => null,
             ],
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['open_date'],
-            ],
-            [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['officer_date'],
-            ],
-            [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['mailed_date'],
+                'attributes' => ['created_at', 'open_date', 'officer_date', 'mailed_date'],
             ],
         ];
     }
