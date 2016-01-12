@@ -8,7 +8,7 @@ use \kfosoft\base\Enum;
  * Basic color names in Enum
  * @package app\enums
  */
-class States extends Enum
+class VehicleColors extends Enum
 {
     const WHITE = 0;
     const YELLOW = 1;
