@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PoliceCase */
@@ -14,15 +15,45 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status_id')->textInput() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, 'created_at')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'orientation' => 'bottom',
+            'format' => 'dd/mm/yyyy',
+            'autoclose'=>true
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'open_date')->textInput() ?>
+    <?=  $form->field($model, 'open_date')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'orientation' => 'bottom',
+            'format' => 'dd/mm/yyyy',
+            'autoclose'=>true
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'infraction_date')->textInput() ?>
+    <?= $form->field($model, 'officer_date')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'orientation' => 'bottom',
+            'format' => 'dd/mm/yyyy',
+            'autoclose'=>true
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'officer_date')->textInput() ?>
-
-    <?= $form->field($model, 'mailed_date')->textInput() ?>
+    <?= $form->field($model, 'mailed_date')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'orientation' => 'bottom',
+            'format' => 'dd/mm/yyyy',
+            'autoclose'=>true
+        ]
+    ]); ?>
 
     <?= $form->field($model, 'officer_pin')->textInput(['maxlength' => true]) ?>
 
