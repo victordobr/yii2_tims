@@ -7,6 +7,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
+        'settings' => [
+            'class' => 'pheme\settings\Module',
+            'sourceLanguage' => 'en'
+        ],
         'auth' => [
             'class' => 'app\modules\auth\Module',
             'userModelClass' => 'app\models\User'
@@ -19,6 +23,14 @@ $config = [
         ],
     ],
     'components' => [
+
+        'Settings' => [
+            'class' => 'app\components\Settings'
+        ],
+
+        'settings' => [
+            'class' => 'app\vendor\pheme\yii2-settings\components\Settings'
+        ],
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
