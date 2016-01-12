@@ -53,4 +53,12 @@ class PoliceCase extends base\PoliceCase
     {
         return $this->hasOne(Evidence::className(), ['case_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCaseStatus()
+    {
+        return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
 }

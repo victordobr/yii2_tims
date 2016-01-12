@@ -45,7 +45,7 @@ class PoliceCase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Case#',
             'status_id' => 'Status ID',
             'created_at' => 'Created At',
             'open_date' => 'Open Date',

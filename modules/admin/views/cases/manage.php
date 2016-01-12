@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Cases Listing';
-//$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="police-case-index">
 
@@ -20,12 +20,9 @@ $this->title = 'Cases Listing';
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'status_id',
-            'created_at',
-            'open_date',
-
+            'evidence.infraction_date',
+            'caseStatus.StatusName',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}'
