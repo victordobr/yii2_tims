@@ -1,7 +1,9 @@
 <?php namespace app\modules\admin\controllers\rbac;
 
+use Yii;
 use app\enums\Role;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 class RoleController extends \johnitvn\rbacplus\controllers\RoleController
 {
@@ -20,6 +22,15 @@ class RoleController extends \johnitvn\rbacplus\controllers\RoleController
                 ],
             ],
         ];
+    }
+
+    protected function findModel($name)
+    {
+        if (($model = \app\modules\admin\models\rbac\Role::find($name)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException(Yii::t('rbac', 'The requested page does not exist.'));
+        }
     }
 
 }

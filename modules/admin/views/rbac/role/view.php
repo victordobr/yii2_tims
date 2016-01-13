@@ -1,8 +1,9 @@
 <?php
 
-use johnitvn\rbacplus\models\Role;
+use app\modules\admin\models\rbac\Role;
 
-$permissions = Role::getPermistions($model->name);
+$authManager = Yii::$app->authManager;
+$permissions = Role::getRolePermissions($model->name);
 $first = '';
 $rows = [];
 foreach ($permissions as $permission) {
