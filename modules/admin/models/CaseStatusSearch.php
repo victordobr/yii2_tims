@@ -19,7 +19,7 @@ class CaseStatusSearch extends CaseStatus
     {
         return [
             [['id'], 'integer'],
-            [['StatusName', 'StatusDescription'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -59,8 +59,8 @@ class CaseStatusSearch extends CaseStatus
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'StatusName', $this->StatusName])
-            ->andFilterWhere(['like', 'StatusDescription', $this->StatusDescription]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

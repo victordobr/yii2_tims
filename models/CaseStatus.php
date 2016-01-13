@@ -5,19 +5,12 @@ namespace app\models;
 use Yii;
 
 /**
-
- * @property integer $id
- * @property string $StatusName
- * @property string $StatusDescription
-
- * This is the model class for table "CaseStatus". It provides the status of the current case.
- * @author Vitalii Fokov
+ * This is the model class for table "CaseStatus".
  *
-
+ * @property integer $id
+ * @property string $name
+ * @property string $description
  */
-
-
-
 class CaseStatus extends \yii\db\ActiveRecord
 {
     /**
@@ -34,10 +27,11 @@ class CaseStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id','StatusName', 'StatusDescription'], 'required'],
+            [['id', 'name', 'description'], 'required'],
+            [['id'], 'integer'],
             ['id', 'unique'],
-            [['StatusDescription'], 'string'],
-            [['StatusName'], 'string', 'max' => 200]
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 200]
         ];
     }
 
@@ -48,8 +42,8 @@ class CaseStatus extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'StatusName' => 'Status Name',
-            'StatusDescription' => 'Status Description',
+            'name' => 'Name',
+            'description' => 'Description',
         ];
     }
 }
