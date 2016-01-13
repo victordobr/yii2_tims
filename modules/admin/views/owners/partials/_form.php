@@ -50,16 +50,6 @@ use kartik\date\DatePicker;
         VehicleColors::listData()
     ) ?>
 
-    <?= $form->field($model, 'created_at')->widget(DatePicker::classname(), [
-        'type' => DatePicker::TYPE_COMPONENT_APPEND,
-        'options' => ['placeholder' => 'Enter date ...'],
-        'pluginOptions' => [
-            'orientation' => 'top',
-            'format' => 'dd/mm/yyyy',
-            'autoclose'=>true
-        ]
-    ]); ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

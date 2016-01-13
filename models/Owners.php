@@ -19,7 +19,7 @@ class Owners extends base\Owners
             [['state_id', 'vehicle_id', 'vehicle_year', 'vehicle_color_id'], 'integer'],
             [['vehicle_year'],'number', 'min' => 1970, 'max' => 2070],
             [['license', 'email'], 'unique'],
-            [['created_at'], 'date'],
+//            [['created_at'], 'date'],
             [['first_name', 'middle_name', 'last_name', 'city'], 'string', 'max' => 255],
             [['license', 'zip_code'], 'string', 'max' => 20],
             [['email', 'phone'], 'string', 'max' => 50],
@@ -43,10 +43,6 @@ class Owners extends base\Owners
             [
                 'class' => TimestampBehavior::className(),
                 'updatedAtAttribute' => false,
-            ],
-            [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['created_at'],
             ],
         ];
     }
