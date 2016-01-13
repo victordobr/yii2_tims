@@ -2,8 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use \app\enums\States;
-use \app\enums\VehicleColors;
+use app\enums\States;
+use app\enums\VehicleColors;
+use app\models\Vehicle;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Owners */
@@ -39,16 +41,24 @@ use \app\enums\VehicleColors;
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'vehicle_id')->dropDownList(
-        VehicleColors::listData()
+        Vehicle::getVehicleList()
     ) ?>
 
-    <?= $form->field($model, 'vehicle_year')->textInput() ?>
+    <?= $form->field($model, 'vehicle_year')->textInput(['maxlength' => 4]) ?>
 
     <?= $form->field($model, 'vehicle_color_id')->dropDownList(
         VehicleColors::listData()
     ) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, 'created_at')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'orientation' => 'top',
+            'format' => 'dd/mm/yyyy',
+            'autoclose'=>true
+        ]
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

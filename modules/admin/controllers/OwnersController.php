@@ -5,8 +5,7 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Owners;
 use app\modules\admin\models\search\Owners as OwnersSearch;
-use \app\modules\admin\base\Controller;
-use yii\web\NotFoundHttpException;
+use app\modules\admin\base\Controller;
 use yii\filters\VerbFilter;
 
 /**
@@ -35,7 +34,7 @@ class OwnersController extends Controller
         $searchModel = new OwnersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('manage', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -49,7 +48,7 @@ class OwnersController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel(Owners::className, $id),
+            'model' => $this->findModel(Owners::className(), $id),
         ]);
     }
 
@@ -79,7 +78,7 @@ class OwnersController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel(Owners::className, $id);
+        $model = $this->findModel(Owners::className(), $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,31 +91,14 @@ class OwnersController extends Controller
 
     /**
      * Deletes an existing Owners model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * If deletion is successful, the browser will be redirected to the 'manage' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $this->findModel(Owners::className, $id)->delete();
+        $this->findModel(Owners::className(), $id)->delete();
 
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Owners model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string|ActiveRecord $modelClass model or model class.
-     * @param integer $id
-     * @return Owners the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($modelClass, $id)
-    {
-        if (($model = Owners::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        return $this->redirect(['manage']);
     }
 }

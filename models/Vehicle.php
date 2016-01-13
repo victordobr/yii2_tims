@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "Vehicle".
@@ -46,5 +47,28 @@ class Vehicle extends \yii\db\ActiveRecord
             'make' => 'Make',
             'model' => 'Model',
         ];
+    }
+
+    /**
+     * Get list of Vehicle models
+     *
+     *
+     * @return array $array - List of Vehicle models
+     */
+    public static function getVehicleList()
+    {
+        $cars = self::find()->orderBy('make, model')->all();
+        $array = ArrayHelper::map($cars, 'id', 'makeModel');
+
+        return $array;
+    }
+
+    /**
+     * Get joined fields: make and model.
+     * @return string
+     */
+    public function getMakeModel()
+    {
+        return $this->make . ' ' . $this->model;
     }
 }
