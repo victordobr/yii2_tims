@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 
-class Owners extends base\Owners
+class Owner extends base\Owner
 {
     /**
      * @inheritdoc

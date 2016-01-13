@@ -5,12 +5,12 @@ namespace app\modules\admin\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Owners as OwnersModel;
+use app\models\Owner as OwnerModel;
 
 /**
- * Owners represents the model behind the search form about `app\models\Owners`.
+ * Owner represents the model behind the search form about `app\models\Owner`.
  */
-class Owners extends OwnersModel
+class Owner extends OwnerModel
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class Owners extends OwnersModel
      */
     public function search($params)
     {
-        $query = OwnersModel::find();
+        $query = OwnerModel::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,7 +65,7 @@ class Owners extends OwnersModel
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'middle_name', $this->middle_name])
+            ->andFilterWhere(['like', 'full_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
             ->andFilterWhere(['like', 'address_1', $this->address_1])
             ->andFilterWhere(['like', 'address_2', $this->address_2])

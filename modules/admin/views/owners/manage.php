@@ -5,23 +5,24 @@ use yii\grid\GridView;
 use app\enums\States;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\search\Owners */
+/* @var $searchModel app\modules\admin\models\search\Owner */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Owners';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="owners-index">
+<div class="Owner-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Owners', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Owner', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
