@@ -4,13 +4,14 @@ use Yii;
 use app\enums\Role;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class RoleController extends \johnitvn\rbacplus\controllers\RoleController
 {
 
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['index', 'view', 'create', 'update', 'delete'],
@@ -21,7 +22,23 @@ class RoleController extends \johnitvn\rbacplus\controllers\RoleController
                     ],
                 ],
             ],
-        ];
+        ]);
+    }
+
+    public function actionDelete($name)
+    {
+        $request = Yii::$app->request;
+        $this->findModel($name)->delete();
+
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'forceClose' => true,
+                'forceReload' => '#crud-datatable-pjax'
+            ];
+        }
+
+        return $this->redirect(['index']);
     }
 
     protected function findModel($name)
