@@ -21,7 +21,7 @@ $this->title = 'Cases Listing';
         'columns' => [
             'id',
             'evidence.infraction_date',
-            'caseStatus.StatusName',
+            'caseStatus.name',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}'
