@@ -9,7 +9,6 @@ use app\enums\States;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Owners';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Owner-index">
 
@@ -27,22 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            [
-                'label' => Yii::t('app', 'Full Name'),
-                'value' => function($model) { return $model->fullName;},
-            ],
+            'fullName',
             'license',
-            [
-                'label' => Yii::t('app', 'State'),
-                'value' => function($model) { return States::labelById($model->state_id);},
-            ],
+            'stateName',
             'city',
             'zip_code',
             'email:email',
-            [
-                'label' => Yii::t('app', 'Vehicle'),
-                'value' => function($model) { return $model->vehicle->makeModel;},
-            ],
+            'vehicleName',
 
             [
                 'class' => 'yii\grid\ActionColumn',

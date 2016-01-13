@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
+use app\enums\States;
 
 class Owner extends base\Owner
 {
@@ -60,6 +61,9 @@ class Owner extends base\Owner
             'vehicle_id' => 'Vehicle model',
             'vehicle_color_id' => 'Vehicle Color',
             'created_at' => 'Created',
+            'fullName' => 'Full name',
+            'stateName' => 'State',
+            'vehicleName' => 'Vehicle',
         ]);
     }
 
@@ -72,19 +76,29 @@ class Owner extends base\Owner
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getStates()
-    {
-        return $this->hasOne(Vehicle::className(), ['id' => 'vehicle_id']);
-    }
-
-    /**
-     * Returns owner full name.
+     * Returns owner full name. Composed from first name and last name.
      * @return \yii\db\ActiveQuery
      */
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Returns owner state name. Getting state from States Enum.
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStateName()
+    {
+        return States::labelById($this->state_id);
+    }
+
+    /**
+     * Returns owner vehicle name. Composed from make and model.
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVehicleName()
+    {
+        return $this->vehicle->makeModel;
     }
 }
