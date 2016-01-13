@@ -2,9 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\enums\Role;
 use Yii;
 use app\models\Vehicle;
 use app\modules\admin\models\VehicleSearch;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\admin\base\Controller;
@@ -16,6 +18,16 @@ class VehicleController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Role::ROLE_ROOT_SUPERUSER],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -1,5 +1,6 @@
 <?php namespace app\modules\admin\controllers\rbac;
 
+use app\enums\Role;
 use yii\filters\AccessControl;
 
 class RoleController extends \johnitvn\rbacplus\controllers\RoleController
@@ -14,7 +15,7 @@ class RoleController extends \johnitvn\rbacplus\controllers\RoleController
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => [Role::ROLE_ROOT_SUPERUSER],
                     ],
                 ],
             ],

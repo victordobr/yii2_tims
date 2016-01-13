@@ -2,10 +2,12 @@
 
 namespace app\modules\admin\controllers;
 
+use app\enums\Role;
 use Yii;
 use app\models\CaseStatus;
 use app\modules\admin\models\CaseStatusSearch;
 use app\modules\admin\base\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -18,6 +20,16 @@ class CaseStatusController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Role::ROLE_ROOT_SUPERUSER],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -2,6 +2,7 @@
 
 namespace app\modules\admin;
 
+use app\enums\Role;
 use \Yii;
 use \yii\filters\AccessControl;
 use \app\interfaces\Menu as MenuInterface;
@@ -25,7 +26,7 @@ class Module extends \app\base\Module  implements MenuInterface
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['UsersMgmt'],
+                        'roles' => [Role::ROLE_ROOT_SUPERUSER, Role::ROLE_SYSTEM_ADMINISTRATOR],
                     ],
                 ],
             ],
