@@ -1,8 +1,8 @@
 <?php
 namespace app\enums;
 
-use \Yii;
-use \kfosoft\base\Enum;
+use Yii;
+use kfosoft\base\Enum;
 
 
 /**
