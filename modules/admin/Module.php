@@ -15,6 +15,8 @@ class Module extends \app\base\Module  implements MenuInterface
     /** @var string $controllerNamespace controller namespace */
     public $controllerNamespace = 'app\modules\admin\controllers';
 
+    public $layout = 'main.php';
+
     /**
      * @inheritdoc
      */
