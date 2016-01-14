@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3cc52e17c44c7e5b5aea995d9f527145",
-    "content-hash": "8906931767abd86b6c4434151d74129e",
+    "hash": "347bcfc95c6d2693cd9469c3f49568ff",
+    "content-hash": "f01b7e6ee51c490d490170fcca6cda09",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -334,37 +334,19 @@
         },
         {
             "name": "bower-asset/blueimp-canvas-to-blob",
-            "version": "2.2.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Canvas-to-Blob.git",
-                "reference": "b107a012d06bc4cb1ae93f4e1e9c64653814d6c4"
+                "reference": "28258354628fe0aca67e9d13ba60fe75a6dd13c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/b107a012d06bc4cb1ae93f4e1e9c64653814d6c4",
-                "reference": "b107a012d06bc4cb1ae93f4e1e9c64653814d6c4",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/28258354628fe0aca67e9d13ba60fe75a6dd13c0",
+                "reference": "28258354628fe0aca67e9d13ba60fe75a6dd13c0",
                 "shasum": ""
             },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "js/canvas-to-blob.js",
-                "bower-asset-ignore": [
-                    "/*.*",
-                    "test"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "JavaScript Canvas to Blob is a function to convert canvas elements into Blob objects.",
-            "keywords": [
-                "blob",
-                "canvas",
-                "conversion",
-                "convert",
-                "javascript"
-            ]
+            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/blueimp-file-upload",
@@ -509,70 +491,32 @@
         },
         {
             "name": "bower-asset/blueimp-load-image",
-            "version": "1.14.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Load-Image.git",
-                "reference": "464fa505204e2a6592805e799a4b5f63578bea09"
+                "reference": "dfadfa3b9a471b941040c33675a527f24a6db827"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/464fa505204e2a6592805e799a4b5f63578bea09",
-                "reference": "464fa505204e2a6592805e799a4b5f63578bea09",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/dfadfa3b9a471b941040c33675a527f24a6db827",
+                "reference": "dfadfa3b9a471b941040c33675a527f24a6db827",
                 "shasum": ""
             },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "js/load-image.js",
-                    "js/load-image-ios.js",
-                    "js/load-image-orientation.js",
-                    "js/load-image-meta.js",
-                    "js/load-image-exif.js",
-                    "js/load-image-exif-map.js"
-                ],
-                "bower-asset-ignore": [
-                    "/*.*",
-                    "css",
-                    "js/vendor",
-                    "js/demo.js",
-                    "test"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "JavaScript Load Image is a library to load images provided as File or Blob objects or via URL. It returns an optionally scaled and/or cropped HTML img or canvas element. It also provides a method to parse image meta data to extract Exif tags and thumbnails and to restore the complete image header after resizing.",
-            "keywords": [
-                "blob",
-                "canvas",
-                "crop",
-                "exif",
-                "file",
-                "image",
-                "img",
-                "javascript",
-                "load",
-                "loading",
-                "meta",
-                "resizing",
-                "scale",
-                "thumbnail",
-                "url"
-            ]
+            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/blueimp-tmpl",
-            "version": "2.5.6",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Templates.git",
-                "reference": "91d3f6f859521d43d424ad44b191536db0b7168b"
+                "reference": "42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/91d3f6f859521d43d424ad44b191536db0b7168b",
-                "reference": "91d3f6f859521d43d424ad44b191536db0b7168b",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a",
+                "reference": "42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a",
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -1130,22 +1074,22 @@
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
-            "version": "2.0.7",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-ajaxcrud.git",
-                "reference": "6b7987fcf2bb4739bfaa16249c41c80fdbc96126"
+                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/6b7987fcf2bb4739bfaa16249c41c80fdbc96126",
-                "reference": "6b7987fcf2bb4739bfaa16249c41c80fdbc96126",
+                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/96700fc1cd751a046a5206b6637e376c575eda4b",
+                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-editable": "1.7.3",
-                "kartik-v/yii2-grid": "3.0.4",
-                "kartik-v/yii2-mpdf": "v1.0.0",
+                "kartik-v/yii2-editable": "^1.7.3",
+                "kartik-v/yii2-grid": "^3.0.4",
+                "kartik-v/yii2-mpdf": "^1.0.0",
                 "yiisoft/yii2": "*",
                 "yiisoft/yii2-bootstrap": "*",
                 "yiisoft/yii2-gii": "*"
@@ -1180,7 +1124,7 @@
                 "template",
                 "yii2"
             ],
-            "time": "2015-08-05 14:58:40"
+            "time": "2015-11-19 17:00:34"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
@@ -1456,16 +1400,16 @@
         },
         {
             "name": "kartik-v/yii2-editable",
-            "version": "v1.7.3",
+            "version": "v1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-editable.git",
-                "reference": "bbbe10218d1539c31f1628e86ee889a27629e3f5"
+                "reference": "7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/bbbe10218d1539c31f1628e86ee889a27629e3f5",
-                "reference": "bbbe10218d1539c31f1628e86ee889a27629e3f5",
+                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd",
+                "reference": "7c25b5bb6b21027eaf11b6ee4bba5c9f00cf04cd",
                 "shasum": ""
             },
             "require": {
@@ -1500,7 +1444,7 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2015-07-01 16:46:53"
+            "time": "2015-12-27 16:31:06"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -1736,16 +1680,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
-            "version": "v1.3.3",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "368b181ef658c05707fe41dd16eee4d9ffd9da38"
+                "reference": "ff5a97576c49a72e0480f135d9e7ce1a18c788e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/368b181ef658c05707fe41dd16eee4d9ffd9da38",
-                "reference": "368b181ef658c05707fe41dd16eee4d9ffd9da38",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/ff5a97576c49a72e0480f135d9e7ce1a18c788e6",
+                "reference": "ff5a97576c49a72e0480f135d9e7ce1a18c788e6",
                 "shasum": ""
             },
             "require": {
@@ -1781,7 +1725,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-07-19 04:49:03"
+            "time": "2016-01-10 15:14:17"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -2629,11 +2573,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "perminder-klair/yii2-videojs": 20,
-        "kartik-v/yii2-editable": 20,
-        "kartik-v/yii2-grid": 20,
-        "kartik-v/yii2-mpdf": 20,
-        "kartik-v/yii2-widget-datepicker": 20
+        "perminder-klair/yii2-videojs": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
