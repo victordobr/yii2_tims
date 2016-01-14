@@ -14,7 +14,7 @@ class Settings extends PhemeSettings
     public function get($key, $section = null, $default = null)
     {
         if(YII_ENV_PROD) {
-            return parent::get();
+            return parent::get($key, $section, $default);
         } else {
             return Yii::$app->params[$key];
         }
