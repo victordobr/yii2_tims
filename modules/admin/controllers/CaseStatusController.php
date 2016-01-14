@@ -45,7 +45,6 @@ class CaseStatusController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->Settings->Settings();
         $searchModel = new CaseStatusSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
