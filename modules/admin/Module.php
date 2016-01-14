@@ -39,6 +39,7 @@ class Module extends \app\base\Module  implements MenuInterface
     {
         return [
             ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users/manage']],
+            ['label' => Yii::t('app', 'Settings'), 'url' => ['/admin/settings/index']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
                 [

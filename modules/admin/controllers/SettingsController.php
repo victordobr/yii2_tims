@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use app\modules\admin\models\Setting;
 use app\modules\admin\models\SettingSearch;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -23,6 +24,7 @@ use app\modules\admin\models\SettingSearch;
  */
 class SettingsController extends \pheme\settings\controllers\DefaultController
 {
+    public $layout = 'main';
     /**
      * Defines the controller behaviors
      * @return array
@@ -84,7 +86,7 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/admin/settings/index']);
         } else {
             return $this->render(
                 'update',
@@ -103,6 +105,15 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
                 'model' => $this->findModel($id),
             ]
         );
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Setting::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }
