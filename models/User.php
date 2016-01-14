@@ -51,7 +51,10 @@ class User extends base\User
             ],
             ['logins_count', 'default', 'value' => 0],
             ['pre_name', 'in', 'range' => self::getPreNameList(true)],
-            [['address'], 'string', 'max' => 50]
+            [['address'], 'string', 'max' => 50],
+            [['agency'], 'string', 'max' => 255],
+            [['zip_code'], 'string', 'max' => 16],
+            [['state_id'], 'integer'],
         ]);
     }
 
