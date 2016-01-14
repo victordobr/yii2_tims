@@ -11,6 +11,7 @@ use Yii;
  * @property integer $evidence_id
  * @property integer $file_type
  * @property integer $evidence_file_type
+ * @property string $mime_type
  * @property string $url
  * @property integer $created_at
  *
@@ -33,7 +34,8 @@ class File extends \yii\db\ActiveRecord
     {
         return [
             [['evidence_id', 'file_type', 'evidence_file_type', 'created_at'], 'integer'],
-            [['file_type', 'evidence_file_type', 'url'], 'required'],
+            [['file_type', 'evidence_file_type', 'mime_type', 'url'], 'required'],
+            [['mime_type'], 'string', 'max' => 50],
             [['url'], 'string', 'max' => 250]
         ];
     }
@@ -48,6 +50,7 @@ class File extends \yii\db\ActiveRecord
             'evidence_id' => 'Evidence ID',
             'file_type' => 'File Type',
             'evidence_file_type' => 'Evidence File Type',
+            'mime_type' => 'Mime Type',
             'url' => 'Url',
             'created_at' => 'Created At',
         ];

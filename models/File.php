@@ -17,6 +17,7 @@ class File extends base\File
         return [
             [['evidence_id', 'file_type', 'evidence_file_type', 'created_at'], 'integer'],
             [['file_type', 'url'], 'required'],
+            [['mime_type'], 'string', 'max' => 50],
             [['url'], 'string', 'max' => 250]
         ];
     }
@@ -30,6 +31,7 @@ class File extends base\File
             'id' => 'ID',
             'evidence_id' => 'Evidence ID',
             'file_type' => 'File Type',
+            'mime_type' => 'Mime Type',
             'evidence_file_type' => 'Evidence File Type',
             'url' => 'Url',
             'created_at' => 'Created At',

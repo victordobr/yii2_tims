@@ -196,6 +196,10 @@ a.desc:after {
     color: #333;
     cursor: pointer;
 }
+.media-popup-wrapper a.media-link {
+    color: #337ab7;
+    cursor: pointer;
+}
 
 .evidence-media {
     padding: 0 0 20px 292px;

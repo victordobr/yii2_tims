@@ -15,6 +15,7 @@ use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
+use app\enums\States;
 
 $this->title = 'Create Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
@@ -103,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'state_id')->textInput() ?>
+        <?= $form->field($model, 'state_id')->dropDownList(States::listData(), array('prompt' => ' - choose state - ')) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
         <div class="form-group">

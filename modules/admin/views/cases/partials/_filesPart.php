@@ -6,6 +6,7 @@
         'url' => $evidence->imageOverviewCamera->url,
         'type' => $evidence->imageOverviewCamera->file_type,
         'title' => $evidence->getAttributeLabel('imageOverviewCamera'),
+        'mime' => $evidence->imageOverviewCamera->mime_type,
     ]); ?>
 <?php endif; ?>
 
@@ -14,6 +15,7 @@
         'url' => $evidence->imageLpr->url,
         'type' => $evidence->imageLpr->file_type,
         'title' => $evidence->getAttributeLabel('imageLpr'),
+        'mime' => $evidence->imageLpr->mime_type,
     ]); ?>
 <?php endif; ?>
 
@@ -22,6 +24,7 @@
         'url' => $evidence->videoLpr->url,
         'type' => $evidence->videoLpr->file_type,
         'title' => $evidence->getAttributeLabel('videoLpr'),
+        'mime' => $evidence->videoLpr->mime_type,
     ]); ?>
 <?php endif; ?>
 
@@ -30,5 +33,6 @@
         'url' => $evidence->videoOverviewCamera->url,
         'type' => $evidence->videoOverviewCamera->file_type,
         'title' => $evidence->getAttributeLabel('videoOverviewCamera'),
+        'mime' => $evidence->videoOverviewCamera->mime_type,
     ]); ?>
 <?php endif; ?>
