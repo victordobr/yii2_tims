@@ -60,11 +60,7 @@ class OwnerSearch extends Owner
                     'default' => SORT_ASC
                 ],
                 'license',
-                'stateName' => [
-                    'asc' => ['state_id' => SORT_ASC],
-                    'desc' => ['state_id' => SORT_DESC],
-                    'default' => SORT_ASC
-                ],
+                'state_id',
                 'city',
                 'zip_code',
                 'email',
@@ -87,7 +83,7 @@ class OwnerSearch extends Owner
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'state_id' => States::idByLabelPart($this->stateName),
+            'state_id' => $this->state_id,
         ]);
 
         $query->andFilterWhere(['like', 'license', $this->license])
