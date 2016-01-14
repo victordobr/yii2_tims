@@ -2,14 +2,14 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\Evidence;
+use app\enums\Role;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\admin\base\Controller;
 use app\modules\admin\models\search\PoliceCase as PoliceCaseSearch;
 use app\models\PoliceCase;
-use app\models\User;
 
 /**
  * CasesController implements the CRUD actions for PoliceCase model.
@@ -19,6 +19,16 @@ class CasesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['manage', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Role::ROLE_ROOT_SUPERUSER],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
