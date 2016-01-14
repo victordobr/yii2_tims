@@ -101,11 +101,19 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
                 'upload' => 'frontend/media/upload',
+
                 'admin/roles' => 'admin/rbac/role/index',
                 'admin/role/create' => 'admin/rbac/role/create',
                 [
                     'pattern' => 'admin/role/<action:(update|view|delete)>/<name:[\w-]+>',
                     'route' => 'admin/rbac/role/<action>',
+                ],
+                'admin/user/profile' => 'admin/user-profile',
+                'admin/role/create' => 'admin/rbac/role/create',
+                [
+                    'pattern' => 'admin/user-profile/<action:(profile|changePassword)>/<name:[\w-]+>',
+                    'route' => 'admin/user-profile/<action>',
+                    'defaults' => ['action' => '']
                 ],
                 [
                     'pattern' => '<controller:\w+>/<action:[\w-]+>/<id:\d+>',
