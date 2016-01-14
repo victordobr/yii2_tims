@@ -55,7 +55,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'label' => 'Uploaded Date',
                     'attribute' => 'created_at',
-                    'format' => 'datetime',
+//                    'format' => 'datetime',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [

@@ -69,10 +69,6 @@ class Evidence extends base\Evidence
                 'class' => 'app\behaviors\IntegerStamp',
                 'attributes' => ['infraction_date'],
             ],
-            [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['created_at'],
-            ],
         ];
     }
 

@@ -8,7 +8,7 @@ use \yii\helpers\Html;
 use \yii\bootstrap\ActiveForm;
 use \yii\web\View;
 
-$this->title = \Yii::t('app', 'Update Profile');
+$this->title = \Yii::t('app', 'Profile');
 ?>
 <div class="profile-update">
 
