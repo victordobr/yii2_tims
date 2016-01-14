@@ -51,6 +51,7 @@ class SiteController extends Controller
     {
 //        var_dump(mail('despected@gmail.com', 'subject1', '1 message 1'));die;
 //        mail('despected@gmail.com', 'subject', 'message');
+
         return $this->render('index');
     }
 

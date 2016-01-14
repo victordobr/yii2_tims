@@ -7,6 +7,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
+        'settings' => [
+            'class' => 'pheme\settings\Module',
+            'sourceLanguage' => 'en'
+        ],
         'auth' => [
             'class' => 'app\modules\auth\Module',
             'userModelClass' => 'app\models\User'
@@ -27,9 +31,8 @@ $config = [
     ],
     'components' => [
         'settings' => [
-            'class' => 'pheme\settings\components\Settings'
+            'class' => 'app\components\Settings'
         ],
-
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
