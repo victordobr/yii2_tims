@@ -34,7 +34,7 @@ class PoliceCase extends base\PoliceCase
             ],
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['created_at', 'open_date', 'officer_date', 'mailed_date'],
+                'attributes' => ['open_date', 'officer_date', 'mailed_date'],
             ],
         ];
     }

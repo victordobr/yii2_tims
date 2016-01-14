@@ -37,7 +37,7 @@ class Media extends Component
 
     public $maxChunkSize = 2000000;
 
-    public $acceptMimeTypes = 'image/jpeg,image/png,video/avi,video/mp4,video/mpeg';
+    public $acceptMimeTypes = 'image/jpeg,image/png,image/bmp,video/avi,video/mp4,video/mpeg,video/x-flv';
 
     const RANDOM_DIR_LENGTH = 2;
 
@@ -89,6 +89,7 @@ class Media extends Component
 
         $file = new File();
         $file->file_type = $type;
+        $file->mime_type = $fileData->type;
         $file->url = $url;
         $isSaved = $file->save();
         if(!$isSaved) {

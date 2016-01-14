@@ -4,16 +4,21 @@ namespace app\widgets\mediaPopup;
 
 use app\enums\FileType;
 use branchonline\lightbox\Lightbox;
+use \kato\VideojsWidget;
+
 /**
  * @var $url
  * @var $type
  * @var $modalId
  * @var $icon
  * @var $title
+ * @var $mime
  */
 ?>
 <div class="media-popup-wrapper">
-    <a id="modalButton" class="img-pic" data-toggle="modal" data-target="#<?= $modalId ?>" title="<?= $title; ?>"><?= $icon; ?></a>
+    <a id="modalButton" class="img-pic" data-toggle="modal" data-target="#<?= $modalId ?>"
+       title="<?= $title; ?>"><?= $icon; ?></a>
+
     <div class="modal" id="<?= $modalId ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -23,6 +28,9 @@ use branchonline\lightbox\Lightbox;
                 </div>
                 <div class="modal-body">
                     <?php if ($type == FileType::TYPE_IMAGE): ?>
+                        <p>
+                            <a target="_blank" class="media-link" href="<?= $url?>">Download / View</a>
+                        </p>
                         <span class="lightbox-thumb">
                             <?= Lightbox::widget([
                                 'files' => [
@@ -35,10 +43,32 @@ use branchonline\lightbox\Lightbox;
                             ]); ?>
                         </span>
                     <?php elseif ($type == FileType::TYPE_VIDEO): ?>
+                        <p>
+                            <a target="_blank" class="media-link" href="<?= $url?>">Download / View</a>
+                        </p>
                         <span>
-                            <video width="500" controls>
-                                <source src="<?= $url ?>" type="video/mp4">
-                            </video>
+                            <?= VideojsWidget::widget([
+                                'options' => [
+                                    'class' => 'video-js vjs-default-skin vjs-big-play-centered',
+//                                    'poster' => $this->getThumbUrl($item),
+                                    'controls' => true,
+                                    'preload' => 'auto',
+                                    'width' => '100%',
+                                    'height' => '300',
+                                    'data-setup' => '{ "plugins" : { "resolutionSelector" : { "default_res" : "720" } } }',
+                                ],
+                                'tags' => [
+                                    'source' => [
+                                        [
+                                            'src' => $url,
+//                                            'type' => 'video/x-msvideo',
+                                            'type' => $mime,
+//                                            'data-res' => '720',
+                                        ],
+                                    ],
+                                ],
+                                'multipleResolutions' => true,
+                            ]); ?>
                         </span>
                     <?php endif; ?>
                     </p>

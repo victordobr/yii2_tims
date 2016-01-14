@@ -15,6 +15,7 @@ use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
+use app\enums\States;
 
 $this->title = 'Create Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
@@ -31,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => $model->imageOverviewCamera->url,
                 'type' => $model->imageOverviewCamera->file_type,
                 'title' => $model->getAttributeLabel('imageOverviewCamera'),
+                'mime' => $model->imageOverviewCamera->mime_type,
             ]); ?>
         <?php endif; ?>
 
@@ -39,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => $model->imageLpr->url,
                 'type' => $model->imageLpr->file_type,
                 'title' => $model->getAttributeLabel('imageLpr'),
+                'mime' => $model->imageLpr->mime_type,
             ]); ?>
         <?php endif; ?>
 
@@ -47,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => $model->videoLpr->url,
                 'type' => $model->videoLpr->file_type,
                 'title' => $model->getAttributeLabel('videoLpr'),
+                'mime' => $model->videoLpr->mime_type,
             ]); ?>
         <?php endif; ?>
 
@@ -55,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => $model->videoOverviewCamera->url,
                 'type' => $model->videoOverviewCamera->file_type,
                 'title' => $model->getAttributeLabel('videoOverviewCamera'),
+                'mime' => $model->videoOverviewCamera->mime_type,
             ]); ?>
         <?php endif; ?>
     </div>
@@ -138,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'state_id')->textInput() ?>
+        <?= $form->field($model, 'state_id')->dropDownList(States::listData()) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
         <div class="form-group">
