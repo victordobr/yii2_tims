@@ -7,10 +7,6 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
-        'settings' => [
-            'class' => 'pheme\settings\Module',
-            'sourceLanguage' => 'en'
-        ],
         'auth' => [
             'class' => 'app\modules\auth\Module',
             'userModelClass' => 'app\models\User'
@@ -32,6 +28,18 @@ $config = [
     'components' => [
         'settings' => [
             'class' => 'app\components\Settings'
+        ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
         ],
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
