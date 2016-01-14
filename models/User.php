@@ -19,6 +19,13 @@ class User extends base\User
     const STATUS_NOT_ACTIVE = 0;
     const SCENARIO_REGISTER = 'register';
 
+    const PRE_NAME_MR = 'mr';
+    const PRE_NAME_MRS = 'mrs';
+    private static $pre_names = [
+        self::PRE_NAME_MR => 'Mr',
+        self::PRE_NAME_MRS => 'Mrs',
+    ];
+
     /** @var string repeat password. */
     public $repeatPassword;
 
@@ -43,6 +50,8 @@ class User extends base\User
                     'Incorrect phone number format. Enter correct number, for example: 7809449360')
             ],
             ['logins_count', 'default', 'value' => 0],
+            ['pre_name', 'in', 'range' => self::getPreNameList(true)],
+            [['address'], 'string', 'max' => 50]
         ]);
     }
 
@@ -146,4 +155,14 @@ class User extends base\User
 
         return true;
     }
+
+    /**
+     * @param bool $only_values
+     * @return array
+     */
+    public static function getPreNameList($only_values = false)
+    {
+        return $only_values ? array_keys(self::$pre_names) : self::$pre_names;
+    }
+
 }

@@ -23,6 +23,10 @@ $this->title = \Yii::t('app', 'Update Profile');
                     'options' => ['class' => 'required-asterisk'],
                 ]); ?>
 
+                <?= $form->field($model, 'pre_name')->dropDownList(
+                    \app\models\User::getPreNameList()
+                ); ?>
+
                 <?= $form->field($model, 'first_name')->textInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',
@@ -38,7 +42,17 @@ $this->title = \Yii::t('app', 'Update Profile');
                     'class' => 'form-control form-field-short',
                 ]) ?>
 
+                <?= $form->field($model, 'email')->textInput([
+                    'maxlength' => true,
+                    'class' => 'form-control form-field-short',
+                ]) ?>
+
                 <?= $form->field($model, 'phone')->textInput([
+                    'maxlength' => true,
+                    'class' => 'form-control form-field-short',
+                ]) ?>
+
+                <?= $form->field($model, 'address')->textInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',
                 ]) ?>
