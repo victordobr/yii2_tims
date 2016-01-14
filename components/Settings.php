@@ -2,34 +2,21 @@
 
 namespace app\components;
 
-use pheme\settings\models\Setting as PhemeSettings;
+use pheme\settings\components\Settings as PhemeSettings;
 use Yii;
-use app\models\File;
-use yii\base\Component;
 
 /**
  * Settings class implements the component to handle Base Site Settings operations.
  * @author Vitalii Fokov
  */
-
-class Settings extends PhemeSettings{
-
-    public function Settings(){
-
-        if (defined('YII_DEBUG')){
-
-            return Yii::$app->params['url.cabinet.admin'];
+class Settings extends PhemeSettings
+{
+    public function get($key, $section = null, $default = null)
+    {
+        if(YII_ENV_PROD) {
+            return parent::get();
+        } else {
+            return Yii::$app->params[$key];
         }
-
-        elseif(!defined('YII_DEBUG')){
-
-            return parent::getSettings();
-
-        }
-
     }
-
 }
-
-
-?>
