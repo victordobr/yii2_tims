@@ -68,6 +68,19 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                     'attribute' => 'elapsedTime',
                     'headerOptions' => ['style' => 'width: 50px;']
                 ],
+                [
+                    'class' => \yii\grid\ActionColumn::className(),
+                    'template'=>'{review}',
+                    'buttons'=>[
+                        'review' => function ($url, $model) {
+                            return \yii\helpers\Html::a(
+                                '<span class="glyphicon glyphicon-eye-open"></span>',
+                                \yii\helpers\Url::to(['case/review', 'id' => $model->case_id]),
+                                ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
+                            );
+                        },
+                    ],
+                ]
             ],
         ]);
         yii\widgets\Pjax::end();
