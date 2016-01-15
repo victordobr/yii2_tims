@@ -42,7 +42,7 @@ class Module extends \app\base\Module  implements MenuInterface
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
                 ['label' => Yii::t('app', 'Profile'), 'url' => ['/frontend/default/profile']],
                 [
-                    'label'       => Yii::t('app', 'Sing Out') . ' (' . Yii::$app->user->identity->username . ')',
+                    'label'       => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                     'url'         => ['/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
