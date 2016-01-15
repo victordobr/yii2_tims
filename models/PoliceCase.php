@@ -3,12 +3,19 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "PoliceCase".
  */
 class PoliceCase extends base\PoliceCase
 {
+    const STATUS_INCOMPLETE_ID = 1010;
+    const STATUS_COMPLETE_ID = 1020;
+    const STATUS_FULL_COMPLETE_ID = 1021;
+
+    private $status;
+
     /**
      * @inheritdoc
      */
@@ -54,4 +61,15 @@ class PoliceCase extends base\PoliceCase
     {
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
+
+    public function getStatus()
+    {
+        return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
+
+    public function deactivate()
+    {
+        return $this->updateAttributes(['status_id' => self::STATUS_COMPLETE_ID]);
+    }
+
 }
