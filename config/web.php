@@ -30,9 +30,20 @@ $config = [
     ],
     'components' => [
         'settings' => [
-            'class' => 'pheme\settings\components\Settings'
+            'class' => 'app\components\Settings'
         ],
-
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
