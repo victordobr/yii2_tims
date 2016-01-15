@@ -55,12 +55,4 @@ class PoliceCase extends \yii\db\ActiveRecord
             'officer_id' => 'Officer ID',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEvidence()
-    {
-        return $this->hasOne(Evidence::className(), ['case_id' => 'id']);
-    }
 }

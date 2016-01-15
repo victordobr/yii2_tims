@@ -1,113 +1,96 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
 use app\enums\States;
-use kartik\dynagrid\DynaGrid;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\Owner */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('app', 'Owners Manager');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Owner-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Owner', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php $columns = [
-        ['class'=>'kartik\grid\SerialColumn'],
-
-        [
-            'attribute' => 'id',
-            'width' => '50px',
-            'vAlign'=>'middle',
+        ['class'=>'kartik\grid\SerialColumn',
+        'contentOptions' => ['class'=>'kartik-sheet-style'],
+        'width'=>'36px',
+        'header'=>'',
+        'headerOptions' => ['class'=>'kartik-sheet-style']
         ],
-        [
-            'attribute' => 'fullName',
-            'width' => '200px',
-            'vAlign'=>'middle',
-        ],
-        [
-            'attribute' => 'license',
-            'width' => '100px',
-            'vAlign'=>'middle',
-        ],
+        'id',
+        'fullName',
+        'license',
         [
             'attribute' => 'state_id',
-//            'vAlign' => 'middle',
-            'value' => function ($model) { return States::labelById($model->state_id);},
+            'value' => function ($model) {
+                return States::labelById($model->state_id);
+            },
 
             // select2 has a problem (a large column width, and does not changing)
 //            'filterType' => GridView::FILTER_SELECT2,
             'filter' => States::listData(),
+            'width'=>'8%',
             'filterWidgetOptions'=>[
                 'pluginOptions'=>['allowClear'=>true],
             ],
 
             'filterInputOptions'=>['placeholder'=>'Any author'],
-            'format'=>'raw',
+//            'format'=>'raw',
             'headerOptions' => ['style' => 'width: 190px;'],
         ],
-        [
-            'attribute' => 'city',
-            'width' => '150px',
-            'vAlign'=>'middle',
-        ],
-        [
-            'attribute' => 'zip_code',
-            'width' => '100px',
-            'vAlign'=>'middle',
-        ],
-        [
-            'attribute' => 'email',
-            'width' => '150px',
-            'vAlign'=>'middle',
-        ],
-        [
-            'attribute' => 'vehicleName',
-            'width' => '150px',
-            'vAlign'=>'middle',
-        ],
+        'city',
+        'zip_code',
+        'email',
+        'vehicleName',
         [
             'class' => 'kartik\grid\ActionColumn',
             'template' => '{update} {delete}'
         ],
-    ];
+    ];?>
 
-    $dynagrid = DynaGrid::begin([
-        'columns'=>$columns,
-        'theme'=>'panel-info',
-        'showPersonalize'=>false,
-        'allowThemeSetting' => false,
-        'allowPageSetting' => false,
-        'storage'=>'cookie',
-        'gridOptions'=>[
-            'dataProvider'=>$dataProvider,
-            'filterModel'=>$searchModel,
-//            'showPageSummary'=>true,
-            'floatHeader'=>true,
-            'pjax'=>true,
-//            'panel'=>[
-//                'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i>  Library</h3>',
-//                'before' =>  '<div style="padding-top: 7px;"><em>* The table header sticks to the top in this demo as you scroll</em></div>',
-//                'after' => false
-//            ],
-//            'toolbar' =>  [
-//                ['content'=>
-//                    Html::button('<i class="glyphicon glyphicon-plus"></i>', ['type'=>'button', 'title'=>'Add Book', 'class'=>'btn btn-success', 'onclick'=>'alert("This will launch the book creation form.\n\nDisabled for this demo!");']) . ' '.
-//                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['dynagrid-demo'], ['data-pjax'=>0, 'class' => 'btn btn-default', 'title'=>'Reset Grid'])
-//                ],
-//                ['content'=>'{dynagridFilter}{dynagridSort}{dynagrid}'],
-//                '{export}',
-//            ]
+    <?= GridView::widget([
+        'id' => 'crud-datatable',
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+        'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+        'pjax' => true,
+        'columns' => $columns,
+        'toggleDataOptions' => [
+            'all' => [
+                'icon' => 'resize-full',
+                'class' => 'btn btn-default',
+                'label' => Yii::t('app', 'All'),
+                'title' => Yii::t('app', 'Show all data')
+            ],
+            'page' => [
+                'icon' => 'resize-small',
+                'class' => 'btn btn-default',
+                'label' => Yii::t('app', 'Page'),
+                'title' => Yii::t('app', 'Show first page data')
+            ],
         ],
-        'options'=>['id'=>'dynagrid-1'] // a unique identifier is important
-    ]);
-    DynaGrid::end();
-    ?>
+        'toolbar' => [
+            ['content' =>
+                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['role' => 'modal-remote', 'title' => Yii::t('app', 'Create Owner'), 'class' => 'btn btn-default']) .
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], ['data-pjax' => 1, 'class' => 'btn btn-default', 'title' => Yii::t('app', 'Reload Grid')]) .
+                '{toggleData}' .
+                '{export}'
+            ],
+        ],
+        'striped' => true,
+        'condensed' => true,
+        'responsive' => true,
+        'panel' => [
+            'type' => 'primary',
+            'heading' => '<i class="glyphicon glyphicon-list"></i> ' . $this->title,
+            'before' => '<em>' . Yii::t('app', '* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
+            'after' => false,
+        ]
+    ]); ?>
 
 </div>
