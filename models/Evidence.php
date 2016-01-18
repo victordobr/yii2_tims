@@ -49,8 +49,8 @@ class Evidence extends base\Evidence
             'videoOverviewCamera' => 'Video from Overview Camera',
             'imageLpr' => 'Still Image from *LPR',
             'imageOverviewCamera' => 'Still Image from Overview Camera',
-            'lat' => 'Latitude',
-            'lng' => 'Longitude',
+            'lat' => 'GPS Latitude',
+            'lng' => 'GPS Longitude',
         ]);
     }
 
@@ -120,6 +120,52 @@ class Evidence extends base\Evidence
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    /**
+     * @return string
+     */
+    public function renderInfractionDate()
+    {
+        $infraction_date = Yii::$app->formatter->asDatetime($this->infraction_date, 'php:d-m-Y');
+        $elapsed = $this->toElapsedString(Yii::$app->formatter->asTimestamp(Yii::$app->formatter->asDatetime($this->infraction_date, 'php:d/m/Y')));
 
+        return sprintf('%s (%s)', $infraction_date, $elapsed);
+    }
+
+    /**
+     * @param $timestamp
+     * @return string
+     */
+    public function toElapsedString($timestamp)
+    {
+        $time = time() - $timestamp;
+
+        if ($time < 1) {
+            return '0 seconds';
+        }
+
+        $a = [
+            365 * 24 * 60 * 60 => 'year',
+            30 * 24 * 60 * 60 => 'month',
+            24 * 60 * 60 => 'day',
+            60 * 60 => 'hour',
+            60 => 'minute',
+            1 => 'second'
+        ];
+        $a_plural = ['year' => 'years',
+            'month' => 'months',
+            'day' => 'days',
+            'hour' => 'hours',
+            'minute' => 'minutes',
+            'second' => 'seconds'
+        ];
+
+        foreach ($a as $secs => $str) {
+            $d = $time / $secs;
+            if ($d >= 1) {
+                $r = round($d);
+                return $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ago';
+            }
+        }
+    }
 
 }

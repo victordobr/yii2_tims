@@ -2,18 +2,14 @@
 
 namespace app\models;
 
+use app\enums\CaseStatus as Status;
 use Yii;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "PoliceCase".
  */
 class PoliceCase extends base\PoliceCase
 {
-    const STATUS_INCOMPLETE_ID = 1010;
-    const STATUS_COMPLETE_ID = 1020;
-    const STATUS_FULL_COMPLETE_ID = 1021;
-
     private $status;
 
     /**
@@ -62,14 +58,28 @@ class PoliceCase extends base\PoliceCase
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getStatus()
     {
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
 
+    /**
+     * @return int
+     */
     public function deactivate()
     {
-        return $this->updateAttributes(['status_id' => self::STATUS_COMPLETE_ID]);
+        return $this->updateAttributes(['status_id' => Status::COMPLETE]);
+    }
+
+    /**
+     * @return string
+     */
+    public function renderDateOpened()
+    {
+        return Yii::$app->formatter->asDatetime($this->open_date);
     }
 
 }
