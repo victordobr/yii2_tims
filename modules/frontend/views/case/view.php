@@ -24,13 +24,28 @@ $user = Yii::$app->user;
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
-                        'open_date',
-                        'officer_date',
-                        'officer_pin',
-                        'officer_id',
                         [
+                            'label' => Yii::t('app', 'Date case opened'),
+                            'format' => 'raw',
+                            'value' => $model->renderDateOpened()
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Case opened by'),
+                            'format' => 'raw',
+                            'value' => $model->evidence->user->getFullName()
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Vehicle TAG'),
+                            'attribute' => 'evidence.license',
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Date of alleged infraction'),
+                            'format' => 'raw',
+                            'value' => $model->evidence->renderInfractionDate()
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Status'),
                             'attribute'=>'status.name',
-                            'label' => Yii::t('app', 'Status')
                         ],
                     ],
                 ]) ?>
@@ -42,7 +57,10 @@ $user = Yii::$app->user;
                     'attributes' => [
                         'lat',
                         'lng',
-                        'state_id',
+                        [
+                            'label' => Yii::t('app', 'Location (nearby address)'),
+                            'value' => 'to-do'
+                        ]
                     ],
                 ]) ?>
                 <?= $this->render('../partials/evidence', ['model' => $model->evidence]); ?>
@@ -51,16 +69,13 @@ $user = Yii::$app->user;
 
         <?php if ($user->can('RequestDeactivation')): ?>
             <div class="row">
-                <div class="col-xs-12">
-                    <?= $this->render('../forms/deactivate', [
-                        'action'=>Url::to(['deactivate', 'id' => $model->id]),
-                        'model' => new DeactivateForm()
-                    ]) ?>
-                </div>
+                <?= $this->render('../forms/deactivate', [
+                    'action'=>Url::to(['deactivate', 'id' => $model->id]),
+                    'model' => new DeactivateForm()
+                ]) ?>
             </div>
         <?php endif; ?>
 
     </div>
-
 
 </div>
