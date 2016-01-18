@@ -100,8 +100,19 @@ $config = [
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
-                'upload' => 'frontend/media/upload',
 
+                //upload
+                [
+                    'pattern' => 'upload/<id:\d+>',
+                    'route' => 'frontend/media/upload',
+                ],
+                // case
+                [
+                    'pattern' => 'case/<action:(review|deactivate)>/<id:\d+>',
+                    'route' => 'frontend/case/<action>',
+                    'defaults' => ['id' => 0]
+                ],
+                // admin roles
                 'admin/roles' => 'admin/rbac/role/index',
                 'admin/role/create' => 'admin/rbac/role/create',
                 [
@@ -109,7 +120,6 @@ $config = [
                     'route' => 'admin/rbac/role/<action>',
                 ],
                 'admin/user/profile' => 'admin/user-profile',
-                'admin/role/create' => 'admin/rbac/role/create',
                 [
                     'pattern' => 'admin/user-profile/<action:(profile|changePassword)>/<name:[\w-]+>',
                     'route' => 'admin/user-profile/<action>',
