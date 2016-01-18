@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             },
 
             // select2 has a problem (a large column width, and does not changing)
-//            'filterType' => GridView::FILTER_SELECT2,
+            'filterType' => GridView::FILTER_SELECT2,
+//            'filterType' => yii\helpers\Html::dropDownList(),
             'filter' => States::listData(),
             'width'=>'8%',
             'filterWidgetOptions'=>[
