@@ -26,6 +26,17 @@ $config = [
         ]
     ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyB0SyBMwxZe_M5nLtcYXcSrt10E4HLMARc',
+                        'language' => 'id',
+                        'version' => '3.1.18'
+                    ]
+                ]
+            ]
+        ],
         'settings' => [
             'class' => 'app\components\Settings'
         ],
