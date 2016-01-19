@@ -4,7 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\Owner;
-use app\modules\admin\models\search\Owner as OwnerSearch;
+use app\modules\admin\models\search\OwnerSearch;
 use app\modules\admin\base\Controller;
 use yii\filters\VerbFilter;
 

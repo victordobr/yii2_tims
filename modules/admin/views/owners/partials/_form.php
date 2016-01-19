@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use app\enums\States;
 use app\enums\VehicleColors;
 use app\models\Vehicle;
-use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Owner */
