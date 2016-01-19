@@ -4,10 +4,8 @@ namespace app\widgets\mapPopup;
 
 use yii\base\Widget;
 use yii\web\View;
-use app\enums\FileType;
-use yii\web\HttpException;
 use kartik\icons\Icon;
-use app\assets\MapPopupAsset;
+use app\widgets\mapPopup\assets\MapPopupAsset;
 
 
 /**
@@ -62,10 +60,13 @@ class MapPopup extends Widget
 
     public function run()
     {
+        $icon = Icon::show('globe', ['class' => 'fa-3x']);
+
         return $this->render('index', [
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'modalId' => $this->modalId,
+            'icon' => $icon,
         ]);
     }
 }

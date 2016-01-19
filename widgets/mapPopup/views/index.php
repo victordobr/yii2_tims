@@ -5,12 +5,13 @@ namespace app\widgets\mapPopup;
  * @var $latitude;
  * @var $longitude;
  * @var $modalId;
+ * @var $icon;
  */
 
 ?>
 <div class="media-popup-wrapper">
     <a id="modal-button-<?= $modalId ?>" class="img-pic" data-toggle="modal" data-target="#<?= $modalId ?>"
-       title=""><i class="fa-3x glyphicon glyphicon-map-marker"></i></a>
+       title=""><?= $icon; ?></a>
     <div class="modal" id="<?= $modalId ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

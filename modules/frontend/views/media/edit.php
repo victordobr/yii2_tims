@@ -62,10 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ]); ?>
         <?php endif; ?>
 
-        <?php if ($model->attributes['lat'] && $model->attributes['lng']): ?>
+        <?php if ($model->lat && $model->lng): ?>
             <?= app\widgets\mapPopup\MapPopup::widget([
-                'latitude' => $model->attributes['lat'],
-                'longitude' => $model->attributes['lng'],
+                'latitude' => $model->lat,
+                'longitude' => $model->lng,
             ]); ?>
 
         <?php endif; ?>

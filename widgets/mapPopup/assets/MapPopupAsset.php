@@ -1,6 +1,6 @@
 <?php
 
-namespace app\assets;
+namespace app\widgets\mapPopup\assets;
 
 use \Yii;
 use \yii\web\AssetBundle;
@@ -14,14 +14,11 @@ class MapPopupAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-//    public $sourcePath = '@app/widgets/mapPopup/assets';
 
     public $js = [
         'http://maps.googleapis.com/maps/api/js',
     ];
-//    public $css = [
-//        'map.popup.css'
-//    ];
+
     public $depends = [
         'yii\web\JqueryAsset',
     ];
