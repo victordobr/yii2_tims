@@ -22,7 +22,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="evidence-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -62,10 +61,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'mime' => $model->videoOverviewCamera->mime_type,
             ]); ?>
         <?php endif; ?>
-    </div>
+
+        <?php if ($model->lat && $model->lng): ?>
+            <?= app\widgets\mapPopup\MapPopup::widget([
+                'latitude' => $model->lat,
+                'longitude' => $model->lng,
+            ]); ?>
+
+        <?php endif; ?>
+
+        <div class="evidence-form">
 
 
-    <div class="evidence-form">
+
+
 
         <?php $form = ActiveForm::begin([
             'id' => 'evidence-form',

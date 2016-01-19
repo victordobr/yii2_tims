@@ -5,14 +5,13 @@ use yii\widgets\ActiveForm;
 use app\enums\States;
 use app\enums\VehicleColors;
 use app\models\Vehicle;
-use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Owners */
+/* @var $model app\models\Owner */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="owners-form">
+<div class="owner-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

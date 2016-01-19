@@ -1,8 +1,7 @@
-$(function(){
-    $('#img').click(function(){
-        //alert('hello');
-        $('#modal').modal('show')
-            .find('#modalContent')
-            .load($(this).attr('value'));
+/*jQuery(function(){
+    jQuery('body').click(function(){
+        //alert("I am an alert box!");
+
+
     });
-});
+});*/
