@@ -5,7 +5,7 @@ namespace app\models\base;
 use Yii;
 
 /**
- * This is the model class for table "Owners".
+ * This is the model class for table "Owner".
  *
  * @property integer $id
  * @property string $first_name
@@ -24,14 +24,14 @@ use Yii;
  * @property integer $vehicle_color_id
  * @property integer $created_at
  */
-class Owners extends \yii\db\ActiveRecord
+class Owner extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'Owners';
+        return 'Owner';
     }
 
     /**
