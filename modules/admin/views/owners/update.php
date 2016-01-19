@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Owners */
+/* @var $model app\models\Owner */
 
-$this->title = 'Update Owners: ' . ' ' . $model->id;
+$this->title = 'Update Owner: ' . ' ' . $model->id;
 
 ?>
-<div class="owners-update">
+<div class="Owner-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

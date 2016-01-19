@@ -4,12 +4,12 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Owners */
+/* @var $model app\models\Owner */
 
-$this->title = 'Create Owners';
+$this->title = 'Create Owner';
 
 ?>
-<div class="owners-create">
+<div class="owner-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

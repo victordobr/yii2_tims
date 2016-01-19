@@ -221,6 +221,28 @@ class States extends Enum
             self::YUKON  => Yii::t('app', 'Y.T.'),
         ];
     }
+
+    /**
+     * @param string $labelPart index of array from listData()
+     * @return string|null index of array from listData()
+     */
+    public static function idByLabelPart($labelPart)
+    {
+        if(empty($labelPart)) {
+            return null;
+        }
+        $list = static::listData();
+        $ids = array();
+        foreach($list as $id => $value) {
+            if(stripos($value, $labelPart) === 0) {
+                $ids[] = $id;
+            }
+        }
+        if(empty($ids))
+            return null;
+        else
+            return $ids;
+    }
 }
 
 
