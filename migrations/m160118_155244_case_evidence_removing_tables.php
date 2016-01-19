@@ -43,7 +43,9 @@ class m160118_155244_case_evidence_removing_tables extends Migration
         CREATE UNIQUE INDEX FK_Evidence_Case ON Evidence (case_id);
         CREATE INDEX FK_Evidence_User ON Evidence (user_id);';
 
+        $this->execute('SET FOREIGN_KEY_CHECKS = 0;');
         $this->execute($evidence);
+        $this->execute('SET FOREIGN_KEY_CHECKS = 1;');
         $this->execute($policeCase);
     }
 }
