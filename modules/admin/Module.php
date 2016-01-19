@@ -49,6 +49,7 @@ class Module extends \app\base\Module  implements MenuInterface
             ['label' => Yii::t('app', 'Roles'), 'url' => ['/admin/roles']],
             ['label' => Yii::t('app', 'Profile'), 'url' => ['/admin/user-profile']],
             ['label' => Yii::t('app', 'Settings'), 'url' => ['/admin/settings/index']],
+            ['label' => Yii::t('app', 'Questions'), 'url' => ['/admin/question/index']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
                 [
