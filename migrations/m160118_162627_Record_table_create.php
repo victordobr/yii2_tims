@@ -8,7 +8,7 @@ class m160118_162627_Record_table_create extends Migration
     public function safeUp()
     {
         $record = 'CREATE TABLE Record (
-            id INT(10) UNSIGNED PRIMARY KEY NOT NULL,
+            id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
             lat VARCHAR(20) NOT NULL,
             lng VARCHAR(20) NOT NULL,
             infraction_date INT(10) UNSIGNED NOT NULL,
@@ -22,6 +22,7 @@ class m160118_162627_Record_table_create extends Migration
             user_plea_request text DEFAULT NULL,
             status_id INT(10) UNSIGNED DEFAULT 1010 NOT NULL,
             created_at INT(10) UNSIGNED,
+            PRIMARY KEY (id),
             CONSTRAINT FK_Record_User FOREIGN KEY (user_id) REFERENCES User (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         CREATE INDEX FK_Record_User ON Evidence (user_id);';
