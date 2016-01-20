@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "User".
  *
  * @property integer $id
- * @property integer $type_id
  * @property integer $is_active
  * @property string $email
  * @property string $password
@@ -22,6 +21,16 @@ use Yii;
  * @property integer $created_at
  * @property integer $last_login_at
  * @property integer $logins_count
+ * @property string $pre_name
+ * @property string $address
+ * @property string $zip_code
+ * @property integer $state_id
+ * @property integer $question_id
+ * @property string $question_answer
+ *
+ * @property AuthAssignment[] $authAssignments
+ * @property AuthItem[] $itemNames
+ * @property Evidence[] $evidences
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -39,10 +48,13 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email'], 'required'],
-            [['is_active', 'created_at', 'last_login_at', 'logins_count'], 'integer'],
-            [['email', 'password', 'recover_hash', 'activation_hash', 'first_name', 'middle_name', 'last_name', 'agency'], 'string', 'max' => 255],
-            [['phone'], 'string', 'max' => 50]
+            [['is_active', 'created_at', 'last_login_at', 'logins_count', 'state_id', 'question_id'], 'integer'],
+            [['email', 'password', 'state_id'], 'required'],
+            [['email', 'password', 'recover_hash', 'activation_hash', 'first_name', 'middle_name', 'last_name', 'agency', 'address'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 50],
+            [['pre_name'], 'string', 'max' => 3],
+            [['zip_code'], 'string', 'max' => 16],
+            [['question_answer'], 'string', 'max' => 100]
         ];
     }
 
@@ -66,6 +78,14 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'last_login_at' => 'Last Login At',
             'logins_count' => 'Logins Count',
+            'pre_name' => 'Pre Name',
+            'address' => 'Address',
+            'zip_code' => 'Zip Code',
+            'state_id' => 'State ID',
+            'question_id' => 'Select your secret question',
+            'question_answer' => 'Question Answer',
         ];
     }
+
+
 }

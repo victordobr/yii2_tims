@@ -7,6 +7,8 @@
 use \yii\helpers\Html;
 use \yii\bootstrap\ActiveForm;
 use \yii\web\View;
+use app\models\CaseStatus;
+use app\models\Question;
 
 $this->title = \Yii::t('app', 'Profile');
 ?>
@@ -71,6 +73,17 @@ $this->title = \Yii::t('app', 'Profile');
                     'class' => 'form-control form-field-short',
                 ]) ?>
 
+
+                <?= $form->field($model, 'question_id')->dropDownList(
+                    Question::find()->select(['text', 'id'])->indexBy('id')->column(),
+                    array('prompt' => ' - choose question - ')
+                ); ?>
+
+
+                <?= $form->field($model, 'question_answer')->textInput([
+                    'maxlength' => true,
+                    'class' => 'form-control form-field-short',
+                ]) ?>
             </div>
 
             <div class="form-group">

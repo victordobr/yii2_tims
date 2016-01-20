@@ -4,6 +4,7 @@ use \yii\helpers\Html;
 //use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\ActiveForm;
 use \kartik\checkbox\CheckboxX;
+use app\models\Question;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -59,6 +60,16 @@ use \kartik\checkbox\CheckboxX;
             \app\enums\States::listData()
         ); ?>
 
+        <?= $form->field($model, 'question_id')->dropDownList(
+            Question::find()->select(['text', 'id'])->indexBy('id')->column(),
+            array('prompt' => ' - choose question - ')
+          ); ?>
+
+
+        <?= $form->field($model, 'question_answer')->textInput([
+            'maxlength' => true,
+            'class' => 'form-control form-field-short',
+        ]) ?>
 
     </div>
 

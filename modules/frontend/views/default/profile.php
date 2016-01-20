@@ -7,6 +7,7 @@
 use \yii\helpers\Html;
 use \yii\bootstrap\ActiveForm;
 use \yii\web\View;
+use app\models\Question;
 
 $this->title = \Yii::t('app', 'Update Profile');
 ?>
@@ -67,6 +68,17 @@ $this->title = \Yii::t('app', 'Update Profile');
                 ]) ?>
 
                 <?= $form->field($model, 'address')->textInput([
+                    'maxlength' => true,
+                    'class' => 'form-control form-field-short',
+                ]) ?>
+
+                <?= $form->field($model, 'question_id')->dropDownList(
+                    Question::find()->select(['text', 'id'])->indexBy('id')->column(),
+                    array('prompt' => ' - choose question - ')
+                ); ?>
+
+
+                <?= $form->field($model, 'question_answer')->textInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',
                 ]) ?>
