@@ -40,6 +40,26 @@ use \kartik\checkbox\CheckboxX;
             'class'  => 'form-control form-field-short',
         ]) ?>
 
+        <?= $form->field($model, 'pre_name')->dropDownList(
+            \app\models\User::getPreNameList()
+        ); ?>
+
+        <?= $form->field($model, 'address')->textInput([
+            'maxlength' => true,
+            'class'  => 'form-control form-field-short',
+        ]) ?>
+
+        <?= $form->field($model, 'zip_code')->textInput([
+            'maxlength' => true,
+            'class'  => 'form-control form-field-short',
+        ]) ?>
+
+
+        <?= $form->field($model, 'state_id')->dropDownList(
+            \app\enums\States::listData()
+        ); ?>
+
+
     </div>
 
     <div class="form-group">
