@@ -42,8 +42,9 @@ use app\models\Question;
         ]) ?>
 
         <?= $form->field($model, 'question_id')->dropDownList(
-            Question::find()->select(['text', 'id'])->indexBy('id')->column()
-        ); ?>
+            Question::find()->select(['text', 'id'])->indexBy('id')->column(),
+            array('prompt' => ' - choose question - ')
+          ); ?>
 
 
         <?= $form->field($model, 'question_answer')->textInput([
