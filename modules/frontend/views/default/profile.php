@@ -81,7 +81,6 @@ $this->title = \Yii::t('app', 'Update Profile');
                 <?= $form->field($model, 'question_answer')->textInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',
-                    array('prompt' => ' - choose question - ')
                 ]) ?>
 
             </div>
