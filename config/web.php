@@ -60,8 +60,8 @@ $config = [
         ],
         'media' => [
             'class' => 'app\components\media\Media',
-            'uploadRoute' => '/frontend/media/chunk-upload',
-            'handleRoute' => '/frontend/media/handle',
+            'uploadRoute' => '/frontend/records/chunk-upload',
+            'handleRoute' => '/frontend/records/handle',
             'dropZone' => false,
             'tmpDirectory' => '@app/web/uploads/tmp/',
             'storageDirectory' => '@app/web/uploads/storage/',
@@ -125,7 +125,14 @@ $config = [
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
-                'upload' => 'frontend/media/upload',
+                [
+                    'pattern' => '<action:[\w-]+>',
+                    'route' => 'frontend/records/<action>',
+                ],
+                [
+                    'pattern' => '<action>/<id:\d+>',
+                    'route' => 'frontend/records/<action>',
+                ],
 
                 'admin/roles' => 'admin/rbac/role/index',
                 'admin/role/create' => 'admin/rbac/role/create',

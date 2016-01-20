@@ -42,11 +42,11 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 //                    'format' => 'datetime',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
-                [
-                    'label' => 'Case Number #',
-                    'attribute' => 'case_id',
-                    'headerOptions' => ['style' => 'width: 180px;']
-                ],
+//                [
+//                    'label' => 'Case Number #',
+//                    'attribute' => 'case_id',
+//                    'headerOptions' => ['style' => 'width: 180px;']
+//                ],
                 [
                     'label' => 'Vehicle Tag #',
                     'attribute' => 'license',

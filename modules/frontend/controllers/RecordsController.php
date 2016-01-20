@@ -2,13 +2,12 @@
 
 namespace app\modules\frontend\controllers;
 
+use Yii;
+use app\models\Record;
+use app\modules\frontend\models\search\Record as RecordSearch;
+
 use app\enums\EvidenceFileType;
-use app\models\PoliceCase;
-use \Yii;
-use \yii\base\Exception;
 use \yii\web\HttpException;
-use yii\web\NotFoundHttpException;
-use \yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
@@ -16,37 +15,62 @@ use \app\assets\NotifyJsAsset;
 use \yii\web\Response;
 use \yii\widgets\ActiveForm;
 
-use app\models\Evidence;
-use app\modules\frontend\models\search\Evidence as EvidenceSearch;
-
 /**
- * UsersController implements the CRUD actions for User model.
- * @package app\modules\frontend\controllers
- * @author Alex Makhorin
+ * RecordsController implements the actions for Record model.
  */
-class MediaController extends Controller
+class RecordsController extends Controller
 {
-
     public function init()
     {
         $view = $this->getView();
         NotifyJsAsset::register($view);
     }
 
+    /**
+     * Lists all Record models.
+     * @return mixed
+     */
+    public function actionSearch()
+    {
+        $model = new RecordSearch;
+        $dataProvider = $model->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+
+        return $this->render('search', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Create Record model or update an existing Record model. Create Files and attach to Record model.
+     * If update is successful, the browser will be redirected to the 'upload' page.
+     * @return array|string|Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionUpload()
     {
-        $evidenceId = Yii::$app->request->get('id');
+        $recordId = Yii::$app->request->get('id');
 
-        if ($evidenceId) {
-            $model = $this->findModel(Evidence::className(), $evidenceId);
-        } else {
-            $model = new Evidence();
-            $model->scenario = Evidence::SCENARIO_UPLOAD;
+        if ($recordId) {
+            $model = $this->findModel(Record::className(), $recordId);
+        }
+        else {
+            $model = new Record();
+            $model->scenario = Record::SCENARIO_UPLOAD;
         }
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
+        }
+
+        $post = Yii::$app->request->post();
+
+        if ($model->load($post) && $model->validate()) {
+            $this->saveRecord($model, $post);
+
+            return $this->redirect(['upload', 'id' => $model->id]);
         }
 
         $uploadUrl = Yii::$app->media->uploadRoute;
@@ -55,16 +79,8 @@ class MediaController extends Controller
         $maxFileSize = Yii::$app->media->maxFileSize;
         $maxChunkSize = Yii::$app->media->maxChunkSize;
         $acceptMimeTypes = Yii::$app->media->acceptMimeTypes;
-        $currentUserId = Yii::$app->user->id;
-        $post = Yii::$app->request->post();
 
-        if ($model->load($post) && $model->validate()) {
-            $this->saveEvidence($model, $post, $currentUserId);
-
-            return $this->redirect(['upload', 'id' => $model->id]);
-        }
-
-        $view = $evidenceId ? 'edit' : 'upload';
+        $view = $recordId ? 'edit' : 'upload';
 
         return $this->render($view, [
             'model' => $model,
@@ -78,47 +94,34 @@ class MediaController extends Controller
 
     }
 
-    public function saveEvidence($model, $post, $currentUserId)
+    public function saveRecord($model, $post)
     {
         $fileIds = [];
 
-        if (empty($post['Evidence'])) {
+        if (empty($post['Record'])) {
             return false;
         }
 
-        if(!empty($post['Evidence']['videoLprId'])) {
-            $fileIds[EvidenceFileType::TYPE_VIDEO_LPR] = $post['Evidence']['videoLprId'];
+        if(!empty($post['Record']['videoLprId'])) {
+            $fileIds[EvidenceFileType::TYPE_VIDEO_LPR] = $post['Record']['videoLprId'];
         }
-        if(!empty($post['Evidence']['videoOverviewCameraId'])) {
-            $fileIds[EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA] = $post['Evidence']['videoOverviewCameraId'];
+        if(!empty($post['Record']['videoOverviewCameraId'])) {
+            $fileIds[EvidenceFileType::TYPE_VIDEO_OVERVIEW_CAMERA] = $post['Record']['videoOverviewCameraId'];
         }
-        if(!empty($post['Evidence']['imageLprId'])) {
-            $fileIds[EvidenceFileType::TYPE_IMAGE_LPR] = $post['Evidence']['imageLprId'];
+        if(!empty($post['Record']['imageLprId'])) {
+            $fileIds[EvidenceFileType::TYPE_IMAGE_LPR] = $post['Record']['imageLprId'];
         }
-        if(!empty($post['Evidence']['imageOverviewCameraId'])) {
-            $fileIds[EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA] = $post['Evidence']['imageOverviewCameraId'];
+        if(!empty($post['Record']['imageOverviewCameraId'])) {
+            $fileIds[EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA] = $post['Record']['imageOverviewCameraId'];
         }
 
-        $case = new PoliceCase();
+        $model->save();
 
-        //TODO: add correct statuses
-        $case->status_id = 99;
-
-        $caseSaved = $case->save(false);
-
-        if ($caseSaved) {
-            $model->user_id = $currentUserId;
-            $model->case_id = $case->id;
-
-            $eviSaved = $model->save(false);
-            if ($eviSaved && !empty($fileIds)) {
-                foreach ($fileIds as $evidence_video_type => $fileId) {
-                    Yii::$app->media->assignFileToEvidence($fileId, $model->primaryKey, $evidence_video_type);
-                }
-
+        if (!empty($fileIds)) {
+            foreach ($fileIds as $video_type => $fileId) {
+                Yii::$app->media->assignFileToRecord($fileId, $model->primaryKey, $video_type);
             }
         }
-
         return true;
     }
 
@@ -185,4 +188,5 @@ class MediaController extends Controller
             ]
         );
     }
+
 }

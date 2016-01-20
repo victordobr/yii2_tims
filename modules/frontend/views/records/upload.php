@@ -17,19 +17,19 @@ use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
 
-$this->title = 'Create Evidence';
-$this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
+$this->title = 'Create Record';
+$this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="evidence-create">
+<div class="Record-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="evidence-form">
+    <div class="Record-form">
 
         <?php $form = ActiveForm::begin([
-            'id' => 'evidence-form',
+            'id' => 'record-form',
             'enableAjaxValidation' => true,
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [

@@ -8,14 +8,14 @@ use Yii;
  * This is the model class for table "File".
  *
  * @property integer $id
- * @property integer $evidence_id
+ * @property integer $record_id
  * @property integer $file_type
- * @property integer $evidence_file_type
+ * @property integer $record_file_type
  * @property string $mime_type
  * @property string $url
  * @property integer $created_at
  *
- * @property Evidence $evidence
+ * @property Evidence $record
  */
 class File extends \yii\db\ActiveRecord
 {
@@ -33,8 +33,8 @@ class File extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['evidence_id', 'file_type', 'evidence_file_type', 'created_at'], 'integer'],
-            [['file_type', 'evidence_file_type', 'mime_type', 'url'], 'required'],
+            [['record_id', 'file_type', 'record_file_type', 'created_at'], 'integer'],
+            [['file_type', 'record_file_type', 'mime_type', 'url'], 'required'],
             [['mime_type'], 'string', 'max' => 50],
             [['url'], 'string', 'max' => 250]
         ];
@@ -47,9 +47,9 @@ class File extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'evidence_id' => 'Evidence ID',
+            'record_id' => 'Record ID',
             'file_type' => 'File Type',
-            'evidence_file_type' => 'Evidence File Type',
+            'record_file_type' => 'Record File Type',
             'mime_type' => 'Mime Type',
             'url' => 'Url',
             'created_at' => 'Created At',
@@ -59,8 +59,8 @@ class File extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEvidence()
+    public function getRecord()
     {
-        return $this->hasOne(Evidence::className(), ['id' => 'evidence_id']);
+        return $this->hasOne(Evidence::className(), ['id' => 'record_id']);
     }
 }

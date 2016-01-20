@@ -19,7 +19,7 @@ $attributeHidden = $attribute.'Id';
 ?>
 
 <div class="form-group chunk-upload-input required">
-    <label class="col-lg-3 control-label" for="evidence-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
+    <label class="col-lg-3 control-label" for="record-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
 
     <div style="float: left; padding-left: 15px; padding-right: 15px; position: relative;">
                 <span class="btn btn-default fileinput-button" style="float: left">
@@ -62,7 +62,7 @@ $attributeHidden = $attribute.'Id';
                                 }
                             }).done(function (resp) {
                                 $.notify('Upload complete', 'success');
-                                  $('input[name=\"Evidence[{$attributeHidden}]\"]').val(resp.id);
+                                  $('input[name=\"Record[{$attributeHidden}]\"]').val(resp.id);
                             });
 
                     }",

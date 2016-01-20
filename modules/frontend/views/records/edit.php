@@ -17,15 +17,15 @@ use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
 
-$this->title = 'Create Evidence';
-$this->params['breadcrumbs'][] = ['label' => 'Evidences', 'url' => ['index']];
+$this->title = 'Create Record';
+$this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="evidence-media">
+    <div class="record-media">
         <?php if ($model->imageOverviewCamera): ?>
             <?= app\widgets\mediaPopup\MediaPopup::widget([
                 'url' => $model->imageOverviewCamera->url,
@@ -70,14 +70,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php endif; ?>
 
-        <div class="evidence-form">
+        <div class="record-form">
 
 
 
 
 
         <?php $form = ActiveForm::begin([
-            'id' => 'evidence-form',
+            'id' => 'record-form',
             'enableAjaxValidation' => true,
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [

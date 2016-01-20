@@ -42,7 +42,7 @@ class Module extends \app\base\Module  implements MenuInterface
     {
         return [
             ['label' => Yii::t('app', 'Owners'), 'url' => ['/admin/owners/manage']],
-            ['label' => Yii::t('app', 'Cases'), 'url' => ['/admin/cases/manage']],
+            ['label' => Yii::t('app', 'Records'), 'url' => ['/admin/records/manage']],
             ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users/manage']],
             ['label' => Yii::t('app', 'Vehicles'), 'url' => ['/admin/vehicle/index']],
             ['label' => Yii::t('app', 'Statuses'), 'url' => ['/admin/case-status/index']],
