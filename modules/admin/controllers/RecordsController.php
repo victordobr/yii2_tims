@@ -4,10 +4,13 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\Record;
-use app\modules\admin\models\search\RecordSearch;
-use yii\web\Controller;
+use app\models\User;
+use app\modules\admin\models\search\Record as RecordSearch;
+
+use yii\base\Model;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\admin\base\Controller;
 
 /**
  * RecordsController implements the CRUD actions for Record model.
@@ -49,45 +52,44 @@ class RecordsController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(Record::className(), $id),
         ]);
     }
 
     /**
-     * Creates a new Record model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Updates an existing PoliceCase, Evidence and User model.
+     * If update is successful, the browser will be redirected to the 'manage' page.
+     * @param ineger $id
      * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Record();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Record model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $record = Record::findOne($id);
+
+        $owner = $record->owner;
+
+        $userFullName = User::findOne($record->user_id)->getFullName();
+
+        if (!isset($record)) {
+            throw new NotFoundHttpException("The record was not found.");
         }
+
+        if ($record->load(Yii::$app->request->post())) {
+
+            if ($record->save()) {
+                if(!empty($owner) && $owner->load(Yii::$app->request->post()) && $owner->validate()) {
+                    $owner->save();
+                }
+            }
+            return $this->redirect(['records/manage']);
+        }
+        return $this->render('update', [
+            'record' => $record,
+            'owner' => $owner,
+            'userFullName' => $userFullName,
+        ]);
     }
 
     /**
@@ -98,24 +100,8 @@ class RecordsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(Record::className(), $id)->delete();
 
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Record model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Record the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Record::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        return $this->redirect(['manage']);
     }
 }
