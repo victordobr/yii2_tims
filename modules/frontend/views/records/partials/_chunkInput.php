@@ -15,11 +15,12 @@ use \yii\web\View;
 use \dosamigos\fileupload\FileUpload;
 use yii\bootstrap\ActiveForm;
 
-$attributeHidden = $attribute.'Id';
+$attributeHidden = $attribute . 'Id';
 ?>
 
 <div class="form-group chunk-upload-input required">
-    <label class="col-lg-3 control-label" for="record-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
+    <label class="col-lg-3 control-label"
+           for="record-<?= $attribute ?>"><?= $model->getAttributeLabel($attribute) ?> </label>
 
     <div style="float: left; padding-left: 15px; padding-right: 15px; position: relative;">
                 <span class="btn btn-default fileinput-button" style="float: left">
@@ -40,7 +41,7 @@ $attributeHidden = $attribute.'Id';
                         ],
                         'clientEvents' => [
                             'fileuploadadd' => "function(e, data) {
-                            $('.progress').show();
+                            $('#progress_{$attribute}').show();
                         }",
                             'fileuploadprogress' => "function(e, data) {
                             var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -73,11 +74,16 @@ $attributeHidden = $attribute.'Id';
                     ]); ?>
                 </span>
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-5" style="padding: 2px 0 0;width: 135px;">
         <div id="progress_<?= $attribute ?>" class="progress" style="display: none">
             <div class="progress-bar progress-bar-success"><span></span></div>
         </div>
     </div>
 
-    <?= $form->field($model, $attributeHidden)->hiddenInput()->label(false) ?>
+        <?php echo $form->field($model, $attributeHidden, [
+            'options' => [
+                'class' => 'hidden-upload-wrapper'
+            ],
+        ])->hiddenInput()->label(false) ?>
+
 </div>

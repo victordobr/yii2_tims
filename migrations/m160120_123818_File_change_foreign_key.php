@@ -14,8 +14,8 @@ class m160120_123818_File_change_foreign_key extends Migration
     public function safeUp()
     {
         $this->execute('SET FOREIGN_KEY_CHECKS = 0;');
-//        $this->dropIndex('FK_File_Evidence', self::TABLE);
-//        $this->dropForeignKey('FK_File_Evidence', self::TABLE);
+        $this->dropIndex('FK_File_Evidence', self::TABLE);
+        $this->dropForeignKey('FK_File_Evidence', self::TABLE);
 
 
         foreach ($this->columns as $name => $newName) {

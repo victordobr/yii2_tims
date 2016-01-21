@@ -17,15 +17,16 @@ use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
 
-$this->title = 'Create Record';
+$this->title = 'Upload Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="Record-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="header-title">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <div class="Record-form">
 
         <?php $form = ActiveForm::begin([
