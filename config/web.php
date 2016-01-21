@@ -66,7 +66,7 @@ $config = [
             'tmpDirectory' => '@app/web/uploads/tmp/',
             'storageDirectory' => '@app/web/uploads/storage/',
             'storageUrl' => '/uploads/storage/',
-            'acceptMimeTypes'  => 'image/jpeg,image/png,video/avi,video/mp4,video/mpeg',
+            'acceptMimeTypes'  => 'image/jpeg,image/png,image/bmp,video/avi,video/mp4,video/mpeg,video/x-flv',
             'maxFileSize' => 30000000,
             'maxChunkSize' => 2000000,
         ],
