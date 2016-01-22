@@ -6,7 +6,7 @@ use app\enums\Role;
 use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
-use app\modules\frontend\models\search\Record;
+use app\models\Record;
 use app\modules\frontend\models\search\Record as RecordSearch;
 
 use app\enums\EvidenceFileType;
@@ -249,7 +249,7 @@ class RecordsController extends Controller
      */
     public function findModel($modelClass, $id)
     {
-        if (($model = Record::findOne($id)) !== null) {
+        if (($model = RecordSearch::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
