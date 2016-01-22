@@ -7,12 +7,20 @@ use yii\helpers\ArrayHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Record as RecordModel;
+use app\models\CaseStatus;
+use app\enums\CaseStatus as Status;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
  */
 class Record extends RecordModel
 {
+    private $status;
+
+    public function getStatus(){
+            return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
+
     public $fullName;
 
     public $elapsedTime;
@@ -60,7 +68,7 @@ class Record extends RecordModel
         return [
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['infraction_date', 'open_date', 'created_at'],
+                'attributes' => [/*'infraction_date',*/ 'open_date', 'created_at'],
             ],
         ];
     }
@@ -135,6 +143,10 @@ class Record extends RecordModel
 
         $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
+
+        if ($statuses = Status::getByUserRole()) {
+            $query->andFilterWhere(['in', 'status_id', $statuses]);
+        }
 
         return $dataProvider;
     }
