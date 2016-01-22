@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
-<?php var_dump(Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']));?>
+<?php //var_dump(Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']));?>
 
                 <?= $form->field($model, 'infraction_date', [
                 ])->widget(DatePicker::classname(), [
@@ -153,22 +153,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
                 ?>
 
-            <?= $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
-                [
-                    'size'             => 'sm',
-                    'containerOptions' => [
-                        'class' => 'form-field-middle',
-                    ],
-                    'clientOptions'    => [
-                        'format' => Yii::$app->params['date.view.format.column'],
-                    ],
-                    'options'          => [
-//                        'readonly' => 'readonly',
-                        'class'    => 'form-control',
-                    ]
-
-                ]);
-            ?>
+<!--            --><?php //echo $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
+//                [
+//                    'size'             => 'sm',
+//                    'containerOptions' => [
+//                        'class' => 'form-field-middle',
+//                    ],
+//                    'clientOptions'    => [
+//                        'format' => Yii::$app->params['date.view.format.column'],
+//                    ],
+//                    'options'          => [
+////                        'readonly' => 'readonly',
+//                        'class'    => 'form-control',
+//                    ]
+//
+//                ]);
+//            ?>
 
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
