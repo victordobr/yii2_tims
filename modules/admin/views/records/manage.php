@@ -1,47 +1,109 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\enums\States;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\search\RecordSearch */
+/* @var $searchModel app\modules\admin\models\search\Record */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Records';
+$this->title = Yii::t('app', 'Manage Records');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="record-index">
+<div class="record-manage">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('partials/_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Record', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php $columns = [
+        [
+            'label' => '#',
+            'attribute' => 'id',
+            'headerOptions' => ['style' => 'width: 100px;']
+        ],
+        [
+            'attribute' => 'infraction_date',
+            'format' => 'date',
+            'headerOptions' => ['style' => 'width: 100px;']
+        ],
+        [
+            'attribute' => 'state_id',
+            'value' => function ($model) {
+                return States::labelById($model->state_id);
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => States::listData(),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true, 'width' => 150],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Choose State'],
+            'format' => 'raw',
+            'headerOptions' => ['style' => 'width: 160px;']
+        ],
+        [
+            'attribute' => 'license',
+            'headerOptions' => ['style' => 'width: 100px;']
+        ],
+        [
+            'attribute' => 'status_id',
+            'value' => function ($model) {
+                return $model->statusName;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ArrayHelper::map(\app\models\CaseStatus::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true, 'width' => 250],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Choose State'],
+            'format' => 'raw',
+            'headerOptions' => ['style' => 'width: 260px;']
+        ],
+        [
+            'attribute' => 'created_at',
+            'format' => 'date',
+            'headerOptions' => ['style' => 'width: 100px;']
+        ],
+        [
+            'class' => 'kartik\grid\ActionColumn',
+            'template' => '{update} {delete}'
+        ],
+    ]; ?>
 
     <?= GridView::widget([
+        'id' => 'crud-datatable',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'lat',
-            'lng',
-            'infraction_date',
-            'open_date',
-            // 'state_id',
-            // 'license',
-            // 'user_id',
-            // 'ticket_fee',
-            // 'ticket_payment_expire_date',
-            // 'comments:ntext',
-            // 'user_plea_request:ntext',
-            // 'status_id',
-            // 'created_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+        'pjax' => true,
+        'columns' => $columns,
+        'toggleDataOptions' => [
+            'all' => [
+                'icon' => 'resize-full',
+                'class' => 'btn btn-default',
+                'label' => Yii::t('app', 'All'),
+                'title' => Yii::t('app', 'Show all data')
+            ],
+            'page' => [
+                'icon' => 'resize-small',
+                'class' => 'btn btn-default',
+                'label' => Yii::t('app', 'Page'),
+                'title' => Yii::t('app', 'Show first page data')
+            ],
         ],
+        'toolbar' => [
+            ['content' =>
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], ['data-pjax' => 1, 'class' => 'btn btn-default', 'title' => Yii::t('app', 'Reload Grid')]) .
+                '{toggleData}' .
+                '{export}'
+            ],
+        ],
+        'striped' => true,
+        'condensed' => true,
+        'responsive' => true,
+        'panel' => [
+            'type' => 'primary',
+            'heading' => '<i class="glyphicon glyphicon-list"></i> ' . $this->title,
+            'before' => '<em>' . Yii::t('app', '* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
+            'after' => false,
+        ]
     ]); ?>
 
 </div>

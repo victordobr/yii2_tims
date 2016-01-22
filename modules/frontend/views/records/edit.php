@@ -138,16 +138,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
-                <?= $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
+<?php var_dump(Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']));?>
+
+                <?= $form->field($model, 'infraction_date', [
+                ])->widget(DatePicker::classname(), [
                     'layout' => '{input}{picker}',
                     'options' => [
                         'placeholder' => 'Enter infraction date ...',
                     ],
+                    'value' => Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']),
                     'pluginOptions' => [
                         'format' => Yii::$app->params['date.view.format.column'],
                     ]
                 ]);
                 ?>
+
+            <?= $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
+                [
+                    'size'             => 'sm',
+                    'containerOptions' => [
+                        'class' => 'form-field-middle',
+                    ],
+                    'clientOptions'    => [
+                        'format' => Yii::$app->params['date.view.format.column'],
+                    ],
+                    'options'          => [
+//                        'readonly' => 'readonly',
+                        'class'    => 'form-control',
+                    ]
+
+                ]);
+            ?>
 
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>

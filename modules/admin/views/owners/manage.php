@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => States::listData(),
             'width'=>'8%',
             'filterWidgetOptions'=>[
-                'pluginOptions'=>['allowClear'=>true],
+                'pluginOptions'=>['allowClear'=>true, 'width' => 150],
             ],
 
-            'filterInputOptions'=>['placeholder'=>'Any author'],
+            'filterInputOptions'=>['placeholder'=>'Choose State'],
 //            'format'=>'raw',
             'headerOptions' => ['style' => 'width: 190px;'],
         ],

@@ -26,8 +26,8 @@ class Record extends base\Record
         return [
             [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'user_id'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            [['state_id', 'user_id', 'ticket_fee', 'status_id', 'created_at'], 'integer'],
-            [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date'],
+            [['state_id', 'user_id', 'ticket_fee', 'status_id'], 'integer'],
+            [['infraction_date', 'open_date', 'ticket_payment_expire_date', 'created_at'], 'date'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
             [['license'], 'string', 'max' => 250],
@@ -40,19 +40,13 @@ class Record extends base\Record
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'lat' => 'Lat',
-            'lng' => 'Lng',
-            'infraction_date' => 'Infraction Date',
-            'open_date' => 'Open Date',
-            'state_id' => 'State ID',
-            'license' => 'License',
-            'user_id' => 'User ID',
-            'ticket_fee' => 'Ticket Fee',
-            'ticket_payment_expire_date' => 'Ticket Payment Expire Date',
-            'comments' => 'Comments',
-            'user_plea_request' => 'User Plea Request',
-            'status_id' => 'Status ID',
-            'created_at' => 'Created At',
+            'lat' => 'Latitude',
+            'lng' => 'Longitude',
+            'open_date' => 'Case Open date',
+            'state_id' => 'State',
+            'user_id' => 'Upload By',
+            'status_id' => 'Status',
+            'statusName' => 'Status name',
         ]);
     }
 
@@ -75,7 +69,7 @@ class Record extends base\Record
             ],
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date'],
+                'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date', 'created_at'],
             ],
         ];
     }
@@ -86,6 +80,14 @@ class Record extends base\Record
     public function getFiles()
     {
         return $this->hasMany(File::className(), ['record_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOwner()
+    {
+        return $this->hasOne(Owner::className(), ['record_id' => 'id']);
     }
 
     /**
@@ -118,5 +120,21 @@ class Record extends base\Record
     public function getImageOverviewCamera()
     {
         return $this->hasOne(File::className(), ['record_id' => 'id'])->andWhere(['record_file_type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCaseStatus()
+    {
+        return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatusName()
+    {
+        return $this->caseStatus->name;
     }
 }
