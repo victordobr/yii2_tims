@@ -15,16 +15,4 @@ class CaseStatus extends Enum
     const COMPLETE = 1020;
     const FULL_COMPLETE = 1021;
 
-    public static function getByUserRole()
-    {
-        switch (true) {
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST):
-                return [self::INCOMPLETE, self::COMPLETE, self::FULL_COMPLETE];
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST_SUPERVISOR):
-                return [self::COMPLETE, self::FULL_COMPLETE];
-            default:
-                return [];
-        }
-    }
-
 }
