@@ -43,6 +43,9 @@ $config = [
         'settings' => [
             'class' => 'app\components\Settings'
         ],
+        'record' => [
+            'class' => 'app\components\Record',
+        ],
         'i18n' => [
             'translations' => [
                 '*' => [
@@ -126,24 +129,12 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
                 [
-                    'pattern' => '<action:[\w-]+>',
+                    'pattern' => '<action:(upload|review|deactivate)>/<id:\d+>',
                     'route' => 'frontend/records/<action>',
                 ],
                 [
-                    'pattern' => '<action>/<id:\d+>',
+                    'pattern' => '<action:(upload|chunkUpload|search|handle)>',
                     'route' => 'frontend/records/<action>',
-                ],
-
-                //upload
-                [
-                    'pattern' => 'upload/<id:\d+>',
-                    'route' => 'frontend/media/upload',
-                ],
-                // case
-                [
-                    'pattern' => 'case/<action:(review|deactivate)>/<id:\d+>',
-                    'route' => 'frontend/case/<action>',
-                    'defaults' => ['id' => 0]
                 ],
                 // admin roles
                 'admin/roles' => 'admin/rbac/role/index',
