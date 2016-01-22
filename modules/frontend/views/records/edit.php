@@ -153,7 +153,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
                 ?>
 
-<!--            --><?php //echo $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
+<!--            --><?php
+            //http://yiiframework.ru/forum/viewtopic.php?t=21697
+ //echo $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
 //                [
 //                    'size'             => 'sm',
 //                    'containerOptions' => [
