@@ -75,7 +75,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                         'review' => function ($url, $model) {
                             return \yii\helpers\Html::a(
                                 '<span class="glyphicon glyphicon-eye-open"></span>',
-                                \yii\helpers\Url::to(['case/review', 'id' => $model->case_id]),
+                                \yii\helpers\Url::to(['review', 'id' => $model->id]),
                                 ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                             );
                         },

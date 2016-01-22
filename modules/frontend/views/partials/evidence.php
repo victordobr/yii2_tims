@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \app\models\base\Evidence $model
+ * @var \app\modules\frontend\models\search\Record $model
  */
 ?>
 
@@ -37,5 +37,12 @@
         'type' => $model->videoOverviewCamera->file_type,
         'title' => $model->getAttributeLabel('videoOverviewCamera'),
         'mime' => $model->videoOverviewCamera->mime_type,
+    ]); ?>
+<?php endif; ?>
+
+<?php if ($model->lat && $model->lng): ?>
+    <?= app\widgets\mapPopup\MapPopup::widget([
+        'latitude' => $model->lat,
+        'longitude' => $model->lng,
     ]); ?>
 <?php endif; ?>

@@ -18,8 +18,8 @@ use kartik\form\ActiveForm;
         'data-pjax' => true
     ],
     'fieldConfig' => [
-        'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
-        'labelOptions' => ['class' => 'col-lg-3 control-label'],
+        'template' => "{label}\n<div class=\"col-lg-5\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
+        'labelOptions' => ['class' => 'col-lg-1 control-label'],
     ],
 ]); ?>
 
@@ -31,7 +31,7 @@ use kartik\form\ActiveForm;
 ]) ?>
 
     <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-8">
+        <div class="col-lg-offset-5 col-lg-5">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
