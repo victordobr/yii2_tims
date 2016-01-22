@@ -7,7 +7,7 @@ class m160122_155932_add_column_reason_id_to_record extends Migration
 {
     const TABLE = 'Record';
     private $columns = [
-        'reason_id' => 'INT(11) NOT NULL DEFAULT 0',
+        'reason_id' => 'INT(11) NULL',
     ];
 
     public function up()
