@@ -6,6 +6,7 @@ use yii\base\Widget;
 use app\enums\FileType;
 use yii\web\HttpException;
 use kartik\icons\Icon;
+use app\widgets\mediaPopup\assets\MediaPopupAsset;
 
 class MediaPopup extends Widget
 {
@@ -18,12 +19,22 @@ class MediaPopup extends Widget
     {
         Icon::map($this->getView(), Icon::FA);
 
+        $this->registerScripts();
+
+        // Change flv type for flowplayer
+        $this->mime = ($this->mime == 'video/x-flv') ? 'video/flv' : $this->mime;
+
         if(empty($this->url)) {
             throw new HttpException(500, 'Url property is invalid');
         }
         if(empty($this->type) || !array_key_exists($this->type, FileType::listData())) {
             throw new HttpException(500, 'Type property is invalid');
         }
+    }
+
+    public function registerScripts()
+    {
+        MediaPopupAsset::register($this->getView());
     }
 
     function run()
