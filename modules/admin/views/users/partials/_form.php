@@ -4,6 +4,7 @@ use \yii\helpers\Html;
 //use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\ActiveForm;
 use \kartik\checkbox\CheckboxX;
+use app\models\Question;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -38,6 +39,36 @@ use \kartik\checkbox\CheckboxX;
         <?= $form->field($model, 'phone')->textInput([
             'maxlength' => true,
             'class'  => 'form-control form-field-short',
+        ]) ?>
+
+        <?= $form->field($model, 'pre_name')->dropDownList(
+            \app\models\User::getPreNameList()
+        ); ?>
+
+        <?= $form->field($model, 'address')->textInput([
+            'maxlength' => true,
+            'class'  => 'form-control form-field-short',
+        ]) ?>
+
+        <?= $form->field($model, 'zip_code')->textInput([
+            'maxlength' => true,
+            'class'  => 'form-control form-field-short',
+        ]) ?>
+
+
+        <?= $form->field($model, 'state_id')->dropDownList(
+            \app\enums\States::listData()
+        ); ?>
+
+        <?= $form->field($model, 'question_id')->dropDownList(
+            Question::find()->select(['text', 'id'])->indexBy('id')->column(),
+            array('prompt' => ' - choose question - ')
+          ); ?>
+
+
+        <?= $form->field($model, 'question_answer')->textInput([
+            'maxlength' => true,
+            'class' => 'form-control form-field-short',
         ]) ?>
 
     </div>

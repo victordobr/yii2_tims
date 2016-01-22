@@ -23,25 +23,50 @@ $config = [
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
+        ],
+        'dynagrid' =>  [
+            'class' => 'kartik\dynagrid\Module'
         ]
     ],
     'components' => [
-        'settings' => [
-            'class' => 'pheme\settings\components\Settings'
+        'assetManager' => [
+            'bundles' => [
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyB0SyBMwxZe_M5nLtcYXcSrt10E4HLMARc',
+                        'language' => 'id',
+                        'version' => '3.1.18'
+                    ]
+                ]
+            ]
         ],
-
+        'settings' => [
+            'class' => 'app\components\Settings'
+        ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
         'rbacUser' => [
             'class' => 'app\components\RbacUser',
         ],
         'media' => [
             'class' => 'app\components\media\Media',
-            'uploadRoute' => '/frontend/media/chunk-upload',
-            'handleRoute' => '/frontend/media/handle',
+            'uploadRoute' => '/frontend/records/chunk-upload',
+            'handleRoute' => '/frontend/records/handle',
             'dropZone' => false,
             'tmpDirectory' => '@app/web/uploads/tmp/',
             'storageDirectory' => '@app/web/uploads/storage/',
             'storageUrl' => '/uploads/storage/',
-            'acceptMimeTypes'  => 'image/jpeg,image/png,video/avi,video/mp4,video/mpeg',
+            'acceptMimeTypes'  => 'image/jpeg,image/png,image/bmp,video/avi,video/mp4,video/mpeg,video/x-flv',
             'maxFileSize' => 30000000,
             'maxChunkSize' => 2000000,
         ],
@@ -100,6 +125,14 @@ $config = [
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
+                [
+                    'pattern' => '<action:[\w-]+>',
+                    'route' => 'frontend/records/<action>',
+                ],
+                [
+                    'pattern' => '<action>/<id:\d+>',
+                    'route' => 'frontend/records/<action>',
+                ],
 
                 //upload
                 [

@@ -21,9 +21,9 @@ use app\enums\FileType;
 class Media extends Component
 {
 
-    public $uploadRoute = 'frontend/media/chunkUpload';
+    public $uploadRoute = 'frontend/records/chunkUpload';
 
-    public $handleRoute = 'frontend/media/handle';
+    public $handleRoute = 'frontend/records/handle';
 
     public $dropZone = false;
 
@@ -99,15 +99,15 @@ class Media extends Component
         return $file->primaryKey;
     }
 
-    public function assignFileToEvidence($fileId, $evidenceId, $evidence_video_type)
+    public function assignFileToRecord($fileId, $recordId, $record_video_type)
     {
         $file = File::findOne($fileId);
         if(!$file) {
             throw new HttpException(500, 'No file found');
         }
 
-        $file->evidence_id = $evidenceId;
-        $file->evidence_file_type = $evidence_video_type;
+        $file->record_id = $recordId;
+        $file->record_file_type = $record_video_type;
 
         return $file->save(false);
     }

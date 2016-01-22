@@ -42,7 +42,7 @@ class Module extends \app\base\Module  implements MenuInterface
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/login']] :
                 ['label' => Yii::t('app', 'Profile'), 'url' => ['/frontend/default/profile']],
                 [
-                    'label'       => Yii::t('app', 'Sing Out') . ' (' . Yii::$app->user->identity->username . ')',
+                    'label'       => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                     'url'         => ['/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
@@ -52,9 +52,9 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/media/upload'], /*'icon'=>'<i class="fa-3x fa fa-camera-retro"></i>'*/],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/data/search']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/case/review']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/records/search']],
+            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/records/review']],
             ['encode' => false, 'label' => \yii\bootstrap\Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => false, 'options' => ['class' => 'disabled']],
             ['encode' => false, 'label' => \yii\bootstrap\Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => false, 'options' => ['class' => 'disabled']],
             ['encode' => false, 'label' => \yii\bootstrap\Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
