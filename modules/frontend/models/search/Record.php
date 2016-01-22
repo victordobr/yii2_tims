@@ -8,7 +8,6 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Record as RecordModel;
 use app\models\CaseStatus;
-use app\enums\CaseStatus as Status;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
@@ -16,10 +15,6 @@ use app\enums\CaseStatus as Status;
 class Record extends RecordModel
 {
     private $status;
-
-    public function getStatus(){
-            return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
-    }
 
     public $fullName;
 
@@ -71,6 +66,11 @@ class Record extends RecordModel
                 'attributes' => [/*'infraction_date',*/ 'open_date', 'created_at'],
             ],
         ];
+    }
+
+    public function getStatus()
+    {
+        return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
 
     /**
@@ -144,7 +144,8 @@ class Record extends RecordModel
         $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
-        if ($statuses = Status::getByUserRole()) {
+        // rev: maybe create new user component
+        if ($statuses = Yii::$app->rbacUser->getAvailableStatuses()) {
             $query->andFilterWhere(['in', 'status_id', $statuses]);
         }
 
