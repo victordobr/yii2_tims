@@ -26,7 +26,7 @@ class Record extends base\Record
         return [
             [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'user_id'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            [['state_id', 'user_id', 'ticket_fee', 'status_id', 'created_at'], 'integer'],
+            [['reason_id', 'state_id', 'user_id', 'ticket_fee', 'status_id', 'created_at'], 'integer'],
             [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
@@ -119,4 +119,13 @@ class Record extends base\Record
     {
         return $this->hasOne(File::className(), ['record_id' => 'id'])->andWhere(['record_file_type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA]);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
 }
