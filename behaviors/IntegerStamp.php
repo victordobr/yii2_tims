@@ -22,6 +22,8 @@ use \app\enums\UserType;
 class IntegerStamp extends Behavior
 {
 
+    public $useAfterFind = false;
+
     public $attributes = [];
 
     /**
@@ -38,11 +40,16 @@ class IntegerStamp extends Behavior
 
     /**
      * Invoked after querying the owner of this behavior.
+     * @return bool
      *
      * @param ModelEvent $event event instance.
      */
     public function afterFind($event)
     {
+        if(!$this->useAfterFind) {
+            return true;
+        }
+
         foreach ($this->attributes as $attribute) {
             $dateObject = \DateTime::createFromFormat(Yii::$app->params['date.unix.format'], $event->sender->{$attribute});
             if ($dateObject instanceof \DateTime) {
