@@ -58,7 +58,9 @@ class Record extends base\Record
 
     public function beforeValidate()
     {
-        $this->user_id = yii::$app->user->id;
+        if($this->isNewRecord){
+            $this->user_id = yii::$app->user->id;
+        }
         return parent::beforeValidate();
     }
 
