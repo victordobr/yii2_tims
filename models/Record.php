@@ -137,4 +137,17 @@ class Record extends base\Record
     {
         return $this->caseStatus->name;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
 }

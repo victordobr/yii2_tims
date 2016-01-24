@@ -7,12 +7,15 @@ use yii\helpers\ArrayHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Record as RecordModel;
+use app\models\CaseStatus;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
  */
 class Record extends RecordModel
 {
+    private $status;
+
     public $fullName;
 
     public $elapsedTime;
@@ -131,73 +134,11 @@ class Record extends RecordModel
         $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
+        // rev: maybe create new user component
+        if ($statuses = Yii::$app->rbacUser->getAvailableStatuses()) {
+            $query->andFilterWhere(['in', 'status_id', $statuses]);
+        }
+
         return $dataProvider;
     }
-
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-//    public function search($params)
-//    {
-//        $query = $this->find()
-//            ->select([
-//                'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-//                'fullName' => self::SQL_SELECT_FULL_NAME,
-//            ])
-//            ->from(['record' => static::tableName()])
-//            ->joinWith([
-//                'user' => function ($query) {
-//                    $query->from('User user');
-//                },
-//            ]);
-//
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//        ]);
-//
-//        $dataProvider->getSort()->attributes['fullName'] = [
-//            'asc' => ['fullName' => SORT_ASC],
-//            'desc' => ['fullName' => SORT_DESC],
-//        ];
-//
-//        $dataProvider->getSort()->attributes['created_at'] = [
-//            'asc' => ['evidence.created_at' => SORT_ASC],
-//            'desc' => ['evidence.created_at' => SORT_DESC],
-//        ];
-//
-//        $dataProvider->getSort()->attributes['elapsedTime'] = [
-//            'asc' => ['elapsedTime' => SORT_ASC],
-//            'desc' => ['elapsedTime' => SORT_DESC],
-//        ];
-//
-//        $this->load($params);
-//
-//        if (!$this->validate()) {
-//            // uncomment the following line if you do not want to return any records when validation fails
-//            // $query->where('0=1');
-//            return $dataProvider;
-//        }
-//
-//        $query->andFilterWhere([
-//            'id' => $this->id,
-//            'case_id' => $this->case_id,
-//            'user_id' => $this->user_id,
-//            'state_id' => $this->state_id,
-//            'infraction_date' => $this->infraction_date,
-//            'evidence.created_at' => $this->created_at,
-//        ]);
-//
-//        $query->andFilterWhere(['like', 'license', $this->license])
-//            ->andFilterWhere(['like', 'lat', $this->lat])
-//            ->andFilterWhere(['like', 'lng', $this->lng]);
-//
-//        $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
-//        $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
-//
-//        return $dataProvider;
-//    }
 }

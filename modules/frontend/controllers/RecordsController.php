@@ -2,16 +2,21 @@
 
 namespace app\modules\frontend\controllers;
 
+use app\enums\Role;
+use app\modules\frontend\controllers\records\DeactivateAction;
+use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
 use app\models\Record;
 use app\modules\frontend\models\search\Record as RecordSearch;
 
 use app\enums\EvidenceFileType;
+use yii\filters\AccessControl;
 use \yii\web\HttpException;
 use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
 use \app\assets\NotifyJsAsset;
+use yii\web\NotFoundHttpException;
 use \yii\web\Response;
 use \yii\widgets\ActiveForm;
 
@@ -24,6 +29,53 @@ class RecordsController extends Controller
     {
         $view = $this->getView();
         NotifyJsAsset::register($view);
+    }
+
+    public function actions()
+    {
+        return [
+            'review' => ReviewAction::className(),
+            'deactivate' => DeactivateAction::className(),
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'deactivate'],
+                'rules' => [
+                    [
+                        'actions' => ['review'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_VIDEO_ANALYST,
+                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_POLICE_OFFICER,
+                            Role::ROLE_POLICE_OFFICER_SUPERVISOR,
+                            Role::ROLE_PRINT_OPERATOR,
+                            Role::ROLE_OPERATION_MANAGER,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['deactivate'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_VIDEO_ANALYST,
+                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['upload', 'chunkUpload', 'handle', 'search'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -187,6 +239,21 @@ class RecordsController extends Controller
                 'id' => $id,
             ]
         );
+    }
+
+    /**
+     * @param string|\yii\db\ActiveRecord $modelClass
+     * @param int $id
+     * @return null|Record
+     * @throws NotFoundHttpException
+     */
+    public function findModel($modelClass, $id)
+    {
+        if (($model = RecordSearch::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }
