@@ -47,28 +47,12 @@ use \kato\VideojsWidget;
                             <a target="_blank" class="media-link" href="<?= $url?>">Download / View</a>
                         </p>
                         <span>
-                            <?= VideojsWidget::widget([
-                                'options' => [
-                                    'class' => 'video-js vjs-default-skin vjs-big-play-centered',
-//                                    'poster' => $this->getThumbUrl($item),
-                                    'controls' => true,
-                                    'preload' => 'auto',
-                                    'width' => '100%',
-                                    'height' => '300',
-                                    'data-setup' => '{ "plugins" : { "resolutionSelector" : { "default_res" : "720" } } }',
-                                ],
-                                'tags' => [
-                                    'source' => [
-                                        [
-                                            'src' => $url,
-//                                            'type' => 'video/x-msvideo',
-                                            'type' => $mime,
-//                                            'data-res' => '720',
-                                        ],
-                                    ],
-                                ],
-                                'multipleResolutions' => true,
-                            ]); ?>
+                            <div class="flowplayer">
+                                <video>
+                                    <source type="<?= $mime?>"
+                                            src="<?= $url?>">
+                                </video>
+                            </div>
                         </span>
                     <?php endif; ?>
                     </p>
