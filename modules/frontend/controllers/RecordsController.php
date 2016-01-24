@@ -11,6 +11,7 @@ use app\modules\frontend\models\search\Record as RecordSearch;
 
 use app\enums\EvidenceFileType;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use \yii\web\HttpException;
 use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
@@ -240,20 +241,4 @@ class RecordsController extends Controller
             ]
         );
     }
-
-    /**
-     * @param string|\yii\db\ActiveRecord $modelClass
-     * @param int $id
-     * @return null|Record
-     * @throws NotFoundHttpException
-     */
-    public function findModel($modelClass, $id)
-    {
-        if (($model = RecordSearch::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
 }
