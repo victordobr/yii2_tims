@@ -32,6 +32,7 @@ class UsersController extends Controller
 		$user->created_at = time();
 
 		if(!$user->validate()){
+			var_dump($user->getErrors());
 			exit("Validate error!\n");
 		}
 

@@ -30,7 +30,7 @@ use Yii;
  *
  * @property AuthAssignment[] $authAssignments
  * @property AuthItem[] $itemNames
- * @property Evidence[] $evidences
+ * @property Record[] $records
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -49,12 +49,12 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['is_active', 'created_at', 'last_login_at', 'logins_count', 'state_id', 'question_id'], 'integer'],
-            [['email', 'password', 'state_id'], 'required'],
+            [['email', 'password'], 'required'],
             [['email', 'password', 'recover_hash', 'activation_hash', 'first_name', 'middle_name', 'last_name', 'agency', 'address'], 'string', 'max' => 255],
             [['phone'], 'string', 'max' => 50],
             [['pre_name'], 'string', 'max' => 3],
             [['zip_code'], 'string', 'max' => 16],
-            [['question_answer'], 'string', 'max' => 100]
+            [['question_answer'], 'string', 'max' => 200]
         ];
     }
 
@@ -82,10 +82,32 @@ class User extends \yii\db\ActiveRecord
             'address' => 'Address',
             'zip_code' => 'Zip Code',
             'state_id' => 'State ID',
-            'question_id' => 'Select your secret question',
+            'question_id' => 'Question ID',
             'question_answer' => 'Question Answer',
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthAssignments()
+    {
+        return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+    }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getItemNames()
+    {
+        return $this->hasMany(AuthItem::className(), ['name' => 'item_name'])->viaTable('AuthAssignment', ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecords()
+    {
+        return $this->hasMany(Record::className(), ['user_id' => 'id']);
+    }
 }

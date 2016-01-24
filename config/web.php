@@ -111,8 +111,8 @@ $config = [
         ],
         'formatter'    => [
             'class'          => 'app\helpers\Formatter',
-            'dateFormat'     => 'dd/MM/yyyy',
-            'datetimeFormat' => 'dd/MM/yyyy HH:mm:ss',
+            'dateFormat'     => 'MM/dd/yy',
+            'datetimeFormat' => 'MM/dd/yy HH:mm:ss',
             'booleanFormat'  => [
                 '<span class="glyphicon glyphicon-remove-sign icon-failed"></span>',
                 '<span class="glyphicon glyphicon-ok-sign icon-success"></span>'

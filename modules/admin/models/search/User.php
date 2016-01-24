@@ -34,6 +34,14 @@ class User extends \app\models\User
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [

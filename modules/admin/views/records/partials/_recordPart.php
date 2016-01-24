@@ -13,7 +13,7 @@ use kartik\date\DatePicker;
     'options' => ['placeholder' => 'Enter date ...'],
     'pluginOptions' => [
         'orientation' => 'bottom',
-        'format' => 'dd/mm/yyyy',
+        'format' => Yii::$app->params['date.view.format'],
         'autoclose'=>true
     ]
 ]); ?>
@@ -23,7 +23,7 @@ use kartik\date\DatePicker;
     'options' => ['placeholder' => 'Enter date ...'],
     'pluginOptions' => [
         'orientation' => 'bottom',
-        'format' => 'dd/mm/yyyy',
+        'format' => Yii::$app->params['date.view.format'],
         'autoclose'=>true
     ]
 ]); ?>
@@ -41,7 +41,7 @@ use kartik\date\DatePicker;
     'options' => ['placeholder' => 'Enter date ...'],
     'pluginOptions' => [
         'orientation' => 'bottom',
-        'format' => 'dd/mm/yyyy',
+        'format' => Yii::$app->params['date.view.format'],
         'autoclose'=>true
     ]
 ]); ?>

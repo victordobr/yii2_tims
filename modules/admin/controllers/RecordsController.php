@@ -8,6 +8,7 @@ use app\models\User;
 use app\modules\admin\models\search\Record as RecordSearch;
 
 use yii\base\Model;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\admin\base\Controller;
@@ -83,6 +84,11 @@ class RecordsController extends Controller
                     $owner->save();
                 }
             }
+
+//            VarDumper::dump($record->attributes, 10, true);
+//            VarDumper::dump($record->getErrors(), 10, true);
+//            die;
+
             return $this->redirect(['records/manage']);
         }
         return $this->render('update', [

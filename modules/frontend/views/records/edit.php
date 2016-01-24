@@ -16,6 +16,7 @@ use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
+use dosamigos\datetimepicker\DateTimePicker;
 
 $this->title = 'Create Record';
 $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
@@ -138,40 +139,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'handleUrl' => $handleUrl,
         ]) ?>
 
-<?php //var_dump(Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']));?>
+<!--            --><?php //var_dump($model->infraction_date); die;?>
 
-                <?= $form->field($model, 'infraction_date', [
-                ])->widget(DatePicker::classname(), [
+                <?php echo $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
                     'layout' => '{input}{picker}',
                     'options' => [
                         'placeholder' => 'Enter infraction date ...',
                     ],
-                    'value' => Yii::$app->formatter->asDate($model->infraction_date, 'php:' . Yii::$app->params['date.code.format']),
                     'pluginOptions' => [
-                        'format' => Yii::$app->params['date.view.format.column'],
+                        'format' => Yii::$app->params['date.view.format'],
                     ]
                 ]);
                 ?>
-
-<!--            --><?php
-            //http://yiiframework.ru/forum/viewtopic.php?t=21697
- //echo $form->field($model, 'infraction_date')->widget(\dosamigos\datepicker\DatePicker::classname(),
-//                [
-//                    'size'             => 'sm',
-//                    'containerOptions' => [
-//                        'class' => 'form-field-middle',
-//                    ],
-//                    'clientOptions'    => [
-//                        'format' => Yii::$app->params['date.view.format.column'],
-//                    ],
-//                    'options'          => [
-////                        'readonly' => 'readonly',
-//                        'class'    => 'form-control',
-//                    ]
-//
-//                ]);
-//            ?>
-
 
         <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>

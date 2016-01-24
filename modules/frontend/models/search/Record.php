@@ -24,6 +24,14 @@ class Record extends RecordModel
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -50,19 +58,6 @@ class Record extends RecordModel
         return ArrayHelper::merge(parent::attributeLabels(), [
             'fullName' => Yii::t('app', 'Full Name'),
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['infraction_date', 'open_date', 'created_at'],
-            ],
-        ];
     }
 
     /**

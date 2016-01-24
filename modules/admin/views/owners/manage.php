@@ -14,13 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="Owner-index">
 
     <?php $columns = [
-        ['class'=>'kartik\grid\SerialColumn',
-        'contentOptions' => ['class'=>'kartik-sheet-style'],
-        'width'=>'36px',
-        'header'=>'',
-        'headerOptions' => ['class'=>'kartik-sheet-style']
+        [
+            'label' => '#',
+            'attribute' => 'id',
+            'headerOptions' => ['style' => 'width: 100px;']
         ],
-        'id',
         'fullName',
         'license',
         [
@@ -33,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterType' => GridView::FILTER_SELECT2,
 //            'filterType' => yii\helpers\Html::dropDownList(),
             'filter' => States::listData(),
-            'width'=>'8%',
-            'filterWidgetOptions'=>[
-                'pluginOptions'=>['allowClear'=>true, 'width' => 150],
+            'width' => '8%',
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true, 'width' => 150],
             ],
 
-            'filterInputOptions'=>['placeholder'=>'Choose State'],
+            'filterInputOptions' => ['placeholder' => 'Choose State'],
 //            'format'=>'raw',
             'headerOptions' => ['style' => 'width: 190px;'],
         ],
@@ -50,15 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'kartik\grid\ActionColumn',
             'template' => '{update} {delete}'
         ],
-    ];?>
+    ]; ?>
 
     <?= GridView::widget([
         'id' => 'crud-datatable',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
-        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-        'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+        'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'pjax' => true,
         'columns' => $columns,
         'toggleDataOptions' => [

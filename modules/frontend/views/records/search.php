@@ -39,7 +39,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 ],
                 [
                     'attribute' => 'infraction_date',
-//                    'format' => 'datetime',
+                    'format' => 'date',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
 //                [
@@ -55,7 +55,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'label' => 'Uploaded Date',
                     'attribute' => 'created_at',
-//                    'format' => 'datetime',
+                    'format' => 'date',
                     'headerOptions' => ['style' => 'width: 190px;']
                 ],
                 [

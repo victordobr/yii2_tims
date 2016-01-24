@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'placeholder' => 'Enter infraction date ...',
             ],
             'pluginOptions' => [
-                'format' => Yii::$app->params['date.view.format.column'],
+                'format' => Yii::$app->params['date.view.format'],
             ]
         ]);
         ?>

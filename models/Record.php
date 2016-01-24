@@ -27,7 +27,7 @@ class Record extends base\Record
             [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'user_id'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
             [['state_id', 'user_id', 'ticket_fee', 'status_id'], 'integer'],
-            [['infraction_date', 'open_date', 'ticket_payment_expire_date', 'created_at'], 'date'],
+            [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
             [['license'], 'string', 'max' => 250],
@@ -69,7 +69,7 @@ class Record extends base\Record
             ],
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date', 'created_at'],
+                'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date'],
             ],
         ];
     }

@@ -22,7 +22,7 @@ use \app\enums\UserType;
 class IntegerStamp extends Behavior
 {
 
-    public $useAfterFind = false;
+    public $useAfterFind = true;
 
     public $attributes = [];
 
@@ -34,7 +34,7 @@ class IntegerStamp extends Behavior
         return [
             ActiveRecord::EVENT_AFTER_FIND => 'afterFind',
             ActiveRecord::EVENT_BEFORE_INSERT => 'beforeSave',
-            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeSave',
+            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeSave'
         ];
     }
 
@@ -46,17 +46,20 @@ class IntegerStamp extends Behavior
      */
     public function afterFind($event)
     {
-        if(!$this->useAfterFind) {
+        if (!$this->useAfterFind) {
             return true;
         }
 
         foreach ($this->attributes as $attribute) {
+            if(empty($event->sender->{$attribute})) {
+                continue;
+            }
             $dateObject = \DateTime::createFromFormat(Yii::$app->params['date.unix.format'], $event->sender->{$attribute});
             if ($dateObject instanceof \DateTime) {
                 $this->owner->{$attribute} = Yii::$app->formatter->asDate($dateObject,
                     'php:' . Yii::$app->params['date.code.format']);
             } else {
-                $message = 'Invalid date format!';
+                $message = "afterFind: invalid format of field '{$attribute}': {$event->sender->{$attribute}}";
                 Yii::error($message);
             }
         }
