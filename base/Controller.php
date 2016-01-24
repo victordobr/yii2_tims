@@ -39,7 +39,7 @@ class Controller extends \yii\web\Controller
      * @throws NotFoundHttpException if the model cannot be found
      * @author Alex Makhorin
      */
-    protected function findModel($modelClass, $id)
+    public function findModel($modelClass, $id)
     {
         if (($model = $modelClass::findOne($id)) !== null) {
             return $model;
