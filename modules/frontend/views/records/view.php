@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\enums\CaseStatus;
 use app\modules\frontend\models\form\DeactivateForm;
 
 /* @var $this yii\web\View */
@@ -68,7 +69,7 @@ $formatter = Yii::$app->formatter;
             </div>
         </div>
 
-        <?php if ($user->can('RequestDeactivation')): ?>
+        <?php if ($model->status_id == CaseStatus::COMPLETE && $user->can('RequestDeactivation')): ?>
             <div class="row">
                 <div class="col-xs-12">
                     <?= $this->render('../forms/deactivate', [
