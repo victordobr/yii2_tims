@@ -3,8 +3,8 @@
 namespace app\modules\frontend\controllers\records;
 
 use app\models\Record;
+use app\modules\frontend\models\form\DeactivateForm;
 use yii\base\Action;
-use yii\helpers\VarDumper;
 
 class ReviewAction extends Action
 {
@@ -18,6 +18,7 @@ class ReviewAction extends Action
 
         return $controller->render('review', [
             'model' => $controller->findModel(Record::className(), $id),
+            'form' => new DeactivateForm()
         ]);
     }
 

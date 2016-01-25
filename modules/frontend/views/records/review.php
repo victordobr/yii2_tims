@@ -4,10 +4,10 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\enums\CaseStatus;
-use app\modules\frontend\models\form\DeactivateForm;
 
 /* @var $this yii\web\View */
 /* @var $model \app\modules\frontend\models\search\Record */
+/* @var $form \app\modules\frontend\models\form\DeactivateForm */
 /* @var $formatter \app\helpers\Formatter */
 
 $this->title = Yii::t('app', 'View uploaded record - Case #' . $model->id);
@@ -74,7 +74,7 @@ $formatter = Yii::$app->formatter;
                 <div class="col-xs-12">
                     <?= $this->render('../forms/deactivate', [
                         'action' => Url::to(['deactivate', 'id' => $model->id]),
-                        'model' => new DeactivateForm()
+                        'model' => $form
                     ]) ?>
                 </div>
             </div>
