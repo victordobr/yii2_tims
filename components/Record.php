@@ -22,7 +22,7 @@ class Record extends Component
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = $this->getRecord($id);
-            if ($record->status_id == Status::COMPLETE) {
+            if ($record->status_id == Status::AWAITING_DEACTIVATION) {
                 throw new \Exception('Record has same status');
             }
 
@@ -36,7 +36,7 @@ class Record extends Component
             }
 
             $record->setAttributes([
-                'status_id' => Status::COMPLETE,
+                'status_id' => Status::AWAITING_DEACTIVATION,
                 'reason_id' => $reason->id,
             ]);
             if (!$record->save()) {

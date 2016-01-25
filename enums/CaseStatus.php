@@ -14,5 +14,6 @@ class CaseStatus extends Enum
     const INCOMPLETE = 1010;
     const COMPLETE = 1020;
     const FULL_COMPLETE = 1021;
+    const AWAITING_DEACTIVATION = 1030;
 
 }
