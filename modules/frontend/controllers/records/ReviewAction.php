@@ -16,7 +16,7 @@ class ReviewAction extends Action
             $controller->redirect(['search']);
         }
 
-        return $controller->render('view', [
+        return $controller->render('review', [
             'model' => $controller->findModel(Record::className(), $id),
         ]);
     }
