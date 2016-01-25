@@ -11,9 +11,9 @@ class m160124_155622_fix_open_date extends Migration
           UPDATE `Record` SET `open_date`=NULL;
         ");
 
-        $this->execute("
-            TRUNCATE `File`;
-        ");
+//        $this->execute("
+//            TRUNCATE `File`;
+//        ");
     }
 
     public function safeDown()
