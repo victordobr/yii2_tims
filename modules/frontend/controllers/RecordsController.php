@@ -7,6 +7,7 @@ use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
 use app\models\Record;
+use app\models\File;
 use app\modules\frontend\models\search\Record as RecordSearch;
 
 use app\enums\EvidenceFileType;
@@ -172,6 +173,7 @@ class RecordsController extends Controller
 
         if (!empty($fileIds)) {
             foreach ($fileIds as $video_type => $fileId) {
+                File::deleteAll(['record_id' => $model->id, 'record_file_type' => $video_type]);
                 Yii::$app->media->assignFileToRecord($fileId, $model->primaryKey, $video_type);
             }
         }

@@ -16,6 +16,7 @@ use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
+use yii\widgets\MaskedInput;
 
 $this->title = 'Upload Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
@@ -103,8 +104,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
 
-        <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'lng')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'lat')->widget(MaskedInput::classname(), [
+            'mask' =>  '[99]9 9\'99.99" a',
+        ]) ?>
+        <?= $form->field($model, 'lng')->widget(MaskedInput::classname(), [
+            'mask' =>  '[99]9 9\'99.99" a',
+        ]) ?>
+
         <?= $form->field($model, 'state_id')->dropDownList(States::listData(), array('prompt' => ' - choose state - ')) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
