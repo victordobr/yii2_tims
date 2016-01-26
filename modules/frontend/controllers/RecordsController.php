@@ -3,7 +3,7 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
-use app\modules\frontend\controllers\records\DeactivateAction;
+use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
 use app\models\Record;
@@ -11,7 +11,6 @@ use app\modules\frontend\models\search\Record as RecordSearch;
 
 use app\enums\EvidenceFileType;
 use yii\filters\AccessControl;
-use yii\helpers\VarDumper;
 use \yii\web\HttpException;
 use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
@@ -36,7 +35,7 @@ class RecordsController extends Controller
     {
         return [
             'review' => ReviewAction::className(),
-            'deactivate' => DeactivateAction::className(),
+            'RequestDeactivation' => RequestDeactivationAction::className(),
         ];
     }
 

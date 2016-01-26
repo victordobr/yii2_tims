@@ -18,8 +18,8 @@ use kartik\form\ActiveForm;
         'data-pjax' => true
     ],
     'fieldConfig' => [
-        'template' => "{label}\n<div class=\"col-lg-5\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
-        'labelOptions' => ['class' => 'col-lg-1 control-label'],
+        'template' => "{label}\n<div class=\"col-lg-8\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+        'labelOptions' => ['class' => 'col-lg-2 control-label'],
     ],
 ]); ?>
 

@@ -7,7 +7,7 @@ use yii\base\Action;
 use app\modules\frontend\models\search\Record;
 use app\modules\frontend\models\form\DeactivateForm;
 
-class DeactivateAction extends Action
+class RequestDeactivationAction extends Action
 {
 
     public function run($id = 0)
