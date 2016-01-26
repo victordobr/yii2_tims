@@ -135,10 +135,11 @@ class Record extends RecordModel
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         // rev: maybe create new user component
-        if ($statuses = Yii::$app->rbacUser->getAvailableStatuses()) {
+        if ($statuses = Yii::$app->record->getAvailableStatuses()) {
             $query->andFilterWhere(['in', 'status_id', $statuses]);
         }
 
         return $dataProvider;
     }
+
 }
