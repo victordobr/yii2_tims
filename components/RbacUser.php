@@ -8,13 +8,11 @@
 
 namespace app\components;
 
-use app\models\User;
+
 use Yii;
 use yii\base\InvalidConfigException;
 use \app\models\User as UserModel;
 use \yii\base\Exception;
-use app\enums\Role;
-use app\enums\CaseStatus as Status;
 
 class RbacUser extends \app\modules\auth\components\Auth
 {
@@ -60,21 +58,6 @@ class RbacUser extends \app\modules\auth\components\Auth
         }
 
         return true;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getAvailableStatuses()
-    {
-        switch (true) {
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST):
-                return [Status::INCOMPLETE, Status::COMPLETE, Status::FULL_COMPLETE];
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST_SUPERVISOR):
-                return [Status::COMPLETE, Status::FULL_COMPLETE];
-            default:
-                return [];
-        }
     }
 
 }

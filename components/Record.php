@@ -1,7 +1,10 @@
 <?php
 namespace app\components;
 
+use app\models\StatusHistory;
 use Yii;
+use app\enums\Role;
+use app\models\User;
 use yii\base\Component;
 use app\models\Reason;
 use app\enums\CaseStatus as Status;
@@ -37,10 +40,26 @@ class Record extends Component
 
             $record->setAttributes([
                 'status_id' => Status::AWAITING_DEACTIVATION,
-                'reason_id' => $reason->id,
             ]);
             if (!$record->save()) {
                 throw new \Exception('Record status do not updated');
+            }
+
+            $parent = StatusHistory::find()->select('id')->where(['record_id' => $id])->one();
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => Yii::$app->user->id,
+                'status_code' => Status::AWAITING_DEACTIVATION,
+                'reason_code' => $reason->code,
+                'created_at' => time()
+            ]);
+            if (!is_null($parent)) {
+                $history->setAttribute('parent_id', $parent->id);
+            }
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
             }
 
             $transaction->commit();
@@ -48,6 +67,21 @@ class Record extends Component
         } catch (\Exception $e) {
             $transaction->rollBack();
             return false;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAvailableStatuses()
+    {
+        switch (true) {
+            case User::hasRole(Role::ROLE_VIDEO_ANALYST):
+                return [Status::INCOMPLETE, Status::COMPLETE, Status::FULL_COMPLETE];
+            case User::hasRole(Role::ROLE_VIDEO_ANALYST_SUPERVISOR):
+                return [Status::INCOMPLETE, Status::COMPLETE, Status::FULL_COMPLETE, Status::AWAITING_DEACTIVATION];
+            default:
+                return [];
         }
     }
 
