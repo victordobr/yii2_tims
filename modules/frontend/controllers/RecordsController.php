@@ -168,6 +168,8 @@ class RecordsController extends Controller
             $fileIds[EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA] = $post['Record']['imageOverviewCameraId'];
         }
 
+        $model->user_id = Yii::$app->user->id;
+
         $model->save();
 
         if (!empty($fileIds)) {
