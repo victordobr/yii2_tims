@@ -20,7 +20,7 @@ class Record extends Component
      * @param string $description
      * @return bool
      */
-    public function deactivate($id, $code, $description)
+    public function requestDeactivation($id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {

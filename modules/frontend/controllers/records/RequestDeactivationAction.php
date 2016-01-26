@@ -18,7 +18,7 @@ class RequestDeactivationAction extends Action
         $form = new DeactivateForm();
         $form->setAttributes(Yii::$app->request->post('DeactivateForm'));
 
-        if ($form->validate() && Yii::$app->record->deactivate($record->id, $form->code,  $form->description)) {
+        if ($form->validate() && Yii::$app->record->requestDeactivation($record->id, $form->code,  $form->description)) {
             return $controller->redirect(['search']);
         }
 
