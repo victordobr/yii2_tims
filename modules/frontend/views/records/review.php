@@ -7,7 +7,7 @@ use app\enums\CaseStatus;
 
 /* @var $this yii\web\View */
 /* @var $model \app\modules\frontend\models\search\Record */
-/* @var $form \app\modules\frontend\models\form\DeactivateForm */
+/* @var $form \app\modules\frontend\models\form\RequestDeactivateForm */
 /* @var $formatter \app\helpers\Formatter */
 
 $this->title = Yii::t('app', 'View uploaded record - Case #' . $model->id);
@@ -88,8 +88,8 @@ $formatter = Yii::$app->formatter;
         <?php elseif($model->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation')): ?>
 
             <div class="row">
-                <?= $this->render('../forms/deactivation', [
-                    'action' => Url::to(['deactivate', 'id' => $model->id]),
+                <?= $this->render('../forms/approve-deactivation', [
+                    'action' => Url::to(['ApproveDeactivation', 'model' => $model]),
                     'model' => $form
                 ]) ?>
             </div>

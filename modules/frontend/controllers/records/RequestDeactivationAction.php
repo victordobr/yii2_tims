@@ -5,7 +5,7 @@ namespace app\modules\frontend\controllers\records;
 use Yii;
 use yii\base\Action;
 use app\modules\frontend\models\search\Record;
-use app\modules\frontend\models\form\DeactivateForm;
+use app\modules\frontend\models\form\RequestDeactivateForm;
 
 class RequestDeactivationAction extends Action
 {
@@ -15,8 +15,8 @@ class RequestDeactivationAction extends Action
         $controller = $this->controller;
         $record = $controller->findModel(Record::className(), $id);
 
-        $form = new DeactivateForm();
-        $form->setAttributes(Yii::$app->request->post('DeactivateForm'));
+        $form = new RequestDeactivateForm();
+        $form->setAttributes(Yii::$app->request->post('RequestDeactivateForm'));
 
         if ($form->validate() && Yii::$app->record->requestDeactivation($record->id, $form->code,  $form->description)) {
             return $controller->redirect(['search']);

@@ -3,7 +3,7 @@
 namespace app\modules\frontend\controllers\records;
 
 use app\models\Record;
-use app\modules\frontend\models\form\DeactivateForm;
+use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
 
 class ReviewAction extends Action
@@ -18,7 +18,7 @@ class ReviewAction extends Action
 
         return $controller->render('review', [
             'model' => $controller->findModel(Record::className(), $id),
-            'form' => new DeactivateForm()
+            'form' => new RequestDeactivateForm()
         ]);
     }
 

@@ -4,7 +4,7 @@ namespace app\modules\frontend\models\form;
 use Yii;
 use yii\base\Model;
 
-class DeactivateForm extends Model
+class RequestDeactivateForm extends Model
 {
     public $code;
     public $description;
