@@ -3,6 +3,7 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
+use app\modules\frontend\controllers\records\ApproveDeactivationAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
@@ -36,6 +37,7 @@ class RecordsController extends Controller
         return [
             'review' => ReviewAction::className(),
             'RequestDeactivation' => RequestDeactivationAction::className(),
+            'ApproveDeactivation' => ApproveDeactivationAction::className(),
         ];
     }
 
@@ -44,7 +46,7 @@ class RecordsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'deactivate'],
+                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'RequestDeactivation', 'ApproveDeactivation'],
                 'rules' => [
                     [
                         'actions' => ['review'],
@@ -60,10 +62,18 @@ class RecordsController extends Controller
                         ],
                     ],
                     [
-                        'actions' => ['deactivate'],
+                        'actions' => ['RequestDeactivation'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
+                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['ApproveDeactivation'],
+                        'allow' => true,
+                        'roles' => [
                             Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
@@ -111,6 +121,8 @@ class RecordsController extends Controller
             $model = new Record();
             $model->scenario = Record::SCENARIO_UPLOAD;
         }
+
+        $model->user_id = Yii::$app->user->id;
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -166,8 +178,6 @@ class RecordsController extends Controller
         if(!empty($post['Record']['imageOverviewCameraId'])) {
             $fileIds[EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA] = $post['Record']['imageOverviewCameraId'];
         }
-
-        $model->user_id = Yii::$app->user->id;
 
         $model->save();
 
