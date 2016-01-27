@@ -23,6 +23,8 @@ use Yii;
  */
 class StatusHistory extends \yii\db\ActiveRecord
 {
+    private $reason;
+
     /**
      * @inheritdoc
      */
@@ -66,6 +68,14 @@ class StatusHistory extends \yii\db\ActiveRecord
     public function getStatusCode()
     {
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_code']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReason()
+    {
+        return $this->hasOne(Reason::className(), ['code' => 'reason_code']);
     }
 
     /**
