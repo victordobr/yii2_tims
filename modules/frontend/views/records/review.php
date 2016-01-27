@@ -1,13 +1,11 @@
 <?php
 
-use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\enums\CaseStatus;
 
 /* @var $this yii\web\View */
 /* @var $model \app\modules\frontend\models\search\Record */
-/* @var $forms array */
+/* @var $form string */
 /* @var $formatter \app\helpers\Formatter */
 
 $this->title = Yii::t('app', 'View uploaded record - Case #' . $model->id);
@@ -21,7 +19,6 @@ $formatter = Yii::$app->formatter;
     <div class="col-xs-12">
 
         <div class="row">
-
             <div class="col-xs-6">
                 <div class="panel panel-default">
                     <div class="panel-heading"><?= Yii::t('app', 'Case details'); ?></div>
@@ -58,7 +55,6 @@ $formatter = Yii::$app->formatter;
                     </div>
                 </div>
             </div>
-
             <div class="col-xs-6">
                 <div class="panel panel-default">
                     <div class="panel-heading"><?= Yii::t('app', 'Photo/Video evidence'); ?></div>
@@ -85,24 +81,7 @@ $formatter = Yii::$app->formatter;
             </div>
         </div>
 
-        <?php if ($model->status_id == CaseStatus::COMPLETE && $user->can('RequestDeactivation')): ?>
-            <div class="row">
-                <div class="col-xs-12">
-                    <?= $this->render('../forms/request-deactivation', [
-                        'action' => Url::to(['RequestDeactivation', 'id' => $model->id]),
-                        'model' => $forms['request-deactivation']
-                    ]) ?>
-                </div>
-            </div>
-        <?php elseif ($model->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation')): ?>
-
-            <div class="row">
-                <?= $this->render('../forms/approve-deactivation', [
-                    'action' => Url::to(['ApproveDeactivation', 'id' => $model->id]),
-                    'model' => $forms['approve-deactivation']
-                ]) ?>
-            </div>
-        <?php endif; ?>
+        <div class="row"><?= $form ?></div>
 
     </div>
 

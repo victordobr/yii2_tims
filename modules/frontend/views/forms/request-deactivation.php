@@ -7,28 +7,30 @@ use yii\helpers\Html;
 use kartik\form\ActiveForm;
 
 ?>
+<div class="col-xs-12">
+
     <h3><?= Yii::t('app', 'Request deactivation'); ?></h3>
 
-<?php $form = ActiveForm::begin([
-    'id' => 'request-deactivation-form',
-    'action' => $action,
-    'enableClientValidation' => true,
-    'options' => [
-        'class' => 'form-horizontal',
-        'data-pjax' => true
-    ],
-    'fieldConfig' => [
-        'template' => "{label}\n<div class=\"col-lg-5\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
-        'labelOptions' => ['class' => 'col-lg-1 control-label'],
-    ],
-]); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'request-deactivation-form',
+        'action' => $action,
+        'enableClientValidation' => true,
+        'options' => [
+            'class' => 'form-horizontal',
+            'data-pjax' => true
+        ],
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-5\">{input}</div>\n<div class=\"col-lg-5\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+        ],
+    ]); ?>
 
-<?= $form->field($model, 'code')->dropDownList([10 => 10]); ?>
+    <?= $form->field($model, 'code')->dropDownList([10 => 10]); ?>
 
-<?= $form->field($model, 'description')->textInput([
-    'maxlength' => true,
-    'class' => 'form-control form-field-short',
-]) ?>
+    <?= $form->field($model, 'description')->textInput([
+        'maxlength' => true,
+        'class' => 'form-control form-field-short',
+    ]) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-5 col-lg-5">
@@ -36,4 +38,6 @@ use kartik\form\ActiveForm;
         </div>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
+
+</div>
