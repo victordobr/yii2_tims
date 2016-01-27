@@ -225,6 +225,11 @@ a.desc:after {
     padding: 0;
 }
 
+#deactivate-form .form-group:not(.badge-step) {
+    margin: 0;
+    padding: 0;
+}
+
 .panel > .panel-heading {
     border: none;
     font: bold 1.2em 'Open Sans', sans-serif;
@@ -247,3 +252,4 @@ a.desc:after {
 .badge-step > div > .badge {
     font-size: 1.2em;
 }
+
