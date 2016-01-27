@@ -6,10 +6,6 @@ use yii\db\Migration;
 class m160126_112511_re_create_table_Reason extends Migration
 {
     const TABLE = 'Reason';
-    private static $reason = [
-        'code' => 10,
-        'description' => 'test reason',
-    ];
 
     public function safeUp()
     {
@@ -24,7 +20,6 @@ class m160126_112511_re_create_table_Reason extends Migration
             ],
             'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB'
         );
-        $this->insert(self::TABLE, self::$reason);
     }
 
     public function safeDown()
