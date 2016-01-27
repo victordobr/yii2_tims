@@ -37,8 +37,9 @@ class StatusHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'record_id', 'author_id', 'status_code', 'reason_code', 'created_at', 'expired_at'], 'integer'],
-            [['record_id', 'author_id', 'status_code', 'reason_code', 'created_at'], 'required']
+            [['parent_id', 'record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
+            [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
+            [['reason_code'], 'safe']
         ];
     }
 
