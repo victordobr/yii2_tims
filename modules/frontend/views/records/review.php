@@ -7,7 +7,7 @@ use app\enums\CaseStatus;
 
 /* @var $this yii\web\View */
 /* @var $model \app\modules\frontend\models\search\Record */
-/* @var $form \app\modules\frontend\models\form\RequestDeactivateForm */
+/* @var $forms array */
 /* @var $formatter \app\helpers\Formatter */
 
 $this->title = Yii::t('app', 'View uploaded record - Case #' . $model->id);
@@ -24,11 +24,11 @@ $formatter = Yii::$app->formatter;
 
             <div class="col-xs-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="border: none;"><?= Yii::t('app', 'Case details'); ?></div>
-                    <div class="panel-body" style="padding: 0;">
+                    <div class="panel-heading"><?= Yii::t('app', 'Case details'); ?></div>
+                    <div class="panel-body">
                         <?= DetailView::widget([
                             'model' => $model,
-                            'options' => ['class' => 'table', 'style' => 'margin:0'],
+                            'options' => ['class' => 'table'],
                             'attributes' => [
                                 [
                                     'label' => Yii::t('app', 'Date case opened'),
@@ -60,19 +60,28 @@ $formatter = Yii::$app->formatter;
             </div>
 
             <div class="col-xs-6">
-                <h3><?= Yii::t('app', 'Photo/Video evidence'); ?></h3>
-                <?= DetailView::widget([
-                    'model' => $model,
-                    'attributes' => [
-                        'lat',
-                        'lng',
-                        [
-                            'label' => Yii::t('app', 'Location (nearby address)'),
-                            'value' => 'to-do'
-                        ]
-                    ],
-                ]) ?>
-                <?= $this->render('../partials/evidence', ['model' => $model]); ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?= Yii::t('app', 'Photo/Video evidence'); ?></div>
+                    <div class="panel-body">
+                        <?= DetailView::widget([
+                            'model' => $model,
+                            'options' => ['class' => 'table'],
+                            'attributes' => [
+                                'lat',
+                                'lng',
+                                [
+                                    'label' => Yii::t('app', 'Location (nearby address)'),
+                                    'value' => 'to-do'
+                                ]
+                            ],
+                        ]) ?>
+
+                        <div class="form-group col-xs-12">
+                            <?= $this->render('../partials/evidence', ['model' => $model]); ?>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -81,16 +90,16 @@ $formatter = Yii::$app->formatter;
                 <div class="col-xs-12">
                     <?= $this->render('../forms/request-deactivation', [
                         'action' => Url::to(['RequestDeactivation', 'id' => $model->id]),
-                        'model' => $form
+                        'model' => $forms['request-deactivation']
                     ]) ?>
                 </div>
             </div>
-        <?php elseif($model->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation')): ?>
+        <?php elseif ($model->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation')): ?>
 
             <div class="row">
                 <?= $this->render('../forms/approve-deactivation', [
-                    'action' => Url::to(['ApproveDeactivation', 'model' => $model]),
-                    'model' => $form
+                    'action' => Url::to(['ApproveDeactivation', 'id' => $model->id]),
+                    'model' => $forms['approve-deactivation']
                 ]) ?>
             </div>
         <?php endif; ?>
