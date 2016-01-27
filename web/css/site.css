@@ -212,7 +212,18 @@ a.desc:after {
     margin-bottom: 0;
 }
 
+
 /* review page */
+
+#request-deactivation-form fieldset {
+    margin-left: 1%;
+    margin-bottom: 8px;
+}
+
+#request-deactivation-form fieldset > .form-group:not(.badge-step) {
+    margin: 0;
+    padding: 0;
+}
 
 .panel > .panel-heading {
     border: none;
@@ -221,10 +232,18 @@ a.desc:after {
     text-transform: uppercase;
 }
 
-.panel > .panel-body {
+.panel.panel-view > .panel-body {
     padding: 0;
 }
 
 .panel > .panel-body > .table {
     margin: 0;
+}
+
+.form-group.badge-step {
+    margin-left: -16px;
+}
+
+.badge-step > div > .badge {
+    font-size: 1.2em;
 }

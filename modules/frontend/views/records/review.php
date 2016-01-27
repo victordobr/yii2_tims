@@ -20,7 +20,7 @@ $formatter = Yii::$app->formatter;
 
         <div class="row">
             <div class="col-xs-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default panel-view">
                     <div class="panel-heading"><?= Yii::t('app', 'Case details'); ?></div>
                     <div class="panel-body">
                         <?= DetailView::widget([
@@ -56,7 +56,7 @@ $formatter = Yii::$app->formatter;
                 </div>
             </div>
             <div class="col-xs-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default panel-view">
                     <div class="panel-heading"><?= Yii::t('app', 'Photo/Video evidence'); ?></div>
                     <div class="panel-body">
                         <?= DetailView::widget([
