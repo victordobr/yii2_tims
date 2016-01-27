@@ -1,7 +1,7 @@
 <?php
 /**
- * @var $model \app\modules\frontend\models\form\RequestDeactivateForm
  * @var $action string
+ * @var $model \app\modules\frontend\models\form\RequestDeactivateForm
  */
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
@@ -10,7 +10,7 @@ use kartik\form\ActiveForm;
     <h3><?= Yii::t('app', 'Request deactivation'); ?></h3>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'deactivate-form',
+    'id' => 'request-deactivation-form',
     'action' => $action,
     'enableClientValidation' => true,
     'options' => [
