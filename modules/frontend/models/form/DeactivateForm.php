@@ -76,7 +76,7 @@ class DeactivateForm extends Model
      */
     public function isRejectAction()
     {
-        return $this->action == self::SCENARIO_APPROVE;
+        return $this->action == self::SCENARIO_REJECT;
     }
 
     public function getReviewReason()

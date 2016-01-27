@@ -22,6 +22,7 @@ class DeactivateAction extends Action
         if(!$form->validateAction($action)){
             return $controller->redirect(['review', 'id' => $record->id]);
         }
+        $form->action = $action;
         $form->setScenario($action);
         $form->setAttributes(Yii::$app->request->post('DeactivateForm'));
 
