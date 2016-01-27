@@ -17,7 +17,7 @@ class m160126_112512_create_table_StatusHistory extends Migration
                 'record_id'=>Schema::TYPE_INTEGER .' UNSIGNED NOT NULL',
                 'author_id'=>Schema::TYPE_INTEGER .' UNSIGNED NOT NULL',
                 'status_code' => Schema::TYPE_INTEGER . ' NOT NULL',
-                'reason_code' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'reason_code' => Schema::TYPE_INTEGER . ' NULL',
                 'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'expired_at' => Schema::TYPE_INTEGER . ' NULL',
             ],
