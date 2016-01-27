@@ -3,7 +3,7 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
-use app\modules\frontend\controllers\records\ApproveDeactivationAction;
+use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use Yii;
@@ -37,7 +37,7 @@ class RecordsController extends Controller
         return [
             'review' => ReviewAction::className(),
             'RequestDeactivation' => RequestDeactivationAction::className(),
-            'ApproveDeactivation' => ApproveDeactivationAction::className(),
+            'deactivate' => DeactivateAction::className(),
         ];
     }
 
@@ -46,7 +46,7 @@ class RecordsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'RequestDeactivation', 'ApproveDeactivation'],
+                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'RequestDeactivation', 'deactivate'],
                 'rules' => [
                     [
                         'actions' => ['review'],
@@ -71,7 +71,7 @@ class RecordsController extends Controller
                         ],
                     ],
                     [
-                        'actions' => ['ApproveDeactivation'],
+                        'actions' => ['deactivate'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
