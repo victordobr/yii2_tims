@@ -113,21 +113,4 @@ class VehicleController extends Controller
 
         return $this->redirect(['index']);
     }
-
-    /**
-     * Finds the Vehicle model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string|ActiveRecord $modelClass model or model class.
-     * @param integer $id
-     * @return Vehicle the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($modelClass, $id)
-    {
-        if (($model = Vehicle::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }
