@@ -209,5 +209,22 @@ a.desc:after {
 }
 
 .frontend-wrapper .navbar {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+}
+
+/* review page */
+
+.panel > .panel-heading {
+    border: none;
+    font: bold 1.2em 'Open Sans', sans-serif;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.panel > .panel-body {
+    padding: 0;
+}
+
+.panel > .panel-body > .table {
+    margin: 0;
 }
