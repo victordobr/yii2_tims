@@ -119,4 +119,15 @@ class Record extends base\Record
     {
         return $this->hasOne(File::className(), ['record_id' => 'id'])->andWhere(['record_file_type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA]);
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOwner()
+    {
+        return $this->hasOne(Owner::className(), ['record_id' => 'id']);
+    }
+
+
 }

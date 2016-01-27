@@ -42,6 +42,63 @@ class RecordsController extends Controller
         ]);
     }
 
+
+    public function actionPrint()
+    {
+        $model = new RecordSearch;
+        $dataProvider = $model->searchPrint(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+
+        return $this->render('print', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionPrintlast()
+    {
+//        $ids = Yii::$app->getRequest()->getQueryParam('ids');
+//
+//        print_r($ids);
+//        ['ids'=>$ids]
+//
+//        die();
+//        $this->layout = 'middle.php';
+//        var_dump($this->layout); die;
+
+        $model = new RecordSearch;
+        $dataProvider = $model->searchPrintLast(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+//        return $this->renderPartial('printlast', [
+
+        return $this->render('printlast', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+    public function actionPrinttemp()
+    {
+//        $ids = Yii::$app->getRequest()->getQueryParam('ids');
+//
+//        print_r($ids);
+//        ['ids'=>$ids]
+//
+//        die();
+//        $this->layout = 'middle.php';
+//        var_dump($this->layout); die;
+
+        $this->layout='print';
+        $model = new RecordSearch;
+        $dataProvider = $model->searchPrinttemp(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+        return $this->render('printtemp', [
+
+        //return $this->render('printlast', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Create Record model or update an existing Record model. Create Files and attach to Record model.
      * If update is successful, the browser will be redirected to the 'upload' page.
