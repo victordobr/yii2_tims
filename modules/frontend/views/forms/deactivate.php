@@ -78,7 +78,7 @@ use kartik\form\ActiveForm;
 
             <div class="form-group">
                 <div class="col-lg-12">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary col-lg-1']) ?>
+                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary col-lg-1 pull-right']) ?>
                 </div>
             </div>
 
