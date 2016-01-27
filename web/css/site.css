@@ -211,3 +211,7 @@ a.desc:after {
 .frontend-wrapper .navbar {
     margin-bottom: 0px;
 }
+label.help {
+    border-bottom: 1px dashed #888;
+    cursor: help;
+}
