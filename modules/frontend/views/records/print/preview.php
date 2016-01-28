@@ -1,10 +1,13 @@
 <?php
 $this->registerJs("
 
-    var myCenter=new google.maps.LatLng($model->lat, $model->lng);
+
 
     function initialize_$model->id()
     {
+
+        var myCenter=new google.maps.LatLng($model->lat, $model->lng);
+
         var mapProp = {
             center:myCenter,
             zoom:9,
