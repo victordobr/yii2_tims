@@ -1,7 +1,6 @@
 <?php
+if (isset($model->owner)):
 $this->registerJs("
-
-
 
     function initialize_$model->id()
     {
@@ -52,7 +51,7 @@ $this->registerJs("
 
         <span class="bold">Vehicle Color:</span>
         <?php
-        print \app\enums\VehicleColors::labelById(2);
+        print \app\enums\VehicleColors::labelById($model->owner->vehicle_color_id);
 
         ?><br>
     </div>
@@ -79,5 +78,9 @@ $this->registerJs("
     <div class="page"></div>
 
 </div>
+<?php else: ?>
 
+    <h4>This record owner exist</h4>
+
+<?php endif; ?>
 

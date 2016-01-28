@@ -10,6 +10,7 @@ use \app\models\User;
 use kartik\grid\GridView;
 use yii\helpers\ArrayHelper;
 
+
 $this->title = \Yii::t('app', 'SEARCH PANEL – LIST OF RECORDS PENDING PRINT');
 $clearLabel = \Yii::t('app', 'Clear Filters');
 ?>
@@ -27,7 +28,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     });
 
     "); ?>
-    <a href="#" id="print-preview" class="img-pic" data-toggle="modal" data-target=""
+    <a href="#" id="print-preview" class="btn btn-info" data-toggle="modal" data-target=""
        title="">PRINT</a>
 
     <div class="white-background">
