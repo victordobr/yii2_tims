@@ -93,7 +93,7 @@ class Record extends RecordModel
                 'created_at' => 'record.created_at',
                 'status_id' => 'record.status_id',
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-                'fullName' => self::SQL_SELECT_FULL_NAME,
+                //'fullName' => self::SQL_SELECT_FULL_NAME,
 
             ])
             ->from(['record' => static::tableName()])
@@ -231,7 +231,7 @@ class Record extends RecordModel
                 'created_at' => 'record.created_at',
                 'status_id' => 'record.status_id',
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-                'fullName' => self::SQL_SELECT_FULL_NAME,
+               // 'fullName' => self::SQL_SELECT_FULL_NAME,
                 //'address'=>'owner.address_1',
             ])
             ->from(['record' => static::tableName()])
@@ -290,7 +290,7 @@ class Record extends RecordModel
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         //$query->andFilterWhere( ['in', 'record.id', $params['ids']]);
-        $query->andFilterWhere( ['in', 'status_id', [4010, 4040]]);
+        //$query->andFilterWhere( ['in', 'status_id', [4010, 4040]]);
 
 
         return $dataProvider;

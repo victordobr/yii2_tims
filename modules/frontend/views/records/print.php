@@ -20,24 +20,9 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     <?php $this->registerJs("
     $('#print-preview').on('click', function(e) {
 
-        //alert('hello');
-        //var keys = $('#grid').yiiGridView('getSelectedRows');
-        //var keys = [\"Saab\", \"Volvo\", \"BMW\"];
-        //var keys = $('#grid').yiiGridView('getSelectedRows');
-         //window.location.href='<?php echo Url::to(['mycontroller/bulk']); ?>&action='+a+'&ids='+keys.join();
-        //location.href=this.href+'?key='+scrt_var;return false;
-       //window.location.href='$.post(\"printlast\",?{ 'choices[]': [\"Jon\", \"Susan\"] })';
-
-
         var keys = $('#grid-record-print').yiiGridView('getSelectedRows');
 
-
         window.location.href = \"printtemp?\" +  $.param({ids:keys});
-
-
-      //window.location.href='printtemp&action='+a+'&ids='+keys.join();
-
-       console.log(keys);
 
     });
 

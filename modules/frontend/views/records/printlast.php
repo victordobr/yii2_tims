@@ -19,10 +19,8 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     <div class="header-title">
         <h1><?= yii\helpers\Html::encode($this->title) ?></h1>
     </div>
-    <a id="modal-button-" class="img-pic" data-toggle="modal" data-target=""
-       title="">PRINT</a>
-    <a id="modal-button-" class="img-pic" data-toggle="modal" data-target=""
-       title="">PRINT ALL</a>
+
+
     <div class="white-background">
         <!--        <div class="right">-->
         <!--            --><?php //echo Html::a(Html::encode($clearLabel), ['search'], ['class' => 'btn btn-primary']) ?>
