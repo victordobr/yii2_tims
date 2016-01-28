@@ -22,9 +22,12 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     $('#print-preview').on('click', function(e) {
 
         var keys = $('#grid-record-print').yiiGridView('getSelectedRows');
-
+        if(keys!=''){
         window.location.href = \"printtemp?\" +  $.param({ids:keys});
-
+        }
+        else{
+            alert('Please select record');
+        }
     });
 
     "); ?>

@@ -15,7 +15,7 @@ class PrintAsset extends AssetBundle
     ];
 
     public $js = [
-        //'js/print.js',
+        '//maps.googleapis.com/maps/api/js',
     ];
 
     public $depends = [

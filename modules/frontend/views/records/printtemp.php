@@ -13,7 +13,6 @@ use yii\helpers\ArrayHelper;
 $this->title = \Yii::t('app', ' ');
 $clearLabel = \Yii::t('app', 'Clear Filters');
 
-$this->registerJsFile('http://maps.googleapis.com/maps/api/js');
 \app\assets\PrintAsset::register($this);
 ?>
 
