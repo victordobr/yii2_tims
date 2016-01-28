@@ -50,14 +50,6 @@ class Record extends base\Record
         ]);
     }
 
-    public function beforeValidate()
-    {
-        if($this->isNewRecord){
-            $this->user_id = yii::$app->user->id;
-        }
-        return parent::beforeValidate();
-    }
-
     /**
      * @inheritdoc
      */
