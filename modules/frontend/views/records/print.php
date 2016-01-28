@@ -23,7 +23,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
         var keys = $('#grid-record-print').yiiGridView('getSelectedRows');
         if(keys!=''){
-        window.location.href = \"printtemp?\" +  $.param({ids:keys});
+        window.location.href = \"printlist?\" +  $.param({ids:keys});
         }
         else{
             alert('Please select record');
@@ -50,19 +50,6 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'class'=>'kartik\grid\CheckboxColumn',
                     'headerOptions'=>['class'=>'kartik-sheet-style'],
-                ],
-                [
-                    'class' => \kartik\grid\ActionColumn::className(),
-                    'template'=>'{review}',
-                    'buttons'=>[
-                        'review' => function ($url, $model) {
-                            return \yii\helpers\Html::a(
-                                '<span class="glyphicon glyphicon-eye-open"></span>',
-                                \yii\helpers\Url::to(['records/review', 'id' => $model->id]),
-                                ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
-                            );
-                        },
-                    ],
                 ],
 
                 [
@@ -95,6 +82,19 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                     'label' => 'Elapsed time, days',
                     'attribute' => 'elapsedTime',
                     'headerOptions' => ['style' => 'width: 50px;']
+                ],
+                [
+                    'class' => \kartik\grid\ActionColumn::className(),
+                    'template'=>'{review}',
+                    'buttons'=>[
+                        'review' => function ($url, $model) {
+                            return \yii\helpers\Html::a(
+                                '<span class="glyphicon glyphicon-eye-open"></span>',
+                                \yii\helpers\Url::to(['records/review', 'id' => $model->id]),
+                                ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
+                            );
+                        },
+                    ],
                 ],
 
 

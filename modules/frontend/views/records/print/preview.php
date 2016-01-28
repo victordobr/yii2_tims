@@ -1,5 +1,5 @@
 <?php
-if (isset($model->owner)):
+
 $this->registerJs("
 
     function initialize_$model->id()
@@ -42,18 +42,17 @@ $this->registerJs("
     <div>
         <span class="bold">Date Time:</span>  <?=Yii::$app->formatter->asDatetime("$model->infraction_date", "php:d-m-Y H:i:s"); ?></span>
         <br />
-        <span class="bold">License Plate Number:</span> <?php print $model->license; ?>
+        <span class="bold">License Plate Number:</span> <?=$model->license; ?>
         <br />
-        <span class="bold">State:</span> <?php print \app\enums\States::labelById($model->state_id); ?>
+        <span class="bold">State:</span> <?= \app\enums\States::labelById($model->state_id); ?>
 
          <br>
-        <span class="bold">Vehicle Make Model:</span> <?php print $model->owner->vehicleName; ?>,<br />
 
-        <span class="bold">Vehicle Color:</span>
-        <?php
-        print \app\enums\VehicleColors::labelById($model->owner->vehicle_color_id);
+        <?php if(isset($model->owner)):?>
+        <span class="bold">Vehicle Make Model:</span> <?=$model->owner->vehicleName; ?>,<br />
+        <span class="bold">Vehicle Color:</span><?= \app\enums\VehicleColors::labelById($model->owner->vehicle_color_id); ?><br>
+        <?php endif;?>
 
-        ?><br>
     </div>
     <br>
     <table width="100%" cellspacing="5" border="0" class="media">
@@ -63,8 +62,8 @@ $this->registerJs("
             </td><td>Location
             </td></tr>
         <tr>
-            <td><img width="200" height="200" alt="n/a" src="<?php print $model->imageOverviewCamera->url;  ?>"></td>
-            <td><img width="200" height="200" alt="n/a" src="<?php print $model->imageLpr->url;  ?>"></td>
+            <td><img width="200" height="200" alt="n/a" src="<?= $model->imageOverviewCamera->url;  ?>"></td>
+            <td><img width="200" height="200" alt="n/a" src="<?= $model->imageLpr->url;  ?>"></td>
             <td><div id="googleMap-<?= $model->id ?>" style="width:300px;height:250px;"></div></td>
         </tr>
         </tbody></table>
@@ -78,9 +77,7 @@ $this->registerJs("
     <div class="page"></div>
 
 </div>
-<?php else: ?>
 
-    <h4>This record owner exist</h4>
 
-<?php endif; ?>
+
 

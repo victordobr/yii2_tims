@@ -77,24 +77,16 @@ class RecordsController extends Controller
     }
 
 
-    public function actionPrinttemp()
+    public function actionPrintList()
     {
-//        $ids = Yii::$app->getRequest()->getQueryParam('ids');
-//
-//        print_r($ids);
-//        ['ids'=>$ids]
-//
-//        die();
-//        $this->layout = 'middle.php';
-//        var_dump($this->layout); die;
 
         $this->layout='print';
+        \app\assets\PrintAsset::register($this->getView());
         $model = new RecordSearch;
-        $dataProvider = $model->searchPrinttemp(Yii::$app->request->queryParams);
+        $dataProvider = $model->searchPrintList(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
-        return $this->render('printtemp', [
+        return $this->render('print-list', [
 
-        //return $this->render('printlast', [
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);

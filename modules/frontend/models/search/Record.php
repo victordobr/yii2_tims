@@ -299,13 +299,7 @@ class Record extends RecordModel
 
 
 
-
-
-
-
-
-
-    public function searchPrinttemp($params)
+    public function searchPrintList($params)
     {
         $query = $this->find()
             ->select([
@@ -319,7 +313,7 @@ class Record extends RecordModel
                 'status_id' => 'record.status_id',
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
                 'fullName' => self::SQL_SELECT_FULL_NAME,
-//                'state'=>'owner.state_id',
+
 
 
 
@@ -339,8 +333,6 @@ class Record extends RecordModel
 
 
             ]);
-
-
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -395,15 +387,6 @@ class Record extends RecordModel
 
         return $dataProvider;
     }
-
-
-
-
-
-
-
-
-
     /**
      * Creates data provider instance with search query applied
      *
