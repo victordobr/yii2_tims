@@ -13,6 +13,7 @@ use app\modules\auth\models\mappers\classes\UserIdentity as User,
     app\modules\auth\models\forms\Login,
     app\modules\auth\models\forms\Forgot,
     app\modules\auth\models\forms\Recover;
+use app\modules\auth\models\forms\Answer;
 
 /**
  * Controller class. Implements default auth functionality.
@@ -95,7 +96,6 @@ class DefaultController extends Controller
 
             $recoveryUrl = \yii\helpers\Url::to(['recover', self::HASH_PARAM_NAME => $recoverHash], true);
 
-
             $isSent = Yii::$app->mailer->compose('user_recoverPassword', ['recoveryUrl' => $recoveryUrl])
                 ->setTo($model->email)
                 ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['adminFrom']])
@@ -124,10 +124,49 @@ class DefaultController extends Controller
     public function actionRecover()
     {
         $recoverHash = Yii::$app->request->get(self::HASH_PARAM_NAME);
-        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
+        if (!$recoverHash) {
+            throw new HttpException(400, Yii::t('app', 'Bad security code'));
+        }
 
+        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
         if (!$user) {
             throw new HttpException(400, Yii::t('app', 'Bad security code'));
+        }
+
+        $cookies = Yii::$app->request->cookies;
+        $answerCookie = $cookies->getValue('answer');
+
+        if ($user->question_id && $user->question_answer && !$answerCookie) {
+
+            $answerModel = new Answer();
+
+            $question = $user->question->text;
+            $answer = false;
+            if ($answerModel->load(Yii::$app->request->post()) && $answerModel->validate()) {
+                if ($user->question_answer == $answerModel->answer) {
+                    $answer = true;
+                    $cookies = Yii::$app->response->cookies;
+                    $cookies->add(new \yii\web\Cookie([
+                        'name' => 'answer',
+                        'value' => $answer,
+                    ]));
+                }
+                else {
+                    $alert = \yii\bootstrap\Alert::widget([
+                        'options' => [
+                            'class' => 'alert-danger',
+                        ],
+                        'body' => Yii::t('app', 'The answer is not correct!'),
+                    ]);
+                    Yii::$app->getSession()->setFlash('danger', $alert);
+                }
+            }
+            if ($answer == false) {
+                return $this->render('answer', [
+                    'questions' => $question,
+                    'model' => $answerModel,
+                ]);
+            }
         }
 
         $model = new Recover();
@@ -151,7 +190,6 @@ class DefaultController extends Controller
             'model' => $model,
         ]);
     }
-
 
     public function actionActivation()
     {
