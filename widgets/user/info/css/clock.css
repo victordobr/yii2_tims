@@ -1,0 +1,16 @@
+#Date {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+ul {
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+ul li {
+    display: inline;
+    text-align: center;
+}

@@ -168,4 +168,12 @@ class User extends base\User
         return $only_values ? array_keys(self::$pre_names) : self::$pre_names;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecord()
+    {
+        return $this->hasOne(Record::className(), ['user_id' => 'id']);
+    }
+
 }
