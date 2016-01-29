@@ -94,11 +94,7 @@ class DefaultController extends Controller
                 throw new HttpException(500, Yii::t('app', 'Database error'));
             }
 
-            $user = User::find()->where(['email' => $model->email])->one();
-
-            $path = ($user->question_id && $user->question_answer) ? 'question' : 'recover';
-
-            $recoveryUrl = \yii\helpers\Url::to([$path, self::HASH_PARAM_NAME => $recoverHash], true);
+            $recoveryUrl = \yii\helpers\Url::to(['recover', self::HASH_PARAM_NAME => $recoverHash], true);
 
             $isSent = Yii::$app->mailer->compose('user_recoverPassword', ['recoveryUrl' => $recoveryUrl])
                 ->setTo($model->email)
@@ -137,6 +133,42 @@ class DefaultController extends Controller
             throw new HttpException(400, Yii::t('app', 'Bad security code'));
         }
 
+        $cookies = Yii::$app->request->cookies;
+        $answerCookie = $cookies->getValue('answer');
+
+        if ($user->question_id && $user->question_answer && !$answerCookie) {
+
+            $answerModel = new Answer();
+
+            $question = $user->question->text;
+            $answer = false;
+            if ($answerModel->load(Yii::$app->request->post()) && $answerModel->validate()) {
+                if ($user->question_answer == $answerModel->answer) {
+                    $answer = true;
+                    $cookies = Yii::$app->response->cookies;
+                    $cookies->add(new \yii\web\Cookie([
+                        'name' => 'answer',
+                        'value' => $answer,
+                    ]));
+                }
+                else {
+                    $alert = \yii\bootstrap\Alert::widget([
+                        'options' => [
+                            'class' => 'alert-danger',
+                        ],
+                        'body' => Yii::t('app', 'The answer is not correct!'),
+                    ]);
+                    Yii::$app->getSession()->setFlash('danger', $alert);
+                }
+            }
+            if ($answer == false) {
+                return $this->render('answer', [
+                    'questions' => $question,
+                    'model' => $answerModel,
+                ]);
+            }
+        }
+
         $model = new Recover();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -158,44 +190,6 @@ class DefaultController extends Controller
             'model' => $model,
         ]);
     }
-
-    public function actionQuestion()
-    {
-        $recoverHash = Yii::$app->request->get(self::HASH_PARAM_NAME);
-        if (!$recoverHash) {
-            throw new HttpException(400, Yii::t('app', 'Bad security code'));
-        }
-
-        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
-        if (!$user) {
-            throw new HttpException(400, Yii::t('app', 'Bad security code'));
-        }
-
-        $model = new Answer();
-
-        $question = $user->question->text;
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($user->question_answer == $model->answer) {
-                $this->redirect(['recover', 'hash' => $recoverHash]);
-            }
-            else {
-                $alert = \yii\bootstrap\Alert::widget([
-                    'options' => [
-                        'class' => 'alert-danger',
-                    ],
-                    'body' => Yii::t('app', 'The answer is not correct!'),
-                ]);
-                Yii::$app->getSession()->setFlash('danger', $alert);
-            }
-        }
-
-        return $this->render('answer', [
-            'questions' => $question,
-            'model' => $model,
-        ]);
-    }
-
 
     public function actionActivation()
     {
