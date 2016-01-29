@@ -23,7 +23,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
         var keys = $('#grid-record-print').yiiGridView('getSelectedRows');
         if(keys!=''){
-        window.location.href = \"printlist?\" +  $.param({ids:keys});
+        window.location.href = \"print-list?\" +  $.param({ids:keys});
         }
         else{
             alert('Please select record');
