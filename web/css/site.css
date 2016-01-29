@@ -253,3 +253,7 @@ a.desc:after {
     font-size: 1.2em;
 }
 
+label.help {
+    border-bottom: 1px dashed #888;
+    cursor: help;
+}

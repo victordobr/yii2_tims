@@ -1,76 +1,15 @@
 <?php
 
-namespace app\widgets\mapPopup;
-
-use yii\base\Widget;
-use yii\web\View;
-use kartik\icons\Icon;
-use app\widgets\mapPopup\assets\MapPopupAsset;
-use app\helpers\TimsHelper;
-
+namespace app\helpers;
 
 /**
- * MapPopup class implements the mapPopup widget to handle map view.
- * @author Vitalii Fokov
+ * Class TimsHelper
+ *
+ * Base helper file of the project
+ * @package app\helpers
  */
-
-class MapPopup extends Widget
+class TimsHelper
 {
-    public $latitude;
-    public $longitude;
-    public $modalId;
-
-    public function init()
-    {
-        $this->modalId = 'modal-' .  $this->id;
-        $this->registerScripts();
-    }
-
-    public function registerScripts()
-    {
-        MapPopupAsset::register($this->getView());
-        $latitude = TimsHelper::convertDMSToDecimal($this->latitude);
-        $longitude = TimsHelper::convertDMSToDecimal($this->longitude);
-        $this->getView()->registerJs("
-            var myCenter = new google.maps.LatLng(\"{$latitude}\", \"{$longitude}\");
-
-            function initialize()
-            {
-                var mapProp = {
-                    center:myCenter,
-                    zoom:5,
-                    mapTypeId:google.maps.MapTypeId.ROADMAP
-                };
-                var map=new google.maps.Map(document.getElementById(\"googleMap\"),mapProp);
-                var marker=new google.maps.Marker({
-                    position:myCenter,
-                });
-                marker.setMap(map);
-                var infowindow = new google.maps.InfoWindow({
-                    content: 'Place Location'
-                });
-                infowindow.open(map,marker);
-            }
-
-            jQuery(function(){
-                $('#{$this->modalId}').on('shown.bs.modal', function () {
-                    initialize();
-                });
-            });
-        ", View::POS_END, 'my-options');
-    }
-
-    public function run()
-    {
-        $icon = Icon::show('globe', ['class' => 'fa-3x']);
-
-        return $this->render('index', [
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'modalId' => $this->modalId,
-            'icon' => $icon,
-        ]);
-    }
 
     /**
      * Convert DMS (degrees / minutes / seconds) to decimal degrees

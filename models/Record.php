@@ -30,6 +30,13 @@ class Record extends base\Record
             [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
+            [
+                ['lat', 'lng'],
+                'yii\validators\RegularExpressionValidator',
+                'pattern' => '(([0-9]{1,3})[º ]+([0-9]{1,3})[\' ]+([0-9]{1,3})[. ]+([0-9]{1,3})[" ]+([nsewNSEW]))',
+                'message' => Yii::t('app',
+                    'Incorrect format. Enter correct number, for example: 36º 13\' 49.378" E')
+            ],
             [['license'], 'string', 'max' => 250],
         ];
     }
