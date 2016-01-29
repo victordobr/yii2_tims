@@ -11,6 +11,7 @@ use Yii;
 use app\models\Record;
 use app\models\File;
 use app\modules\frontend\models\search\Record as RecordSearch;
+use app\modules\frontend\models\_print\Record as RecordPrint;
 
 use app\enums\EvidenceFileType;
 use yii\filters\AccessControl;
@@ -110,6 +111,55 @@ class RecordsController extends Controller
         ]);
     }
 
+
+    public function actionPrint()
+    {
+        $model = new RecordPrint;
+        $dataProvider = $model->searchPrint(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+
+        return $this->render('print', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionPrintlast()
+    {
+//        $ids = Yii::$app->getRequest()->getQueryParam('ids');
+//
+//        print_r($ids);
+//        ['ids'=>$ids]
+//
+//        die();
+//        $this->layout = 'middle.php';
+//        var_dump($this->layout); die;
+
+        $model = new RecordPrint;
+        $dataProvider = $model->searchPrintLast(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+//        return $this->renderPartial('printlast', [
+
+        return $this->render('printlast', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+    public function actionPrintList()
+    {
+
+        $this->layout='print';
+        \app\assets\PrintAsset::register($this->getView());
+        $model = new RecordPrint;
+        $dataProvider = $model->searchPrintList(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+        return $this->render('print-list', [
+
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Create Record model or update an existing Record model. Create Files and attach to Record model.
      * If update is successful, the browser will be redirected to the 'upload' page.

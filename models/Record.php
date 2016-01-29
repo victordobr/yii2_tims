@@ -151,4 +151,5 @@ class Record extends base\Record
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
 }
