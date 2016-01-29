@@ -11,8 +11,8 @@ use \app\models\User;
 $this->title = \Yii::t('app', 'Search Panel - List of uploaded records');
 $clearLabel = \Yii::t('app', 'Clear Filters');
 ?>
-<div class="user-index">
 
+<div class="user-index">
 
     <div class="header-title">
         <h1><?= yii\helpers\Html::encode($this->title) ?></h1>
@@ -28,6 +28,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
+            'formSelector' => '#form-record-search-filter'
         ]);
         ?>
         <?= yii\grid\GridView::widget([

@@ -6,6 +6,7 @@ use app\enums\Role;
 use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\ReviewAction;
+use app\widgets\record\filter\Filter;
 use Yii;
 use app\models\Record;
 use app\modules\frontend\models\search\Record as RecordSearch;
@@ -17,7 +18,6 @@ use yii\web\BadRequestHttpException;
 use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
 use \app\assets\NotifyJsAsset;
-use yii\web\NotFoundHttpException;
 use \yii\web\Response;
 use \yii\widgets\ActiveForm;
 
@@ -94,9 +94,14 @@ class RecordsController extends Controller
      */
     public function actionSearch()
     {
+        $this->layout = 'two-columns';
+
         $model = new RecordSearch;
+
         $dataProvider = $model->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+
+        Yii::$app->view->params['aside'] = Filter::widget(['model' => $model]);
 
         return $this->render('search', [
             'model' => $model,
