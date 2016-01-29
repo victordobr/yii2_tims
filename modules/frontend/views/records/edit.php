@@ -18,7 +18,7 @@ use kartik\date\DatePicker;
 use app\enums\States;
 use yii\widgets\MaskedInput;
 
-$this->title = 'Create Record';
+$this->title = 'Verify Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
