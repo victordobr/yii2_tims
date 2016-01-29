@@ -13,6 +13,7 @@ use app\modules\auth\models\mappers\classes\UserIdentity as User,
     app\modules\auth\models\forms\Login,
     app\modules\auth\models\forms\Forgot,
     app\modules\auth\models\forms\Recover;
+use app\modules\auth\models\forms\Answer;
 
 /**
  * Controller class. Implements default auth functionality.
@@ -93,8 +94,11 @@ class DefaultController extends Controller
                 throw new HttpException(500, Yii::t('app', 'Database error'));
             }
 
-            $recoveryUrl = \yii\helpers\Url::to(['recover', self::HASH_PARAM_NAME => $recoverHash], true);
+            $user = User::find()->where(['email' => $model->email])->one();
 
+            $path = ($user->question_id && $user->question_answer) ? 'question' : 'recover';
+
+            $recoveryUrl = \yii\helpers\Url::to([$path, self::HASH_PARAM_NAME => $recoverHash], true);
 
             $isSent = Yii::$app->mailer->compose('user_recoverPassword', ['recoveryUrl' => $recoveryUrl])
                 ->setTo($model->email)
@@ -124,8 +128,11 @@ class DefaultController extends Controller
     public function actionRecover()
     {
         $recoverHash = Yii::$app->request->get(self::HASH_PARAM_NAME);
-        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
+        if (!$recoverHash) {
+            throw new HttpException(400, Yii::t('app', 'Bad security code'));
+        }
 
+        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
         if (!$user) {
             throw new HttpException(400, Yii::t('app', 'Bad security code'));
         }
@@ -148,6 +155,43 @@ class DefaultController extends Controller
         }
 
         return $this->render('recover', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionQuestion()
+    {
+        $recoverHash = Yii::$app->request->get(self::HASH_PARAM_NAME);
+        if (!$recoverHash) {
+            throw new HttpException(400, Yii::t('app', 'Bad security code'));
+        }
+
+        $user = User::find()->where(['recover_hash' => $recoverHash])->one();
+        if (!$user) {
+            throw new HttpException(400, Yii::t('app', 'Bad security code'));
+        }
+
+        $model = new Answer();
+
+        $question = $user->question->text;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($user->question_answer == $model->answer) {
+                $this->redirect(['recover', 'hash' => $recoverHash]);
+            }
+            else {
+                $alert = \yii\bootstrap\Alert::widget([
+                    'options' => [
+                        'class' => 'alert-danger',
+                    ],
+                    'body' => Yii::t('app', 'The answer is not correct!'),
+                ]);
+                Yii::$app->getSession()->setFlash('danger', $alert);
+            }
+        }
+
+        return $this->render('answer', [
+            'questions' => $question,
             'model' => $model,
         ]);
     }
