@@ -127,7 +127,10 @@ class Record extends \app\modules\frontend\models\base\Record
     {
         $this->uploader_list[0] = 'all';
         foreach ($this->getUploaders() as $user) {
-            $this->uploader_list[$user->id] = join(' / ', [$user->getFullName(), $user->id]);
+            $full_name = trim($user->getFullName());
+            $this->uploader_list[$user->id] = !$full_name ?
+                '# ' . $user->id :
+                $user->getFullName() . ' / ' . $user->id;
         }
 
         return $this->uploader_list;
