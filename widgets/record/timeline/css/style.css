@@ -1,30 +1,56 @@
+.panel.panel-case-timeline {
+    border: none;
+}
+
+.panel.panel-case-timeline > .panel-heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    padding-bottom: 0;
+    background: transparent;
+    text-align: center;
+}
+
+/* stage styles */
+
 .tl-stage {
     position: relative;
     float: left;
     width: 100%;
-    height: 64px;
+    height: 56px;
+    margin-bottom: 4px;
     padding-left: 10%;
-}
-
-.tl-stage > span {
-    float: left;
-    width: 90%;
-    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .tl-stage:before {
+    content: "\f00c";
+    float: left;
     position: absolute;
-    width: 10%;
-    height: 32px;
+    width: 15%;
     left: 0;
-    top: 8px;
-    font-family: 'FontAwesome', cursive;
-    font-size: 1.5em;
+    top: 0;
+    font: 24px/54px 'FontAwesome', cursive;
     text-align: center;
+    background: #eee;
+    color: #eee;
+    border-radius: 4px 1px 1px 4px;
 }
 
 .tl-stage.tl-done:before {
-    content: "\f00c";
+    color: rgba(255, 255, 255, .96);
+    background: rgba(0, 128, 0, .7);
+}
+
+.tl-stage > .tl-label,
+.tl-stage > .tl-date {
+    line-height: 26px;
+}
+.tl-stage > span {
+    float: left;
+    width: 100%;
+    text-align: center;
 }
 
 .tl-stage > .tl-label {
@@ -32,5 +58,24 @@
 }
 
 .tl-stage > .tl-date {
-    color: #8c8c8c;
+    color: rgba(0, 0, 178, .7);
+}
+
+/* time remaining */
+.panel.panel-time-remaining {
+    border: none;
+}
+.panel.panel-time-remaining > .panel-heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    padding: 0;
+    background: transparent;
+    text-align: center;
+}
+.panel.panel-time-remaining .panel-body {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #999;
 }

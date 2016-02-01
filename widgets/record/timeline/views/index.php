@@ -4,7 +4,7 @@
  */
 ?>
 
-<div class="panel panel-default">
+<div class="panel panel-default panel-case-timeline">
     <div class="panel-heading">
         <?= Yii::t('app', 'Case timeline') ?>
     </div>
@@ -16,12 +16,12 @@
     </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default panel-time-remaining">
     <div class="panel-heading">
         <?= Yii::t('app', 'Time remaining') ?>
     </div>
 
     <div class="panel-body">
-        7 days
+        <span>7 days</span>
     </div>
 </div>

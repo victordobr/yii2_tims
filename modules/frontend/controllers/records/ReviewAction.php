@@ -29,10 +29,11 @@ class ReviewAction extends Action
         $record = $this->controller()->findModel(Record::className(), $id);
 
         $history = [];
+        $formatter = Yii::$app->formatter;
         foreach ($record->statusHistory as $status) {
             $history[$status->status_code] = [
                 'label' => $status->status_code,
-                'date' => $status->created_at,
+                'date' => $formatter->asDate($status->created_at, 'php:d M Y'),
             ];
         }
         Yii::$app->view->params['aside'] = Timeline::widget(['history' => $history]);

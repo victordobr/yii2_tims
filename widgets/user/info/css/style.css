@@ -1,5 +1,6 @@
 .panel-user-info {
     border: none;
+    box-shadow: none;
 }
 
 .panel-user-info .panel-heading {
