@@ -1,0 +1,36 @@
+.tl-stage {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 64px;
+    padding-left: 10%;
+}
+
+.tl-stage > span {
+    float: left;
+    width: 90%;
+    text-align: center;
+}
+
+.tl-stage:before {
+    position: absolute;
+    width: 10%;
+    height: 32px;
+    left: 0;
+    top: 8px;
+    font-family: 'FontAwesome', cursive;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.tl-stage.tl-done:before {
+    content: "\f00c";
+}
+
+.tl-stage > .tl-label {
+    font-weight: bold;
+}
+
+.tl-stage > .tl-date {
+    color: #8c8c8c;
+}
