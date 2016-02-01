@@ -105,7 +105,7 @@ class Record extends \app\modules\frontend\models\base\Record
 
     private function initCreatedAtFilters()
     {
-        $input = Html::input('text', 'Record[X]', '', ['maxlength' => 3, 'style' => 'width: 32px;']);
+        $input = Html::input('text', 'Record[X]', '', ['maxlength' => 3]);
 
         return $this->filter_created_at_list = [
             self::CREATED_AT_TODAY => Yii::t('app', 'Today'),
