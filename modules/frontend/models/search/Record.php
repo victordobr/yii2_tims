@@ -30,6 +30,7 @@ class Record extends \app\modules\frontend\models\base\Record
     public $by_status;
     public $uploaded_by;
 
+
     public function search($params)
     {
         if (empty($params['Record']['user_id'])) {
@@ -53,18 +54,6 @@ class Record extends \app\modules\frontend\models\base\Record
         if (!empty($params['filter_status'])) {
             $this->filterByStatus($query, $params['filter_status']);
         }
-
-//        echo '<pre>';
-//        print_r($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-//        echo '</pre>';
-//        echo '<pre>';
-//        print_r($this->getAttributes());
-//        echo '</pre>';
-//        echo '<pre>';
-//        print_r($params);
-//        echo '</pre>';
-//        var_dump(empty($params['user_id']));
-//        die;
 
         return $provider;
     }
@@ -161,5 +150,4 @@ class Record extends \app\modules\frontend\models\base\Record
 
         return $this->uploader_list;
     }
-
 }

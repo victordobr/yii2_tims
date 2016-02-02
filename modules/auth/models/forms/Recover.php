@@ -23,7 +23,7 @@ class Recover extends Model
     {
         return [
             [['password', 'repeatPassword'], 'required'],
-            [['password', 'repeatPassword'], 'string', 'max' => 255],
+            [['password', 'repeatPassword'], 'string', 'max' => 255, 'min' => 6],
             ['repeatPassword', 'compare', 'compareAttribute' => 'password'],
         ];
     }

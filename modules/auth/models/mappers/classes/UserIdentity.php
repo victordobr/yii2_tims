@@ -2,6 +2,8 @@
 
 namespace app\modules\auth\models\mappers\classes;
 
+use app\behaviors\PasswordAttributeBehavior;
+use app\models\Question;
 use Yii,
     yii\web\IdentityInterface;
 use yii\db\ActiveRecord;
@@ -53,6 +55,18 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => PasswordAttributeBehavior::className(),
+                'attribute' => 'password',
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -178,5 +192,13 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
     public function getUsername()
     {
         return $this->email;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuestion()
+    {
+        return $this->hasOne(Question::className(), ['id' => 'question_id']);
     }
 }

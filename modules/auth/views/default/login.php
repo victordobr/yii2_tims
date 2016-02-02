@@ -39,7 +39,7 @@ $this->title = Yii::t('app', 'Login');
             <?= yii\helpers\Html::submitButton(Yii::t('app', 'Login'),
                 ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 
-<!--            --><?php //echo yii\helpers\Html::a(Yii::t('app', 'Forgot password?'), ['forgot'], ['class' => 'btn btn-link']); ?>
+            <?php echo yii\helpers\Html::a(Yii::t('app', 'Forgot password?'), ['forgot'], ['class' => 'btn btn-link']); ?>
         </div>
     </div>
 

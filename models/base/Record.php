@@ -78,4 +78,13 @@ class Record extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOwner()
+    {
+        return $this->hasOne(Owner::className(), ['record_id' => 'id']);
+    }
+
 }
