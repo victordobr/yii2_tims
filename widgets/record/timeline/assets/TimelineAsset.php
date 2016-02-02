@@ -1,16 +1,16 @@
 <?php
-namespace app\widgets\record\filter\assets;
+namespace app\widgets\record\timeline\assets;
 
 use \Yii;
 use \yii\web\AssetBundle;
 use yii\web\View;
 
-class FilterAsset extends AssetBundle
+class TimelineAsset extends AssetBundle
 {
-    public $sourcePath = '@app/widgets/record/filter';
+    public $sourcePath = '@app/widgets/record/timeline';
 
     public $js = [
-        'js/index.js',
+//        'js/index.js',
     ];
 
     public $css = [

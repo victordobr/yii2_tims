@@ -7,6 +7,10 @@ $(function () {
         ];
 
     $('#form-record-search-filter').on('change', selectors.join(','), function () {
-        $(this).parents('form').submit();
+        if ($(this).prop('name') == 'Record[filter_created_at]' && $(this).val() == 3) {
+            $(this).parent('label').find('input[type="text"]').focus();
+        } else {
+            $(this).parents('form').submit();
+        }
     });
 });

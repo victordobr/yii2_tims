@@ -1,0 +1,82 @@
+.panel.panel-case-timeline {
+    border: none;
+}
+
+.panel.panel-case-timeline > .panel-heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    padding-bottom: 0;
+    background: transparent;
+    text-align: center;
+}
+
+/* stage styles */
+
+.tl-stage {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 48px;
+    margin-bottom: 4px;
+    padding-left: 10%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.tl-stage:before {
+    content: "\f00c";
+    float: left;
+    position: absolute;
+    width: 15%;
+    left: -1px;
+    top: -1px;
+    font: 24px/46px 'FontAwesome', cursive;
+    text-align: center;
+    background: #eee;
+    color: #eee;
+    border-radius: 4px 1px 1px 4px;
+    border: 1px solid #ddd;
+}
+
+.tl-stage.tl-done:before {
+    color: rgba(255, 255, 255, .96);
+    background: rgba(0, 128, 0, .6);
+}
+
+.tl-stage > .tl-label,
+.tl-stage > .tl-date {
+    line-height: 24px;
+}
+.tl-stage > span {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.tl-stage > .tl-label {
+    font-weight: bold;
+}
+
+.tl-stage > .tl-date {
+    color: rgba(0, 0, 178, .7);
+}
+
+/* time remaining */
+.panel.panel-time-remaining {
+    border: none;
+}
+.panel.panel-time-remaining > .panel-heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    padding: 0;
+    background: transparent;
+    text-align: center;
+}
+.panel.panel-time-remaining .panel-body {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #999;
+}

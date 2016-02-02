@@ -1,0 +1,29 @@
+.panel-user-info {
+    border: none;
+    box-shadow: none;
+}
+
+.panel-user-info .panel-heading {
+    font-size: 14px;
+    background: transparent;
+}
+
+.panel-user-info .panel-heading #Date {
+    font-weight: normal;
+}
+
+.panel-user-info .panel-body {
+    padding: 0;
+}
+
+.panel-user-info .panel-body th,
+.panel-user-info .panel-body td {
+    padding: 0;
+    margin: 0;
+    border: none;
+    color: #999;
+}
+
+.panel-user-info .panel-body .control-group {
+    line-height: 32px;
+}

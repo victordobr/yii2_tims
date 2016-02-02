@@ -13,10 +13,6 @@ $this->title = \Yii::t('app', 'Update Profile');
 ?>
 <div class="profile-update">
 
-    <div class="header-title">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
-
     <div class="white-background">
         <div class="profile-form">
             <div class="form-group">

@@ -23,9 +23,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="record-media">
         <?php if ($model->imageOverviewCamera): ?>
             <?= app\widgets\mediaPopup\MediaPopup::widget([

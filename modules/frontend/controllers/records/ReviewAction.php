@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\widgets\record\timeline\Timeline;
 use Yii;
 use app\enums\CaseStatus;
 use app\models\Record;
@@ -13,13 +14,29 @@ use yii\helpers\Url;
 
 class ReviewAction extends Action
 {
+    public function init()
+    {
+        parent::init();
+        $this->controller()->layout = 'two-columns';
+    }
 
     public function run($id = 0)
     {
         if (!$id) {
             $this->controller()->redirect(['search']);
         }
+
         $record = $this->controller()->findModel(Record::className(), $id);
+
+        $history = [];
+        $formatter = Yii::$app->formatter;
+        foreach ($record->statusHistory as $status) {
+            $history[$status->status_code] = [
+                'label' => $status->status_code,
+                'date' => $formatter->asDate($status->created_at, 'php:d M Y'),
+            ];
+        }
+        Yii::$app->view->params['aside'] = Timeline::widget(['history' => $history]);
 
         return $this->controller()->render('review', [
             'model' => $record,
