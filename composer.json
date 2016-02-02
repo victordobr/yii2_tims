@@ -49,7 +49,8 @@
         "kfosoft/php-int-enum-x64": "1.0",
         "johnitvn/yii2-rbac-plus": "*",
         "pheme/yii2-settings": "*",
-        "2amigos/yii2-google-maps-library" : "*"
+        "2amigos/yii2-google-maps-library" : "*",
+        "yiicod/yii2-listener": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

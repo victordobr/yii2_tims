@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4aac2d307942c009a8223d609a87640",
-    "content-hash": "93cf3cfa55fee5fccfb96367d7e0f61d",
+    "hash": "9a64fda18ee70b7e1ab94aaa7d3b3385",
+    "content-hash": "b4649884153112405c5fc653cea49a9b",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1502,16 +1502,16 @@
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
-            "version": "2.0.8",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-ajaxcrud.git",
-                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b"
+                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/96700fc1cd751a046a5206b6637e376c575eda4b",
-                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b",
+                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/c15bdd01440ced81daedef762f8bbf2f6c337f0b",
+                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b",
                 "shasum": ""
             },
             "require": {
@@ -1552,7 +1552,7 @@
                 "template",
                 "yii2"
             ],
-            "time": "2015-11-19 17:00:34"
+            "time": "2016-01-27 16:20:33"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
@@ -2653,6 +2653,40 @@
                 "yii2 widget"
             ],
             "time": "2015-12-18 10:36:38"
+        },
+        {
+            "name": "yiicod/yii2-listener",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiicod/yii2-listener.git",
+                "reference": "ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiicod/yii2-listener/zipball/ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7",
+                "reference": "ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7",
+                "shasum": ""
+            },
+            "type": "yii-extension",
+            "autoload": {
+                "psr-4": {
+                    "yiicod\\listener\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD License"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Orlov",
+                    "email": "aaorlov88@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The simple and powerful listener for the Yii2 framework",
+            "time": "2015-12-11 21:04:39"
         },
         {
             "name": "yiisoft/yii2",
