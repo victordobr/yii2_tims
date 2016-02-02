@@ -31,7 +31,7 @@ class ReviewAction extends Action
         $history = [];
         $formatter = Yii::$app->formatter;
         foreach ($record->statusHistory as $status) {
-            $history[$status->status_code] = [
+            $history[$status->stage_id] = [
                 'label' => $status->status_code,
                 'date' => $formatter->asDate($status->created_at, 'php:d M Y'),
             ];
