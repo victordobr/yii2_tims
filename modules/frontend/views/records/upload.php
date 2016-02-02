@@ -24,9 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="Record-create">
 
-    <div class="header-title">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
     <div class="Record-form">
 
         <?php $form = ActiveForm::begin([

@@ -14,8 +14,6 @@ $formatter = Yii::$app->formatter;
 ?>
 <div class="police-case-view">
 
-    <div class="header-title"><h1><?= Html::encode($this->title) ?></h1></div>
-
     <div class="col-xs-12">
 
         <div class="row">

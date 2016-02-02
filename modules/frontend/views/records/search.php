@@ -14,14 +14,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
 <div class="user-index">
 
-    <div class="header-title">
-        <h1><?= yii\helpers\Html::encode($this->title) ?></h1>
-    </div>
-
     <div class="white-background">
-        <!--        <div class="right">-->
-        <!--            --><?php //echo Html::a(Html::encode($clearLabel), ['search'], ['class' => 'btn btn-primary']) ?>
-        <!--        </div>-->
 
         <?php
         yii\widgets\Pjax::begin([
