@@ -17,7 +17,7 @@
     position: relative;
     float: left;
     width: 100%;
-    height: 56px;
+    height: 48px;
     margin-bottom: 4px;
     padding-left: 10%;
     border: 1px solid #ddd;
@@ -29,23 +29,24 @@
     float: left;
     position: absolute;
     width: 15%;
-    left: 0;
-    top: 0;
-    font: 24px/54px 'FontAwesome', cursive;
+    left: -1px;
+    top: -1px;
+    font: 24px/46px 'FontAwesome', cursive;
     text-align: center;
     background: #eee;
     color: #eee;
     border-radius: 4px 1px 1px 4px;
+    border: 1px solid #ddd;
 }
 
 .tl-stage.tl-done:before {
     color: rgba(255, 255, 255, .96);
-    background: rgba(0, 128, 0, .7);
+    background: rgba(0, 128, 0, .6);
 }
 
 .tl-stage > .tl-label,
 .tl-stage > .tl-date {
-    line-height: 26px;
+    line-height: 24px;
 }
 .tl-stage > span {
     float: left;
