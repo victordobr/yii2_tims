@@ -26,7 +26,15 @@ $config = [
         ],
         'dynagrid' =>  [
             'class' => 'kartik\dynagrid\Module'
-        ]
+        ],
+        'debug' => [
+            'class' => 'yii\\debug\\Module',
+            'panels' => [
+                'elasticsearch' => [
+                    'class' => 'yii\\elasticsearch\\DebugPanel',
+                ],
+            ],
+        ],
     ],
     'components' => [
         'assetManager' => [
@@ -92,6 +100,8 @@ $config = [
             'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
             'loginUrl' => '/auth/default/login',
+            'on beforeLogin' => ['\app\components\Log', 'login'],
+            'on afterLogout' => ['\app\components\Log', 'logout'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -108,6 +118,12 @@ $config = [
                 'username' => 'vdobrianskiy@entenso.com',
                 'password' => 'Cfb8db8a',
                 'port' => '25',
+            ],
+        ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => '127.0.0.1:9200'],
             ],
         ],
         'log' => [

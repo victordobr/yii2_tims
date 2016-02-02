@@ -17,6 +17,7 @@
         "yiisoft/yii2-imagine": "*",
         "yiisoft/yii2-jui": "*",
         "yiisoft/yii2-swiftmailer": "*",
+        "yiisoft/yii2-elasticsearch": "~2.0.0",
         "bower-asset/jquery": "2.1.4",
         "bower-asset/jquery-ui": "1.11.4",
         "bower-asset/notifyjs": "0.3.2",
