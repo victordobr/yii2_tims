@@ -26,8 +26,6 @@ use \app\assets\NotifyJsAsset;
  */
 class RecordsController extends Controller
 {
-    public $layout = 'one-column';
-
     public function init()
     {
         $view = $this->getView();
