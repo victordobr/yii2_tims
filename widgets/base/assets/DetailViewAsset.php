@@ -13,7 +13,7 @@ class DetailViewAsset extends AssetBundle
     public $js = [
     ];
     public $css = [
-        'css/style.css',
+        'css/detail-view.css',
     ];
 
     public $depends = [

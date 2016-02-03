@@ -17,7 +17,9 @@ class DetailView extends \yii\widgets\DetailView
     public function run()
     {
         echo '<div class="panel panel-default panel-view">';
-        echo '<div class="panel-heading">' . $this->title . '</div>';
+        if ($this->title) {
+            echo '<div class="panel-heading">' . $this->title . '</div>';
+        }
         echo '<div class="panel-body">';
         parent::run();
         echo '</div>';

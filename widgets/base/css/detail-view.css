@@ -19,6 +19,7 @@
 }
 
 .panel.panel-view > .panel-body tr > th {
+    padding-left: 12px;
     color: rgb(51, 51, 51);
 }
 
