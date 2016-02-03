@@ -242,18 +242,6 @@ a.desc:after {
     text-transform: uppercase;
 }
 
-.panel > .panel-body > .table {
-    margin: 0;
-}
-
-.form-group.badge-step {
-    margin-left: -16px;
-}
-
-.badge-step > div > .badge {
-    font-size: 1.2em;
-}
-
 label.help {
     border-bottom: 1px dashed #888;
     cursor: help;
