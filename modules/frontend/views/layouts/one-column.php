@@ -43,14 +43,7 @@ app\assets\AppAsset::register($this);
         </div>
 
         <div class="row">
-            <div class="col-md-9">
                 <?= $content ?>
-            </div>
-            <div class="col-md-3">
-                <div class="aside">
-                    <?= !empty($this->params['aside']) ? $this->params['aside'] : ''; ?>
-                </div>
-            </div>
         </div>
 
     </div>
