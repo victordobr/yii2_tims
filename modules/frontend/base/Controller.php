@@ -7,8 +7,8 @@ namespace app\modules\frontend\base;
  */
 class Controller extends \app\base\Controller
 {
-    /** @var string $layout admin default layout. */
-    public $layout = 'main.php';
+    /** @var string $layout frontend default layout. */
+    public $layout = 'one-column.php';
 
     /**
      * @inheritdoc

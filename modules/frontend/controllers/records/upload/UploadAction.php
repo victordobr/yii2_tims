@@ -4,10 +4,11 @@ namespace app\modules\frontend\controllers\records\upload;
 
 use app\components\media\Media;
 use app\enums\EvidenceFileType;
+use app\events\record\Upload as UploadEvent;
 use app\modules\frontend\controllers\RecordsController;
 use Yii;
 use yii\base\Action;
-use app\modules\frontend\models\search\Record;
+use app\models\Record;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -43,7 +44,10 @@ class UploadAction extends Action
 
         if ($model->load($post) && $model->validate()) {
             if($this->saveRecord($model, $post)){
-                $this->trigger('');
+                Yii::$app->trigger('app.frontend.record.upload.success', new UploadEvent([
+                    'record' => $model,
+                    'user_id' => Yii::$app->user->id,
+                ]));
             }
 
             return $this->controller()->redirect(['upload', 'id' => $model->id]);

@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['eventManager', 'log'],
     'modules' => [
         'auth' => [
             'class' => 'app\modules\auth\Module',
@@ -29,6 +29,9 @@ $config = [
         ]
     ],
     'components' => [
+        'eventManager' => [
+            'class' => 'yiicod\listener\components\EventManager'
+        ],
         'assetManager' => [
             'bundles' => [
                 'dosamigos\google\maps\MapAsset' => [

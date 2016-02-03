@@ -11,13 +11,19 @@ body {
 }
 
 .wrap > .container {
-    padding: 0px 15px 20px;
+    padding: 0 15px 20px;
+}
+
+.header {
+    height: 50px;
+    display: block;
+    line-height: 50px;
+    text-align: center;
+    color: #ddd;
 }
 
 .footer {
     height: 60px;
-    background-color: #222;
-    border-top: 1px solid #ddd;
 }
 
 .jumbotron {
@@ -136,17 +142,15 @@ a.desc:after {
 }
 
 .frontend-wrapper .header-title {
+    margin-bottom: 16px;
     text-align: center;
 }
 
+.frontend-wrapper .header-title > h1 {
+    letter-spacing: -1.2px;
+}
+
 .white-background {
-    border-radius: 2px;
-    margin: 0 5px;
-    padding: 5px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    background-clip: padding-box;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0 none;
     position: relative;
     clear:both;
@@ -236,22 +240,6 @@ a.desc:after {
     font: bold 1.2em 'Open Sans', sans-serif;
     color: #999;
     text-transform: uppercase;
-}
-
-.panel.panel-view > .panel-body {
-    padding: 0;
-}
-
-.panel > .panel-body > .table {
-    margin: 0;
-}
-
-.form-group.badge-step {
-    margin-left: -16px;
-}
-
-.badge-step > div > .badge {
-    font-size: 1.2em;
 }
 
 label.help {

@@ -157,8 +157,7 @@ class Record extends base\Record
     public function getStatusHistory()
     {
         return $this->hasMany(StatusHistory::className(), ['record_id' => 'id'])
-            ->orderBy(['status_code' => SORT_ASC, 'created_at' => SORT_DESC])
-            ->groupBy(['status_code']);
+            ->orderBy(['stage_id' => SORT_ASC, 'created_at' => SORT_ASC]);
     }
 
 }

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "StatusHistory".
  *
  * @property integer $id
- * @property integer $parent_id
+ * @property integer $stage_id
  * @property integer $record_id
  * @property integer $author_id
  * @property integer $status_code
@@ -39,9 +39,9 @@ class StatusHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
-            [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
-            [['reason_code'], 'safe']
+            [['stage_id', 'record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
+            [['stage_id', 'record_id', 'author_id', 'created_at'], 'required'],
+            [['status_code', 'reason_code'], 'safe']
         ];
     }
 
@@ -52,7 +52,7 @@ class StatusHistory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
+            'stage_id' => 'Stage ID',
             'record_id' => 'Record ID',
             'author_id' => 'Author ID',
             'status_code' => 'Status Code',

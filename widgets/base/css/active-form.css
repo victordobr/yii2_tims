@@ -1,0 +1,24 @@
+.panel.panel-form {
+    border-radius: 12px;
+}
+
+.panel.panel-form > .panel-heading {
+    border: none;
+    font: 16px/0 'Open Sans', sans-serif;
+    color: #666;
+    text-transform: uppercase;
+    float: left;
+    margin-top: -12px;
+    margin-left: 12px;
+    padding: 12px 4px;
+    background: rgba(255, 255, 255, .96);
+}
+
+.panel.panel-form > .panel-body .badge-step {
+    margin: 6px 0;
+}
+
+.panel.panel-form > .panel-body .badge-step > .badge {
+    border-radius: 4px;
+    font: bold 14px/12px 'Open Sans', sans-serif;
+}
