@@ -1,7 +1,6 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+use app\widgets\base\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model \app\modules\frontend\models\search\Record */
@@ -17,47 +16,43 @@ $formatter = Yii::$app->formatter;
     <div class="col-xs-12">
 
         <div class="row">
+
             <div class="col-xs-6">
-                <div class="panel panel-default panel-view">
-                    <div class="panel-heading"><?= Yii::t('app', 'Case details'); ?></div>
-                    <div class="panel-body">
-                        <?= DetailView::widget([
-                            'model' => $model,
-                            'options' => ['class' => 'table'],
-                            'attributes' => [
-                                [
-                                    'label' => Yii::t('app', 'Date case opened'),
-                                    'format' => 'raw',
-                                    'value' => $formatter->asDatetime($model->open_date)
-                                ],
-                                [
-                                    'label' => Yii::t('app', 'Case opened by'),
-                                    'format' => 'raw',
-                                    'value' => $model->user->getFullName()
-                                ],
-                                [
-                                    'label' => Yii::t('app', 'Vehicle TAG'),
-                                    'attribute' => 'license',
-                                ],
-                                [
-                                    'label' => Yii::t('app', 'Date of alleged infraction'),
-                                    'format' => 'raw',
-                                    'value' => sprintf('%s (%s)', $formatter->asDatetime($model->infraction_date, 'php:d-m-Y H:i:s'), $formatter->asElapsedTime($model->infraction_date))
-                                ],
-                                [
-                                    'label' => Yii::t('app', 'Status'),
-                                    'attribute' => 'status.name',
-                                ],
-                            ],
-                        ]) ?>
-                    </div>
-                </div>
+                <?= DetailView::widget([
+                    'title' => Yii::t('app', 'Case details'),
+                    'model' => $model,
+                    'options' => ['class' => 'table'],
+                    'attributes' => [
+                        [
+                            'label' => Yii::t('app', 'Date case opened'),
+                            'format' => 'raw',
+                            'value' => $formatter->asDatetime($model->open_date)
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Case opened by'),
+                            'format' => 'raw',
+                            'value' => $model->user->getFullName()
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Vehicle TAG'),
+                            'attribute' => 'license',
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Date of alleged infraction'),
+                            'format' => 'raw',
+                            'value' => sprintf('%s (%s)', $formatter->asDatetime($model->infraction_date, 'php:d-m-Y H:i:s'), $formatter->asElapsedTime($model->infraction_date))
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Status'),
+                            'attribute' => 'status.name',
+                        ],
+                    ],
+                ]) ?>
             </div>
+
             <div class="col-xs-6">
-                <div class="panel panel-default panel-view">
-                    <div class="panel-heading"><?= Yii::t('app', 'Photo/Video evidence'); ?></div>
-                    <div class="panel-body">
                         <?= DetailView::widget([
+                            'title'=>Yii::t('app', 'Photo/Video evidence'),
                             'model' => $model,
                             'options' => ['class' => 'table'],
                             'attributes' => [
@@ -68,15 +63,11 @@ $formatter = Yii::$app->formatter;
                                     'value' => 'to-do'
                                 ]
                             ],
+                            'footer' => $this->render('../partials/evidence', ['model' => $model])
                         ]) ?>
 
-                        <div class="form-group col-xs-12">
-                            <?= $this->render('../partials/evidence', ['model' => $model]); ?>
-                        </div>
-
-                    </div>
-                </div>
             </div>
+
         </div>
 
         <div class="row"><?= $form ?></div>
