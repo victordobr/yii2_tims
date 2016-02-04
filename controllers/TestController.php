@@ -56,9 +56,7 @@ class TestController extends Controller
 
     public function actionDeleteAll()
     {
-
-        $Log = new Log;
-        $Log->deleteAll();
+        Log::deleteAll();
     }
 
     public function actionGet()
@@ -67,8 +65,29 @@ class TestController extends Controller
         $Log = Log::get(2); // get a record by pk
         $Logs = Log::mget([1,2,3]); // get multiple records by pk
         $Log = Log::find()->where(['name' => 'test'])->one(); // find by query, note that you need to configure mapping for this field in order to find records properly
-        $Logs = Log::find()->all(); // find all by query (using the `active` scope)
-        var_dump($Logs);
+
+        $model = new Log;
+//        $model->setPrimaryKey('id');
+        $data = $model::find(); // find all by query (using the `active` scope)
+
+//        $data = $model::find()->query([
+////            "size" => 5,
+//            "wildcard" => [
+//                "category" => [
+//                    "value" => "*logi*"
+//                ],
+//            ],
+//        ]);
+//        $data = $data->count();
+//        var_dump($data);die();
+        $data = $data->limit(50);
+//        $data = $data->offset(5);
+//        var_dump($data);
+        $data = $data->all();
+//        $Logs = Log::findAll(['email' => 'victordobr@gmail.com']);
+//        $pk = \yii\elasticsearch\ActiveRecord::primaryKey()[0];
+//        var_dump($pk);
+        var_dump($data);
 
     }
 }
