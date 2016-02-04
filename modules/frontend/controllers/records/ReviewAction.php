@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\components\Settings;
 use app\enums\CaseStage;
 use app\widgets\record\timeline\Timeline;
 use Yii;
@@ -29,16 +30,48 @@ class ReviewAction extends Action
 
         $record = $this->controller()->findModel(Record::className(), $id);
 
-        $formatter = Yii::$app->formatter;
-        Yii::$app->view->params['aside'] = Timeline::widget(['stages' => [
-            CaseStage::SET_INFRACTION_DATE => $record->infraction_date,
-            CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
-        ]]);
+
+        Yii::$app->view->params['aside'] = Timeline::widget([
+            'stages' => self::collectCaseStages($record),
+            'remaining' => self::calculateRemainingDays($record)
+        ]);
 
         return $this->controller()->render('review', [
             'model' => $record,
             'form' => $this->getForm($record),
         ]);
+    }
+
+    /**
+     * @param Record $record
+     * @return array
+     */
+    private static function collectCaseStages(Record $record)
+    {
+        $formatter = Yii::$app->formatter;
+        return [
+            CaseStage::SET_INFRACTION_DATE => $record->infraction_date,
+            CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
+        ];
+    }
+
+    /**
+     * @param Record $record
+     * @return int remaining days
+     */
+    private static function calculateRemainingDays(Record $record)
+    {
+        $infraction_date = new \DateTime($record->infraction_date);
+
+        return self::settings()->get('case.lifetime') -(new \DateTime())->diff($infraction_date)->format('%a');
+    }
+
+    /**
+     * @return Settings
+     */
+    private static function settings()
+    {
+        return Yii::$app->settings;
     }
 
     /**

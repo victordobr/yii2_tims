@@ -1,6 +1,7 @@
 <?php
 /**
  * @var array $timeline
+ * @var int $remaining
  */
 ?>
 
@@ -22,6 +23,6 @@
     </div>
 
     <div class="panel-body">
-        <span>7 days</span>
+        <span><?= $remaining?> days</span>
     </div>
 </div>

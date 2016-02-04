@@ -17,4 +17,5 @@ return [
     'url.admin.default' => '/admin/users/manage',
 
     'search.page.size' => 10,
+    'case.lifetime' => 10 // days
 ];

@@ -12,6 +12,7 @@ class Timeline extends Widget
     private $timeline = [];
 
     public $stages;
+    public $remaining;
 
     public function init()
     {
@@ -20,7 +21,10 @@ class Timeline extends Widget
 
     function run()
     {
-        return $this->render('index', ['timeline' => $this->initTimeline()]);
+        return $this->render('index', [
+            'timeline' => $this->initTimeline(),
+            'remaining' => $this->remaining
+        ]);
     }
 
     private function initTimeline()
