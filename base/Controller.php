@@ -1,6 +1,8 @@
 <?php
 namespace app\base;
 
+use app\assets\AppAsset;
+use app\assets\NotifyJsAsset;
 use \Yii;
 use \yii\db\ActiveRecord;
 use \yii\web\Response;
@@ -15,6 +17,12 @@ use \app\enums\UserType;
  */
 class Controller extends \yii\web\Controller
 {
+    public function init()
+    {
+        AppAsset::register($this->getView());
+        NotifyJsAsset::register($this->getView());
+    }
+
     /**
      * Perform ajax validation.
      * @param \app\base\ActiveRecord $model model for validate.

@@ -11,31 +11,15 @@ use app\modules\frontend\controllers\records\upload\ChunkUploadAction;
 use app\modules\frontend\controllers\records\upload\HandleAction;
 use app\modules\frontend\controllers\records\upload\UploadAction;
 use Yii;
-use app\models\Record;
-use app\models\File;
-use app\modules\frontend\models\search\Record as RecordSearch;
-use app\modules\frontend\models\_print\Record as RecordPrint;
 
-use app\enums\EvidenceFileType;
 use yii\filters\AccessControl;
-use \yii\web\HttpException;
-use yii\web\BadRequestHttpException;
-use \yii\helpers\Json;
 use \app\modules\frontend\base\Controller;
-use \app\assets\NotifyJsAsset;
-use \yii\web\Response;
-use \yii\widgets\ActiveForm;
 
 /**
  * RecordsController implements the actions for Record model.
  */
 class RecordsController extends Controller
 {
-    public function init()
-    {
-        $view = $this->getView();
-        NotifyJsAsset::register($view);
-    }
 
     public function actions()
     {
