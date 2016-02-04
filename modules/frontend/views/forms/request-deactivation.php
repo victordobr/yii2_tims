@@ -31,12 +31,14 @@ use app\widgets\base\ActiveForm;
             <span class="badge"><?= Yii::t('app', 'STEP 1') ?></span>
         </legend>
 
-        <?= $form->field($model, 'code')->dropDownList([10 => 10]); ?>
+        <?= $form->field($model, 'code')->dropDownList(
+            [10 => 10] // todo: reason codes ?
+        )->label(Yii::t('app', 'Choose reason for deactivation')); ?>
 
         <?= $form->field($model, 'description')->textInput([
             'maxlength' => true,
             'class' => 'form-control form-field-short',
-        ]) ?>
+        ])->label(Yii::t('app', 'If other, then enter description')) ?>
 
     </fieldset>
 
