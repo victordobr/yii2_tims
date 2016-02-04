@@ -31,37 +31,32 @@ class Record extends Component
                 throw new \Exception('Record has same status');
             }
 
-            $reason = new Reason();
-            $reason->setAttributes([
-                'code' => $code,
-                'description' => $description,
-            ]);
-            if (!$reason->save()) {
-                throw new \Exception('Reason do not saved');
-            }
-
             $record->setAttributes([
                 'status_id' => Status::AWAITING_DEACTIVATION,
             ]);
-            if (!$record->save()) {
+            if (!$record->save(true, ['status_id'])) {
                 throw new \Exception('Record status do not updated');
             }
-
-            $parent = self::getParentHistory($id);
 
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => Yii::$app->user->id,
                 'status_code' => Status::AWAITING_DEACTIVATION,
-                'reason_code' => $reason->code,
                 'created_at' => time()
             ]);
-            if (!is_null($parent)) {
-                $history->setAttribute('parent_id', $parent->id);
-            }
             if (!$history->save()) {
                 throw new \Exception('StatusHistory do not created');
+            }
+
+            $reason = new Reason();
+            $reason->setAttributes([
+                'status_history_id' => $history->id,
+                'code' => $code,
+                'description' => $description,
+            ]);
+            if (!$reason->save()) {
+                throw new \Exception('Reason do not saved');
             }
 
             $transaction->commit();
@@ -88,11 +83,9 @@ class Record extends Component
             $record->setAttributes([
                 'status_id' => Status::DEACTIVATED_RECORD,
             ]);
-            if (!$record->save()) {
+            if (!$record->save(true, ['status_id'])) {
                 throw new \Exception('Record status do not updated');
             }
-
-            $parent = self::getParentHistory($id);
 
             $history = new StatusHistory();
             $history->setAttributes([
@@ -101,9 +94,6 @@ class Record extends Component
                 'status_code' => Status::DEACTIVATED_RECORD,
                 'created_at' => time()
             ]);
-            if (!is_null($parent)) {
-                $history->setAttribute('parent_id', $parent->id);
-            }
             if (!$history->save()) {
                 throw new \Exception('StatusHistory do not created');
             }
@@ -131,38 +121,32 @@ class Record extends Component
                 throw new \Exception('Record has same status');
             }
 
-            $reason = new Reason();
-            $reason->setAttributes([
-                'code' => $code,
-                'description' => $description,
-            ]);
-            if (!$reason->save()) {
-                throw new \Exception('Reason do not saved');
-            }
-
-
             $record->setAttributes([
                 'status_id' => Status::COMPLETE,
             ]);
-            if (!$record->save()) {
+            if (!$record->save(true, ['status_id'])) {
                 throw new \Exception('Record status do not updated');
             }
-
-            $parent = self::getParentHistory($id);
 
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => Yii::$app->user->id,
                 'status_code' => Status::COMPLETE,
-                'reason_code' => $reason->code,
                 'created_at' => time()
             ]);
-            if (!is_null($parent)) {
-                $history->setAttribute('parent_id', $parent->id);
-            }
             if (!$history->save()) {
                 throw new \Exception('StatusHistory do not created');
+            }
+
+            $reason = new Reason();
+            $reason->setAttributes([
+                'status_history_id' => $history->id,
+                'code' => $code,
+                'description' => $description,
+            ]);
+            if (!$reason->save()) {
+                throw new \Exception('Reason do not saved');
             }
 
             $transaction->commit();
@@ -186,15 +170,6 @@ class Record extends Component
             default:
                 return [];
         }
-    }
-
-    /**
-     * @param $record_id
-     * @return array|null|StatusHistory
-     */
-    private static function getParentHistory($record_id)
-    {
-        return StatusHistory::find()->select('id')->where(['record_id' => $record_id])->orderBy(['id' => 'DESC'])->one();
     }
 
     /**
