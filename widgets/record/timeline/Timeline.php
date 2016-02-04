@@ -11,7 +11,7 @@ class Timeline extends Widget
 {
     private $timeline = [];
 
-    public $history;
+    public $stages;
 
     public function init()
     {
@@ -29,22 +29,22 @@ class Timeline extends Widget
             $pending = Yii::t('app', 'Pending');
             $this->timeline = [
                 Stage::SET_INFRACTION_DATE => [
-                    'is_done' => !empty($this->history[Stage::SET_INFRACTION_DATE]),
+                    'is_done' => !empty($this->stages[Stage::SET_INFRACTION_DATE]),
                     'label' => Yii::t('app', 'Infraction Date'),
-                    'date' => !empty($this->history[Stage::SET_INFRACTION_DATE]) ?
-                        $this->history[Stage::SET_INFRACTION_DATE]['date'] : $pending
+                    'date' => !empty($this->stages[Stage::SET_INFRACTION_DATE]) ?
+                        $this->stages[Stage::SET_INFRACTION_DATE] : $pending
                 ],
                 Stage::DATA_UPLOADED => [
-                    'is_done' => !empty($this->history[Stage::DATA_UPLOADED]),
+                    'is_done' => !empty($this->stages[Stage::DATA_UPLOADED]),
                     'label' => Yii::t('app', 'Data Uploaded'),
-                    'date' => !empty($this->history[Stage::DATA_UPLOADED]) ?
-                        $this->history[Stage::DATA_UPLOADED]['date'] : $pending
+                    'date' => !empty($this->stages[Stage::DATA_UPLOADED]) ?
+                        $this->stages[Stage::DATA_UPLOADED] : $pending
                 ],
                 Stage::VIOLATION_APPROVED => [
-                    'is_done' => !empty($this->history[Stage::VIOLATION_APPROVED]),
+                    'is_done' => !empty($this->stages[Stage::VIOLATION_APPROVED]),
                     'label' => Yii::t('app', 'Violation Approved'),
-                    'date' => !empty($this->history[Stage::VIOLATION_APPROVED]) ?
-                        $this->history[Stage::VIOLATION_APPROVED]['date'] : $pending
+                    'date' => !empty($this->stages[Stage::VIOLATION_APPROVED]) ?
+                        $this->stages[Stage::VIOLATION_APPROVED] : $pending
                 ],
                 Stage::DMV_DATA_REQUEST => [
                     'is_done' => false,

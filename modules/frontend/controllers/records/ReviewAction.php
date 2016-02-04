@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\enums\CaseStage;
 use app\widgets\record\timeline\Timeline;
 use Yii;
 use app\enums\CaseStatus;
@@ -28,15 +29,11 @@ class ReviewAction extends Action
 
         $record = $this->controller()->findModel(Record::className(), $id);
 
-        $history = [];
         $formatter = Yii::$app->formatter;
-        foreach ($record->statusHistory as $status) {
-            $history[$status->stage_id] = [
-                'label' => $status->status_code,
-                'date' => $formatter->asDate($status->created_at, 'php:d M Y'),
-            ];
-        }
-        Yii::$app->view->params['aside'] = Timeline::widget(['history' => $history]);
+        Yii::$app->view->params['aside'] = Timeline::widget(['stages' => [
+            CaseStage::SET_INFRACTION_DATE => $record->infraction_date,
+            CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
+        ]]);
 
         return $this->controller()->render('review', [
             'model' => $record,
