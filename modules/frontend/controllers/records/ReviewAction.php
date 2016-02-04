@@ -57,7 +57,7 @@ class ReviewAction extends Action
                     'action' => Url::to(['deactivate', 'id' => $record->id]),
                     'model' => $model
                 ]);
-            case $record->status_id == CaseStatus::COMPLETE && $user->can('RequestDeactivation'):
+            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
                 $model = new RequestDeactivateForm();
 
                 return $this->controller()->renderPartial('../forms/request-deactivation', [
