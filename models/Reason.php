@@ -7,10 +7,11 @@ use Yii;
 /**
  * This is the model class for table "Reason".
  *
+ * @property integer $status_history_id
  * @property integer $code
  * @property string $description
  *
- * @property StatusHistory[] $statusHistories
+ * @property StatusHistory $statusHistory
  */
 class Reason extends \yii\db\ActiveRecord
 {
@@ -28,7 +29,8 @@ class Reason extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'required'],
+            [['code', 'description'], 'required'],
+            [['code'], 'integer'],
             [['description'], 'string']
         ];
     }
@@ -39,6 +41,7 @@ class Reason extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'status_history_id' => 'Status History ID',
             'code' => 'Code',
             'description' => 'Description',
         ];
@@ -47,8 +50,8 @@ class Reason extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStatusHistories()
+    public function getStatusHistory()
     {
-        return $this->hasMany(StatusHistory::className(), ['reason_code' => 'code']);
+        return $this->hasOne(StatusHistory::className(), ['id' => 'status_history_id']);
     }
 }

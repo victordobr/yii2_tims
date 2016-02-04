@@ -8,16 +8,14 @@ use Yii;
  * This is the model class for table "StatusHistory".
  *
  * @property integer $id
- * @property integer $stage_id
  * @property integer $record_id
  * @property integer $author_id
  * @property integer $status_code
- * @property integer $reason_code
  * @property integer $created_at
  * @property integer $expired_at
  *
+ * @property Reason $reason
  * @property CaseStatus $statusCode
- * @property Reason $reasonCode
  * @property Record $record
  * @property User $author
  */
@@ -39,9 +37,8 @@ class StatusHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['stage_id', 'record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
-            [['stage_id', 'record_id', 'author_id', 'created_at'], 'required'],
-            [['status_code', 'reason_code'], 'safe']
+            [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
+            [['record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer']
         ];
     }
 
@@ -52,11 +49,9 @@ class StatusHistory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'stage_id' => 'Stage ID',
             'record_id' => 'Record ID',
             'author_id' => 'Author ID',
             'status_code' => 'Status Code',
-            'reason_code' => 'Reason Code',
             'created_at' => 'Created At',
             'expired_at' => 'Expired At',
         ];
@@ -65,25 +60,17 @@ class StatusHistory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getReason()
+    {
+        return $this->hasOne(Reason::className(), ['status_history_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getStatusCode()
     {
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_code']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReason()
-    {
-        return $this->hasOne(Reason::className(), ['code' => 'reason_code']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReasonCode()
-    {
-        return $this->hasOne(Reason::className(), ['code' => 'reason_code']);
     }
 
     /**
