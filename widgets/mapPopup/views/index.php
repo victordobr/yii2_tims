@@ -6,12 +6,13 @@ namespace app\widgets\mapPopup;
  * @var $longitude;
  * @var $modalId;
  * @var $icon;
+ * @var string $text;
  */
 
 ?>
 <div class="media-popup-wrapper">
     <a id="modal-button-<?= $modalId ?>" class="img-pic" data-toggle="modal" data-target="#<?= $modalId ?>"
-       title=""><?= $icon; ?></a>
+       title=""><?= $icon; ?><?= $text; ?></a>
     <div class="modal" id="<?= $modalId ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -12,15 +12,18 @@ use yii\web\View;
  */
 class MapPopupAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/widgets/mapPopup';
 
     public $js = [
-        'http://maps.googleapis.com/maps/api/js',
+        '//maps.googleapis.com/maps/api/js',
+    ];
+
+    public $css = [
+        'css/style.css',
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        'app\assets\AppAsset',
     ];
 
     public function init() {

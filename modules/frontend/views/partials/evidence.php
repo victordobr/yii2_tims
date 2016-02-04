@@ -46,6 +46,7 @@
 
 <?php if ($model->lat && $model->lng): ?>
     <?= app\widgets\mapPopup\MapPopup::widget([
+        'text' => Yii::t('app', 'MAP'),
         'latitude' => $model->lat,
         'longitude' => $model->lng,
     ]); ?>

@@ -16,6 +16,7 @@ use app\helpers\TimsHelper;
 
 class MapPopup extends Widget
 {
+    public $text;
     public $latitude;
     public $longitude;
     public $modalId;
@@ -69,6 +70,7 @@ class MapPopup extends Widget
             'longitude' => $this->longitude,
             'modalId' => $this->modalId,
             'icon' => $icon,
+            'text' => $this->text,
         ]);
     }
 
