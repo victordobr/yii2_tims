@@ -12,18 +12,18 @@ use yii\web\View;
  */
 class MediaPopupAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/widgets/mediaPopup';
 
     public $js = [
         '//releases.flowplayer.org/6.0.5/flowplayer.min.js',
     ];
     public $css = [
         '//releases.flowplayer.org/6.0.5/skin/minimalist.css',
+        'css/style.css'
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        'app\assets\AppAsset',
     ];
 
     public function init() {

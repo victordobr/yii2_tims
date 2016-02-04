@@ -192,20 +192,6 @@ a.desc:after {
     /*color: #a94442;*/
 /*}*/
 
-.media-popup-wrapper{
-    display: inline-block;
-    padding: 0 10px 0 0;
-}
-
-.media-popup-wrapper a {
-    color: #333;
-    cursor: pointer;
-}
-.media-popup-wrapper a.media-link {
-    color: #337ab7;
-    cursor: pointer;
-}
-
 .evidence-media {
     padding: 0 0 20px 292px;
 }

@@ -13,6 +13,7 @@ class MediaPopup extends Widget
     public $url;
     public $type;
     public $title;
+    public $text;
     public $mime;
 
     public function init()
@@ -48,6 +49,7 @@ class MediaPopup extends Widget
             'type' => $this->type,
             'icon' => $icon,
             'title' => $this->title,
+            'text' => $this->text,
             'mime' => $this->mime,
             'modalId' => 'modal-' .  $this->id,
         ]);

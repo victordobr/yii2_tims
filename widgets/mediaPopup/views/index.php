@@ -12,12 +12,13 @@ use \kato\VideojsWidget;
  * @var $modalId
  * @var $icon
  * @var $title
+ * @var $text
  * @var $mime
  */
 ?>
 <div class="media-popup-wrapper">
     <a id="modalButton" class="img-pic" data-toggle="modal" data-target="#<?= $modalId ?>"
-       title="<?= $title; ?>"><?= $icon; ?></a>
+       title="<?= $title; ?>"><?= $icon; ?><?= $text ?></a>
 
     <div class="modal" id="<?= $modalId ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog">
