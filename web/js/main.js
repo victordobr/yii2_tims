@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    initHintBlocks();
+    //initHintBlocks();
 });
 
 var initHintBlocks = function () {
