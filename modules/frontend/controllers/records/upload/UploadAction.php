@@ -43,12 +43,7 @@ class UploadAction extends Action
         $post = Yii::$app->request->post();
 
         if ($model->load($post) && $model->validate()) {
-            if($this->saveRecord($model, $post)){
-                Yii::$app->trigger('app.frontend.record.upload.success', new UploadEvent([
-                    'record' => $model,
-                    'user_id' => Yii::$app->user->id,
-                ]));
-            }
+            $this->saveRecord($model, $post);
 
             return $this->controller()->redirect(['upload', 'id' => $model->id]);
         }
