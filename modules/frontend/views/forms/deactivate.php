@@ -35,13 +35,13 @@ use app\widgets\base\ActiveForm;
             'maxlength' => true,
             'class' => 'form-control form-field-short',
             'disabled' => 'disabled'
-        ]); ?>
+        ])->label(Yii::t('app', 'Deactivation requested by')); ?>
 
         <?= $form->field($model, 'review_reason')->textInput([
             'maxlength' => true,
             'class' => 'form-control form-field-short',
             'disabled' => 'disabled'
-        ]); ?>
+        ])->label(Yii::t('app', 'Review reason for deactivation request')); ?>
 
         <legend class="badge-step">
             <span class="badge"><?= Yii::t('app', 'STEP 2') ?></span>
@@ -61,19 +61,23 @@ use app\widgets\base\ActiveForm;
                 <span class="badge"><?= Yii::t('app', 'STEP 3') ?></span>
             </legend>
 
-            <?= $form->field($model, 'code')->dropDownList([10 => 10]); ?>
+            <?= $form->field($model, 'code')->dropDownList(
+                [10 => 10] // todo: reason codes ?
+            )->label(Yii::t('app', 'Choose reason for rejecting deactivation request')); ?>
 
             <?= $form->field($model, 'description')->textInput([
                 'maxlength' => true,
                 'class' => 'form-control form-field-short',
-            ]) ?>
+            ])->label(Yii::t('app', 'If other, then enter description')); ?>
         </div>
 
     </div>
 
-    <div class="form-group">
-        <div class="col-lg-12">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary pull-right']) ?>
+    <div class="col-lg-12">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary pull-right']) ?>
+            </div>
         </div>
     </div>
 
