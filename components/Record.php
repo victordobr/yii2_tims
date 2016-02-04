@@ -27,7 +27,7 @@ class Record extends Component
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
-            $record = $this->getRecord($id);
+            $record = self::getRecord($id);
             if ($record->status_id == Status::AWAITING_DEACTIVATION) {
                 throw new \Exception('Record has same status');
             }
@@ -77,7 +77,7 @@ class Record extends Component
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
-            $record = $this->getRecord($id);
+            $record = self::getRecord($id);
             if ($record->status_id == Status::DEACTIVATED_RECORD) {
                 throw new \Exception('Record has same status');
             }
@@ -119,13 +119,13 @@ class Record extends Component
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
-            $record = $this->getRecord($id);
-            if ($record->status_id == Status::COMPLETE) {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::FULL_COMPLETE) {
                 throw new \Exception('Record has same status');
             }
 
             $record->setAttributes([
-                'status_id' => Status::COMPLETE,
+                'status_id' => Status::FULL_COMPLETE,
             ]);
             if (!$record->save(true, ['status_id'])) {
                 throw new \Exception('Record status do not updated');
@@ -135,7 +135,7 @@ class Record extends Component
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => $user_id,
-                'status_code' => Status::COMPLETE,
+                'status_code' => Status::FULL_COMPLETE,
                 'created_at' => time()
             ]);
             if (!$history->save()) {
@@ -175,52 +175,51 @@ class Record extends Component
         }
     }
 
+    /* event handlers */
+
+    public function setStatusCompleted(UploadEvent $event){
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($event->record->id);
+            if ($record->status_id == Status::COMPLETE) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::COMPLETE,
+            ]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $record->id,
+                'author_id' => $event->user_id,
+                'status_code' => Status::COMPLETE,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /* private methods */
+
     /**
      * @param int $id
      * @return null|\app\models\Record
      */
-    private function getRecord($id)
+    private static function getRecord($id)
     {
         return \app\models\Record::findOne($id);
-    }
-
-    /* event handlers */
-
-    public function saveInfractionDate(UploadEvent $event)
-    {
-        $history = StatusHistory::findOne([
-            'record_id' => $event->record->id,
-            'stage_id' => Stage::SET_INFRACTION_DATE
-        ]);
-        if (!$history) {
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'stage_id' => Stage::SET_INFRACTION_DATE,
-                'record_id' => $event->record->id,
-            ]);
-        }
-        $history->setAttributes([
-            'author_id' => $event->user_id,
-            'created_at' => $event->record->infraction_date
-        ]);
-        if (!$history->save()) {
-            //todo: log errors
-        }
-    }
-
-    public function saveDateUpload(UploadEvent $event)
-    {
-        $history = new StatusHistory();
-        $history->setAttributes([
-            'stage_id' => Stage::DATA_UPLOADED,
-            'record_id' => $event->record->id,
-            'author_id' => $event->user_id,
-            'status_code' => Status::FULL_COMPLETE,
-            'created_at' => time()
-        ]);
-        if (!$history->save()) {
-            //todo: log errors
-        }
     }
 
 }
