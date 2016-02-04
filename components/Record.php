@@ -177,7 +177,7 @@ class Record extends Component
 
     /* event handlers */
 
-    public function setStatusCompleted(UploadEvent $event){
+    public static function setStatusCompleted(UploadEvent $event){
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = self::getRecord($event->record->id);
