@@ -29,9 +29,10 @@ class Reason extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'description'], 'required'],
+            [['status_history_id', 'code', 'description'], 'required'],
             [['code'], 'integer'],
-            [['description'], 'string']
+            [['description'], 'string'],
+            ['status_history_id', 'safe']
         ];
     }
 
