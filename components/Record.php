@@ -18,11 +18,12 @@ class Record extends Component
 {
     /**
      * @param int $id record id
+     * @param int $user_id user id
      * @param int $code reason code
      * @param string $description reason description
      * @return bool
      */
-    public function requestDeactivation($id, $code, $description)
+    public function requestDeactivation($id, $user_id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -41,7 +42,7 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => Yii::$app->user->id,
+                'author_id' => $user_id,
                 'status_code' => Status::AWAITING_DEACTIVATION,
                 'created_at' => time()
             ]);
@@ -69,9 +70,10 @@ class Record extends Component
 
     /**
      * @param int $id record id
+     * @param int $user_id user id
      * @return bool
      */
-    public function approveDeactivate($id)
+    public function approveDeactivate($id, $user_id)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -90,7 +92,7 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => Yii::$app->user->id,
+                'author_id' => $user_id,
                 'status_code' => Status::DEACTIVATED_RECORD,
                 'created_at' => time()
             ]);
@@ -108,11 +110,12 @@ class Record extends Component
 
     /**
      * @param int $id record id
+     * @param int $user_id user id
      * @param int $code reason code
      * @param string $description reason description
      * @return bool
      */
-    public function rejectDeactivation($id, $code, $description)
+    public function rejectDeactivation($id, $user_id,  $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -131,7 +134,7 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => Yii::$app->user->id,
+                'author_id' => $user_id,
                 'status_code' => Status::COMPLETE,
                 'created_at' => time()
             ]);
