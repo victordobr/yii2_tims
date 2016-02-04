@@ -111,7 +111,7 @@ class DeactivateForm extends Model
     {
         if (is_null(self::$history)) {
             $condition = ['record_id' => $record_id, 'status_code' => CaseStatus::AWAITING_DEACTIVATION];
-            self::$history = StatusHistory::find()->where($condition)->orderBy(['id' => 'DESC'])->one();
+            self::$history = StatusHistory::find()->where($condition)->orderBy(['id' => SORT_DESC])->one();
         }
 
         return self::$history;
