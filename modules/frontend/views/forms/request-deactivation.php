@@ -42,10 +42,6 @@ use app\widgets\base\ActiveForm;
 
     <fieldset>
 
-        <legend class="badge-step">
-            <span class="badge"><?= Yii::t('app', 'STEP 2') ?></span>
-        </legend>
-
         <div class="form-group">
             <div class="col-lg-12">
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
