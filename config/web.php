@@ -139,12 +139,17 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
                 [
-                    'pattern' => '<action:(upload|review|deactivate)>/<id:\d+>',
+                    'pattern' => '<action:(search|review|requestDeactivation|deactivate)>/<id:\d+>',
                     'route' => 'frontend/records/<action>',
                 ],
                 [
-                    'pattern' => '<action:(upload|chunkUpload|search|handle)>',
+                    'pattern' => '<action:(upload|chunkUpload|handle)>',
                     'route' => 'frontend/records/<action>',
+                ],
+                [
+                    'pattern' => 'print/<action:(index|send|preview|qc)>',
+                    'route' => 'frontend/print/<action>',
+                    'defaults' => ['action' => '']
                 ],
                 // admin roles
                 'admin/roles' => 'admin/rbac/role/index',
