@@ -149,12 +149,14 @@ class Record extends Component
                 'description' => $description,
             ]);
             if (!$reason->save()) {
+//                var_dump($reason->getErrors()); die;
                 throw new \Exception('Reason do not saved');
             }
 
             $transaction->commit();
             return true;
         } catch (\Exception $e) {
+//            var_dump($e); die;
             $transaction->rollBack();
             return false;
         }

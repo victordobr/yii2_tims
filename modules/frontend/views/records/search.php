@@ -30,28 +30,23 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'label' => '#',
                     'attribute' => 'id',
-                    'headerOptions' => ['style' => 'width: 50px;']
+//                    'headerOptions' => ['style' => 'width: 50px;']
                 ],
                 [
                     'attribute' => 'infraction_date',
                     'format' => 'date',
-                    'headerOptions' => ['style' => 'width: 190px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
-//                [
-//                    'label' => 'Case Number #',
-//                    'attribute' => 'case_id',
-//                    'headerOptions' => ['style' => 'width: 180px;']
-//                ],
                 [
                     'label' => 'Vehicle Tag #',
                     'attribute' => 'license',
-                    'headerOptions' => ['style' => 'width: 100px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
                 [
                     'label' => 'Uploaded Date',
                     'attribute' => 'created_at',
                     'format' => 'date',
-                    'headerOptions' => ['style' => 'width: 190px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
                 [
                     'label' => 'Uploaded By',
@@ -61,7 +56,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'label' => 'Elapsed time, days',
                     'attribute' => 'elapsedTime',
-                    'headerOptions' => ['style' => 'width: 50px;']
+//                    'headerOptions' => ['style' => 'width: 20px;']
                 ],
                 [
                     'class' => \yii\grid\ActionColumn::className(),

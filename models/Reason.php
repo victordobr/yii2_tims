@@ -15,7 +15,18 @@ use Yii;
  */
 class Reason extends base\Reason
 {
-
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['code'], 'required'],
+            [['code'], 'integer'],
+            [['description'], 'string'],
+            [['status_history_id'], 'safe'],
+        ];
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

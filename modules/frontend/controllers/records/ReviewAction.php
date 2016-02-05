@@ -84,12 +84,14 @@ class ReviewAction extends Action
         $user = Yii::$app->user;
         switch (true) {
             case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
-                $model = new DeactivateForm();
-                $model->record_id = $record->id;
+
+                $model = new DeactivateForm(['record_id' => $record->id]);
+                $reasonsList = Reasons::listReasonsRejectingDeactivationRequest();
 
                 return $this->controller()->renderPartial('../forms/deactivate', [
                     'action' => Url::to(['deactivate', 'id' => $record->id]),
-                    'model' => $model
+                    'model' => $model,
+                    'reasonsList' => $reasonsList,
                 ]);
             case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
 

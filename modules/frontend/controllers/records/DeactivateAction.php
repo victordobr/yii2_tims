@@ -7,6 +7,8 @@ use Yii;
 use yii\base\Action;
 use app\modules\frontend\models\search\Record;
 use app\modules\frontend\models\form\DeactivateForm;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class DeactivateAction extends Action
 {
@@ -16,17 +18,19 @@ class DeactivateAction extends Action
         $controller = $this->controller();
         $record = $controller->findModel(Record::className(), $id);
 
-        $attributes = Yii::$app->request->post('DeactivateForm');
-        $action = $attributes['action'];
         $form = new DeactivateForm();
-        if(!$form->validateAction($action)){
-            return $controller->redirect(['review', 'id' => $record->id]);
-        }
-        $form->action = $action;
-        $form->setScenario($action);
         $form->setAttributes(Yii::$app->request->post('DeactivateForm'));
 
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+
         if ($form->validate()) {
+
+            //true
+//            var_dump($form->isRejectAction()); die;
+
             $success = $form->isRejectAction() ?
                 self::record()->rejectDeactivation($record->id, Yii::$app->user->id, $form->code, $form->description) :
                 self::record()->approveDeactivate($record->id, Yii::$app->user->id);

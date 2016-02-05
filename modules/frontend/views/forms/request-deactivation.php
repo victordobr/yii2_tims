@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $action string
+ * @var $reasonsList array
  * @var $model \app\modules\frontend\models\form\RequestDeactivateForm
  */
 
@@ -33,7 +34,7 @@ use app\widgets\base\ActiveForm;
         </legend>
 
         <?= $form->field($model, 'code', ['enableAjaxValidation' => true])->dropDownList(
-            $reasonsList, ['prompt' => ' - Choose reason - '] // todo: reason codes ?
+            $reasonsList, ['prompt' => ' - Choose reason - ']
         )->label(Yii::t('app', 'Choose reason for deactivation')); ?>
 
         <?= $form->field($model, 'description', ['enableAjaxValidation' => true])->textInput([
