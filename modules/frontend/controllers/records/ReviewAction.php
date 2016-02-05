@@ -13,6 +13,7 @@ use app\modules\frontend\models\form\DeactivateForm;
 use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
 use yii\helpers\Url;
+use app\enums\Reasons;
 
 class ReviewAction extends Action
 {
@@ -91,11 +92,14 @@ class ReviewAction extends Action
                     'model' => $model
                 ]);
             case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
+
                 $model = new RequestDeactivateForm();
+                $reasonsList = Reasons::listReasonsRequestDeactivation();
 
                 return $this->controller()->renderPartial('../forms/request-deactivation', [
                     'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
-                    'model' => $model
+                    'model' => $model,
+                    'reasonsList' => $reasonsList,
                 ]);
             default:
                 return '';

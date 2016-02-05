@@ -28,7 +28,8 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
             'dataProvider' => $dataProvider,
             'columns' => [
                 [
-                    'class' => 'yii\grid\SerialColumn',
+                    'label' => '#',
+                    'attribute' => 'id',
                     'headerOptions' => ['style' => 'width: 50px;']
                 ],
                 [

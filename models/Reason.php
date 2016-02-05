@@ -13,40 +13,8 @@ use Yii;
  *
  * @property StatusHistory $statusHistory
  */
-class Reason extends \yii\db\ActiveRecord
+class Reason extends base\Reason
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'Reason';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['status_history_id', 'code', 'description'], 'required'],
-            [['code'], 'integer'],
-            [['description'], 'string'],
-            ['status_history_id', 'safe']
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'status_history_id' => 'Status History ID',
-            'code' => 'Code',
-            'description' => 'Description',
-        ];
-    }
 
     /**
      * @return \yii\db\ActiveQuery

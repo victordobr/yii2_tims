@@ -15,13 +15,14 @@ use app\widgets\base\ActiveForm;
         'id' => 'request-deactivation-form',
         'title' => Yii::t('app', 'Request deactivation'),
         'action' => $action,
-        'enableClientValidation' => true,
+        'enableClientValidation' => false,
+        'enableAjaxValidation' => true,
         'options' => [
             'class' => 'form-horizontal',
             'data-pjax' => true
         ],
         'fieldConfig' => [
-            'template' => "<div class=\"col-lg-12\">{label}\n{input}</div>\n<div class=\"col-lg-11 col-lg-offset-1\">{error}</div>",
+            'template' => "<div class=\"col-lg-12\">{label}\n{input}</div>\n<div class=\"col-lg-11\">{error}</div>",
         ],
     ]); ?>
 
@@ -31,11 +32,11 @@ use app\widgets\base\ActiveForm;
             <span class="badge"><?= Yii::t('app', 'STEP 1') ?></span>
         </legend>
 
-        <?= $form->field($model, 'code')->dropDownList(
-            [10 => 10] // todo: reason codes ?
+        <?= $form->field($model, 'code', ['enableAjaxValidation' => true])->dropDownList(
+            $reasonsList, ['prompt' => ' - Choose reason - '] // todo: reason codes ?
         )->label(Yii::t('app', 'Choose reason for deactivation')); ?>
 
-        <?= $form->field($model, 'description')->textInput([
+        <?= $form->field($model, 'description', ['enableAjaxValidation' => true])->textInput([
             'maxlength' => true,
             'class' => 'form-control form-field-short',
         ])->label(Yii::t('app', 'If other, then enter description')) ?>
