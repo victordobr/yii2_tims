@@ -26,15 +26,4 @@ class Log extends \yii\elasticsearch\ActiveRecord
             ],
         ];
     }
-//
-//    public function getId()
-//    {
-//        return $this->_id;
-//    }
-
-//    public function getPrimaryKey($asArray = false)
-//    {
-//        return $this->_id;
-//    }
-
 }

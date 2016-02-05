@@ -32,8 +32,18 @@ $this->title = 'Logs';
         ],
         [
             'attribute' => 'date',
-            'format' => ['date', 'php:d/m/Y H:i:s'],
-            'headerOptions' => ['style' => 'width: 100px;'],
+            'format' => 'datetime',
+            'headerOptions' => ['style' => 'width: 200px;'],
+            'filter'          => kartik\daterange\DateRangePicker::widget([
+                'name'          => 'Log[date]',
+                'value'         => $searchModel->date,
+                'pluginOptions' => [
+                    'locale'=>[
+                        'format'=>'MM/DD/YYYY'
+                    ],
+                    'opens' => 'left'
+                ]
+            ]),
         ],
     ]; ?>
 
@@ -46,24 +56,9 @@ $this->title = 'Logs';
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'pjax' => true,
         'columns' => $columns,
-        'toggleDataOptions' => [
-            'all' => [
-                'icon' => 'resize-full',
-                'class' => 'btn btn-default',
-                'label' => Yii::t('app', 'All'),
-                'title' => Yii::t('app', 'Show all data')
-            ],
-            'page' => [
-                'icon' => 'resize-small',
-                'class' => 'btn btn-default',
-                'label' => Yii::t('app', 'Page'),
-                'title' => Yii::t('app', 'Show first page data')
-            ],
-        ],
         'toolbar' => [
             ['content' =>
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], ['data-pjax' => 1, 'class' => 'btn btn-default', 'title' => Yii::t('app', 'Reload Grid')]) .
-                '{toggleData}' .
                 '{export}'
             ],
         ],

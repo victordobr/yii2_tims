@@ -4,7 +4,7 @@ namespace app\modules\admin\models\search;
 
 use Yii;
 use yii\base\Model;
-use yii\data\ArrayDataProvider;
+use app\modules\admin\components\base\ArrayDataProvider;
 use app\models\Log as LogModel;
 
 /**
@@ -40,110 +40,100 @@ class Log extends LogModel
      */
     public function search($params)
     {
-//        $resultData = LogModel::find()->all();
-
         $model = new LogModel;
-//        $this->load($params);
-//        if ($this->category || $this->ip_address || $this->email) {
-////            var_dump($this->attributes);die();
-//            $resultData = $model::find()->query([
-//                "wildcard" => [
-////
-//                    "email" => [
-//                        "value" => $this->email . '*'
-//                    ],
-//                ],
-//
-////                "filtered" => [
-////                    "query" => [
-////                        "bool" => [
-////                            "should" => [
-////                                [ "match" => [ "category" => $this->category ]],
-////                                [ "match_phrase" => [ "email" => $this->email ]],
-////                                [ "match_phrase" => [ "ip_address" => $this->ip_address ]],
-////                            ],
-////                        ],
-////                    ],
-////                ],
-////                "more_like_this" => [
-////                    "fields" => ["email"],
-////                    "like" => $this->email,
-//////                    "*.email" => [
-//////                        "like_text" => $this->email,
-//////                        "min_term_freq" => 1,
-//////                        "max_query_terms" => 12,
-//////                    ],
-////                ],
-//
-//            ]);
-//
-//        }
-//        else {
-//
-//        }
-        $resultData = $model::find();
-//        var_dump($resultData);die();
-        $totalCount = $resultData->search()['hits']['total'];
-//        var_dump($totalCount);die();
+        $this->load($params);
+        if ($this->category || $this->ip_address || $this->email || $this->date) {
+            $query = [];
+            foreach ($this->attributes as $field => $value) {
+                switch ($field) {
+                    case 'email':
+                    case 'ip_address':
+                        if (!empty($value)) {
+                            $query['filtered']['query']['bool']['must'][] = [
+                                "wildcard" => [
+                                    $field => [
+                                        "value" => '*' . $value . '*'
+                                    ],
+                                ]
+                            ];
+                        }
+                        break;
+                    case 'category':
+                        if (!empty($value)) {
+                            $query['filtered']['query']['bool']['must'][] = [
+                                "term" => [
+                                    $field => [
+                                        "value" => $value,
+                                    ]
+                                ],
+                            ];
+                        }
+                        break;
+                    case 'date':
+                        $range = explode(' - ', $this->date);
+                        if (!empty($range[0]) && !empty($range[1])) {
+                            $query['filtered']['filter'][] = [
+                                "range" => [
+                                    $field => [
+                                        "gte" => (int)Yii::$app->formatter->asTimestamp($range[0]),
+                                        "lte" => (int)Yii::$app->formatter->asTimestamp($range[1]) + 86399,
+                                    ]
+                                ],
+                            ];
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
+            }
+            $resultData = $model::find()->query($query);
+        }
+        else {
+            $resultData = $model::find();
+        }
+
+        $sort = Yii::$app->request->getQueryParam('sort');
+        if (!empty($sort)) {
+            if (substr($sort, 0, 1) == "-") {
+                $orderBy = [substr($sort, 1) => SORT_DESC];
+            }
+            else {
+                $orderBy = [$sort => SORT_ASC];
+            }
+            $resultData = $resultData->orderBy($orderBy);
+        }
+
+        $totalCount = $resultData->search()['hits']['total'];
+        $perPage = 10;
+        $allPages = ceil($totalCount / $perPage);
 
         $page = Yii::$app->request->getQueryParam('page');
-        $perPage = Yii::$app->request->getQueryParam('per-page');
-        if (!$page)
+        if (!$page || $page > $allPages) {
             $page = 1;
-        if (!$perPage)
-            $perPage = 10;
+        }
         $offset = ($page - 1) * $perPage;
 
         $resultData = $resultData->limit($perPage);
         $resultData = $resultData->offset($offset);
 
         $resultData = $resultData->all();
-//        var_dump($resultData);die();
-//        var_dump($totalCount);die();
+
         $dataProvider = new ArrayDataProvider([
-//            'key'=>'id',
             'allModels' => $resultData,
-//            'models' => $resultData,
-//            'sort' => [
-//                'attributes' => [
-//                    'id' => [
-//                        'label' => 'ID',
-//                        'default' => SORT_DESC,
-//                    ],
-//                    'email',
-//                    'ip_address',
-//                    'category',
-//                    'date',
-//                ],
-//            ],
+            'sort' => [
+                'attributes' => [
+                    'email',
+                    'ip_address',
+                    'category',
+                    'date',
+                ],
+            ],
             'pagination' => [
                 'pageSize' => $perPage,
-                'offset' => $offset,
             ],
             'totalCount' => $totalCount,
         ]);
-//        var_dump($dataProvider);die();
-//        $dataProvider->setSort([
-//            'attributes' => [
-//                'id' => [
-//                    'asc' => ['id' => SORT_ASC],
-//                    'desc' => ['id' => SORT_DESC],
-//                    'label' => 'ID',
-//                    'default' => SORT_DESC,
-//                ],
-//                'email',
-//                'ip_address',
-//                'category',
-//                'date',
-//            ]
-//        ]);
-//        var_dump($id);die(1);
-//        $this->load($params);
-//
-//        if (!$this->validate()) {
-//            return $dataProvider;
-//        }
 
         return $dataProvider;
     }

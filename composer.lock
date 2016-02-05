@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cfd152347da531ccad880cd366344e31",
-    "content-hash": "800644ab3abe1bb95b79cfcdf090ecc4",
+    "hash": "1f67d7f2da048b3b372c321086b41a98",
+    "content-hash": "966e5fc06ae70cf3494fc9577c614df8",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1502,16 +1502,16 @@
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
-            "version": "2.0.8",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-ajaxcrud.git",
-                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b"
+                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/96700fc1cd751a046a5206b6637e376c575eda4b",
-                "reference": "96700fc1cd751a046a5206b6637e376c575eda4b",
+                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/c15bdd01440ced81daedef762f8bbf2f6c337f0b",
+                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b",
                 "shasum": ""
             },
             "require": {
@@ -1552,7 +1552,7 @@
                 "template",
                 "yii2"
             ],
-            "time": "2015-11-19 17:00:34"
+            "time": "2016-01-27 16:20:33"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
@@ -1779,16 +1779,16 @@
         },
         {
             "name": "kartik-v/yii2-date-range",
-            "version": "v1.6.3",
+            "version": "v1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-date-range.git",
-                "reference": "fcfd163d5c1e2f299eb5f47e1aa487a86dfe56bd"
+                "reference": "41c471785333dbfd341affd36b1e07ddf81aa7f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/fcfd163d5c1e2f299eb5f47e1aa487a86dfe56bd",
-                "reference": "fcfd163d5c1e2f299eb5f47e1aa487a86dfe56bd",
+                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/41c471785333dbfd341affd36b1e07ddf81aa7f5",
+                "reference": "41c471785333dbfd341affd36b1e07ddf81aa7f5",
                 "shasum": ""
             },
             "require": {
@@ -1824,7 +1824,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-05-22 15:26:20"
+            "time": "2016-01-11 06:28:58"
         },
         {
             "name": "kartik-v/yii2-editable",
