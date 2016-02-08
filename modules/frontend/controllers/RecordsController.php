@@ -50,7 +50,7 @@ class RecordsController extends Controller
                             Role::ROLE_POLICE_OFFICER,
                             Role::ROLE_POLICE_OFFICER_SUPERVISOR,
                             Role::ROLE_PRINT_OPERATOR,
-                            Role::ROLE_OPERATION_MANAGER,
+                            Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],
