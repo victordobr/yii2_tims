@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\enums\Role;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
@@ -14,6 +15,7 @@ class SearchAction extends Action
     {
         parent::init();
         $this->controller()->layout = 'two-columns';
+        $this->setPageTitle();
     }
 
     /**
@@ -27,12 +29,28 @@ class SearchAction extends Action
         $dataProvider = $model->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
 
-        Yii::$app->view->params['aside'] = Filter::widget(['action' => 'search', 'model' => $model]);
+        Yii::$app->view->params['aside'] = Filter::widget([
+            'action' => 'search',
+            'role' => Yii::$app->user->role->name,
+            'model' => $model
+        ]);
 
         return $this->controller()->render('search', [
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    private function setPageTitle()
+    {
+        switch (Yii::$app->user->role->name) {
+            case Role::ROLE_VIDEO_ANALYST:
+            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_PRINT_OPERATOR:
+                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded records');
+            case Role::ROLE_POLICE_OFFICER:
+                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
+        }
     }
 
     /**
