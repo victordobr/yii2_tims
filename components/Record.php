@@ -340,6 +340,12 @@ class Record extends Component
                     Status::PRINTED_P1,
                     Status::PRINTED_P2,
                 ];
+            case User::hasRole(Role::ROLE_POLICE_OFFICER):
+                return [
+                    Status::COMPLETE,
+                    Status::FULL_COMPLETE,
+                    Status::AWAITING_DEACTIVATION
+                ];
             default:
                 return [];
         }
