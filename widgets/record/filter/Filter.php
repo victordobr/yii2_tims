@@ -2,6 +2,7 @@
 
 namespace app\widgets\record\filter;
 
+use app\enums\Role;
 use app\modules\frontend\models\search\Record;
 use Yii;
 use yii\base\Widget;
@@ -14,6 +15,7 @@ class Filter extends Widget
     const ACTION_QC = 'qc';
 
     public $action;
+    public $role;
     public $model;
 
     public function init()
@@ -25,58 +27,94 @@ class Filter extends Widget
     {
         return $this->render('index', [
             'filters' => [
-                'statuses' => $this->byStatuses(),
-                'uploader' => $this->byUploader(),
+                'statuses' => $this->getStatusFilters(),
+                'uploader' => $this->getUploaderFilter(),
+                'reviewed' => $this->getReviewerFilter(),
             ],
             'model' => $this->model
         ]);
     }
 
-    private function byUploader()
+    private function isUser(array $roles)
     {
-        return $this->action == self::ACTION_SEARCH;
+        return in_array($this->role, $roles);
     }
 
-    private function byStatuses()
+    private function getReviewerFilter()
     {
-        switch ($this->action) {
-            case self::ACTION_SEARCH:
+        return $this->isUser([Role::ROLE_POLICE_OFFICER]);
+    }
+
+    private function getUploaderFilter()
+    {
+        return $this->isUser([
+            Role::ROLE_VIDEO_ANALYST,
+            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+            Role::ROLE_PRINT_OPERATOR
+        ]) && $this->action == self::ACTION_SEARCH;
+    }
+
+    private function getStatusFilters()
+    {
+        switch (true) {
+            case $this->isUser([
+                    Role::ROLE_VIDEO_ANALYST,
+                    Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                    Role::ROLE_PRINT_OPERATOR]
+            ):
+                switch ($this->action) {
+                    case self::ACTION_SEARCH:
+                        return [
+                            [
+                                'name' => 'filter_status[]',
+                                'label' => Yii::t('app', 'Show only incomplete records'),
+                                'value' => Record::STATUS_INCOMPLETE,
+                            ],
+                            [
+                                'name' => 'filter_status[]',
+                                'label' => Yii::t('app', 'Show only records within deactivation window'),
+                                'value' => Record::STATUS_COMPLETE_WITH_DEACTIVATION_WINDOW,
+                            ],
+                        ];
+                    case self::ACTION_PRINT:
+                        return [
+                            [
+                                'name' => 'filter_status[]',
+                                'label' => Yii::t('app', 'Show only records pending print Period 1'),
+                                'value' => Record::STATUS_PRINT_P1,
+                            ],
+                            [
+                                'name' => 'filter_status[]',
+                                'label' => Yii::t('app', 'Show only records pending reprint (QC failed)'),
+                                'value' => Record::STATUS_RE_PRINT,
+                            ],
+                        ];
+                    case self::ACTION_QC:
+                        return [
+                            [
+                                'name' => 'filter_status[]',
+                                'label' => Yii::t('app', 'Show only records pending print Period 1'),
+                                'value' => Record::STATUS_PRINT_P1,
+                            ],
+                        ];
+                }
+                break;
+            case $this->isUser([Role::ROLE_POLICE_OFFICER]):
                 return [
                     [
                         'name' => 'filter_status[]',
-                        'label' => Yii::t('app', 'Show only incomplete records'),
-                        'value' => Record::STATUS_INCOMPLETE,
-                    ],
-                    [
-                        'name' => 'filter_status[]',
-                        'label' => Yii::t('app', 'Show only records within deactivation window'),
-                        'value' => Record::STATUS_COMPLETE_WITH_DEACTIVATION_WINDOW,
-                    ],
-                ];
-            case self::ACTION_PRINT:
-                return [
-                    [
-                        'name' => 'filter_status[]',
-                        'label' => Yii::t('app', 'Show only records pending print Period 1'),
+                        'label' => Yii::t('app', 'Show only viewed cases without a determination'),
                         'value' => Record::STATUS_PRINT_P1,
                     ],
                     [
                         'name' => 'filter_status[]',
-                        'label' => Yii::t('app', 'Show only records pending reprint (QC failed)'),
+                        'label' => Yii::t('app', 'Show only cases within change window'),
                         'value' => Record::STATUS_RE_PRINT,
                     ],
                 ];
-            case self::ACTION_QC:
-                return [
-                    [
-                        'name' => 'filter_status[]',
-                        'label' => Yii::t('app', 'Show only records pending print Period 1'),
-                        'value' => Record::STATUS_PRINT_P1,
-                    ],
-                ];
-            default:
-                return [];
         }
+
+        return [];
     }
 
 }

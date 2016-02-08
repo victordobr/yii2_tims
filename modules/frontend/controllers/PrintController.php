@@ -58,7 +58,11 @@ class PrintController extends Controller
 
         $view = Yii::$app->view;
         $view->title = Yii::t('app', 'Search panel - List of records pending print');
-        $view->params['aside'] = Filter::widget(['action' => 'print', 'model' => $model]);
+        $view->params['aside'] = Filter::widget([
+            'action' => 'print',
+            'role' => Yii::$app->user->role->name,
+            'model' => $model
+        ]);
 
         $provider = $model->search(Yii::$app->request->queryParams);
         $provider->query->addSelect(['status_id' => 'record.status_id']);
@@ -131,7 +135,11 @@ class PrintController extends Controller
 
         $view = Yii::$app->view;
         $view->title = Yii::t('app', 'Search panel - List of records to QC');
-        $view->params['aside'] = Filter::widget(['action' => 'qc', 'model' => $model]);
+        $view->params['aside'] = Filter::widget([
+            'action' => 'qc',
+            'role' => Yii::$app->user->role->name,
+            'model' => $model
+        ]);
 
         $provider = $model->search(Yii::$app->request->queryParams);
         $provider->query->addSelect(['status_id' => 'record.status_id']);
