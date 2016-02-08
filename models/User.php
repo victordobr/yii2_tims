@@ -5,10 +5,7 @@ use \Yii;
 use \yii\helpers\ArrayHelper;
 use \yii\db\Query;
 use \yii\behaviors\TimestampBehavior;
-
 use \app\behaviors\PasswordAttributeBehavior;
-use \app\behaviors\ManageRolesBehavior;
-
 /**
  * Model for table User
  * @package app\models
@@ -17,7 +14,7 @@ class User extends base\User
 {
     const STATUS_ACTIVE = 1;
     const STATUS_NOT_ACTIVE = 0;
-    const SCENARIO_REGISTER = 'register';
+//    const SCENARIO_REGISTER = 'register';
 
     const PRE_NAME_MR = 'mr';
     const PRE_NAME_MRS = 'mrs';
@@ -58,15 +55,15 @@ class User extends base\User
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        return ArrayHelper::merge(parent::scenarios(), [
-            self::SCENARIO_REGISTER => array_keys($this->getAttributes())
-        ]);
-    }
+//    /**
+//     * @inheritdoc
+//     */
+//    public function scenarios()
+//    {
+//        return ArrayHelper::merge(parent::scenarios(), [
+//            self::SCENARIO_REGISTER => array_keys($this->getAttributes())
+//        ]);
+//    }
 
     /**
      * @inheritdoc
@@ -84,10 +81,10 @@ class User extends base\User
     public function behaviors()
     {
         return [
-            [
-                'class' => PasswordAttributeBehavior::className(),
-                'attribute' => 'password',
-            ],
+//            [
+//                'class' => PasswordAttributeBehavior::className(),
+//                'attribute' => 'password',
+//            ],
             [
                 'class' => TimestampBehavior::className(),
                 'updatedAtAttribute' => false,

@@ -43,7 +43,7 @@ class PrintController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_PRINT_OPERATOR,
-                            Role::ROLE_OPERATION_MANAGER,
+                            Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ]
