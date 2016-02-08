@@ -36,10 +36,10 @@ class PrintController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'preview', 'send', 'qc'],
+                'only' => ['index', 'preview', 'send', 'qc', 'confirm', 'reject'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'preview', 'send', 'qc'],
+                        'actions' => ['index', 'preview', 'qc', 'send', 'confirm', 'reject'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_PRINT_OPERATOR,
@@ -82,6 +82,36 @@ class PrintController extends Controller
         }
 
         return $sent;
+    }
+
+    public function actionConfirm()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $user_d = Yii::$app->user->id;
+        $ids = Yii::$app->request->post('ids');
+
+        $confirmed = [];
+        foreach ($ids as $id) {
+            !self::record()->confirmQc($id, $user_d) || $confirmed[] = $id;
+        }
+
+        return $confirmed;
+    }
+
+    public function actionReject()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $user_d = Yii::$app->user->id;
+        $ids = Yii::$app->request->post('ids');
+
+        $rejected = [];
+        foreach ($ids as $id) {
+            !self::record()->rejectQc($id, $user_d) || $rejected[] = $id;
+        }
+
+        return $rejected;
     }
 
     public function actionPreview()

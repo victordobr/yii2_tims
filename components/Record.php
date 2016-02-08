@@ -161,15 +161,183 @@ class Record extends Component
     }
 
     /**
+     * @param int $id record id
+     * @param int $user_id user id
+     * @return bool
+     */
+    public function sendToPrint($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if (in_array($record->status_id, [Status::PRINTED_P1, Status::PRINTED_P2])) {
+                throw new \Exception('Record already printed');
+            }
+
+            switch ($record->status_id) {
+                case Status::DMV_DATA_RETRIEVED_COMPLETE:
+                case Status::DMV_DATA_RETRIEVED_INCOMPLETE:
+                case Status::QC_BAD_P1:
+                    $status_id = Status::PRINTED_P1;
+                    break;
+                case Status::QC_BAD_P2:
+                case Status::OVERDUE_P1:
+                    $status_id = Status::PRINTED_P2;
+                    break;
+                default:
+                    throw new \Exception('Record has wrong status');
+            }
+            $record->setAttributes(['status_id' => $status_id]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => $status_id,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id user id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function confirmQc($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if (in_array($record->status_id, [Status::QC_CONFIRMED_GOOD_P1, Status::QC_CONFIRMED_GOOD_P2])) {
+                throw new \Exception('Record already confirmed');
+            }
+
+            switch ($record->status_id) {
+                case Status::PRINTED_P1:
+                    $status_id = Status::QC_CONFIRMED_GOOD_P1;
+                    break;
+                case Status::PRINTED_P2:
+                    $status_id = Status::QC_CONFIRMED_GOOD_P2;
+                    break;
+                default:
+                    throw new \Exception('Record has wrong status');
+            }
+            $record->setAttributes(['status_id' => $status_id]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => $status_id,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id user id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function rejectQc($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if (in_array($record->status_id, [Status::QC_BAD_P1, Status::QC_BAD_P2])) {
+                throw new \Exception('Record already rejected');
+            }
+
+            switch ($record->status_id) {
+                case Status::PRINTED_P1:
+                    $status_id = Status::QC_BAD_P1;
+                    break;
+                case Status::PRINTED_P2:
+                    $status_id = Status::QC_BAD_P2;
+                    break;
+                default:
+                    throw new \Exception('Record has wrong status');
+            }
+            $record->setAttributes(['status_id' => $status_id]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => $status_id,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
      * @return array
      */
     public static function getAvailableStatuses()
     {
         switch (true) {
             case User::hasRole(Role::ROLE_VIDEO_ANALYST):
-                return [Status::INCOMPLETE, Status::COMPLETE, Status::FULL_COMPLETE];
+                return [
+                    Status::INCOMPLETE,
+                    Status::COMPLETE,
+                    Status::FULL_COMPLETE
+                ];
             case User::hasRole(Role::ROLE_VIDEO_ANALYST_SUPERVISOR):
-                return [Status::INCOMPLETE, Status::COMPLETE, Status::FULL_COMPLETE, Status::AWAITING_DEACTIVATION];
+                return [
+                    Status::INCOMPLETE,
+                    Status::COMPLETE,
+                    Status::FULL_COMPLETE,
+                    Status::AWAITING_DEACTIVATION
+                ];
+            case User::hasRole(Role::ROLE_PRINT_OPERATOR):
+                return [
+                    Status::DMV_DATA_RETRIEVED_COMPLETE,
+                    Status::DMV_DATA_RETRIEVED_INCOMPLETE,
+                    Status::QC_BAD_P1,
+                    Status::QC_BAD_P2,
+
+                    Status::PRINTED_P1,
+                    Status::PRINTED_P2,
+                ];
             default:
                 return [];
         }

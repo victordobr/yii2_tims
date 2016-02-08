@@ -20,6 +20,30 @@ $(function () {
         }
     });
 
+    wrapper.on('click', '.qc-confirm-selected', function (e) {
+        var ids = grid.yiiGridView('getSelectedRows');
+        if (ids.length > 0) {
+            $.post('/print/confirm', {ids: ids}, function(confirmed){
+                console.log(confirmed);
+                //if((sent.length > 0)) {
+                //    window.location.href = '/print/qc';
+                //}
+            }, 'json');
+        }
+    });
+
+    wrapper.on('click', '.qc-reject-selected', function (e) {
+        var ids = grid.yiiGridView('getSelectedRows');
+        if (ids.length > 0) {
+            $.post('/print/reject', {ids: ids}, function(rejected){
+                console.log(rejected);
+                //if((sent.length > 0)) {
+                //    window.location.href = '/print/qc?' + $.param({ids: sent});
+                //}
+            }, 'json');
+        }
+    });
+
     wrapper.on('change', 'input[type=checkbox]', initPrintSelectedButton);
 
     wrapper.on('pjax:start', '#pjax-record-print', function () {

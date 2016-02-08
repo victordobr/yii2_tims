@@ -147,7 +147,7 @@ $config = [
                     'route' => 'frontend/records/<action>',
                 ],
                 [
-                    'pattern' => 'print/<action:(index|send|preview|qc)>',
+                    'pattern' => 'print/<action:(index|preview|qc|send|confirm|reject)>',
                     'route' => 'frontend/print/<action>',
                     'defaults' => ['action' => '']
                 ],

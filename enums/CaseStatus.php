@@ -20,8 +20,10 @@ class CaseStatus extends Enum
     const DMV_DATA_RETRIEVED_INCOMPLETE = 3021;
 
     const PRINTED_P1 = 4010;
+    const QC_CONFIRMED_GOOD_P1 = 4020;
     const QC_BAD_P1 = 4030;
     const PRINTED_P2 = 4040;
+    const QC_CONFIRMED_GOOD_P2 = 4050;
     const QC_BAD_P2 = 4060;
 
     const OVERDUE_P1 = 5060;
