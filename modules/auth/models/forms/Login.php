@@ -86,7 +86,7 @@ class Login extends Model
                 $userModel->last_login_at = time();
                 $userModel->save(false);
 
-                Yii::$app->getModule('auth')->auth->initParams($userModel->primaryKey);
+                Yii::$app->user->initParams($userModel->primaryKey);
             }
             return $success;
         } else {

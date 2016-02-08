@@ -34,9 +34,9 @@ class Role extends Enum
             self::ROLE_POLICE_OFFICER_SUPERVISOR  => Yii::t('app', 'Police Officer Supervisor'),
             self::ROLE_PRINT_OPERATOR  => Yii::t('app', ' Print Operator'),
             self::ROLE_OPERATIONS_MANAGER  => Yii::t('app', 'Operations Manager'),
-            self::ROLE_ACCOUNTS_RECONCILIATION => Yii::t('app', 'Other – manually key in the reason description'),
-            self::ROLE_SYSTEM_ADMINISTRATOR => Yii::t('app', 'Other – manually key in the reason description'),
-            self::ROLE_ROOT_SUPERUSER => Yii::t('app', 'Other – manually key in the reason description'),
+            self::ROLE_ACCOUNTS_RECONCILIATION => Yii::t('app', 'Accounts/Reconciliation'),
+            self::ROLE_SYSTEM_ADMINISTRATOR => Yii::t('app', 'System Administrator'),
+            self::ROLE_ROOT_SUPERUSER => Yii::t('app', 'Root/Superuser'),
         ];
     }
 }

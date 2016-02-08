@@ -57,27 +57,13 @@ class Controller extends \yii\web\Controller
     }
 
     /**
+     * TODO: seems like deprecated, need to be removed or refactored
      * @return string cabinet actions.
      * @throws NotFoundHttpException
      * @author Alex Makhorin
      */
     public function cabinetAction()
     {
-        // switch (true) {
-        //     case Yii::$app->user->isGuest :
-        //         $result = '/';
-        //         break;
-        //     case (Yii::$app->user->identity->type_id == UserType::ADMIN) :
-        //         $result = Yii::$app->params['url.cabinet.admin'];
-        //         break;
-        //     case (Yii::$app->user->identity->type_id == UserType::CLIENT) :
-        //         $result = Yii::$app->params['url.cabinet.client'];
-        //         break;
-        //     default:
-        //         throw new NotFoundHttpException();
-        // }
-
-        // return $result;
 
         return '/';
     }

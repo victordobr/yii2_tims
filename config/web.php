@@ -61,9 +61,9 @@ $config = [
                 ],
             ],
         ],
-        'rbacUser' => [
-            'class' => 'app\components\RbacUser',
-        ],
+//        'rbacUser' => [
+//            'class' => 'app\components\RbacUser',
+//        ],
         'media' => [
             'class' => 'app\components\media\Media',
             'uploadRoute' => '/frontend/records/chunk-upload',
@@ -92,6 +92,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\components\RbacUser',
             'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
             'loginUrl' => '/auth/default/login',
