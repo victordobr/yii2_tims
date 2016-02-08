@@ -322,7 +322,8 @@ class Record extends Component
                 return [
                     Status::INCOMPLETE,
                     Status::COMPLETE,
-                    Status::FULL_COMPLETE
+                    Status::FULL_COMPLETE,
+                    Status::VIEWED_RECORD,
                 ];
             case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
                 return [
@@ -335,8 +336,7 @@ class Record extends Component
                 return [
                     Status::DMV_DATA_RETRIEVED_COMPLETE,
                     Status::DMV_DATA_RETRIEVED_INCOMPLETE,
-                    Status::QC_BAD_P1,
-                    Status::QC_BAD_P2,
+                    Status::OVERDUE_P1,
 
                     Status::PRINTED_P1,
                     Status::PRINTED_P2,
@@ -345,7 +345,7 @@ class Record extends Component
                 return [
                     Status::COMPLETE,
                     Status::FULL_COMPLETE,
-                    Status::AWAITING_DEACTIVATION
+                    Status::VIEWED_RECORD
                 ];
         }
 

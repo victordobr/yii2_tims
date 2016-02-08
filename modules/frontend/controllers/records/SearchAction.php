@@ -36,7 +36,6 @@ class SearchAction extends Action
         ]);
 
         return $this->controller()->render('search', [
-            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -47,7 +46,7 @@ class SearchAction extends Action
             case Role::ROLE_VIDEO_ANALYST:
             case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
             case Role::ROLE_PRINT_OPERATOR:
-                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded records');
+                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');
             case Role::ROLE_POLICE_OFFICER:
                 return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
         }

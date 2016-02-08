@@ -2,7 +2,6 @@
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\frontend\models\search\PoliceCase $model
  */
 
 use yii\helpers\Url;
