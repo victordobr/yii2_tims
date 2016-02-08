@@ -61,6 +61,7 @@ class PrintController extends Controller
         $view->params['aside'] = Filter::widget(['action' => 'print', 'model' => $model]);
 
         $provider = $model->search(Yii::$app->request->queryParams);
+        $provider->query->addSelect(['status_id' => 'record.status_id']);
         $provider->query->andFilterWhere(['in', 'status_id', self::getAvailableStatusesByAction('print')]);
 
         return $this->render('index', [
@@ -103,6 +104,7 @@ class PrintController extends Controller
         $view->params['aside'] = Filter::widget(['action' => 'qc', 'model' => $model]);
 
         $provider = $model->search(Yii::$app->request->queryParams);
+        $provider->query->addSelect(['status_id' => 'record.status_id']);
         $provider->query->andFilterWhere(['in', 'status_id', self::getAvailableStatusesByAction('qc')]);
 
         return $this->render('qc', [
