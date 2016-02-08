@@ -131,23 +131,17 @@ a.desc:after {
 }
 
 .frontend-wrapper h1 {
-    /*color: rgb(105, 105, 105);*/
-    font-size: 24px;
-    /*font-weight: 300;*/
-    letter-spacing: -1px;
-    line-height: 24px;
     margin: 0;
     padding: 16px 0 10px;
+    font-size: 22px;
+    line-height: 24px;
+    letter-spacing: -1.2px;
     text-transform: uppercase;
 }
 
 .frontend-wrapper .header-title {
     margin-bottom: 16px;
     text-align: center;
-}
-
-.frontend-wrapper .header-title > h1 {
-    letter-spacing: -1.2px;
 }
 
 .white-background {
