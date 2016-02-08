@@ -22,8 +22,7 @@ use yii\widgets\Pjax;
 
     <div class="row">
         <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right print-selected" disabled="disabled"><?= Yii::t('app', 'Print selected') ?></button>
-            <button type="submit" class="btn btn-primary pull-right print-all"><?= Yii::t('app', 'Print all') ?></button>
+            <button type="submit" class="btn btn-primary pull-right print-selected" disabled="disabled"><?= Yii::t('app', 'Print') ?></button>
         </div>
     </div>
 
