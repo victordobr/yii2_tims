@@ -5,15 +5,18 @@ use \Yii;
 use \yii\web\AssetBundle;
 
 
-class PrintAsset extends AssetBundle
+class PreviewAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
 
-    public $css = [];
+    public $css = [
+        'css/preview.css',
+    ];
 
     public $js = [
-        'js/print.js',
+        '//maps.googleapis.com/maps/api/js',
+        'js/preview.js',
     ];
 
     public $depends = [

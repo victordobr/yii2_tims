@@ -27,7 +27,7 @@ class SearchAction extends Action
         $dataProvider = $model->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
 
-        Yii::$app->view->params['aside'] = Filter::widget(['model' => $model]);
+        Yii::$app->view->params['aside'] = Filter::widget(['action' => 'search', 'model' => $model]);
 
         return $this->controller()->render('search', [
             'model' => $model,
