@@ -226,10 +226,9 @@ class DefaultController extends Controller
      */
     public function actionCabinet()
     {
-        if (\app\models\User::hasRole(Role::ROLE_SYSTEM_ADMINISTRATOR) || \app\models\User::hasRole(Role::ROLE_ROOT_SUPERUSER)) {
-            return $this->redirect(Yii::$app->params['url.admin.default']);
-        }
-
-        return $this->redirect(Yii::$app->params['url.frontend.default']);
+        return !in_array(Yii::$app->user->role->name, [Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_ROOT_SUPERUSER]) ?
+            $this->redirect(Yii::$app->params['url.frontend.default']) :
+            $this->redirect(Yii::$app->params['url.admin.default']);
     }
+
 }
