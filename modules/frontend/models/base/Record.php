@@ -145,7 +145,15 @@ class Record extends RecordModel
      */
     public function getAvailableStatuses()
     {
-        return Yii::$app->record->getAvailableStatuses();
+        return self::record()->getAvailableStatuses();
+    }
+
+    /**
+     * @return \app\components\Record
+     */
+    private static function record()
+    {
+        return Yii::$app->record;
     }
 
 }
