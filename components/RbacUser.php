@@ -28,20 +28,22 @@ class RbacUser extends \app\modules\auth\components\Auth
      */
     protected $_permissions;
 
-    public function initParams($userId)
-    {
-        $roles = $this->authManager->getRolesByUser($userId);
-        $this->_role = array_shift($roles);
-        $this->_permissions = $this->authManager->getPermissionsByUser($userId);
-    }
-
     public function getRole()
     {
+        if (!$this->_role) {
+            $roles = $this->authManager->getRolesByUser($this->identity->id);
+            $this->_role = array_shift($roles);
+        }
+
         return $this->_role;
     }
 
     public function getPermissions()
     {
+        if (!$this->_permissions) {
+            $this->_permissions = $this->authManager->getPermissionsByUser($this->identity->id);
+        }
+
         return $this->_permissions;
     }
 
