@@ -3,9 +3,8 @@
  * @var \yii\web\View $this
  * @var string $content
  */
-app\assets\PrintAsset::register($this);
-
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= \Yii::$app->language ?>">
