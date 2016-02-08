@@ -14,6 +14,12 @@ return [
         'gii' => 'yii\gii\Module',
     ],
     'components' => [
+        'rbacUser' => [
+            'class' => 'app\components\RbacUser',
+        ],
+        'urlManager' => [
+            'scriptUrl' => 'http://tims.boloinc.com/',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

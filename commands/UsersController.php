@@ -5,10 +5,11 @@
 
 namespace app\commands;
 
+use app\enums\YesNo;
 use Yii;
 use yii\console\Controller;
 use app\modules\auth\components\Auth;
-use app\models\base\User;
+use app\models\User;
 
 /**
  * @author Andrey Prih <prihmail@gmail.com>
@@ -17,26 +18,17 @@ class UsersController extends Controller
 {
 	public function actionAdd($role_name, $user_email, $user_password)
 	{
-		$auth = Yii::$app->authManager;
+//		$passHash = Yii::$app->rbacUser->generatePasswordHash($user_password);
+//		var_dump($user_password);
+//		var_dump($passHash);
+//		die;
+//		string(7) "v_super"
+//		string(40) "1c391d7ea3b52d46c0f8f6f953214a798c22165f"
 
-		$role = $auth->getRole($role_name);
-		if(!$role){
-			exit("Error: role '$role_name' - not found!\n");
-		}
-
-		$user = new User;
-
-		$user->is_active = 1;
-		$user->email = $user_email;
-		$user->password = Auth::generatePasswordHash($user_password);
-		$user->created_at = time();
-
-		if(!$user->validate()){
-			var_dump($user->getErrors());
-			exit("Validate error!\n");
-		}
-
-		$user->save();
-		$auth->assign($role, $user->id);
+		Yii::$app->rbacUser->createUser([
+			'is_active' => YesNo::YES,
+			'email' => $user_email,
+			'password' => Yii::$app->rbacUser->generatePasswordHash($user_password),
+		], $role_name);
 	}
 }

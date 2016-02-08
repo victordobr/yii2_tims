@@ -88,7 +88,8 @@ class UsersController extends Controller
     public function actionCreate()
     {
         $this->layout = 'middle.php';
-        $model = new User(['scenario' => User::SCENARIO_REGISTER]);
+//        $model = new User(['scenario' => User::SCENARIO_REGISTER]);
+        $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 //            try {
