@@ -81,6 +81,6 @@ class PasswordAttributeBehavior extends Behavior
      */
     protected function getPasswordHasher()
     {
-        return Yii::$app->rbacUser;
+        return Yii::$app->user;
     }
 }

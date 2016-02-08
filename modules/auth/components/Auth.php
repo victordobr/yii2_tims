@@ -6,51 +6,25 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use \yii\base\Exception;
-use yii\rbac\Role;
-use yii\rbac\Permission;
+use yii\web\User;
 
-class Auth extends Component
+class Auth extends User
 {
-    /*
-     * @var Role
-     */
-    protected $_role;
-
-    /*
-     * @var Permission[]
-     */
-    protected $_permissions;
-
     const HASH_PARAM_NAME = 'hash';
 
     /** @var int password length. */
     public $passwordLength = 8;
 
     /** @var \yii\rbac\ManagerInterface auth manager. */
-    private $authManager;
-
-
-    public function initParams($userId)
-    {
-        $this->_role = array_shift($this->authManager->getRolesByUser($userId));
-        $this->_permissions = $this->authManager->getPermissionsByUser($userId);
-    }
-
-    public function getRole()
-    {
-        return $this->_role;
-    }
-
-    public function getPermissions()
-    {
-        return $this->_permissions;
-    }
+    protected $authManager;
 
     /**
      * @inheritdoc
      */
     public function init()
     {
+        parent::init();
+
         $this->authManager = Yii::$app->authManager;
     }
 

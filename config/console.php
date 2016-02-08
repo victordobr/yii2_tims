@@ -14,8 +14,11 @@ return [
         'gii' => 'yii\gii\Module',
     ],
     'components' => [
-        'rbacUser' => [
+        'user' => [
             'class' => 'app\components\RbacUser',
+            'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
+            'enableAutoLogin' => true,
+            'loginUrl' => '/auth/default/login',
         ],
         'urlManager' => [
             'scriptUrl' => 'http://tims.boloinc.com/',

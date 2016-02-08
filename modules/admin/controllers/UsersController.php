@@ -93,7 +93,7 @@ class UsersController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 //            try {
-                Yii::$app->rbacUser->createUser($model->attributes);
+                Yii::$app->user->createUser($model->attributes);
                 return $this->redirect(['manage']);
 //            } catch (Exception $e) {
 //                throw new HttpException(500, $e->getMessage());

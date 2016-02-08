@@ -13,9 +13,38 @@ use Yii;
 use yii\base\InvalidConfigException;
 use \app\models\User as UserModel;
 use \yii\base\Exception;
+use yii\rbac\Role;
+use yii\rbac\Permission;
 
 class RbacUser extends \app\modules\auth\components\Auth
 {
+    /**
+     * @var Role
+     */
+    protected $_role;
+
+    /**
+     * @var Permission[]
+     */
+    protected $_permissions;
+
+    public function initParams($userId)
+    {
+        $roles = $this->authManager->getRolesByUser($userId);
+        $this->_role = array_shift($roles);
+        $this->_permissions = $this->authManager->getPermissionsByUser($userId);
+    }
+
+    public function getRole()
+    {
+        return $this->_role;
+    }
+
+    public function getPermissions()
+    {
+        return $this->_permissions;
+    }
+
     /**
      * Complete user creation method.
      * Includes password generation, role assign (via model's behavior) and email message sending.
