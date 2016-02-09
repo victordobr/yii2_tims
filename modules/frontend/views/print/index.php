@@ -2,13 +2,13 @@
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\frontend\models\search\PoliceCase $model
  */
 
 use \yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\icons\Icon;
 ?>
 
 <div id="wrapper-record-print">
@@ -36,18 +36,31 @@ use yii\widgets\Pjax;
             [
                 'class' => 'yii\grid\SerialColumn',
             ],
-            'infraction_date:datetime',
-            'id',
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'infraction_date',
+                'format' => 'date',
+            ],
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'id',
+            ],
             'license',
-            'status_id',
-            'elapsedTime',
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'status_id',
+            ],
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'elapsedTime',
+            ],
             [
                 'class' => \kartik\grid\ActionColumn::className(),
                 'template' => '{review}',
                 'buttons' => [
                     'review' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-eye-open"></span>',
+                            Icon::show('eye', ['class' => 'fa-lg']),
                             Url::to(['records/review', 'id' => $model->id]),
                             ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                         );
