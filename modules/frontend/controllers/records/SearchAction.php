@@ -27,16 +27,11 @@ class SearchAction extends Action
      */
     public function run()
     {
-        $user = Yii::$app->user;
         $model = new RecordSearch;
 
         $provider = $model->search($this->attributes);
 
-        Yii::$app->view->params['aside'] = Filter::widget([
-            'action' => 'search',
-            'role' => $user->role->name,
-            'model' => $model
-        ]);
+        Yii::$app->view->params['aside'] = Filter::widget(['model' => $model]);
 
         return $this->controller()->render('search', [
             'dataProvider' => $provider,
