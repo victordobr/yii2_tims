@@ -5,6 +5,7 @@ namespace app\modules\frontend;
 use \Yii;
 use \yii\filters\AccessControl;
 use \app\interfaces\Menu as MenuInterface;
+use yii\bootstrap\Html;
 
 /**
  * Web module for administration panel.
@@ -52,13 +53,13 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/records/search']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/records/review']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
-            ['encode' => false, 'label' => \yii\bootstrap\Html::icon('asterisk') . '&nbsp;&nbsp;' . Yii::t('app', 'Settings'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
+            ['encode' => false, 'label' => Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/records/search']],
+            ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/records/review']],
+            ['encode' => false, 'label' => Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => ['/frontend/print/index'], 'active' => Yii::$app->controller->id == 'print'],
+            ['encode' => false, 'label' => Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],
+            ['encode' => false, 'label' => Html::icon('asterisk') . '&nbsp;&nbsp;' . Yii::t('app', 'Settings'), 'url' => false, 'options' => ['class' => 'disabled']],
         ];
     }
 }
