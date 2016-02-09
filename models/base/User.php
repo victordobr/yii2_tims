@@ -30,7 +30,6 @@ use Yii;
  *
  * @property AuthAssignment[] $authAssignments
  * @property AuthItem[] $itemNames
- * @property Record[] $records
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -103,11 +102,4 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(AuthItem::className(), ['name' => 'item_name'])->viaTable('AuthAssignment', ['user_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRecords()
-    {
-        return $this->hasMany(Record::className(), ['user_id' => 'id']);
-    }
 }
