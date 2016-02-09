@@ -31,7 +31,7 @@ $formatter = Yii::$app->formatter;
                         [
                             'label' => Yii::t('app', 'Case opened by'),
                             'format' => 'raw',
-                            'value' => $model->user->getFullName()
+                            'value' => $model->statusHistory->author->getFullName()
                         ],
                         [
                             'label' => Yii::t('app', 'Vehicle TAG'),
