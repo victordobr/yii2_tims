@@ -11,10 +11,13 @@ use app\modules\frontend\models\search\Record as RecordSearch;
 
 class SearchAction extends Action
 {
+    public $attributes;
+
     public function init()
     {
         parent::init();
-        $this->controller()->layout = 'two-columns';
+
+        $this->setLayout('two-columns');
         $this->setPageTitle();
     }
 
@@ -24,32 +27,42 @@ class SearchAction extends Action
      */
     public function run()
     {
+        $user = Yii::$app->user;
         $model = new RecordSearch;
 
-        $dataProvider = $model->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+        $provider = $model->search($this->attributes);
 
         Yii::$app->view->params['aside'] = Filter::widget([
             'action' => 'search',
-            'role' => Yii::$app->user->role->name,
+            'role' => $user->role->name,
             'model' => $model
         ]);
 
         return $this->controller()->render('search', [
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $provider,
         ]);
+    }
+
+    private function setLayout($name)
+    {
+        $this->controller()->layout = $name;
     }
 
     private function setPageTitle()
     {
+        $title = '';
         switch (Yii::$app->user->role->name) {
             case Role::ROLE_VIDEO_ANALYST:
             case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
             case Role::ROLE_PRINT_OPERATOR:
-                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');
+                $title = Yii::t('app', 'Search Panel - List of uploaded cases');
+                break;
             case Role::ROLE_POLICE_OFFICER:
-                return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
+                $title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
+                break;
         }
+
+        return $this->controller()->view->title = $title;
     }
 
     /**

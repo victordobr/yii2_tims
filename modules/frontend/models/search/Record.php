@@ -2,11 +2,14 @@
 namespace app\modules\frontend\models\search;
 
 use app\enums\CaseStatus as Status;
+use app\models\StatusHistory;
 use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\db\QueryInterface;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class Record extends \app\modules\frontend\models\base\Record
@@ -33,23 +36,29 @@ class Record extends \app\modules\frontend\models\base\Record
     public $by_infraction_date;
     public $by_status;
     public $uploaded_by;
+    public $author_id;
 
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'id' => Yii::t('app', '#'),
+            'author_id' => Yii::t('app', 'Uploader By'),
+            'created_at' => Yii::t('app', 'Uploaded Date'),
+            'license' => Yii::t('app', 'Vehicle Tag #'),
+            'elapsedTime' => Yii::t('app', 'Elapsed Time'),
+        ]);
+    }
 
     public function search($params)
     {
-        if (empty($params['Record']['user_id'])) {
-            $params['Record']['user_id'] = null;
-        }
-
         $provider = parent::search($params);
         $query = $provider->query;
 
-        if (!empty($params['Record'])) {
-            $params = $params['Record'];
-        }
-
-
         $this->setAttributes($params);
+
+        if (!empty($params['author_id'])) {
+            $this->filterByAuthorID($query, $params['author_id']);
+        }
 
         if (!empty($params['filter_created_at'])) {
             $this->filterByInfractionDate($query, $params['filter_created_at'], $params['X']);
@@ -75,7 +84,6 @@ class Record extends \app\modules\frontend\models\base\Record
                 'created_at' => 'record.created_at',
                 'status_id' => 'record.status_id',
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-                'fullName' => self::SQL_SELECT_FULL_NAME,
             ])
             ->from(['record' => static::tableName()])
             ->joinWith([
@@ -87,17 +95,20 @@ class Record extends \app\modules\frontend\models\base\Record
                 },
             ]);
 
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $provider = new ActiveDataProvider(['query' => $query]);
 
-
-        $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         if (!empty($params['ids'])) {
             $query->andFilterWhere(['in', 'record.id', $params['ids']]);
         }
 
-        return $dataProvider;
+        return $provider;
+    }
+
+    private function filterByAuthorID(QueryInterface &$query, $author_id)
+    {
+        $query->andWhere(['StatusHistory.author_id' => $author_id]);
     }
 
     private function filterByStatus(QueryInterface &$query, $filter)
@@ -164,30 +175,34 @@ class Record extends \app\modules\frontend\models\base\Record
 
     private function initUploaderList()
     {
-        $this->uploader_list[0] = 'all';
-        foreach ($this->getUploaders() as $user) {
-            $full_name = trim($user->getFullName());
-            $this->uploader_list[$user->id] = !$full_name ?
-                '# ' . $user->id :
-                $user->getFullName() . ' / ' . $user->id;
+        $this->uploader_list[0] = Yii::t('app', 'all');
+        foreach ($this->getHistory() as $history) {
+            $author = $history->author;
+            $full_name = trim($author->getFullName());
+            $this->uploader_list[$author->id] = !$full_name ? '# ' . $author->id : $full_name . ' / ' . $author->id;
         }
 
         return $this->uploader_list;
     }
 
     /**
-     * @return array|User[]
+     * @return array|StatusHistory[]
      */
-    private function getUploaders()
+    private function getHistory()
     {
-        return User::find()
-            ->from('User u')
+        return StatusHistory::find()
+            ->select(['sh.author_id', 'u.id', 'u.pre_name', 'u.first_name', 'u.last_name'])
+            ->from(StatusHistory::tableName().' sh')
             ->joinWith([
-                'record' => function ($query) {
-                    $query->from('Record r');
+                'record' => function (ActiveQuery $query) {
+                    $query->from(self::tableName().' r');
                 },
             ])
-            ->select(['u.id', 'u.pre_name', 'u.first_name', 'u.last_name'])
+            ->joinWith([
+                'author' => function (ActiveQuery $query) {
+                    $query->from(User::tableName().' u');
+                },
+            ])
             ->where(['in', 'r.status_id', $this->getAvailableStatuses()])
             ->all();
     }

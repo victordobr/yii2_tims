@@ -2,7 +2,7 @@ $(function () {
     var
         form = $('#form-record-search-filter'),
         selectors = [
-            '#record-user_id',
+            '#record-author_id',
             'input[name="Record[filter_created_at]"]',
             'input[name="Record[filter_status][]"]'
         ];

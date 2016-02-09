@@ -35,7 +35,7 @@ use app\modules\frontend\models\search\Record;
         <?php endif; ?>
 
         <?php if (!empty($filters['uploader'])): ?>
-            <?= $form->field($model, 'user_id')->dropDownList($model->getUploaderList()); ?>
+            <?= $form->field($model, 'author_id')->dropDownList($model->getUploaderList()); ?>
         <?php endif; ?>
 
         <?php ActiveForm::end(); ?>
