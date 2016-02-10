@@ -71,7 +71,7 @@ class RecordsController extends Controller
 
         $owner = $record->owner;
 
-        $userFullName = User::findOne($record->user_id)->getFullName();
+        $userFullName = $record->statusHistory->author->getFullName();
 
         if (!isset($record)) {
             throw new NotFoundHttpException("The record was not found.");
