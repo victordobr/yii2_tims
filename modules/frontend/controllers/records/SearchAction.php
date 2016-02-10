@@ -18,7 +18,6 @@ class SearchAction extends Action
         parent::init();
 
         $this->setLayout('two-columns');
-        $this->setPageTitle();
     }
 
     /**
@@ -27,6 +26,8 @@ class SearchAction extends Action
      */
     public function run()
     {
+        $this->setPageTitle();
+
         $model = new RecordSearch;
 
         $provider = $model->search($this->attributes);
