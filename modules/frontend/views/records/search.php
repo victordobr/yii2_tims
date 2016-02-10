@@ -14,14 +14,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
 <div class="user-index">
 
-    <div class="header-title">
-        <h1><?= yii\helpers\Html::encode($this->title) ?></h1>
-    </div>
-
     <div class="white-background">
-        <!--        <div class="right">-->
-        <!--            --><?php //echo Html::a(Html::encode($clearLabel), ['search'], ['class' => 'btn btn-primary']) ?>
-        <!--        </div>-->
 
         <?php
         yii\widgets\Pjax::begin([
@@ -35,29 +28,25 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
             'dataProvider' => $dataProvider,
             'columns' => [
                 [
-                    'class' => 'yii\grid\SerialColumn',
-                    'headerOptions' => ['style' => 'width: 50px;']
+                    'label' => '#',
+                    'attribute' => 'id',
+//                    'headerOptions' => ['style' => 'width: 50px;']
                 ],
                 [
                     'attribute' => 'infraction_date',
                     'format' => 'date',
-                    'headerOptions' => ['style' => 'width: 190px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
-//                [
-//                    'label' => 'Case Number #',
-//                    'attribute' => 'case_id',
-//                    'headerOptions' => ['style' => 'width: 180px;']
-//                ],
                 [
                     'label' => 'Vehicle Tag #',
                     'attribute' => 'license',
-                    'headerOptions' => ['style' => 'width: 100px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
                 [
                     'label' => 'Uploaded Date',
                     'attribute' => 'created_at',
                     'format' => 'date',
-                    'headerOptions' => ['style' => 'width: 190px;']
+//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
                 [
                     'label' => 'Uploaded By',
@@ -67,7 +56,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 [
                     'label' => 'Elapsed time, days',
                     'attribute' => 'elapsedTime',
-                    'headerOptions' => ['style' => 'width: 50px;']
+//                    'headerOptions' => ['style' => 'width: 20px;']
                 ],
                 [
                     'class' => \yii\grid\ActionColumn::className(),

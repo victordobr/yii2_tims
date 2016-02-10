@@ -68,6 +68,6 @@ class ManageRolesBehavior extends Behavior
     {
         $roleId = UserType::roleData()[$this->owner->{$this->userTypeAttribute}];
 
-        Yii::$app->rbacUser->applyRole($roleId, $this->owner->primaryKey);
+        Yii::$app->user->applyRole($roleId, $this->owner->primaryKey);
     }
 }

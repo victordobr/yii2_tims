@@ -6,15 +6,15 @@ use yii\helpers\Url;
 $user = Yii::$app->user->identity;
 ?>
 
-<div class="panel panel-default">
+<div class="panel panel-default panel-user-info">
     <div class="panel-heading">
-        <div id="Date"></div>
         <ul id="clock">
-            <li id="hours"> </li>
+            <li id="Date"></li>
+            <li id="hours">00</li>
             <li id="point">:</li>
-            <li id="min"> </li>
+            <li id="min">00</li>
             <li id="point">:</li>
-            <li id="sec"> </li>
+            <li id="sec">00</li>
         </ul>
     </div>
 
@@ -23,34 +23,15 @@ $user = Yii::$app->user->identity;
             'model' => $user,
             'options' => ['class' => 'table'],
             'attributes' => [
-//                [
-//                    'label' => Yii::t('app', 'Date case opened'),
-//                    'format' => 'raw',
-//                    'value' => $formatter->asDatetime($model->open_date)
-//                ],
                 [
-                    'label' => Yii::t('app', 'Logged as User'),
+                    'label' => Yii::t('app', 'Logged as User:'),
                     'attribute' => 'pre_name'
                 ],
                 [
-                    'label' => Yii::t('app', 'Logged in Since'),
+                    'label' => Yii::t('app', 'Logged in Since:'),
                     'format' => 'datetime',
                     'attribute' => 'last_login_at'
                 ],
-
-//                [
-//                    'label' => Yii::t('app', 'Vehicle TAG'),
-//                    'attribute' => 'license',
-//                ],
-//                [
-//                    'label' => Yii::t('app', 'Date of alleged infraction'),
-//                    'format' => 'raw',
-//                    'value' => sprintf('%s (%s)', $formatter->asDatetime($model->infraction_date, 'php:d-m-Y H:i:s'), $formatter->asElapsedTime($model->infraction_date))
-//                ],
-//                [
-//                    'label' => Yii::t('app', 'Status'),
-//                    'attribute' => 'status.name',
-//                ],
             ],
         ]) ?>
         <div class="control-group">

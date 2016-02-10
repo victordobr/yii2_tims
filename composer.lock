@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1f67d7f2da048b3b372c321086b41a98",
-    "content-hash": "966e5fc06ae70cf3494fc9577c614df8",
+    "hash": "9a64fda18ee70b7e1ab94aaa7d3b3385",
+    "content-hash": "b4649884153112405c5fc653cea49a9b",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -718,12 +718,12 @@
             "version": "2.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85",
                 "shasum": ""
             },
@@ -2325,8 +2325,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Alex Makhorin",
-                    "email": "despected@gmail.com"
+                    "name": "Cyril Turkevich",
+                    "email": "cyril.turkevich@gmail.com"
                 }
             ],
             "description": "PHP Abstract Enum",
@@ -2367,8 +2367,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Alex Makhorin",
-                    "email": "despected@gmail.com"
+                    "name": "Cyril Turkevich",
+                    "email": "cyril.turkevich@gmail.com"
                 }
             ],
             "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
@@ -2655,6 +2655,40 @@
             "time": "2015-12-18 10:36:38"
         },
         {
+            "name": "yiicod/yii2-listener",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiicod/yii2-listener.git",
+                "reference": "ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiicod/yii2-listener/zipball/ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7",
+                "reference": "ff6a71d0bdac755f4c06675ab02a7d2041c4f3d7",
+                "shasum": ""
+            },
+            "type": "yii-extension",
+            "autoload": {
+                "psr-4": {
+                    "yiicod\\listener\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD License"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Orlov",
+                    "email": "aaorlov88@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The simple and powerful listener for the Yii2 framework",
+            "time": "2015-12-11 21:04:39"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.6",
             "source": {
@@ -2839,20 +2873,20 @@
         },
         {
             "name": "yiisoft/yii2-composer",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-composer.git",
-                "reference": "ca8d23707ae47d20b0454e4b135c156f6da6d7be"
+                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/ca8d23707ae47d20b0454e4b135c156f6da6d7be",
-                "reference": "ca8d23707ae47d20b0454e4b135c156f6da6d7be",
+                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/7452fd908a5023b8bb5ea1b123a174ca080de464",
+                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "1.0.0"
+                "composer-plugin-api": "^1.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -2882,7 +2916,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2015-03-01 06:22:44"
+            "time": "2016-02-06 00:49:24"
         },
         {
             "name": "yiisoft/yii2-debug",

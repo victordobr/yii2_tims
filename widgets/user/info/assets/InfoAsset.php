@@ -8,14 +8,13 @@ use yii\web\View;
 
 class InfoAsset extends AssetBundle
 {
-//    public $basePath = '@webroot';
-//    public $baseUrl = '@web';
     public $sourcePath = '@app/widgets/user/info';
 
     public $js = [
         'js/clock.js',
     ];
     public $css = [
+        'css/style.css',
         'css/clock.css',
     ];
 
@@ -23,8 +22,4 @@ class InfoAsset extends AssetBundle
         'yii\web\JqueryAsset',
     ];
 
-//    public function init() {
-//        $this->jsOptions['position'] = View::POS_BEGIN;
-//        parent::init();
-//    }
 }

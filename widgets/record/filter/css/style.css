@@ -1,0 +1,45 @@
+.panel.panel-record-filter {
+    border: none;
+}
+
+.panel.panel-record-filter > .panel-heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    padding-bottom: 0;
+    background: transparent;
+    text-align: center;
+}
+
+#record-filter_created_at > label {
+    display: block;
+    line-height: 18px;
+    color: #8c8c8c;
+    font-weight: normal;
+}
+#record-filter_created_at > label > input[type="radio"] {
+    vertical-align: text-bottom;
+}
+#record-filter_created_at > label > input[name="Record[X]"] {
+    width: 32px;
+    text-align: center;
+}
+
+#form-record-search-filter > .field-record-filter_status {
+    margin: 0;
+}
+#form-record-search-filter > .field-record-filter_status > label {
+    margin-left: 16px;
+    line-height: 18px;
+    color: #8c8c8c;
+    font-weight: normal;
+}
+#form-record-search-filter > .field-record-filter_status > label > input[type="checkbox"] {
+    margin-left: -18px;
+    vertical-align: text-bottom;
+}
+
+#form-record-search-filter > .field-record-user_id > label {
+    color: #8c8c8c;
+    font-weight: normal;
+}

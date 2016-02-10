@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['eventManager', 'log'],
     'modules' => [
         'auth' => [
             'class' => 'app\modules\auth\Module',
@@ -37,6 +37,9 @@ $config = [
         ],
     ],
     'components' => [
+        'eventManager' => [
+            'class' => 'yiicod\listener\components\EventManager'
+        ],
         'assetManager' => [
             'bundles' => [
                 'dosamigos\google\maps\MapAsset' => [
@@ -66,9 +69,9 @@ $config = [
                 ],
             ],
         ],
-        'rbacUser' => [
-            'class' => 'app\components\RbacUser',
-        ],
+//        'rbacUser' => [
+//            'class' => 'app\components\RbacUser',
+//        ],
         'media' => [
             'class' => 'app\components\media\Media',
             'uploadRoute' => '/frontend/records/chunk-upload',
@@ -97,6 +100,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\components\RbacUser',
             'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
             'loginUrl' => '/auth/default/login',
@@ -152,12 +156,17 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
                 [
-                    'pattern' => '<action:(upload|review|deactivate)>/<id:\d+>',
+                    'pattern' => '<action:(search|review|requestDeactivation|deactivate)>/<id:\d+>',
                     'route' => 'frontend/records/<action>',
                 ],
                 [
-                    'pattern' => '<action:(upload|chunkUpload|search|handle)>',
+                    'pattern' => '<action:(upload|chunkUpload|handle)>',
                     'route' => 'frontend/records/<action>',
+                ],
+                [
+                    'pattern' => 'print/<action:(index|preview|qc|send|confirm|reject)>',
+                    'route' => 'frontend/print/<action>',
+                    'defaults' => ['action' => '']
                 ],
                 // admin roles
                 'admin/roles' => 'admin/rbac/role/index',

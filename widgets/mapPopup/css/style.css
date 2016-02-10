@@ -1,0 +1,8 @@
+.media-popup-wrapper > a {
+    display: block;
+    width: 52px;
+    color: #333;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}

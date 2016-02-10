@@ -3,6 +3,7 @@ namespace app\modules\frontend\models\form;
 
 use Yii;
 use yii\base\Model;
+use app\enums\Reasons;
 
 class RequestDeactivateForm extends Model
 {
@@ -15,7 +16,10 @@ class RequestDeactivateForm extends Model
     public function rules()
     {
         return [
-            [['code', 'description'], 'required'],
+            [['code'], 'required'],
+            [['description'], 'required', 'when' => function($model) {
+                return $model->code == Reasons::OTHER;
+            }],
             [['code'], 'integer'],
             [['description'], 'string'],
         ];
@@ -27,7 +31,7 @@ class RequestDeactivateForm extends Model
     public function attributeLabels()
     {
         return [
-            'code' => Yii::t('app', 'Code'),
+            'code' => Yii::t('app', 'Reason'),
             'description' => Yii::t('app', 'Description'),
         ];
     }

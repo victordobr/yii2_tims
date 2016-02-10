@@ -1,0 +1,42 @@
+.panel.panel-view {
+    border-radius: 12px;
+}
+
+.panel.panel-view > .panel-heading {
+    border: none;
+    font: 16px/0 'Open Sans', sans-serif;
+    color: #666;
+    text-transform: uppercase;
+    float: left;
+    margin-top: -12px;
+    margin-left: 12px;
+    padding: 12px 4px;
+    background: rgba(255, 255, 255, .96);
+}
+
+.panel.panel-view > .panel-body {
+    padding: 0;
+}
+
+.panel.panel-view > .panel-body tr > th {
+    padding-left: 12px;
+    color: rgb(51, 51, 51);
+}
+
+.panel.panel-view > .panel-body tr > th,
+.panel.panel-view > .panel-body tr > td {
+    line-height: 16px;
+}
+
+.panel.panel-view > .panel-body tr:nth-child(1) > th,
+.panel.panel-view > .panel-body tr:nth-child(1) > td {
+    border: none;
+}
+
+.panel > .panel-body > .table {
+    margin: 0;
+}
+
+.panel.panel-view > .panel-footer {
+    background: transparent;
+}

@@ -5,20 +5,22 @@ use app\enums\CaseStatus;
 use app\models\StatusHistory;
 use Yii;
 use yii\base\Model;
+use app\enums\Reasons;
 
 class DeactivateForm extends Model
 {
     const SCENARIO_APPROVE = 'approve';
     const SCENARIO_REJECT = 'reject';
 
-    private $requested_by;
-    private $review_reason;
+    public $requested_by;
+    public $review_reason;
 
     public static $history;
 
     public $record_id;
     public $reason;
     public $action = self::SCENARIO_APPROVE;
+
     public $code;
     public $description;
 
@@ -30,22 +32,24 @@ class DeactivateForm extends Model
         ];
     }
 
-    public function scenarios()
+    public function init()
     {
-        return [
-            self::SCENARIO_APPROVE => ['action'],
-            self::SCENARIO_REJECT => ['action', 'code', 'description'],
-        ];
+        $this->requested_by = $this->getRequestedBy();
+        $this->review_reason = $this->getReviewReason();
     }
 
-
-/**
+    /**
      * @return array the validation rules.
      */
     public function rules()
     {
         return [
-            [['code', 'description'], 'required', 'on' => self::SCENARIO_REJECT],
+            [['code'], 'required', 'when' => function($model) {
+                return $model->action == self::SCENARIO_REJECT;
+            }],
+            [['description'], 'required', 'when' => function($model) {
+                return $model->action == self::SCENARIO_REJECT && $model->code == Reasons::OTHER;
+            }],
             [['code'], 'integer'],
             [['description'], 'string'],
             [['action'], 'safe'],
@@ -90,7 +94,9 @@ class DeactivateForm extends Model
             return false;
         }
 
-        return $reason->code . ' - ' . $reason->description;
+        $reasonsList = Reasons::listReasonsRequestDeactivation();
+
+        return $reason->code == Reasons::OTHER ? $reason->description : $reasonsList[$reason->code];
     }
 
     public function getRequestedBy()
@@ -100,7 +106,7 @@ class DeactivateForm extends Model
             return false;
         }
 
-        return $history->author->getFullName();
+        return $history->author->getFullName() . " #{$history->author->id}";
     }
 
     /**
@@ -111,32 +117,9 @@ class DeactivateForm extends Model
     {
         if (is_null(self::$history)) {
             $condition = ['record_id' => $record_id, 'status_code' => CaseStatus::AWAITING_DEACTIVATION];
-            self::$history = StatusHistory::find()->where($condition)->orderBy(['id' => 'DESC'])->one();
+            self::$history = StatusHistory::find()->where($condition)->orderBy(['id' => SORT_DESC])->one();
         }
 
         return self::$history;
     }
-
-    public function __get($name)
-    {
-        if (!property_exists(__CLASS__, $name)) {
-            return null;
-        }
-        if (is_null($this->$name)) {
-            $method = self::collectMethodName($name);
-            if (method_exists($this, $method)) {
-                $this->$name = $this->$method();
-            }
-        }
-
-        return $this->$name;
-    }
-
-    private static function collectMethodName($property)
-    {
-        return 'get' . join('', array_map(function ($w) {
-            return ucfirst($w);
-        }, explode('_', $property)));
-    }
-
 }

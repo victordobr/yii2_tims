@@ -1,6 +1,8 @@
 <?php
 namespace app\base;
 
+use app\assets\AppAsset;
+use app\assets\NotifyJsAsset;
 use \Yii;
 use \yii\db\ActiveRecord;
 use \yii\web\Response;
@@ -15,6 +17,12 @@ use \app\enums\UserType;
  */
 class Controller extends \yii\web\Controller
 {
+    public function init()
+    {
+        AppAsset::register($this->getView());
+        NotifyJsAsset::register($this->getView());
+    }
+
     /**
      * Perform ajax validation.
      * @param \app\base\ActiveRecord $model model for validate.
@@ -49,27 +57,13 @@ class Controller extends \yii\web\Controller
     }
 
     /**
+     * TODO: seems like deprecated, need to be removed or refactored
      * @return string cabinet actions.
      * @throws NotFoundHttpException
      * @author Alex Makhorin
      */
     public function cabinetAction()
     {
-        // switch (true) {
-        //     case Yii::$app->user->isGuest :
-        //         $result = '/';
-        //         break;
-        //     case (Yii::$app->user->identity->type_id == UserType::ADMIN) :
-        //         $result = Yii::$app->params['url.cabinet.admin'];
-        //         break;
-        //     case (Yii::$app->user->identity->type_id == UserType::CLIENT) :
-        //         $result = Yii::$app->params['url.cabinet.client'];
-        //         break;
-        //     default:
-        //         throw new NotFoundHttpException();
-        // }
-
-        // return $result;
 
         return '/';
     }

@@ -3,9 +3,8 @@
  * @var \yii\web\View $this
  * @var string $content
  */
-app\assets\AppAsset::register($this);
-
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= \Yii::$app->language ?>">
@@ -19,38 +18,35 @@ app\assets\AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="wrap frontend-wrapper">
-    <?php
-    yii\bootstrap\NavBar::begin(app\base\Module::getNavBarConfig());
-
-    echo yii\bootstrap\Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items'   => \app\modules\frontend\Module::getNavbarItems(),
-    ]);
-
-    yii\bootstrap\NavBar::end();
-    ?>
 
     <div class="container">
         <div id="page-loading">
             <div class="show-loading"></div>
             <div class="img-load"></div>
         </div>
-        <div class="row">
 
+        <div class="row">
             <div class="col-md-9">
+                <div class="header">BANNER/HEADER</div>
                 <div class="top-menu">
-                    <?php
-                    echo yii\bootstrap\Nav::widget([
+                    <?= yii\bootstrap\Nav::widget([
                         'options' => ['class' => 'nav nav-tabs nav-justified'],
-                        'items'   => \app\modules\frontend\Module::getMenuItems(),
-                    ]);
-                    ?>
+                        'items' => \app\modules\frontend\Module::getMenuItems(),
+                    ]); ?>
                 </div>
+                <div class="header-title"><h1><?=$this->title?></h1></div>
+            </div>
+            <div class="col-md-3">
+                <?= \app\widgets\user\info\Info::widget(); ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9">
                 <?= $content ?>
             </div>
             <div class="col-md-3">
                 <div class="aside">
-                    <?= \app\widgets\user\info\Info::widget(); ?>
                     <?= !empty($this->params['aside']) ? $this->params['aside'] : ''; ?>
                 </div>
             </div>
@@ -61,11 +57,10 @@ app\assets\AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left"><img src="/images/gatekeeper_gate_logo.jpg" alt="gatekeeper gate logo" height="47"></p>
-
-        <p class="pull-right"><img src="/images/splogo-black-dot-back.jpg" alt="splogo" height="47"></p>
+        <p class="pull-right"><img src="/images/evidence-investigation.png" alt="evidence & investigation" height="47"></p>
     </div>
 </footer>
+
 <?php $this->endBody() ?>
 </body>
 </html>

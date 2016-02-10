@@ -10,15 +10,13 @@ class PrintAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
 
-    public $css = [
-        'css/print.css',
-    ];
+    public $css = [];
 
     public $js = [
-        '//maps.googleapis.com/maps/api/js',
+        'js/print.js',
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        'app\assets\AppAsset',
     ];
 }

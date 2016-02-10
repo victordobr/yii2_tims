@@ -16,6 +16,8 @@ class Record extends base\Record
     public $imageLprId;
     public $imageOverviewCameraId;
 
+    private $statusHistory;
+
     const SCENARIO_UPLOAD = 'upload';
 
     /**
@@ -150,6 +152,12 @@ class Record extends base\Record
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getStatusHistory()
+    {
+        return $this->hasMany(StatusHistory::className(), ['record_id' => 'id'])
+            ->orderBy(['stage_id' => SORT_ASC, 'created_at' => SORT_ASC]);
     }
 
 }
