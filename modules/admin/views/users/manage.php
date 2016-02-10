@@ -117,9 +117,6 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'delete' => function ($url, $model, $key) {
-//                        if(!\Yii::$app->get('service|user')->haveDeletePermission($model->primaryKey)){
-//                            return '';
-//                        }
 
                         $options = [
                             'title' => \Yii::t('yii', 'Delete'),

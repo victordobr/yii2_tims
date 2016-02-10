@@ -1,9 +1,9 @@
 <?php
 namespace app\models\traits;
 
-use \app\base\ActiveRecord;
-use \Yii;
-use \yii\db\Query;
+use yii\db\ActiveRecord;
+use Yii;
+use yii\db\Query;
 
 /**
  * Class ColumnFilter for universal column filters
@@ -41,6 +41,7 @@ trait ColumnFilter
             $query->andWhere("`{$suggestionTablePseudo}`.`{$field}` LIKE :value", ['value' => "%{$value}%"])
                 ->limit($limit);
         }
+
         $query->each();
         $command = $query->createCommand();
 

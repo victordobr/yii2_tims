@@ -17,8 +17,7 @@ class Suggestions extends Action
      */
     public function run($code ,$field, $value)
     {
-        $service = Yii::$app->get('service|common');
         Yii::$app->response->format = Response::FORMAT_JSON;
-        return $service->getAutoCompleteSuggestions($code, $field, $value, Yii::$app->params['common.autocomplete.limit'], Yii::$app->user->getId());
+        return Yii::$app->common->getAutoCompleteSuggestions($code, $field, $value, Yii::$app->params['common.autocomplete.limit'], Yii::$app->user->getId());
     }
 }

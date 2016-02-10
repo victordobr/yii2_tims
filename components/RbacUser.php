@@ -45,6 +45,14 @@ class RbacUser extends \app\modules\auth\components\Auth
         return $this->_permissions;
     }
 
+    public function getRoleNameByUser($userId)
+    {
+        $roles = $this->authManager->getRolesByUser($userId);
+        $role = array_shift($roles);
+
+        return $role ? $role->name : null;
+    }
+
     /**
      * Complete user creation method.
      * Includes password generation, role assign (via model's behavior) and email message sending.
@@ -95,6 +103,41 @@ class RbacUser extends \app\modules\auth\components\Auth
         }
 
         return true;
+    }
+
+    public function updateUser($userId, $validAttributes, $roleId)
+    {
+        $model = UserModel::findOne($userId);
+        $model->attributes = $validAttributes;
+
+        if($model->getRole() != $model->role) {
+            $this->applyRole($roleId, $userId);
+        }
+
+        return $model->save();
+    }
+
+    /**
+     * You have permission for user delete?
+     * @param int $userId user id.
+     * @return bool
+     */
+    public function haveDeletePermission($userId)
+    {
+        return (Yii::$app->user->getId() != $userId);
+    }
+
+    /**
+     * User deletion processing:
+     * @param int $id User id
+     * @return bool
+     * @throws \Exception
+     */
+    public function deleteUser($id)
+    {
+        $model = UserModel::find()->where('id =:id', [':id' => $id])->one();
+
+        return $model->delete();
     }
 
 }

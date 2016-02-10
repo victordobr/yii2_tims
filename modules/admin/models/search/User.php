@@ -12,10 +12,9 @@ use \app\models\traits\ColumnFilter;
  * User represents the model behind the search form about `app\models\User`.
  * @package app\modules\admin\models\search
  */
-class User extends \app\models\User
+class User extends \app\models\base\User
 {
-    public $fullName;
-    public $availSpace;
+//    public $fullName;
     use ColumnFilter {
         getSuggestions as traitGetSuggestions;
     }
@@ -26,8 +25,8 @@ class User extends \app\models\User
     public function rules()
     {
         return [
-            [['id', 'logins_count', 'is_active', 'availSpace'], 'integer'],
-            [['email', 'password', 'first_name', 'last_name', 'phone', 'fullName', 'created_at', 'last_login_at'], 'safe'],
+            [['id', 'logins_count', 'is_active'], 'integer'],
+            [['email', 'password', 'first_name', 'last_name', 'phone', 'created_at', 'last_login_at'], 'safe'],
         ];
     }
 
@@ -38,17 +37,16 @@ class User extends \app\models\User
     {
         return [];
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return ArrayHelper::merge(parent::attributeLabels(), [
-            'fullName' => Yii::t('app', 'Full Name'),
-            'availSpace' => Yii::t('app', 'Available Space')
-        ]);
-    }
+//
+//    /**
+//     * @inheritdoc
+//     */
+//    public function attributeLabels()
+//    {
+//        return ArrayHelper::merge(parent::attributeLabels(), [
+//            'fullName' => Yii::t('app', 'Full Name'),
+//        ]);
+//    }
 
     /**
      * @inheritdoc
@@ -66,7 +64,7 @@ class User extends \app\models\User
      */
     public function search($params)
     {
-        $query = self::find()
+        $query = \app\models\User::find()
             ->select([
                 'user.*',
                 "CONCAT(user.first_name,' ', user.last_name) AS fullName"
@@ -101,7 +99,7 @@ class User extends \app\models\User
         ]);
         $query->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'user.password', $this->password])
-            ->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName])
+//            ->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName])
             ->andFilterWhere(['like', 'user.phone', $this->phone])
             ;
 
@@ -148,9 +146,9 @@ class User extends \app\models\User
                 $query->select([
                     'value' => "DISTINCT(CONCAT(`r`.`first_name`, ' ' ,`r`.`last_name`))",
                 ])
-                      ->from(['r' => 'User'])
-                      ->having("value LIKE :value", ['value' => "%{$value}%"])
-                      ->limit($limit);
+                    ->from(['r' => 'User'])
+                    ->having("value LIKE :value", ['value' => "%{$value}%"])
+                    ->limit($limit);
 
                 return $query;
             };
@@ -158,4 +156,13 @@ class User extends \app\models\User
 
         return $this->traitGetSuggestions($field, $value, $limit, $user_id, $callback);
     }
+
+    /**
+     * Returns user full name.
+     * @return string user full name.
+     */
+//    public function getFullName()
+//    {
+//        return $this->first_name . ' ' . $this->last_name;
+//    }
 }

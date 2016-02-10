@@ -49,6 +49,9 @@ $config = [
         'record' => [
             'class' => 'app\components\Record',
         ],
+        'common' => [
+            'class' => 'app\components\Common',
+        ],
         'i18n' => [
             'translations' => [
                 '*' => [

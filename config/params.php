@@ -17,5 +17,8 @@ return [
     'url.admin.default' => '/admin/users/manage',
 
     'search.page.size' => 10,
-    'case.lifetime' => 10 // days
+    'case.lifetime' => 10, // days
+    'common.autocomplete.limit' => 5, // days
+    'common.autoсomplete.display.key'  => 'value',
+    'common.default.page.size' => 10,
 ];

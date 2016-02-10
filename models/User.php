@@ -15,6 +15,7 @@ class User extends base\User
     const STATUS_ACTIVE = 1;
     const STATUS_NOT_ACTIVE = 0;
 //    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_USER_MANUAL_CREATE = 'userManualCreate';
 
     const PRE_NAME_MR = 'mr';
     const PRE_NAME_MRS = 'mrs';
@@ -28,6 +29,41 @@ class User extends base\User
 
     /** @var string user full name. */
     public $fullName;
+
+    public $role;
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        $this->role = $this->getRole();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeValidate()
+    {
+        if ($this->getIsNewRecord() && $this->scenario == self::SCENARIO_USER_MANUAL_CREATE) {
+            $this->password = Yii::$app->user->generatePasswordHash($this->password);
+        }
+
+        return parent::beforeValidate();
+    }
+
+    public function getRole()
+    {
+        return Yii::$app->user->getRoleNameByUser($this->primaryKey);
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(),
+            ['role']
+        );
+    }
+
 
     /**
      * @inheritdoc
@@ -52,18 +88,19 @@ class User extends base\User
             [['agency'], 'string', 'max' => 255],
             [['zip_code'], 'string', 'max' => 16],
             [['state_id'], 'integer'],
+            [['role'], 'safe'],
         ]);
     }
 
-//    /**
-//     * @inheritdoc
-//     */
-//    public function scenarios()
-//    {
-//        return ArrayHelper::merge(parent::scenarios(), [
-//            self::SCENARIO_REGISTER => array_keys($this->getAttributes())
-//        ]);
-//    }
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        return ArrayHelper::merge(parent::scenarios(), [
+            self::SCENARIO_USER_MANUAL_CREATE => array_keys($this->getAttributes())
+        ]);
+    }
 
     /**
      * @inheritdoc
@@ -72,6 +109,7 @@ class User extends base\User
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'repeatPassword' => Yii::t('app', 'Repeat Password'),
+            'role' => Yii::t('app', 'Role'),
         ]);
     }
 
