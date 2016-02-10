@@ -31,7 +31,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
     <?= yii\grid\GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $model,
+        'filterModel' => $modelSearch,
         'columns' => [
             [
                 'label' => '#',

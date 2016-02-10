@@ -35,10 +35,10 @@ class User extends base\User
     /**
      * @inheritdoc
      */
-    public function afterFind()
-    {
-        $this->role = $this->getRole();
-    }
+//    public function afterFind()
+//    {
+//        $this->role = $this->getRole();
+//    }
 
     /**
      * @inheritdoc

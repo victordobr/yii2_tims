@@ -15,6 +15,9 @@ use \app\models\traits\ColumnFilter;
 class User extends \app\models\base\User
 {
 //    public $fullName;
+
+    public $singleModel;
+
     use ColumnFilter {
         getSuggestions as traitGetSuggestions;
     }
@@ -161,8 +164,8 @@ class User extends \app\models\base\User
      * Returns user full name.
      * @return string user full name.
      */
-//    public function getFullName()
-//    {
-//        return $this->first_name . ' ' . $this->last_name;
-//    }
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
