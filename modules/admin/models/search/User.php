@@ -22,6 +22,7 @@ class User extends \app\models\base\User
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function rules()
