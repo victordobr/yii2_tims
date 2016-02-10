@@ -242,3 +242,7 @@ label.help {
     top: 2px;
     left: 4px;
 }
+
+.font-normal {
+    font-weight: normal;
+}

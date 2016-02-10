@@ -17,6 +17,8 @@ class CaseStatus extends Enum
     const DEACTIVATED_RECORD = 1040;
 
     const VIEWED_RECORD = 2010;
+    const APPROVED_RECORD = 2020;
+    const REJECTED_RECORD = 2030;
 
     const DMV_DATA_RETRIEVED_COMPLETE = 3020;
     const DMV_DATA_RETRIEVED_INCOMPLETE = 3021;
