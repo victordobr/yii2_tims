@@ -27,18 +27,14 @@ class User extends base\User
     /** @var string repeat password. */
     public $repeatPassword;
 
-    /** @var string user full name. */
-    public $fullName;
-
-    public $role;
 
     /**
      * @inheritdoc
      */
-//    public function afterFind()
-//    {
-//        $this->role = $this->getRole();
-//    }
+    public function afterFind()
+    {
+        $this->role = $this->getRole();
+    }
 
     /**
      * @inheritdoc

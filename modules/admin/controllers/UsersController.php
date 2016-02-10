@@ -66,14 +66,10 @@ class UsersController extends Controller
 
     public function actionManage()
     {
-        $model = new \app\models\User();
-        $modelSearch = new UserSearch([
-            'singleModel' => new $model,
-        ]);
+        $modelSearch = new UserSearch();
 
         return $this->render('manage', [
             'dataProvider' => $modelSearch->search(Yii::$app->request->get()),
-            'model' => $model,
             'modelSearch' => $modelSearch,
             'autoCompleteLimit' => 3,
             'userList' => \app\models\User::getUserList(),

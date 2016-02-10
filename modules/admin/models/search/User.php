@@ -14,9 +14,8 @@ use \app\models\traits\ColumnFilter;
  */
 class User extends \app\models\base\User
 {
-//    public $fullName;
-
-    public $singleModel;
+    const SQL_SELECT_FULL_NAME = "CONCAT(user.first_name,' ', user.last_name)";
+    const SQL_SELECT_ROLE = "authAssignment.item_name";
 
     use ColumnFilter {
         getSuggestions as traitGetSuggestions;
@@ -29,7 +28,7 @@ class User extends \app\models\base\User
     {
         return [
             [['id', 'logins_count', 'is_active'], 'integer'],
-            [['email', 'password', 'first_name', 'last_name', 'phone', 'created_at', 'last_login_at'], 'safe'],
+            [['email', 'password', 'first_name', 'last_name', 'phone', 'created_at', 'last_login_at', 'fullName', 'role'], 'safe'],
         ];
     }
 
@@ -40,16 +39,16 @@ class User extends \app\models\base\User
     {
         return [];
     }
-//
-//    /**
-//     * @inheritdoc
-//     */
-//    public function attributeLabels()
-//    {
-//        return ArrayHelper::merge(parent::attributeLabels(), [
-//            'fullName' => Yii::t('app', 'Full Name'),
-//        ]);
-//    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'fullName' => Yii::t('app', 'Full Name'),
+        ]);
+    }
 
     /**
      * @inheritdoc
@@ -67,23 +66,38 @@ class User extends \app\models\base\User
      */
     public function search($params)
     {
-        $query = \app\models\User::find()
+        $query = static::find()
             ->select([
-                'user.*',
-                "CONCAT(user.first_name,' ', user.last_name) AS fullName"
+                'id' => 'user.id',
+                'fullName' => self::SQL_SELECT_FULL_NAME,
+                'role' => self::SQL_SELECT_ROLE,
+                'phone' => 'user.phone',
+                'email' => 'user.email',
+                'logins_count' => 'user.logins_count',
+                'created_at' => 'user.created_at',
+                'last_login_at' => 'user.last_login_at',
+                'is_active' => 'user.is_active',
             ])
             ->from(['user' => static::tableName()])
+            ->joinWith([
+                'authAssignment' => function ($query) {
+                    $query->from('AuthAssignment authAssignment');
+                },
+            ]);
             ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->getSort()->attributes += [
-            'fullName' => [
-                'asc' => ['fullName' => SORT_ASC],
-                'desc' => ['fullName' => SORT_DESC],
-            ],
+        $dataProvider->getSort()->attributes['fullName'] = [
+            'asc' => ['fullName' => SORT_ASC],
+            'desc' => ['fullName' => SORT_DESC],
+        ];
+
+        $dataProvider->getSort()->attributes['role'] = [
+            'asc' => ['role' => SORT_ASC],
+            'desc' => ['role' => SORT_DESC],
         ];
 
 
@@ -102,7 +116,8 @@ class User extends \app\models\base\User
         ]);
         $query->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'user.password', $this->password])
-//            ->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName])
+            ->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName])
+            ->andFilterWhere(['like', self::SQL_SELECT_ROLE, $this->role])
             ->andFilterWhere(['like', 'user.phone', $this->phone])
             ;
 
@@ -158,14 +173,5 @@ class User extends \app\models\base\User
         }
 
         return $this->traitGetSuggestions($field, $value, $limit, $user_id, $callback);
-    }
-
-    /**
-     * Returns user full name.
-     * @return string user full name.
-     */
-    public function getFullName()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 }

@@ -34,6 +34,11 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    /** @var string user full name. */
+    public $fullName;
+
+    public $role;
+
     /**
      * @inheritdoc
      */
@@ -85,6 +90,14 @@ class User extends \yii\db\ActiveRecord
             'question_id' => 'Question ID',
             'question_answer' => 'Question Answer',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthAssignment()
+    {
+        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id']);
     }
 
     /**
