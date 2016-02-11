@@ -114,16 +114,6 @@ class RbacController extends Controller
 		$auth->addChild($VideoAnalyst, $ViewDeactivation);
 		$auth->addChild($VideoAnalyst, $RequestDeactivation);
 
-		$VideoAnalystSupervisor = $auth->createRole('VideoAnalystSupervisor');
-		$VideoAnalystSupervisor->description = 'Video Analyst Supervisor';
-		$auth->add($VideoAnalystSupervisor);
-		$auth->addChild($VideoAnalystSupervisor, $Upload);
-		$auth->addChild($VideoAnalystSupervisor, $Search);
-		$auth->addChild($VideoAnalystSupervisor, $View);
-		$auth->addChild($VideoAnalystSupervisor, $ViewDeactivation);
-		$auth->addChild($VideoAnalystSupervisor, $RequestDeactivation);
-		$auth->addChild($VideoAnalystSupervisor, $ApproveDeactivation);
-
 		$PoliceOfficer = $auth->createRole('PoliceOfficer');
 		$PoliceOfficer->description = 'Police Officer';
 		$auth->add($PoliceOfficer);
@@ -131,16 +121,6 @@ class RbacController extends Controller
 		$auth->addChild($PoliceOfficer, $View);
 		$auth->addChild($PoliceOfficer, $ViewDetermination);
 		$auth->addChild($PoliceOfficer, $MakeDetermination);
-
-		$PoliceOfficerSupervisor = $auth->createRole('PoliceOfficerSupervisor');
-		$PoliceOfficerSupervisor->description = 'Police Officer Supervisor';
-		$auth->add($PoliceOfficerSupervisor);
-		$auth->addChild($PoliceOfficerSupervisor, $Search);
-		$auth->addChild($PoliceOfficerSupervisor, $View);
-		$auth->addChild($PoliceOfficerSupervisor, $ViewDetermination);
-		$auth->addChild($PoliceOfficerSupervisor, $MakeDetermination);
-		$auth->addChild($PoliceOfficerSupervisor, $ChangeDetermination);
-		$auth->addChild($PoliceOfficerSupervisor, $PoliceOfficerProfilesMgmt);
 
 		$PrintOperator = $auth->createRole('PrintOperator');
 		$PrintOperator->description = 'Print Operator';
@@ -177,18 +157,27 @@ class RbacController extends Controller
 		$auth->add($SystemAdministrator);
 		$auth->addChild($SystemAdministrator, $UsersMgmt);
 		$auth->addChild($SystemAdministrator, $SystemConfiguration);
+		$auth->addChild($SystemAdministrator, $Upload);
+		$auth->addChild($SystemAdministrator, $Search);
+		$auth->addChild($SystemAdministrator, $View);
+		$auth->addChild($SystemAdministrator, $ViewDeactivation);
+		$auth->addChild($SystemAdministrator, $RequestDeactivation);
+		$auth->addChild($SystemAdministrator, $ApproveDeactivation);
+		$auth->addChild($SystemAdministrator, $ViewDetermination);
+		$auth->addChild($SystemAdministrator, $MakeDetermination);
+		$auth->addChild($SystemAdministrator, $ChangeDetermination);
+		$auth->addChild($SystemAdministrator, $PoliceOfficerProfilesMgmt);
 
 		// Root role
 		$RootSuperuser = $auth->createRole('RootSuperuser');
 		$RootSuperuser->description = 'Root/Superuser';
 		$auth->add($RootSuperuser);
 		$auth->addChild($RootSuperuser, $VideoAnalyst);
-		$auth->addChild($RootSuperuser, $VideoAnalystSupervisor);
 		$auth->addChild($RootSuperuser, $PoliceOfficer);
-		$auth->addChild($RootSuperuser, $PoliceOfficerSupervisor);
 		$auth->addChild($RootSuperuser, $PrintOperator);
 		$auth->addChild($RootSuperuser, $OperationsManager);
 		$auth->addChild($RootSuperuser, $AccountsReconciliation);
 		$auth->addChild($RootSuperuser, $SystemAdministrator);
 	}
+
 }
