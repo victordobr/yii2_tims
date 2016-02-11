@@ -4,6 +4,7 @@ namespace app\modules\frontend\controllers\records;
 
 use app\components\Settings;
 use app\enums\CaseStage;
+use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\widgets\record\timeline\Timeline;
 use Yii;
@@ -52,31 +53,29 @@ class ReviewAction extends Action
         $user = Yii::$app->user;
 
         switch (true) {
-            case $user->can('ApproveDeactivation') && $record->status_id == CaseStatus::AWAITING_DEACTIVATION:
-
-                $model = new DeactivateForm(['record_id' => $record->id]);
-                $reasonsList = Reasons::listReasonsRejectingDeactivationRequest();
-
-                return $this->controller()->renderPartial('../forms/deactivate', [
-                    'action' => Url::to(['deactivate', 'id' => $record->id]),
-                    'model' => $model,
-                    'reasonsList' => $reasonsList,
-                ]);
-            case $user->can('RequestDeactivation') && in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]):
-
-                $model = new RequestDeactivateForm();
-                $reasonsList = Reasons::listReasonsRequestDeactivation();
-
+            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
                 return $this->controller()->renderPartial('../forms/request-deactivation', [
                     'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
-                    'model' => $model,
-                    'reasonsList' => $reasonsList,
+                    'model' => new RequestDeactivateForm(),
+                    'reasonsList' => Reasons::listReasonsRequestDeactivation(),
                 ]);
-            case $user->can('MakeDetermination') && $record->status_id == CaseStatus::VIEWED_RECORD:
+            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
+                return $this->controller()->renderPartial('../forms/deactivate', [
+                    'action' => Url::to(['deactivate', 'id' => $record->id]),
+                    'model' => new DeactivateForm(['record_id' => $record->id]),
+                    'reasonsList' => Reasons::listReasonsRejectingDeactivationRequest(),
+                ]);
+            case $record->status_id == CaseStatus::VIEWED_RECORD && $user->can('MakeDetermination'):
                 return $this->controller()->renderPartial('../forms/make-determination', [
                     'action' => Url::to(['MakeDetermination', 'id' => $record->id]),
                     'model' => new MakeDeterminationForm(),
-                    'reasons' => Reasons::listReasonsRequestDeactivation(),
+                    'reasons' => Reasons::listReasonsRejectingCase(),
+                ]);
+            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
+                return $this->controller()->renderPartial('../forms/change-determination', [
+                    'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
+                    'model' => new ChangeDeterminationForm(['record_id' => $record->id, 'record_status' => $record->status_id]),
+                    'reasons' => Reasons::listReasonsRejectingCase(),
                 ]);
             default:
                 return '';
