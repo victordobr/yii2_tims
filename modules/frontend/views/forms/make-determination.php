@@ -14,7 +14,7 @@ use app\widgets\base\ActiveForm;
 
     <?php $form = ActiveForm::begin([
         'title' => Yii::t('app', 'Make determination'),
-        'id' => 'determination-form',
+        'id' => 'make-determination-form',
         'action' => $action,
         'enableClientValidation' => false,
         'enableAjaxValidation' => true,
@@ -23,7 +23,7 @@ use app\widgets\base\ActiveForm;
             'data-pjax' => true
         ],
         'fieldConfig' => [
-            'template' => '<div class="col-lg-12">{label}{input}</div><div class="col-lg-12 ">{error}</div>',
+            'template' => '<div class="col-lg-12">{label}{input}{error}</div>',
         ],
     ]); ?>
 

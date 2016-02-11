@@ -1,8 +1,6 @@
 <?php
 namespace app\modules\frontend\models\form;
 
-use app\enums\CaseStatus;
-use app\models\StatusHistory;
 use Yii;
 use yii\base\Model;
 use app\enums\Reasons;
@@ -12,13 +10,6 @@ class MakeDeterminationForm extends Model
     const ACTION_APPROVE = 'approve';
     const ACTION_REJECT = 'reject';
 
-//    public $requested_by;
-//    public $review_reason;
-
-//    public static $history;
-
-//    public $record_id;
-//    public $reason;
     public $action = self::ACTION_APPROVE;
 
     public $confirm;
