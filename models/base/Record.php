@@ -14,15 +14,12 @@ use Yii;
  * @property integer $open_date
  * @property integer $state_id
  * @property string $license
- * @property integer $user_id
  * @property integer $ticket_fee
  * @property integer $ticket_payment_expire_date
  * @property string $comments
  * @property string $user_plea_request
  * @property integer $status_id
  * @property integer $created_at
- *
- * @property User $user
  */
 class Record extends \yii\db\ActiveRecord
 {
@@ -40,8 +37,8 @@ class Record extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'open_date', 'state_id', 'license', 'user_id'], 'required'],
-            [['infraction_date', 'open_date', 'state_id', 'user_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at'], 'integer'],
+            [['lat', 'lng', 'infraction_date', 'open_date', 'state_id', 'license'], 'required'],
+            [['infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at'], 'integer'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
             [['license'], 'string', 'max' => 250]
@@ -61,7 +58,6 @@ class Record extends \yii\db\ActiveRecord
             'open_date' => 'Open Date',
             'state_id' => 'State ID',
             'license' => 'License',
-            'user_id' => 'User ID',
             'ticket_fee' => 'Ticket Fee',
             'ticket_payment_expire_date' => 'Ticket Payment Expire Date',
             'comments' => 'Comments',
@@ -69,14 +65,6 @@ class Record extends \yii\db\ActiveRecord
             'status_id' => 'Status ID',
             'created_at' => 'Created At',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

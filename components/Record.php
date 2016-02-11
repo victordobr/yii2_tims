@@ -316,33 +316,40 @@ class Record extends Component
      */
     public static function getAvailableStatuses()
     {
-        switch (true) {
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST):
+        switch (Yii::$app->user->role->name)
+        {
+            case Role::ROLE_VIDEO_ANALYST:
                 return [
                     Status::INCOMPLETE,
                     Status::COMPLETE,
-                    Status::FULL_COMPLETE
+                    Status::FULL_COMPLETE,
+                    Status::VIEWED_RECORD,
                 ];
-            case User::hasRole(Role::ROLE_VIDEO_ANALYST_SUPERVISOR):
+            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
                 return [
                     Status::INCOMPLETE,
                     Status::COMPLETE,
                     Status::FULL_COMPLETE,
                     Status::AWAITING_DEACTIVATION
                 ];
-            case User::hasRole(Role::ROLE_PRINT_OPERATOR):
+            case Role::ROLE_PRINT_OPERATOR:
                 return [
                     Status::DMV_DATA_RETRIEVED_COMPLETE,
                     Status::DMV_DATA_RETRIEVED_INCOMPLETE,
-                    Status::QC_BAD_P1,
-                    Status::QC_BAD_P2,
+                    Status::OVERDUE_P1,
 
                     Status::PRINTED_P1,
                     Status::PRINTED_P2,
                 ];
-            default:
-                return [];
+            case Role::ROLE_POLICE_OFFICER:
+                return [
+                    Status::COMPLETE,
+                    Status::FULL_COMPLETE,
+                    Status::VIEWED_RECORD
+                ];
         }
+
+        return [];
     }
 
     /* event handlers */

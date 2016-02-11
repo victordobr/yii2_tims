@@ -2,14 +2,14 @@
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\frontend\models\search\PoliceCase $model
  */
 
+use yii\helpers\Url;
 use \yii\helpers\Html;
-use \app\models\User;
-
-$this->title = \Yii::t('app', 'Search Panel - List of uploaded records');
-$clearLabel = \Yii::t('app', 'Clear Filters');
+use yii\widgets\Pjax;
+use kartik\icons\Icon;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 ?>
 
 <div class="user-index">
@@ -17,55 +17,43 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
     <div class="white-background">
 
         <?php
-        yii\widgets\Pjax::begin([
+        Pjax::begin([
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
             'formSelector' => '#form-record-search-filter'
         ]);
         ?>
-        <?= yii\grid\GridView::widget([
+        <?= GridView::widget([
+            'id' => 'record-grid-search',
             'dataProvider' => $dataProvider,
+            'summary' => Yii::t('app', '<div class="summary">Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{record} other{records}}.</div>'),
             'columns' => [
+                'id',
                 [
-                    'label' => '#',
-                    'attribute' => 'id',
-//                    'headerOptions' => ['style' => 'width: 50px;']
-                ],
-                [
+                    'hAlign' => GridView::ALIGN_CENTER,
                     'attribute' => 'infraction_date',
                     'format' => 'date',
-//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
+                'license',
                 [
-                    'label' => 'Vehicle Tag #',
-                    'attribute' => 'license',
-//                    'headerOptions' => ['style' => 'width: 80px;']
-                ],
-                [
-                    'label' => 'Uploaded Date',
+                    'hAlign' => GridView::ALIGN_CENTER,
                     'attribute' => 'created_at',
                     'format' => 'date',
-//                    'headerOptions' => ['style' => 'width: 80px;']
                 ],
+                'author',
                 [
-                    'label' => 'Uploaded By',
-                    'attribute' => 'fullName',
-//                    'headerOptions' => ['style' => 'width: 100px;']
-                ],
-                [
-                    'label' => 'Elapsed time, days',
+                    'hAlign' => GridView::ALIGN_CENTER,
                     'attribute' => 'elapsedTime',
-//                    'headerOptions' => ['style' => 'width: 20px;']
                 ],
                 [
-                    'class' => \yii\grid\ActionColumn::className(),
+                    'class' => ActionColumn::className(),
                     'template'=>'{review}',
                     'buttons'=>[
                         'review' => function ($url, $model) {
-                            return \yii\helpers\Html::a(
-                                '<span class="glyphicon glyphicon-eye-open"></span>',
-                                \yii\helpers\Url::to(['review', 'id' => $model->id]),
+                            return Html::a(
+                                Icon::show('eye', ['class' => 'fa-lg']),
+                                Url::to(['review', 'id' => $model->id]),
                                 ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                             );
                         },

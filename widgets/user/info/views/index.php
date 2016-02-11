@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var $user \app\models\User
+ */
 use yii\widgets\DetailView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -24,8 +27,8 @@ $user = Yii::$app->user->identity;
             'options' => ['class' => 'table'],
             'attributes' => [
                 [
-                    'label' => Yii::t('app', 'Logged as User:'),
-                    'attribute' => 'pre_name'
+                    'label' => Yii::t('app', 'Logged in User:'),
+                    'value' => $user->pre_name . '. ' . $user->first_name . ' ' . $user->last_name
                 ],
                 [
                     'label' => Yii::t('app', 'Logged in Since:'),

@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'open_date',
             'state_id',
             'license',
-            'user_id',
             'ticket_fee',
             'ticket_payment_expire_date',
             'comments:ntext',

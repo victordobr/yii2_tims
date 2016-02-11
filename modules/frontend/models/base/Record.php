@@ -1,27 +1,26 @@
 <?php
 namespace app\modules\frontend\models\base;
 
+use app\components\Settings;
+use app\enums\Role;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Record as RecordModel;
-use app\models\CaseStatus;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
  */
-class Record extends RecordModel
+class Record extends \app\models\Record
 {
     private $status;
 
-    public $fullName;
-
+    public $author;
     public $elapsedTime;
 
-    const SQL_SELECT_FULL_NAME = "CONCAT(user.first_name,' ', user.last_name)";
-
-    const SQL_SELECT_ELAPSED_TIME = "datediff(NOW(), FROM_UNIXTIME(record.infraction_date))";
+    const SQL_SELECT_AUTHOR = 'CONCAT_WS(" ", User.first_name, User.last_name)';
+    const SQL_SELECT_ELAPSED_TIME = 'datediff(NOW(), FROM_UNIXTIME(record.infraction_date))';
 
     /**
      * @inheritdoc
@@ -37,8 +36,8 @@ class Record extends RecordModel
     public function rules()
     {
         return [
-            [['id', 'infraction_date', 'open_date', 'state_id', 'user_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id'], 'integer'],
-            [['lat', 'lng', 'license', 'comments', 'user_plea_request', 'fullName', 'elapsedTime'], 'safe'],
+            [['id', 'infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id'], 'integer'],
+            [['lat', 'lng', 'license', 'comments', 'user_plea_request', 'elapsedTime'], 'safe'],
             [['created_at'], 'date'],
         ];
     }
@@ -58,8 +57,21 @@ class Record extends RecordModel
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'fullName' => Yii::t('app', 'Full Name'),
+            'author' => $this->getAuthorLabelByRole(Yii::$app->user->role->name)
         ]);
+    }
+
+    public function getAuthorLabelByRole($role)
+    {
+        switch ($role) {
+            case Role::ROLE_VIDEO_ANALYST:
+            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_PRINT_OPERATOR:
+                return Yii::t('app', 'Uploaded By');
+                break;
+            case Role::ROLE_POLICE_OFFICER:
+                return Yii::t('app', 'Reviewed By');
+        }
     }
 
     /**
@@ -81,34 +93,35 @@ class Record extends RecordModel
                 'infraction_date' => 'record.infraction_date',
                 'created_at' => 'record.created_at',
 
+                'author_id' => 'StatusHistory.author_id',
+
+                'author' => self::SQL_SELECT_AUTHOR,
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-                'fullName' => self::SQL_SELECT_FULL_NAME,
             ])
             ->from(['record' => static::tableName()])
             ->joinWith([
-                'user' => function ($query) {
-                    $query->from('User user');
+                'statusHistory' => function (ActiveQuery $query) {
+                    $query->joinWith('author');
                 },
             ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'created_at',
+                    'author',
+                    'infraction_date',
+                    'license',
+                    'elapsedTime',
+                ],
+                'defaultOrder' => ['created_at' => SORT_DESC]
+            ],
+            'pagination' => [
+                'pageSize' => self::settings()->get('search.page.size')
+            ]
         ]);
-
-        $dataProvider->getSort()->attributes['fullName'] = [
-            'asc' => ['fullName' => SORT_ASC],
-            'desc' => ['fullName' => SORT_DESC],
-        ];
-
-        $dataProvider->getSort()->attributes['created_at'] = [
-            'asc' => ['record.created_at' => SORT_ASC],
-            'desc' => ['record.created_at' => SORT_DESC],
-        ];
-
-        $dataProvider->getSort()->attributes['elapsedTime'] = [
-            'asc' => ['elapsedTime' => SORT_ASC],
-            'desc' => ['elapsedTime' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -120,7 +133,6 @@ class Record extends RecordModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'state_id' => $this->state_id,
             'infraction_date' => $this->infraction_date,
             'record.created_at' => $this->created_at,
@@ -130,7 +142,6 @@ class Record extends RecordModel
             ->andFilterWhere(['like', 'lat', $this->lat])
             ->andFilterWhere(['like', 'lng', $this->lng]);
 
-        $query->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName]);
         $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         if ($statuses = $this->getAvailableStatuses()) {
@@ -154,6 +165,14 @@ class Record extends RecordModel
     private static function record()
     {
         return Yii::$app->record;
+    }
+
+    /**
+     * @return Settings
+     */
+    private static function settings()
+    {
+        return Yii::$app->settings;
     }
 
 }

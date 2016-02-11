@@ -7,7 +7,7 @@ use app\enums\CaseStage;
 use app\widgets\record\timeline\Timeline;
 use Yii;
 use app\enums\CaseStatus;
-use app\models\Record;
+use app\modules\frontend\models\base\Record;
 use app\modules\frontend\controllers\RecordsController;
 use app\modules\frontend\models\form\DeactivateForm;
 use app\modules\frontend\models\form\RequestDeactivateForm;
@@ -20,7 +20,7 @@ class ReviewAction extends Action
     public function init()
     {
         parent::init();
-        $this->controller()->layout = 'two-columns';
+        $this->setLayout('two-columns');
     }
 
     public function run($id = 0)
@@ -31,6 +31,7 @@ class ReviewAction extends Action
 
         $record = $this->controller()->findModel(Record::className(), $id);
 
+        $this->setPageTitle($record->id);
 
         Yii::$app->view->params['aside'] = Timeline::widget([
             'stages' => self::collectCaseStages($record),
@@ -62,17 +63,9 @@ class ReviewAction extends Action
      */
     private static function calculateRemainingDays(Record $record)
     {
-        $infraction_date = new \DateTime($record->infraction_date);
+        $infraction_date = new \DateTime(date('Y-m-d', $record->infraction_date));
 
         return self::settings()->get('case.lifetime') -(new \DateTime())->diff($infraction_date)->format('%a');
-    }
-
-    /**
-     * @return Settings
-     */
-    private static function settings()
-    {
-        return Yii::$app->settings;
     }
 
     /**
@@ -106,6 +99,26 @@ class ReviewAction extends Action
             default:
                 return '';
         }
+    }
+
+    private function setPageTitle($record_id)
+    {
+        $title = Yii::t('app', 'View uploaded record - Case #' . $record_id);
+
+        return $this->controller()->view->title = $title;
+    }
+
+    /**
+     * @return Settings
+     */
+    private static function settings()
+    {
+        return Yii::$app->settings;
+    }
+
+    private function setLayout($name)
+    {
+        $this->controller()->layout = $name;
     }
 
     /**

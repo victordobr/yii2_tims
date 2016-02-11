@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\enums\Role;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
@@ -10,10 +11,13 @@ use app\modules\frontend\models\search\Record as RecordSearch;
 
 class SearchAction extends Action
 {
+    public $attributes;
+
     public function init()
     {
         parent::init();
-        $this->controller()->layout = 'two-columns';
+
+        $this->setLayout('two-columns');
     }
 
     /**
@@ -22,17 +26,39 @@ class SearchAction extends Action
      */
     public function run()
     {
+        $this->setPageTitle();
+
         $model = new RecordSearch;
 
-        $dataProvider = $model->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = Yii::$app->params['search.page.size'];
+        $provider = $model->search($this->attributes);
 
-        Yii::$app->view->params['aside'] = Filter::widget(['action' => 'search', 'model' => $model]);
+        Yii::$app->view->params['aside'] = Filter::widget(['model' => $model]);
 
         return $this->controller()->render('search', [
-            'model' => $model,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $provider,
         ]);
+    }
+
+    private function setLayout($name)
+    {
+        $this->controller()->layout = $name;
+    }
+
+    private function setPageTitle()
+    {
+        $title = '';
+        switch (Yii::$app->user->role->name) {
+            case Role::ROLE_VIDEO_ANALYST:
+            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_PRINT_OPERATOR:
+                $title = Yii::t('app', 'Search Panel - List of uploaded cases');
+                break;
+            case Role::ROLE_POLICE_OFFICER:
+                $title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
+                break;
+        }
+
+        return $this->controller()->view->title = $title;
     }
 
     /**
