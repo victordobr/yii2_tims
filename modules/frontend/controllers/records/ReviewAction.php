@@ -105,6 +105,7 @@ class ReviewAction extends Action
         return [
             CaseStage::SET_INFRACTION_DATE => $formatter->asDate($record->infraction_date, 'php:d M Y'),
             CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
+            CaseStage::VIOLATION_APPROVED => $formatter->asDate($record->approved_at, 'php:d M Y'),
         ];
     }
 
