@@ -10,17 +10,17 @@ class Log extends Component
 {
     /**
      * Inserts a document into the attribute values of this record.
-     * @param $event
-     * @param $event_params
+     * @param object $event triggered event
+     * @param array $params event name and description
      */
-    public static function insertLog($event, $event_params)
+    public static function insertLog($event, $params)
     {
         $user = $event->identity->getAttributes();
         $log = new LogModel;
         $log->ip_address =  Yii::$app->getRequest()->getUserIP();
         $log->email = $user['email'];
-        $log->event_name = $event_params['event_name'];
-        $log->description = $event_params['description'];
+        $log->event_name = $params['event_name'];
+        $log->description = $params['description'];
         $log->created_at = time();
         $log->insert();
     }
@@ -29,7 +29,9 @@ class Log extends Component
     {
         self::insertLog($event, [
             'event_name' => LogEvent::EVENT_LOGIN,
-            'description' => 'Thsi is login!',
+            'description' => Yii::t('app','Text {item}', [
+                'item' => 123,
+            ]),
         ]);
     }
 
@@ -37,7 +39,9 @@ class Log extends Component
     {
         self::insertLog($event, [
             'event_name' => LogEvent::EVENT_LOGOUT,
-            'description' => 'Thsi is logout!',
+            'description' => Yii::t('app','Text {item}', [
+                'item' => 123,
+            ]),
         ]);
     }
 }
