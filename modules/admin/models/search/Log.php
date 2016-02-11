@@ -31,6 +31,43 @@ class Log extends LogModel
         return Model::scenarios();
     }
 
+    public function mergeWildCard(&$query, $field, $value)
+    {
+        $query['filtered']['query']['bool']['must'][] = [
+            "wildcard" => [
+                $field => [
+                    "value" => '*' . $value . '*'
+                ],
+            ]
+        ];
+    }
+
+    public function mergeTerm(&$query, $field, $value)
+    {
+        $query['filtered']['query']['bool']['must'][] = [
+            "term" => [
+                $field => [
+                    "value" => $value,
+                ]
+            ],
+        ];
+    }
+
+    public function mergeRange(&$query, $field, $value)
+    {
+        $range = explode(' - ', $value);
+        if (!empty($range[0]) && !empty($range[1])) {
+            $query['filtered']['filter'][] = [
+                "range" => [
+                    $field => [
+                        "gte" => (int)Yii::$app->formatter->asTimestamp($range[0]),
+                        "lte" => (int)Yii::$app->formatter->asTimestamp($range[1]) + 86399,
+                    ]
+                ],
+            ];
+        }
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -42,57 +79,29 @@ class Log extends LogModel
     {
         $model = new LogModel;
         $this->load($params);
-        if ($this->email || $this->ip_address || $this->event_name || $this->description || $this->created_at) {
-            $query = [];
-            foreach ($this->attributes as $field => $value) {
-                switch ($field) {
-                    case 'email':
-                    case 'ip_address':
-                    case 'description':
-                        if (!empty($value)) {
-                            $query['filtered']['query']['bool']['must'][] = [
-                                "wildcard" => [
-                                    $field => [
-                                        "value" => '*' . $value . '*'
-                                    ],
-                                ]
-                            ];
-                        }
-                        break;
-                    case 'event_name':
-                        if (!empty($value)) {
-                            $query['filtered']['query']['bool']['must'][] = [
-                                "term" => [
-                                    $field => [
-                                        "value" => $value,
-                                    ]
-                                ],
-                            ];
-                        }
-                        break;
-                    case 'created_at':
-                        $range = explode(' - ', $this->created_at);
-                        if (!empty($range[0]) && !empty($range[1])) {
-                            $query['filtered']['filter'][] = [
-                                "range" => [
-                                    $field => [
-                                        "gte" => (int)Yii::$app->formatter->asTimestamp($range[0]),
-                                        "lte" => (int)Yii::$app->formatter->asTimestamp($range[1]) + 86399,
-                                    ]
-                                ],
-                            ];
-                        }
-                        break;
-                    default:
-                        break;
-                }
+        $query = [];
 
-            }
-            $resultData = $model::find()->query($query);
+        if(!empty($this->email)) {
+            $this->mergeWildCard($query, 'email', $this->email);
         }
-        else {
-            $resultData = $model::find();
+
+        if(!empty($this->ip_address)) {
+            $this->mergeWildCard($query, 'ip_address', $this->ip_address);
         }
+
+        if(!empty($this->description)) {
+            $this->mergeWildCard($query, 'description', $this->description);
+        }
+
+        if(!empty($this->event_name)) {
+            $this->mergeTerm($query, 'event_name', $this->event_name);
+        }
+
+        if(!empty($this->created_at)) {
+            $this->mergeRange($query, 'created_at', $this->created_at);
+        }
+
+        $resultData = $model::find()->query($query);
 
         $sort = Yii::$app->request->getQueryParam('sort');
         if (!empty($sort)) {
