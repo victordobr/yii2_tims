@@ -246,3 +246,9 @@ label.help {
 .font-normal {
     font-weight: normal;
 }
+
+.radio-list-label {
+    display: block;
+    margin: 0;
+    font-weight: normal;
+}
