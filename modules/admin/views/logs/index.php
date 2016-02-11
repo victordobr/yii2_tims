@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
-use app\components\Log;
+use app\enums\LogEvent;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\Log */
@@ -17,12 +17,12 @@ $this->title = 'Logs';
         'email',
         'ip_address',
         [
-            'attribute' => 'category',
+            'attribute' => 'event_name',
             'value' => function ($model) {
-                return Log::eventById($model->category);
+                return LogEvent::labelById($model->event_name);
             },
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => Log::eventList(),
+            'filter' => LogEvent::listData(),
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true, 'width' => 150],
             ],
@@ -30,13 +30,14 @@ $this->title = 'Logs';
             'format' => 'raw',
             'headerOptions' => ['style' => 'width: 160px;']
         ],
+        'description',
         [
-            'attribute' => 'date',
+            'attribute' => 'created_at',
             'format' => 'datetime',
             'headerOptions' => ['style' => 'width: 200px;'],
             'filter'          => kartik\daterange\DateRangePicker::widget([
-                'name'          => 'Log[date]',
-                'value'         => $searchModel->date,
+                'name'          => 'Log[created_at]',
+                'value'         => $searchModel->created_at,
                 'pluginOptions' => [
                     'locale'=>[
                         'format'=>'MM/DD/YYYY'

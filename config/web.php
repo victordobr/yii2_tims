@@ -38,7 +38,7 @@ $config = [
     ],
     'components' => [
         'eventManager' => [
-            'class' => 'yiicod\listener\components\EventManager'
+            'class' => 'app\components\EventManager'
         ],
         'assetManager' => [
             'bundles' => [
@@ -104,8 +104,6 @@ $config = [
             'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
             'loginUrl' => '/auth/default/login',
-            'on beforeLogin' => ['\app\components\Log', 'login'],
-            'on afterLogout' => ['\app\components\Log', 'logout'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

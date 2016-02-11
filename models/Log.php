@@ -10,20 +10,6 @@ class Log extends \yii\elasticsearch\ActiveRecord
     public function attributes()
     {
         // path mapping for '_id' is setup to field 'id'
-        return ['id', 'email', 'ip_address', 'category', 'date'];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => 'yii\behaviors\TimestampBehavior',
-                'createdAtAttribute' => 'date',
-                'updatedAtAttribute' => null,
-            ],
-        ];
+        return ['id', 'email', 'ip_address', 'event_name', 'description' ,'created_at'];
     }
 }

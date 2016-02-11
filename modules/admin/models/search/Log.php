@@ -18,7 +18,7 @@ class Log extends LogModel
     public function rules()
     {
         return [
-            [['id', 'email', 'ip_address', 'category', 'date'], 'safe'],
+            [['id', 'email', 'ip_address', 'event_name', 'description', 'created_at'], 'safe'],
         ];
     }
 
@@ -42,12 +42,13 @@ class Log extends LogModel
     {
         $model = new LogModel;
         $this->load($params);
-        if ($this->category || $this->ip_address || $this->email || $this->date) {
+        if ($this->email || $this->ip_address || $this->event_name || $this->description || $this->created_at) {
             $query = [];
             foreach ($this->attributes as $field => $value) {
                 switch ($field) {
                     case 'email':
                     case 'ip_address':
+                    case 'description':
                         if (!empty($value)) {
                             $query['filtered']['query']['bool']['must'][] = [
                                 "wildcard" => [
@@ -58,7 +59,7 @@ class Log extends LogModel
                             ];
                         }
                         break;
-                    case 'category':
+                    case 'event_name':
                         if (!empty($value)) {
                             $query['filtered']['query']['bool']['must'][] = [
                                 "term" => [
@@ -69,8 +70,8 @@ class Log extends LogModel
                             ];
                         }
                         break;
-                    case 'date':
-                        $range = explode(' - ', $this->date);
+                    case 'created_at':
+                        $range = explode(' - ', $this->created_at);
                         if (!empty($range[0]) && !empty($range[1])) {
                             $query['filtered']['filter'][] = [
                                 "range" => [
@@ -125,8 +126,9 @@ class Log extends LogModel
                 'attributes' => [
                     'email',
                     'ip_address',
-                    'category',
-                    'date',
+                    'event_name',
+                    'description',
+                    'created_at',
                 ],
             ],
             'pagination' => [
