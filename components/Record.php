@@ -194,8 +194,6 @@ class Record extends Component
             $transaction->commit();
             return true;
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
-            die;
             $transaction->rollBack();
             return false;
         }

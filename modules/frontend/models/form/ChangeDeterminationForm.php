@@ -85,12 +85,9 @@ class ChangeDeterminationForm extends Model
     public function rules()
     {
         return [
-            [['confirm', 'officer_pin'], 'required'],
-            [['code'], 'required', 'when' => function($model) {
-                return $model->action == self::ACTION_REJECT;
-            }],
+            [['confirm', 'officer_pin', 'code'], 'required'],
             [['description'], 'required', 'when' => function($model) {
-                return $model->action == self::ACTION_REJECT && $model->code == Reasons::OTHER;
+                return $model->code == Reasons::OTHER;
             }],
             [['confirm'], 'compare', 'compareValue'=>'1', 'message' => Yii::t('app', 'confirm')],
             [['code'], 'integer'],

@@ -3,6 +3,7 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
+use app\modules\frontend\controllers\records\ChangeDeterminationAction;
 use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\MakeDeterminationAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
@@ -37,6 +38,10 @@ class RecordsController extends Controller
                 'class' => MakeDeterminationAction::className(),
                 'attributes' => $request->post('MakeDeterminationForm'),
             ],
+            'ChangeDetermination' => [
+                'class' => ChangeDeterminationAction::className(),
+                'attributes' => $request->post('ChangeDeterminationForm'),
+            ],
             'upload' => UploadAction::className(),
             'handle' => HandleAction::className(),
             'chunk-upload' => ChunkUploadAction::className(),
@@ -57,6 +62,7 @@ class RecordsController extends Controller
                     'RequestDeactivation',
                     'deactivate',
                     'MakeDetermination',
+                    'ChangeDetermination',
                 ],
                 'rules' => [
                     [
@@ -93,6 +99,14 @@ class RecordsController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_POLICE_OFFICER,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER,
+                        ],
+                    ],
+                    [
+                        'actions' => ['ChangeDetermination'],
+                        'allow' => true,
+                        'roles' => [
                             Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER,
                         ],
