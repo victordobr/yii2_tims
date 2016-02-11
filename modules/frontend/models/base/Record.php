@@ -8,6 +8,7 @@ use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\modules\frontend\models\base\Record as RecordSearch;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
@@ -37,7 +38,7 @@ class Record extends \app\models\Record
     {
         return [
             [['id', 'infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id'], 'integer'],
-            [['lat', 'lng', 'license', 'comments', 'user_plea_request', 'elapsedTime'], 'safe'],
+            [['lat', 'lng', 'license', 'comments', 'user_plea_request'], 'safe'],
             [['created_at'], 'date'],
         ];
     }
@@ -65,7 +66,7 @@ class Record extends \app\models\Record
     {
         switch ($role) {
             case Role::ROLE_VIDEO_ANALYST:
-            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_SYSTEM_ADMINISTRATOR:
             case Role::ROLE_PRINT_OPERATOR:
                 return Yii::t('app', 'Uploaded By');
                 break;
@@ -83,7 +84,7 @@ class Record extends \app\models\Record
      */
     public function search($params)
     {
-        $query = $this->find()
+        $query = RecordSearch::find()
             ->select([
                 'id' => 'record.id',
                 'license' => 'record.license',
@@ -142,7 +143,7 @@ class Record extends \app\models\Record
             ->andFilterWhere(['like', 'lat', $this->lat])
             ->andFilterWhere(['like', 'lng', $this->lng]);
 
-        $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
+//        $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
 
         if ($statuses = $this->getAvailableStatuses()) {
             $query->andFilterWhere(['in', 'status_id', $statuses]);

@@ -410,7 +410,7 @@ class Record extends Component
                     Status::FULL_COMPLETE,
                     Status::VIEWED_RECORD,
                 ];
-            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_SYSTEM_ADMINISTRATOR:
                 return [
                     Status::INCOMPLETE,
                     Status::COMPLETE,

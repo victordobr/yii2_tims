@@ -64,9 +64,8 @@ class RecordsController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_POLICE_OFFICER,
-                            Role::ROLE_POLICE_OFFICER_SUPERVISOR,
                             Role::ROLE_PRINT_OPERATOR,
                             Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_ROOT_SUPERUSER
@@ -77,7 +76,7 @@ class RecordsController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],
@@ -85,7 +84,7 @@ class RecordsController extends Controller
                         'actions' => ['deactivate'],
                         'allow' => true,
                         'roles' => [
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],
@@ -94,7 +93,7 @@ class RecordsController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_POLICE_OFFICER,
-                            Role::ROLE_POLICE_OFFICER_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER,
                         ],
                     ],
