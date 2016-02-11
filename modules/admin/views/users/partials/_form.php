@@ -21,6 +21,11 @@ use app\models\Question;
             'pluginOptions' => ['threeState' => false]
         ]); ?>
 
+        <?= $form->field($model, 'role')->dropDownList(
+            \app\enums\Role::listData(),
+            array('prompt' => ' - choose role - ')
+        ); ?>
+
         <?= $form->field($model, 'first_name')->textInput([
             'maxlength' => true,
             'class'  => 'form-control form-field-short',

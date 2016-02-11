@@ -31,7 +31,7 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
 
     <?= yii\grid\GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $model,
+        'filterModel' => $modelSearch,
         'columns' => [
             [
                 'label' => '#',
@@ -42,9 +42,9 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 'attribute'       => 'fullName',
                 'value'           => 'fullName',
                 'filter'          => kartik\typeahead\Typeahead::widget([
-                    'model'         => $model,
+                    'model'         => $modelSearch,
                     'attribute'     => 'fullName',
-                    'value'         => $model->getFullName(),
+                    'value'         => $modelSearch->fullName,
                     'dataset'       => [
                         [
                             'display' => 'value',
@@ -60,7 +60,12 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                             'highlight' => true,
                             'minLength' => 3,
                         ],
-                ])
+                ]),
+                'headerOptions' => ['style' => 'width: 200px;']
+            ],
+            [
+                'attribute' => 'role',
+                'headerOptions' => ['style' => 'width: 120px;']
             ],
             [
                 'attribute' => 'phone',
@@ -72,32 +77,33 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 'headerOptions' => ['style' => 'width: 250px;']
             ],
             [
+                'label' => 'Logins',
                 'attribute' => 'logins_count',
                 'headerOptions' => ['style' => 'width: 40px;']
             ],
             [
                 'attribute' => 'created_at',
                 'format' => 'datetime',
-                'headerOptions' => ['style' => 'width: 150px;'],
                 'filter'          => kartik\daterange\DateRangePicker::widget([
                     'name'          => 'User[created_at]',
-                    'value'         => $model->created_at,
+                    'value'         => $modelSearch->created_at,
                     'pluginOptions' => [
                         'opens' => 'left'
                     ]
                 ]),
+                'headerOptions' => ['style' => 'width: 185px;']
             ],
             [
                 'attribute' => 'last_login_at',
                 'format' => 'datetime',
-                'headerOptions' => ['style' => 'width: 150px;'],
                 'filter'          => kartik\daterange\DateRangePicker::widget([
                     'name'          => 'User[last_login_at]',
-                    'value'         => $model->last_login_at,
+                    'value'         => $modelSearch->last_login_at,
                     'pluginOptions' => [
                         'opens' => 'left'
                     ]
                 ]),
+                'headerOptions' => ['style' => 'width: 185px;']
             ],
             [
                 'class' => \dosamigos\grid\ToggleColumn::className(),
@@ -117,9 +123,6 @@ $clearLabel = \Yii::t('app', 'Clear Filters');
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'delete' => function ($url, $model, $key) {
-//                        if(!\Yii::$app->get('service|user')->haveDeletePermission($model->primaryKey)){
-//                            return '';
-//                        }
 
                         $options = [
                             'title' => \Yii::t('yii', 'Delete'),

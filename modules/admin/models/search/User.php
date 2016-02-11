@@ -12,22 +12,24 @@ use \app\models\traits\ColumnFilter;
  * User represents the model behind the search form about `app\models\User`.
  * @package app\modules\admin\models\search
  */
-class User extends \app\models\User
+class User extends \app\models\base\User
 {
-    public $fullName;
-    public $availSpace;
+    const SQL_SELECT_FULL_NAME = "CONCAT(user.first_name,' ', user.last_name)";
+    const SQL_SELECT_ROLE = "authAssignment.item_name";
+
     use ColumnFilter {
         getSuggestions as traitGetSuggestions;
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'logins_count', 'is_active', 'availSpace'], 'integer'],
-            [['email', 'password', 'first_name', 'last_name', 'phone', 'fullName', 'created_at', 'last_login_at'], 'safe'],
+            [['id', 'logins_count', 'is_active'], 'integer'],
+            [['email', 'password', 'first_name', 'last_name', 'phone', 'created_at', 'last_login_at', 'fullName', 'role'], 'safe'],
         ];
     }
 
@@ -46,7 +48,6 @@ class User extends \app\models\User
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'fullName' => Yii::t('app', 'Full Name'),
-            'availSpace' => Yii::t('app', 'Available Space')
         ]);
     }
 
@@ -66,23 +67,38 @@ class User extends \app\models\User
      */
     public function search($params)
     {
-        $query = self::find()
+        $query = static::find()
             ->select([
-                'user.*',
-                "CONCAT(user.first_name,' ', user.last_name) AS fullName"
+                'id' => 'user.id',
+                'fullName' => self::SQL_SELECT_FULL_NAME,
+                'role' => self::SQL_SELECT_ROLE,
+                'phone' => 'user.phone',
+                'email' => 'user.email',
+                'logins_count' => 'user.logins_count',
+                'created_at' => 'user.created_at',
+                'last_login_at' => 'user.last_login_at',
+                'is_active' => 'user.is_active',
             ])
             ->from(['user' => static::tableName()])
+            ->joinWith([
+                'authAssignment' => function ($query) {
+                    $query->from('AuthAssignment authAssignment');
+                },
+            ]);
             ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->getSort()->attributes += [
-            'fullName' => [
-                'asc' => ['fullName' => SORT_ASC],
-                'desc' => ['fullName' => SORT_DESC],
-            ],
+        $dataProvider->getSort()->attributes['fullName'] = [
+            'asc' => ['fullName' => SORT_ASC],
+            'desc' => ['fullName' => SORT_DESC],
+        ];
+
+        $dataProvider->getSort()->attributes['role'] = [
+            'asc' => ['role' => SORT_ASC],
+            'desc' => ['role' => SORT_DESC],
         ];
 
 
@@ -101,7 +117,8 @@ class User extends \app\models\User
         ]);
         $query->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'user.password', $this->password])
-            ->andFilterWhere(['like', "CONCAT(user.first_name,' ', user.last_name)", $this->fullName])
+            ->andFilterWhere(['like', self::SQL_SELECT_FULL_NAME, $this->fullName])
+            ->andFilterWhere(['like', self::SQL_SELECT_ROLE, $this->role])
             ->andFilterWhere(['like', 'user.phone', $this->phone])
             ;
 
@@ -148,9 +165,9 @@ class User extends \app\models\User
                 $query->select([
                     'value' => "DISTINCT(CONCAT(`r`.`first_name`, ' ' ,`r`.`last_name`))",
                 ])
-                      ->from(['r' => 'User'])
-                      ->having("value LIKE :value", ['value' => "%{$value}%"])
-                      ->limit($limit);
+                    ->from(['r' => 'User'])
+                    ->having("value LIKE :value", ['value' => "%{$value}%"])
+                    ->limit($limit);
 
                 return $query;
             };

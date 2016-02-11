@@ -41,7 +41,7 @@ class UsersController extends Controller
                 ],
             ],
             'verbs' => [
-                'class'   => VerbFilter::className(),
+                'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
                 ],
@@ -52,11 +52,11 @@ class UsersController extends Controller
     public function actions()
     {
         return [
-            'toggle'     => [
-                'class'      => ToggleAction::className(),
+            'toggle' => [
+                'class' => ToggleAction::className(),
                 'modelClass' => User::className(),
-                'onValue'    => User::STATUS_ACTIVE,
-                'offValue'   => User::STATUS_NOT_ACTIVE
+                'onValue' => User::STATUS_ACTIVE,
+                'offValue' => User::STATUS_NOT_ACTIVE
             ],
             'suggestion' => [
                 'class' => Suggestions::className(),
@@ -66,16 +66,14 @@ class UsersController extends Controller
 
     public function actionManage()
     {
-//        $userService = Yii::$app->get('service|user');
-//        $model = $userService->getModel(UserSearch::className());
-        $model = new UserSearch();
+        $modelSearch = new UserSearch();
 
         return $this->render('manage', [
-            'dataProvider'      => $model->search(Yii::$app->request->get()),
-            'model'             => $model,
+            'dataProvider' => $modelSearch->search(Yii::$app->request->get()),
+            'modelSearch' => $modelSearch,
             'autoCompleteLimit' => 3,
-            'userList'          => \app\models\User::getUserList(),
-            'modelCode'         => \app\modules\admin\models\search\User::className(),
+            'userList' => \app\models\User::getUserList(),
+            'modelCode' => \app\modules\admin\models\search\User::className(),
         ]);
     }
 
@@ -88,23 +86,19 @@ class UsersController extends Controller
     public function actionCreate()
     {
         $this->layout = 'middle.php';
-//        $model = new User(['scenario' => User::SCENARIO_REGISTER]);
-        $model = new User();
+        $model = new User(['scenario' => User::SCENARIO_USER_MANUAL_CREATE]);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-//            try {
-                Yii::$app->user->createUser($model->attributes);
-                return $this->redirect(['manage']);
-//            } catch (Exception $e) {
-//                throw new HttpException(500, $e->getMessage());
-//            }
-        } else {
 
-//            var_dump($model->getErrors()); die;
+            Yii::$app->user->createUser($model->attributes, $model->role);
+            return $this->redirect(['manage']);
+
+        } else {
 
             return $this->render('create', [
                 'model' => $model,
             ]);
+
         }
     }
 
@@ -119,8 +113,11 @@ class UsersController extends Controller
         $this->layout = 'middle.php';
         $model = $this->findModel(User::className(), $id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            Yii::$app->user->updateUser($model->primaryKey, $model->attributes, $model->role);
             return $this->redirect(['manage']);
+
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -140,10 +137,10 @@ class UsersController extends Controller
      */
     public function actionDelete($id)
     {
-        if (!Yii::$app->get('service|user')->haveDeletePermission($id)) {
+        if (!Yii::$app->user->haveDeletePermission($id)) {
             throw new HttpException(403, Yii::t('app', 'You can\'t to delete your account and master account!'));
         }
-        Yii::$app->get('service|user')->deleteUser($id);
+        Yii::$app->user->deleteUser($id);
 
         return $this->redirect(['manage']);
     }
@@ -166,9 +163,9 @@ class UsersController extends Controller
 
         $view = 'profile';
         $params = [
-            'model'        => $model,
-            'allRacks'     => $allRacks,
-            'usedSpace'    => $usedSpace,
+            'model' => $model,
+            'allRacks' => $allRacks,
+            'usedSpace' => $usedSpace,
             'passwordForm' => new PasswordForm(),
         ];
 
@@ -201,7 +198,7 @@ class UsersController extends Controller
 
                 $mail = Yii::$app->mailer
                     ->compose('user_changeEmail', [
-                        'login'         => $model->email,
+                        'login' => $model->email,
                         'activationUrl' => $activationUrl,
                     ])
                     ->setTo($model->email)
