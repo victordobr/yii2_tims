@@ -26,9 +26,9 @@ class Record extends base\Record
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'user_id'], 'required'],
+            [['lat', 'lng', 'infraction_date', 'state_id', 'license'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            [['state_id', 'user_id', 'ticket_fee', 'status_id'], 'integer'],
+            [['state_id', 'ticket_fee', 'status_id'], 'integer'],
             [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
@@ -53,7 +53,6 @@ class Record extends base\Record
             'lng' => 'Longitude',
             'open_date' => 'Case Open date',
             'state_id' => 'State',
-            'user_id' => 'Upload By',
             'status_id' => 'Status',
             'statusName' => 'Status name',
         ]);
@@ -149,15 +148,10 @@ class Record extends base\Record
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
 
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
     public function getStatusHistory()
     {
-        return $this->hasMany(StatusHistory::className(), ['record_id' => 'id'])
-            ->orderBy(['stage_id' => SORT_ASC, 'created_at' => SORT_ASC]);
+        return $this->hasOne(StatusHistory::className(), ['record_id' => 'id', 'status_code' => 'status_id'])
+            ->orderBy([StatusHistory::tableName() . '.created_at' => SORT_DESC]);
     }
 
 }

@@ -3,7 +3,7 @@ namespace app\modules\admin\controllers;
 
 use app\enums\Role;
 use yii\filters\AccessControl;
-use \app\modules\frontend\base\Controller;
+use \app\modules\admin\base\Controller;
 use \app\models\User;
 use \app\models\forms\Password as PasswordForm;
 

@@ -1,11 +1,9 @@
 <?php
-use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\frontend\models\search\Record;
 
 /**
  * @var $filters array
- * @var $model \app\modules\frontend\models\search\Record
+ * @var $model \app\modules\frontend\models\base\Record
  */
 ?>
 <div class="panel panel-default panel-record-filter">
@@ -20,22 +18,24 @@ use app\modules\frontend\models\search\Record;
             'options' => ['data-pjax' => true]
         ]); ?>
 
-        <?= $form->field(
-            $model,
-            'filter_created_at'
-        )->radioList($model->getCreatedAtFilters(), ['encode' => false])->label(false); ?>
+        <?php if (!empty($filters['created_at'])): ?>
+            <?= $form->field(
+                $model,
+                'filter_created_at'
+            )->radioList($filters['created_at'], ['encode' => false])->label(false); ?>
+        <?php endif; ?>
 
         <?php if (!empty($filters['statuses'])): ?>
-            <?php foreach ($filters['statuses'] as $checkbox): ?>
-                <?= $form->field($model, $checkbox['name'])->checkbox([
-                    'label' => $checkbox['label'],
-                    'value' => $checkbox['value'],
+            <?php foreach ($filters['statuses'] as $status): ?>
+                <?= $form->field($model, 'filter_status[]')->checkbox([
+                    'label' => $status['label'],
+                    'value' => $status['value'],
                 ]); ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <?php if (!empty($filters['uploader'])): ?>
-            <?= $form->field($model, 'user_id')->dropDownList($model->getUploaderList()); ?>
+        <?php if (!empty($filters['authors'])): ?>
+            <?= $form->field($model, 'filter_author_id')->dropDownList($filters['authors']); ?>
         <?php endif; ?>
 
         <?php ActiveForm::end(); ?>

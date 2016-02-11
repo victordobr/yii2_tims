@@ -24,10 +24,9 @@ $(function () {
         var ids = grid.yiiGridView('getSelectedRows');
         if (ids.length > 0) {
             $.post('/print/confirm', {ids: ids}, function(confirmed){
-                console.log(confirmed);
-                //if((sent.length > 0)) {
-                //    window.location.href = '/print/qc';
-                //}
+                if((confirmed.length > 0)) {
+                    window.location.href = '/print';
+                }
             }, 'json');
         }
     });
@@ -36,10 +35,9 @@ $(function () {
         var ids = grid.yiiGridView('getSelectedRows');
         if (ids.length > 0) {
             $.post('/print/reject', {ids: ids}, function(rejected){
-                console.log(rejected);
-                //if((sent.length > 0)) {
-                //    window.location.href = '/print/qc?' + $.param({ids: sent});
-                //}
+                if((rejected.length > 0)) {
+                    window.location.href = '/print';
+                }
             }, 'json');
         }
     });

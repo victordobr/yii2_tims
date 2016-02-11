@@ -7,7 +7,6 @@ use app\widgets\base\DetailView;
 /* @var $form string */
 /* @var $formatter \app\helpers\Formatter */
 
-$this->title = Yii::t('app', 'View uploaded record - Case #' . $model->id);
 $user = Yii::$app->user;
 $formatter = Yii::$app->formatter;
 ?>
@@ -31,7 +30,7 @@ $formatter = Yii::$app->formatter;
                         [
                             'label' => Yii::t('app', 'Case opened by'),
                             'format' => 'raw',
-                            'value' => $model->user->getFullName()
+                            'value' => $model->statusHistory->author->getFullName()
                         ],
                         [
                             'label' => Yii::t('app', 'Vehicle TAG'),
@@ -70,7 +69,9 @@ $formatter = Yii::$app->formatter;
 
         </div>
 
-        <div class="row"><?= $form ?></div>
+        <?php if (!empty($form)): ?>
+            <div class="row"><?= $form ?></div>
+        <?php endif; ?>
 
     </div>
 

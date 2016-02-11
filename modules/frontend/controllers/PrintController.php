@@ -9,7 +9,7 @@ use app\enums\Role;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\base\Controller;
-use app\modules\frontend\models\search\Record;
+use app\modules\frontend\models\prints\Record;
 use yii\filters\AccessControl;
 use yii\web\Response;
 
@@ -54,15 +54,20 @@ class PrintController extends Controller
 
     public function actionIndex()
     {
+        $request = Yii::$app->request;
         $model = new Record();
 
         $view = Yii::$app->view;
         $view->title = Yii::t('app', 'Search panel - List of records pending print');
-        $view->params['aside'] = Filter::widget(['action' => 'print', 'model' => $model]);
+        $view->params['aside'] = Filter::widget(['model' => $model]);
 
-        $provider = $model->search(Yii::$app->request->queryParams);
-        $provider->query->addSelect(['status_id' => 'record.status_id']);
-        $provider->query->andFilterWhere(['in', 'status_id', self::getAvailableStatusesByAction('print')]);
+        $provider = $model->search($request->get('Record'));
+
+        $provider->query->andFilterWhere(['in', 'status_id', [
+            CaseStatus::DMV_DATA_RETRIEVED_COMPLETE,
+            CaseStatus::DMV_DATA_RETRIEVED_INCOMPLETE,
+            CaseStatus::OVERDUE_P1,
+        ]]);
 
         return $this->render('index', [
             'dataProvider' => $provider,
@@ -127,36 +132,22 @@ class PrintController extends Controller
 
     public function actionQc()
     {
+        $request = Yii::$app->request;
         $model = new Record();
 
         $view = Yii::$app->view;
         $view->title = Yii::t('app', 'Search panel - List of records to QC');
-        $view->params['aside'] = Filter::widget(['action' => 'qc', 'model' => $model]);
+        $view->params['aside'] = Filter::widget(['model' => $model]);
 
-        $provider = $model->search(Yii::$app->request->queryParams);
-        $provider->query->addSelect(['status_id' => 'record.status_id']);
-        $provider->query->andFilterWhere(['in', 'status_id', self::getAvailableStatusesByAction('qc')]);
+        $provider = $model->search($request->get('Record'));
+        $provider->query->andFilterWhere(['in', 'status_id', [
+            CaseStatus::PRINTED_P1,
+            CaseStatus::PRINTED_P2,
+        ]]);
 
         return $this->render('qc', [
             'dataProvider' => $provider,
         ]);
-    }
-
-    private static function getAvailableStatusesByAction($action)
-    {
-        switch ($action) {
-            case 'print':
-                return [
-                    CaseStatus::DMV_DATA_RETRIEVED_COMPLETE,
-                    CaseStatus::DMV_DATA_RETRIEVED_INCOMPLETE,
-                    CaseStatus::OVERDUE_P1,
-                ];
-            case 'qc':
-                return [
-                    CaseStatus::PRINTED_P1,
-                    CaseStatus::PRINTED_P2,
-                ];
-        }
     }
 
     /**

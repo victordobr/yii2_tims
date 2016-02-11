@@ -23,8 +23,12 @@ class RecordsController extends Controller
 
     public function actions()
     {
+        $request = Yii::$app->request;
         return [
-            'search' => SearchAction::className(),
+            'search' => [
+                'class' => SearchAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
             'review' => ReviewAction::className(),
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),
