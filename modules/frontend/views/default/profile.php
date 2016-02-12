@@ -8,6 +8,7 @@ use \yii\helpers\Html;
 use \yii\bootstrap\ActiveForm;
 use \yii\web\View;
 use app\models\Question;
+use app\enums\Role;
 
 $this->title = \Yii::t('app', 'Update Profile');
 ?>
@@ -20,9 +21,12 @@ $this->title = \Yii::t('app', 'Update Profile');
                     'options' => ['class' => 'required-asterisk'],
                 ]); ?>
 
-                <?php if(Yii::$app->user->hasRole([\app\enums\Role::ROLE_POLICE_OFFICER])):?>
+                <?php if(Yii::$app->user->hasRole([
+                    Role::ROLE_POLICE_OFFICER,
+                    Role::ROLE_SYSTEM_ADMINISTRATOR,
+                    Role::ROLE_ROOT_SUPERUSER])):?>
 
-                <?= $form->field($model, 'officer_pin')->textInput([
+                <?= $form->field($model, 'officer_pin')->passwordInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',
                 ]) ?>

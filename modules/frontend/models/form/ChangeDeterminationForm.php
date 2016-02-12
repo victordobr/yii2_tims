@@ -28,6 +28,8 @@ class ChangeDeterminationForm extends Model
     public $previous_determination;
     public $decision_by;
 
+    public $currentOfficerPin;
+
     public function init()
     {
         $this->initPreviousDetermination();
@@ -94,7 +96,15 @@ class ChangeDeterminationForm extends Model
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],
             [['action'], 'safe'],
+            ['officer_pin', 'validateOfficerPin'],
         ];
+    }
+
+    public function validateOfficerPin($attribute, $params)
+    {
+        if ($this->currentOfficerPin != $this->officer_pin) {
+            $this->addError($attribute, 'Officer Pin validation failed.');
+        }
     }
 
     /**

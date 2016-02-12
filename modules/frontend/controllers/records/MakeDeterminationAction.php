@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\models\User;
 use app\modules\frontend\controllers\RecordsController;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use Yii;
@@ -21,7 +22,10 @@ class MakeDeterminationAction extends Action
         $request = Yii::$app->request;
         $record = $controller->findModel(Record::className(), $id);
 
-        $form = new MakeDeterminationForm();
+        $user = User::findOne(Yii::$app->user->id);
+        $form = new MakeDeterminationForm([
+            'currentOfficerPin' => $user->officer_pin,
+        ]);
 
         if ($request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;

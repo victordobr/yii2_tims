@@ -18,6 +18,8 @@ class MakeDeterminationForm extends Model
     public $code;
     public $description;
 
+    public $currentOfficerPin;
+
     public function actions()
     {
         return [
@@ -44,7 +46,15 @@ class MakeDeterminationForm extends Model
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],
             [['action'], 'safe'],
+            ['officer_pin', 'validateOfficerPin'],
         ];
+    }
+
+    public function validateOfficerPin($attribute, $params)
+    {
+        if ($this->currentOfficerPin != $this->officer_pin) {
+            $this->addError($attribute, 'Officer Pin validation failed.');
+        }
     }
 
     /**

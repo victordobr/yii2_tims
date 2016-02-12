@@ -252,3 +252,6 @@ label.help {
     margin: 0;
     font-weight: normal;
 }
+.has-error label{
+    color: #a94442;
+}

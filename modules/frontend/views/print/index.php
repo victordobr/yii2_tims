@@ -34,16 +34,14 @@ use kartik\icons\Icon;
                 'class' => 'kartik\grid\CheckboxColumn',
             ],
             [
-                'class' => 'yii\grid\SerialColumn',
+                'label' => '#',
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'id',
             ],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'attribute' => 'infraction_date',
                 'format' => 'date',
-            ],
-            [
-                'hAlign' => GridView::ALIGN_CENTER,
-                'attribute' => 'id',
             ],
             'license',
             [

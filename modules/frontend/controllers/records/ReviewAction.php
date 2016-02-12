@@ -5,6 +5,7 @@ namespace app\modules\frontend\controllers\records;
 use app\components\Settings;
 use app\enums\CaseStage;
 use app\enums\Role;
+use app\models\User;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\widgets\record\timeline\Timeline;
@@ -72,15 +73,23 @@ class ReviewAction extends Action
                     'reasonsList' => Reasons::listReasonsRejectingDeactivationRequest(),
                 ]);
             case $record->status_id == CaseStatus::VIEWED_RECORD && $user->can('MakeDetermination'):
+                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/make-determination', [
                     'action' => Url::to(['MakeDetermination', 'id' => $record->id]),
-                    'model' => new MakeDeterminationForm(),
+                    'model' => new MakeDeterminationForm([
+                        'currentOfficerPin' => $userModel->officer_pin,
+                    ]),
                     'reasons' => Reasons::listReasonsRejectingCase(),
                 ]);
             case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
+                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/change-determination', [
                     'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
-                    'model' => new ChangeDeterminationForm(['record_id' => $record->id, 'record_status' => $record->status_id]),
+                    'model' => new ChangeDeterminationForm([
+                        'record_id' => $record->id,
+                        'record_status' => $record->status_id,
+                        'currentOfficerPin' => $userModel->officer_pin,
+                    ]),
                     'reasons' => Reasons::listReasonsRejectingCase(),
                 ]);
             default:

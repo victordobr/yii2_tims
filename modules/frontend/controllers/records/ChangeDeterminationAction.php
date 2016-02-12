@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\models\User;
 use app\modules\frontend\controllers\RecordsController;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use Yii;
@@ -20,7 +21,10 @@ class ChangeDeterminationAction extends Action
         $request = Yii::$app->request;
         $record = $controller->findModel(Record::className(), $id);
 
-        $form = new ChangeDeterminationForm();
+        $user = User::findOne(Yii::$app->user->id);
+        $form = new ChangeDeterminationForm([
+            'currentOfficerPin' => $user->officer_pin,
+        ]);
 
         if ($request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
