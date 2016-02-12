@@ -181,13 +181,15 @@ use yii\helpers\Html;
                         'filter_smart_search_text' => [
                             'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'type' => Form::INPUT_TEXT,
-                            'options' => ['placeholder' => Yii::t('app', 'Freeform alphanumeric text')],
+                            'options' => [
+                                'placeholder' => Yii::t('app', 'Freeform alphanumeric text'),
+                                'disabled' => 'disabled'
+                            ],
                         ],
                         'filter_smart_search_type' => [
                             'type' => Form::INPUT_RADIO_LIST,
                             'items' => $model->getSmartSearchTypes(),
                             'options' => [
-//                                'inline' => true,
                                 'item' => function ($index, $label, $name, $checked, $value) {
                                     return Html::tag('div',
                                         Html::label(

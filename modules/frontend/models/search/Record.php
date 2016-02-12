@@ -74,7 +74,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
         // advanced filters
 
-        if (!empty($params['filter_created_at_from']) && !empty($params['filter_created_at_to'])) {
+        if (!empty($params['filter_created_at_from']) || !empty($params['filter_created_at_to'])) {
             $this->filterByCreatedAtRange($query, $params['filter_created_at_from'], $params['filter_created_at_to']);
         }
 
@@ -142,7 +142,17 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
     private function filterByCreatedAtRange(QueryInterface &$query, $from, $to)
     {
-        $query->andFilterWhere(['between', 'date', $from, $to]);
+        switch(true){
+            case !empty($from) && !empty($to):
+                $query->andFilterWhere(['between', 'record.created_at', strtotime($from), strtotime($to)]);
+                break;
+            case !empty($from):
+                $query->andFilterWhere(['>', 'record.created_at', strtotime($from)]);
+                break;
+            case !empty($to):
+                $query->andFilterWhere(['<', 'record.created_at', strtotime($to)]);
+                break;
+        }
     }
 
     private function filterByCreatedAtDaysAgo(QueryInterface &$query, $days_ago)
@@ -161,7 +171,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
     private function filterByCaseNumber(QueryInterface &$query, $record_id)
     {
-        $query->andWhere(['id' => $record_id]);
+        $query->andWhere(['record.id' => $record_id]);
     }
 
     // implemented methods

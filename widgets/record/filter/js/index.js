@@ -7,6 +7,10 @@ $(function () {
             'input[name="Record[filter_created_at]"]',
             'input[name="Record[filter_status][]"]',
             '#record-filter_state',
+            '#record-filter_created_at_from',
+            '#record-filter_created_at_to',
+            '#record-filter_elapsed_time_x_days',
+            '#record-filter_case_number'
         ];
 
     form.on('change', selectors.join(','), function () {
