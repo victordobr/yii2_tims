@@ -39,7 +39,7 @@ class MakeDeterminationForm extends Model
             [['description'], 'required', 'when' => function($model) {
                 return $model->action == self::ACTION_REJECT && $model->code == Reasons::OTHER;
             }],
-            [['confirm'], 'compare', 'compareValue'=>'1', 'message' => Yii::t('app', 'confirm')],
+            [['confirm'], 'compare', 'compareValue'=>'1', 'message' => ''],
             [['code'], 'integer'],
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],

@@ -32,7 +32,9 @@ class ChangeDeterminationAction extends Action
             $user = Yii::$app->user;
             $success = $form->isRejectAction() ?
                 self::record()->rejectViolation($record->id, $user->id, $form->officer_pin, $form->code, $form->description) :
-                self::record()->approveViolation($record->id, $user->id, $form->officer_pin);
+                self::record()->approveViolation($record->id, $user->id, $form->officer_pin) &&
+                self::record()->retrieveDMVData($record->id, $user->id); // todo: temporary jump
+
             if ($success) {
                 return $controller->redirect(['search']);
             }

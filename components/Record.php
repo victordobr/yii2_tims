@@ -162,6 +162,89 @@ class Record extends Component
         }
     }
 
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function view($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::VIEWED_RECORD) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::VIEWED_RECORD,
+            ]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => Status::VIEWED_RECORD,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function retrieveDMVData($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::DMV_DATA_RETRIEVED_COMPLETE) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::DMV_DATA_RETRIEVED_COMPLETE,
+                'dmv_received_at' => time(),
+            ]);
+            if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => Status::DMV_DATA_RETRIEVED_COMPLETE,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
     public function approveViolation($id, $user_id, $officer_pin)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
@@ -272,8 +355,11 @@ class Record extends Component
                 default:
                     throw new \Exception('Record has wrong status');
             }
-            $record->setAttributes(['status_id' => $status_id]);
-            if (!$record->save(true, ['status_id'])) {
+            $record->setAttributes([
+                'status_id' => $status_id,
+                'printed_at' => time()
+            ]);
+            if (!$record->save(true, ['status_id', 'printed_at'])) {
                 throw new \Exception('Record status do not updated');
             }
 
@@ -321,8 +407,11 @@ class Record extends Component
                 default:
                     throw new \Exception('Record has wrong status');
             }
-            $record->setAttributes(['status_id' => $status_id]);
-            if (!$record->save(true, ['status_id'])) {
+            $record->setAttributes([
+                'status_id' => $status_id,
+                'qc_verified_at' => time()
+            ]);
+            if (!$record->save(true, ['status_id', 'qc_verified_at'])) {
                 throw new \Exception('Record status do not updated');
             }
 

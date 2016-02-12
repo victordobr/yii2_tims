@@ -147,10 +147,10 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
                 $query->andFilterWhere(['between', 'record.created_at', strtotime($from), strtotime($to)]);
                 break;
             case !empty($from):
-                $query->andFilterWhere(['>', 'record.created_at', strtotime($from)]);
+                $query->andFilterWhere(['>=', 'record.created_at', strtotime($from)]);
                 break;
             case !empty($to):
-                $query->andFilterWhere(['<', 'record.created_at', strtotime($to)]);
+                $query->andFilterWhere(['<=', 'record.created_at', strtotime($to)]);
                 break;
         }
     }

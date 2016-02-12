@@ -86,10 +86,10 @@ class ChangeDeterminationForm extends Model
     {
         return [
             [['confirm', 'officer_pin', 'code'], 'required'],
-            [['description'], 'required', 'when' => function($model) {
+            [['description'], 'required', 'when' => function ($model) {
                 return $model->code == Reasons::OTHER;
             }],
-            [['confirm'], 'compare', 'compareValue'=>'1', 'message' => Yii::t('app', 'confirm')],
+            [['confirm'], 'compare', 'compareValue' => '1', 'message' => ''],
             [['code'], 'integer'],
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],
