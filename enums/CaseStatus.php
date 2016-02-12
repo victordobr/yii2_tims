@@ -18,12 +18,13 @@ class CaseStatus extends Enum
     const HOLD_1999 = 1999;
 
     const VIEWED_RECORD = 2010;
-    const APPROVED_RECORD_2020 = 2020;
     const APPROVED_RECORD_2021 = 2021;
-    const REJECTED_RECORD_2030 = 2030;
     const REJECTED_RECORD_2031 = 2031;
     const AWAITING_CHANGE = 2040;
     const HOLD_2999 = 2999;
+
+    const APPROVED_RECORD = 2020;
+    const REJECTED_RECORD = 2030;
 
     const QUERY_SUBMITTED = 3010;
     const DMV_DATA_RETRIEVED_COMPLETE = 3020;

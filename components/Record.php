@@ -162,6 +162,89 @@ class Record extends Component
         }
     }
 
+    public function approveViolation($id, $user_id, $officer_pin)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::APPROVED_RECORD) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::APPROVED_RECORD,
+                'approved_at' => time(),
+            ]);
+            if (!$record->save(true, ['status_id', 'approved_at'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'officer_pin' => $officer_pin,
+                'status_code' => Status::APPROVED_RECORD,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    public function rejectViolation($id, $user_id, $officer_pin,  $code, $description)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::REJECTED_RECORD) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::REJECTED_RECORD,
+            ]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'officer_pin' => $officer_pin,
+                'status_code' => Status::REJECTED_RECORD,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $reason = new Reason();
+            $reason->setAttributes([
+                'status_history_id' => $history->id,
+                'code' => $code,
+                'description' => $description,
+            ]);
+            if (!$reason->save()) {
+                throw new \Exception('Reason do not saved');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
     /**
      * @param int $id record id
      * @param int $user_id user id
@@ -325,7 +408,7 @@ class Record extends Component
                     Status::FULL_COMPLETE,
                     Status::VIEWED_RECORD,
                 ];
-            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_SYSTEM_ADMINISTRATOR:
                 return [
                     Status::INCOMPLETE,
                     Status::COMPLETE,

@@ -3,7 +3,7 @@
 use app\widgets\base\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model \app\modules\frontend\models\search\Record */
+/* @var $model \app\modules\frontend\models\base\Record */
 /* @var $form string */
 /* @var $formatter \app\helpers\Formatter */
 

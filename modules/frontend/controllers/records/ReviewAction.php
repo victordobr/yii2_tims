@@ -4,6 +4,8 @@ namespace app\modules\frontend\controllers\records;
 
 use app\components\Settings;
 use app\enums\CaseStage;
+use app\modules\frontend\models\form\ChangeDeterminationForm;
+use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\widgets\record\timeline\Timeline;
 use Yii;
 use app\enums\CaseStatus;
@@ -29,18 +31,67 @@ class ReviewAction extends Action
             $this->controller()->redirect(['search']);
         }
 
-        $record = $this->controller()->findModel(Record::className(), $id);
+        $record = $this->findModel($id);
 
         $this->setPageTitle($record->id);
+        $this->setAside($record);
 
-        Yii::$app->view->params['aside'] = Timeline::widget([
-            'stages' => self::collectCaseStages($record),
-            'remaining' => self::calculateRemainingDays($record)
-        ]);
+
 
         return $this->controller()->render('review', [
             'model' => $record,
-            'form' => $this->getForm($record),
+            'form' => $this->renderForm($record),
+        ]);
+    }
+
+    /**
+     * @param Record $record
+     * @return string
+     */
+    private function renderForm(Record $record)
+    {
+        $user = Yii::$app->user;
+
+        switch (true) {
+            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
+                return $this->controller()->renderPartial('../forms/request-deactivation', [
+                    'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
+                    'model' => new RequestDeactivateForm(),
+                    'reasonsList' => Reasons::listReasonsRequestDeactivation(),
+                ]);
+            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
+                return $this->controller()->renderPartial('../forms/deactivate', [
+                    'action' => Url::to(['deactivate', 'id' => $record->id]),
+                    'model' => new DeactivateForm(['record_id' => $record->id]),
+                    'reasonsList' => Reasons::listReasonsRejectingDeactivationRequest(),
+                ]);
+            case $record->status_id == CaseStatus::VIEWED_RECORD && $user->can('MakeDetermination'):
+                return $this->controller()->renderPartial('../forms/make-determination', [
+                    'action' => Url::to(['MakeDetermination', 'id' => $record->id]),
+                    'model' => new MakeDeterminationForm(),
+                    'reasons' => Reasons::listReasonsRejectingCase(),
+                ]);
+            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
+                return $this->controller()->renderPartial('../forms/change-determination', [
+                    'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
+                    'model' => new ChangeDeterminationForm(['record_id' => $record->id, 'record_status' => $record->status_id]),
+                    'reasons' => Reasons::listReasonsRejectingCase(),
+                ]);
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * @param Record $record
+     * @return string
+     * @throws \Exception
+     */
+    private function setAside(Record $record)
+    {
+        return Yii::$app->view->params['aside'] = Timeline::widget([
+            'stages' => self::collectCaseStages($record),
+            'remaining' => self::calculateRemainingDays($record)
         ]);
     }
 
@@ -52,8 +103,9 @@ class ReviewAction extends Action
     {
         $formatter = Yii::$app->formatter;
         return [
-            CaseStage::SET_INFRACTION_DATE => $record->infraction_date,
+            CaseStage::SET_INFRACTION_DATE => $formatter->asDate($record->infraction_date, 'php:d M Y'),
             CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
+            CaseStage::VIOLATION_APPROVED => $formatter->asDate($record->approved_at, 'php:d M Y'),
         ];
     }
 
@@ -69,36 +121,13 @@ class ReviewAction extends Action
     }
 
     /**
-     * @param Record $record
-     * @return string
+     * @param $id
+     * @return Record
+     * @throws \yii\web\NotFoundHttpException
      */
-    private function getForm(Record $record)
+    private function findModel($id)
     {
-        $user = Yii::$app->user;
-        switch (true) {
-            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
-
-                $model = new DeactivateForm(['record_id' => $record->id]);
-                $reasonsList = Reasons::listReasonsRejectingDeactivationRequest();
-
-                return $this->controller()->renderPartial('../forms/deactivate', [
-                    'action' => Url::to(['deactivate', 'id' => $record->id]),
-                    'model' => $model,
-                    'reasonsList' => $reasonsList,
-                ]);
-            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
-
-                $model = new RequestDeactivateForm();
-                $reasonsList = Reasons::listReasonsRequestDeactivation();
-
-                return $this->controller()->renderPartial('../forms/request-deactivation', [
-                    'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
-                    'model' => $model,
-                    'reasonsList' => $reasonsList,
-                ]);
-            default:
-                return '';
-        }
+        return $this->controller()->findModel(Record::className(), $id);
     }
 
     private function setPageTitle($record_id)
@@ -116,6 +145,9 @@ class ReviewAction extends Action
         return Yii::$app->settings;
     }
 
+    /**
+     * @param string $name
+     */
     private function setLayout($name)
     {
         $this->controller()->layout = $name;
