@@ -10,12 +10,6 @@
     text-align: center;
 }
 
-#record-filter_created_at > label {
-    display: block;
-    line-height: 18px;
-    color: #8c8c8c;
-    font-weight: normal;
-}
 #record-filter_created_at > label > input[type="radio"] {
     vertical-align: text-bottom;
 }
@@ -76,4 +70,19 @@
     line-height: 32px;
     font-weight: normal;
     color: #777;
+}
+
+.search-filter-list-label {
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    color: #8c8c8c;
+    font-weight: normal;
+}
+
+.search-filter-list-label > .form-control {
+    display: inline-block;
+    width: 32px;
+    padding: 0;
+    text-align: center;
 }
