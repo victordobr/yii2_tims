@@ -4,6 +4,7 @@ namespace app\modules\frontend\controllers\records;
 
 use app\components\Settings;
 use app\enums\CaseStage;
+use app\enums\Role;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\widgets\record\timeline\Timeline;
@@ -32,11 +33,20 @@ class ReviewAction extends Action
         }
 
         $record = $this->findModel($id);
+        $user = Yii::$app->user;
+        if ($user->hasRole([Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_POLICE_OFFICER, Role::ROLE_ROOT_SUPERUSER])) {
+            if($record->status_id != CaseStatus::VIEWED_RECORD){
+                self::record()->view($record->id, $user->id);
+            } else {
+                // todo: temporary jump
+
+            }
+        }
+
+
 
         $this->setPageTitle($record->id);
         $this->setAside($record);
-
-
 
         return $this->controller()->render('review', [
             'model' => $record,
@@ -105,7 +115,8 @@ class ReviewAction extends Action
         return [
             CaseStage::SET_INFRACTION_DATE => $formatter->asDate($record->infraction_date, 'php:d M Y'),
             CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
-            CaseStage::VIOLATION_APPROVED => $formatter->asDate($record->approved_at, 'php:d M Y'),
+            CaseStage::VIOLATION_APPROVED => !empty($record->approved_at) ?
+                $formatter->asDate($record->approved_at, 'php:d M Y') : null,
         ];
     }
 
@@ -159,6 +170,14 @@ class ReviewAction extends Action
     private function controller()
     {
         return $this->controller;
+    }
+
+    /**
+     * @return \app\components\Record
+     */
+    private static function record()
+    {
+        return Yii::$app->record;
     }
 
 }

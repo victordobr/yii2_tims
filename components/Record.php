@@ -162,6 +162,47 @@ class Record extends Component
         }
     }
 
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function view($id, $user_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if ($record->status_id == Status::VIEWED_RECORD) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => Status::VIEWED_RECORD,
+            ]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => Status::VIEWED_RECORD,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
     public function approveViolation($id, $user_id, $officer_pin)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
