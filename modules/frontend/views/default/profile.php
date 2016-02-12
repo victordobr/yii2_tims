@@ -20,6 +20,11 @@ $this->title = \Yii::t('app', 'Update Profile');
                     'options' => ['class' => 'required-asterisk'],
                 ]); ?>
 
+                <?= $form->field($model, 'officer_pin')->textInput([
+//                    'maxlength' => true,
+                    'class' => 'form-control form-field-short',
+                ]) ?>
+
                 <?= $form->field($model, 'agency')->textInput([
                     'maxlength' => true,
                     'class' => 'form-control form-field-short',

@@ -26,7 +26,7 @@ class Record extends base\Record
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'state_id', 'license'], 'required'],
+            [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
             [['state_id', 'ticket_fee', 'status_id', 'approved_at'], 'integer'],
             [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
@@ -40,6 +40,7 @@ class Record extends base\Record
                     'Incorrect format. Enter correct number, for example: 36º 13\' 49.378" E')
             ],
             [['license'], 'string', 'max' => 250],
+            [['bus_number'], 'string', 'max' => 10],
         ];
     }
 

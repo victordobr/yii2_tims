@@ -58,6 +58,7 @@ class User extends \yii\db\ActiveRecord
             [['phone'], 'string', 'max' => 50],
             [['pre_name'], 'string', 'max' => 3],
             [['zip_code'], 'string', 'max' => 16],
+            [['officer_pin'], 'string', 'max' => 6],
             [['question_answer'], 'string', 'max' => 200]
         ];
     }

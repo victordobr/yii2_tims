@@ -108,6 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'state_id')->dropDownList(States::listData(), array('prompt' => ' - choose state - ')) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true])->hint('Please enter driver licence.') ?>
+        <?= $form->field($model, 'bus_number')->textInput(['maxlength' => true])->hint('Please enter bus number.') ?>
 
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-8">

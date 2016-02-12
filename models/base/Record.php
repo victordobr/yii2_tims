@@ -37,11 +37,12 @@ class Record extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'open_date', 'state_id', 'license'], 'required'],
+            [['lat', 'lng', 'infraction_date', 'open_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at'], 'integer'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
-            [['license'], 'string', 'max' => 250]
+            [['license'], 'string', 'max' => 250],
+            [['bus_number'], 'string', 'max' => 10],
         ];
     }
 
