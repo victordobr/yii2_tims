@@ -8,13 +8,14 @@ use app\enums\LogEventNames;
 use app\enums\CaseStatus;
 use app\models\User;
 use app\models\StatusHistory;
+use yii\base\Exception;
 
 class Log extends Component
 {
-
     /**
      * Inserts a document into elasticsearch database.
      * @param array $params user email, event name and description
+     * @return boolean
      */
     public static function insertLog($params)
     {
@@ -24,7 +25,12 @@ class Log extends Component
         $log->event_name = $params['event_name'];
         $log->description = $params['description'];
         $log->created_at = time();
-        $log->insert();
+        try {
+            $log->insert();
+        }
+        catch (Exception $e) {
+            return false;
+        }
     }
 
     public static function login($event)
