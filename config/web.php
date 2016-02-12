@@ -26,11 +26,19 @@ $config = [
         ],
         'dynagrid' =>  [
             'class' => 'kartik\dynagrid\Module'
-        ]
+        ],
+        'debug' => [
+            'class' => 'yii\\debug\\Module',
+            'panels' => [
+                'elasticsearch' => [
+                    'class' => 'yii\\elasticsearch\\DebugPanel',
+                ],
+            ],
+        ],
     ],
     'components' => [
         'eventManager' => [
-            'class' => 'yiicod\listener\components\EventManager'
+            'class' => 'app\components\EventManager'
         ],
         'assetManager' => [
             'bundles' => [
@@ -115,6 +123,12 @@ $config = [
                 'username' => 'vdobrianskiy@entenso.com',
                 'password' => 'Cfb8db8a',
                 'port' => '25',
+            ],
+        ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => '127.0.0.1:9200'],
             ],
         ],
         'log' => [
