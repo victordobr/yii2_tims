@@ -10,6 +10,11 @@ use app\modules\frontend\models\base\RecordFilter;
 class Filter extends Widget
 {
     /**
+     * @var bool
+     */
+    public $advanced_mode = false;
+
+    /**
      * @var RecordFilter
      */
     public $model;
@@ -22,6 +27,7 @@ class Filter extends Widget
     function run()
     {
         return $this->render('index', [
+            'advanced' => $this->advanced_mode,
             'filters' => [
                 'created_at' => $this->model->getCreatedAtFilters(),
                 'statuses' => $this->model->getStatusFilters(Yii::$app->controller->action->id),
