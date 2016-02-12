@@ -21,7 +21,7 @@ use kartik\grid\ActionColumn;
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
-            'formSelector' => '#form-record-search-filter'
+            'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
         ]);
         ?>
         <?= GridView::widget([

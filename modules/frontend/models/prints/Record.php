@@ -160,10 +160,31 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
                         'value' => self::FILTER_STATUS_PENDING_PRINT_P1,
                     ],
                 ];
+            default:
+                return [];
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getAuthorFilters()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSmartSearchTypes()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRecordStatuses()
     {
         return [];
     }

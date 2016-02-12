@@ -3,6 +3,7 @@
 namespace app\modules\frontend\controllers\records;
 
 use app\enums\Role;
+use app\modules\frontend\models\search\Record;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
@@ -28,14 +29,33 @@ class SearchAction extends Action
     {
         $this->setPageTitle();
 
+        $user = Yii::$app->user;
         $model = new RecordSearch;
 
         $provider = $model->search($this->attributes);
 
-        Yii::$app->view->params['aside'] = Filter::widget(['model' => $model]);
+        $this->setAside($model, $user->hasRole([
+            Role::ROLE_OPERATIONS_MANAGER,
+            Role::ROLE_SYSTEM_ADMINISTRATOR,
+            Role::ROLE_ROOT_SUPERUSER,
+        ]));
 
         return $this->controller()->render('search', [
             'dataProvider' => $provider,
+        ]);
+    }
+
+    /**
+     * @param RecordSearch $model
+     * @param bool $advanced_mode
+     * @return string
+     * @throws \Exception
+     */
+    private function setAside(Record $model, $advanced_mode)
+    {
+        return Yii::$app->view->params['aside'] = Filter::widget([
+            'model' => $model,
+            'advanced_mode' => $advanced_mode,
         ]);
     }
 

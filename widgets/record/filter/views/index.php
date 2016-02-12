@@ -1,44 +1,49 @@
 <?php
-use yii\widgets\ActiveForm;
-
 /**
+ * @var $this \yii\web\View
+ * @var $model \app\modules\frontend\models\search\Record
+ * @var $advanced bool
  * @var $filters array
- * @var $model \app\modules\frontend\models\base\Record
  */
+
+use kartik\icons\Icon;
+
 ?>
-<div class="panel panel-default panel-record-filter">
-    <div class="panel-heading"><?= Yii::t('app', 'Filter By') ?></div>
 
-    <div class="panel-body">
+<div class="row">
 
-        <?php $form = ActiveForm::begin([
-            'id' => 'form-record-search-filter',
-            'enableClientScript' => false,
-            'method' => 'GET',
-            'options' => ['data-pjax' => true]
-        ]); ?>
+    <div class="panel panel-default panel-record-filter">
+        <div class="panel-heading"><?= Yii::t('app', 'Filter By') ?></div>
 
-        <?php if (!empty($filters['created_at'])): ?>
-            <?= $form->field(
-                $model,
-                'filter_created_at'
-            )->radioList($filters['created_at'], ['encode' => false])->label(false); ?>
-        <?php endif; ?>
+        <div id="record-search-filter" class="panel-body">
 
-        <?php if (!empty($filters['statuses'])): ?>
-            <?php foreach ($filters['statuses'] as $status): ?>
-                <?= $form->field($model, 'filter_status[]')->checkbox([
-                    'label' => $status['label'],
-                    'value' => $status['value'],
+            <?php if ($advanced): ?>
+                <div class="row panel-subtitle">
+                    <a href="#"><?= Yii::t('app', 'Basic') ?><?= Icon::show('angle-double-down') ?></a>
+                </div>
+            <?php endif; ?>
+
+            <div class="panel-section<?= !$advanced ? '' : ' hide' ?>">
+                <?= $this->render('form/basic', [
+                    'model' => $model,
+                    'filters' => $filters,
                 ]); ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
+            </div>
 
-        <?php if (!empty($filters['authors'])): ?>
-            <?= $form->field($model, 'filter_author_id')->dropDownList($filters['authors']); ?>
-        <?php endif; ?>
+            <?php if ($advanced): ?>
+                <div class="row panel-subtitle">
+                    <a href="#"><?= Yii::t('app', 'Advanced') ?><?= Icon::show('angle-double-down') ?></a>
+                </div>
 
-        <?php ActiveForm::end(); ?>
+                <div class="panel-section">
+                    <?= $this->render('form/advanced', [
+                        'model' => $model,
+                        'filters' => $filters,
+                    ]); ?>
+                </div>
+            <?php endif; ?>
+
+        </div>
 
     </div>
 

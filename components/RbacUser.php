@@ -47,6 +47,13 @@ class RbacUser extends \app\modules\auth\components\Auth
         return $this->_permissions;
     }
 
+    public function hasRole(array $roles)
+    {
+        $role = $this->getRole();
+
+        return in_array($role->name, $roles);
+    }
+
     public function getRoleNameByUser($userId)
     {
         $roles = $this->authManager->getRolesByUser($userId);

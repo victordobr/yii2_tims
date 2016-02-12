@@ -19,4 +19,14 @@ interface RecordFilter
      */
     public function getAuthorFilters();
 
+    /**
+     * @return array
+     */
+    public function getSmartSearchTypes();
+
+    /**
+     * @return array
+     */
+    public function getRecordStatuses();
+
 }
