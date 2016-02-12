@@ -52,18 +52,21 @@ class Timeline extends Widget
                 ],
                 Stage::DMV_DATA_REQUEST => [
                     'is_done' => false,
-                    'label' => Yii::t('app', 'DMV Data'),
-                    'date' => $pending
+                    'label' => Yii::t('app', 'DMV Data Request'),
+                    'date' => !empty($this->stages[Stage::DMV_DATA_REQUEST]) ?
+                        $this->stages[Stage::DMV_DATA_REQUEST] : $pending
                 ],
                 Stage::CITATION_PRINTED => [
                     'is_done' => false,
                     'label' => Yii::t('app', 'Citation Printed'),
-                    'date' => $pending
+                    'date' => !empty($this->stages[Stage::CITATION_PRINTED]) ?
+                        $this->stages[Stage::CITATION_PRINTED] : $pending
                 ],
                 Stage::CITATION_QC_VERIFIED => [
                     'is_done' => false,
                     'label' => Yii::t('app', 'Citation QC Verified'),
-                    'date' => $pending
+                    'date' => !empty($this->stages[Stage::CITATION_QC_VERIFIED]) ?
+                        $this->stages[Stage::CITATION_QC_VERIFIED] : $pending
                 ],
             ];
         }

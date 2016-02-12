@@ -113,6 +113,12 @@ class ReviewAction extends Action
             CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
             CaseStage::VIOLATION_APPROVED => !empty($record->approved_at) ?
                 $formatter->asDate($record->approved_at, 'php:d M Y') : null,
+            CaseStage::DMV_DATA_REQUEST => !empty($record->dmv_received_at) ?
+                $formatter->asDate($record->dmv_received_at, 'php:d M Y') : null,
+            CaseStage::CITATION_PRINTED => !empty($record->printed_at) ?
+                $formatter->asDate($record->printed_at, 'php:d M Y') : null,
+            CaseStage::CITATION_QC_VERIFIED => !empty($record->qc_verified_at) ?
+                $formatter->asDate($record->qc_verified_at, 'php:d M Y') : null,
         ];
     }
 
