@@ -39,7 +39,7 @@ class Log extends Component
         self::insertLog([
             'email' => $user['email'],
             'event_name' => LogEventNames::EVENT_LOGIN,
-            'description' => Yii::t('app','User {username} is login', [
+            'description' => Yii::t('app','User {username} logged in', [
                 'username' => $user['email'],
             ]),
         ]);
@@ -51,7 +51,7 @@ class Log extends Component
         self::insertLog([
             'email' => $user['email'],
             'event_name' => LogEventNames::EVENT_LOGOUT,
-            'description' => Yii::t('app','User {username} is logout', [
+            'description' => Yii::t('app','User {username} logged out', [
                 'username' => $user['email'],
             ]),
         ]);

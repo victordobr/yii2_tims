@@ -43,7 +43,7 @@ class Module extends \yii\base\Module
     public static function getNavBarConfig()
     {
         return [
-            'brandLabel' => 'INTERNAL PORTAL',
+            'brandLabel' => 'INTERNAL',
             'brandUrl'   => '/frontend/default/welcome',
             'options'    => [
                 'class' => 'navbar-inverse',
