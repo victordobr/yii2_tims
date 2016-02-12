@@ -23,7 +23,7 @@ use kartik\icons\Icon;
                 </div>
             <?php endif; ?>
 
-            <div class="panel-section<?= !!$advanced ? '' : ' hide' ?>">
+            <div class="panel-section<?= !$advanced ? '' : ' hide' ?>">
                 <?= $this->render('form/basic', [
                     'model' => $model,
                     'filters' => $filters,
@@ -35,7 +35,7 @@ use kartik\icons\Icon;
                     <a href="#"><?= Yii::t('app', 'Advanced') ?><?= Icon::show('angle-double-down') ?></a>
                 </div>
 
-                <div class="panel-section hide">
+                <div class="panel-section">
                     <?= $this->render('form/advanced', [
                         'model' => $model,
                         'filters' => $filters,

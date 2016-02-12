@@ -8,6 +8,7 @@
 use kartik\form\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\builder\Form;
+use yii\helpers\Html;
 
 ?>
 
@@ -81,20 +82,22 @@ use kartik\builder\Form;
             'columns' => 1,
             'attributes' => [
                 [
-                    'label' => false,
+                    'labelOptions' => ['class' => 'hide'],
                     'columns' => 12,
                     'attributes' => [
                         [
                             'type' => Form::INPUT_RAW,
                             'value' => Yii::t('app', 'Select elapsed time'),
                             'columnOptions' => [
-                                'colspan' => 7,
-                                'class' => 'search-filter-label',
+                                'colspan' => 6,
+                                'class' => 'search-filter-label-in-text',
                             ],
                         ],
                         'filter_elapsed_time_x_days' => [
                             'type' => Form::INPUT_TEXT,
+                            'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'options' => [
+                                'class'=>'input-in-text',
                                 'placeholder' => 'X',
                                 'maxlength' => 3,
                             ],
@@ -107,7 +110,7 @@ use kartik\builder\Form;
                             'type' => Form::INPUT_RAW,
                             'value' => Yii::t('app', 'days'),
                             'columnOptions' => [
-                                'class' => 'search-filter-label',
+                                'class' => 'search-filter-label-in-text',
                             ],
                         ],
                     ]
@@ -129,6 +132,7 @@ use kartik\builder\Form;
                     'columns' => 1,
                     'attributes' => [
                         'filter_state' => [
+                            'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'type' => Form::INPUT_DROPDOWN_LIST,
                             'options' => ['prompt' => Yii::t('app', 'Code - state description')],
                             'items' => $model->getRecordStatuses(),
@@ -151,8 +155,11 @@ use kartik\builder\Form;
                     'columns' => 1,
                     'attributes' => [
                         'filter_case_number' => [
+                            'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'type' => Form::INPUT_TEXT,
-                            'options' => ['placeholder' => Yii::t('app', 'Case No #')],
+                            'options' => [
+                                'placeholder' => Yii::t('app', 'Case No #')
+                            ],
                         ],
                     ]
                 ]
@@ -172,6 +179,7 @@ use kartik\builder\Form;
                     'columns' => 1,
                     'attributes' => [
                         'filter_smart_search_text' => [
+                            'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'type' => Form::INPUT_TEXT,
                             'options' => ['placeholder' => Yii::t('app', 'Freeform alphanumeric text')],
                         ],
@@ -179,8 +187,14 @@ use kartik\builder\Form;
                             'type' => Form::INPUT_RADIO_LIST,
                             'items' => $model->getSmartSearchTypes(),
                             'options' => [
-                                'inline' => true,
-                                'labelOptions' => ['class' => 'search-filter-label'],
+//                                'inline' => true,
+                                'item' => function ($index, $label, $name, $checked, $value) {
+                                    return Html::tag('div',
+                                        Html::label(
+                                            Html::input(Form::INPUT_RADIO, $name, $value, ['checked' => $checked]) . ' ' . $label, null, [
+                                            'class' => 'search-filter-list-label input-group-sm'
+                                        ]), ['class' => 'radio-inline']);
+                                },
                             ],
                             'columnOptions' => [
                                 'class' => 'text-center',

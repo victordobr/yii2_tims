@@ -67,7 +67,7 @@
 
 .search-filter-label {
     font-size: 14px;
-    line-height: 32px;
+    line-height: 24px;
     font-weight: normal;
     color: #777;
 }
@@ -76,13 +76,22 @@
     display: block;
     font-size: 14px;
     line-height: 20px;
-    color: #8c8c8c;
+    color: #777;
     font-weight: normal;
 }
 
-.search-filter-list-label > .form-control {
+.search-filter-label-in-text {
     display: inline-block;
-    width: 32px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #777;
+    font-weight: normal;
+}
+
+.form-control.input-in-text {
+    display: inline-block;
+    width: 36px;
     padding: 0;
+    margin: -6px 0;
     text-align: center;
 }

@@ -168,7 +168,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
     public function getCreatedAtFilters()
     {
-        $input = Html::input('text', 'Record[X]', '', ['class'=>'form-control', 'maxlength' => 3]);
+        $input = Html::input('text', 'Record[X]', '', ['class'=>'form-control input-in-text', 'maxlength' => 3]);
 
         return [
             self::FILTER_CREATED_AT_TODAY => Yii::t('app', 'Today'),
@@ -218,7 +218,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
     public function getRecordStatuses()
     {
-        return Status::listMainText();
+        return Status::listCodeDescription();
     }
 
     // private methods
