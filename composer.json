@@ -50,7 +50,8 @@
         "johnitvn/yii2-rbac-plus": "*",
         "pheme/yii2-settings": "*",
         "2amigos/yii2-google-maps-library" : "*",
-        "yiicod/yii2-listener": "*"
+        "yiicod/yii2-listener": "*",
+        "kartik-v/yii2-builder": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
