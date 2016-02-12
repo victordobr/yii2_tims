@@ -3,13 +3,13 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Log;
 use app\modules\admin\models\search\Log as LogSearch;
 use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\elasticsearch\ActiveRecord;
+
 /**
  * LogsController implements the CRUD actions for Log model.
  */
