@@ -113,6 +113,9 @@ class Log extends LogModel
             }
             $resultData = $resultData->orderBy($orderBy);
         }
+        else {
+            $resultData = $resultData->orderBy(['created_at' => SORT_DESC]);
+        }
 
         $totalCount = $resultData->search()['hits']['total'];
         $perPage = 10;

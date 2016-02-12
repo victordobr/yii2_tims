@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
-use app\enums\LogEvent;
+use app\enums\LogEventNames;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\Log */
@@ -19,10 +19,10 @@ $this->title = 'Logs';
         [
             'attribute' => 'event_name',
             'value' => function ($model) {
-                return LogEvent::labelById($model->event_name);
+                return LogEventNames::labelById($model->event_name);
             },
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => LogEvent::listData(),
+            'filter' => LogEventNames::listData(),
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true, 'width' => 150],
             ],
