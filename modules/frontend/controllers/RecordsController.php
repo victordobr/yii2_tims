@@ -3,7 +3,9 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
+use app\modules\frontend\controllers\records\ChangeDeterminationAction;
 use app\modules\frontend\controllers\records\DeactivateAction;
+use app\modules\frontend\controllers\records\MakeDeterminationAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\ReviewAction;
 use app\modules\frontend\controllers\records\SearchAction;
@@ -32,6 +34,14 @@ class RecordsController extends Controller
             'review' => ReviewAction::className(),
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),
+            'MakeDetermination' => [
+                'class' => MakeDeterminationAction::className(),
+                'attributes' => $request->post('MakeDeterminationForm'),
+            ],
+            'ChangeDetermination' => [
+                'class' => ChangeDeterminationAction::className(),
+                'attributes' => $request->post('ChangeDeterminationForm'),
+            ],
             'upload' => UploadAction::className(),
             'handle' => HandleAction::className(),
             'chunk-upload' => ChunkUploadAction::className(),
@@ -43,16 +53,25 @@ class RecordsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['upload', 'chunkUpload', 'handle', 'search', 'review', 'RequestDeactivation', 'deactivate'],
+                'only' => [
+                    'upload',
+                    'chunkUpload',
+                    'handle',
+                    'search',
+                    'review',
+                    'RequestDeactivation',
+                    'deactivate',
+                    'MakeDetermination',
+                    'ChangeDetermination',
+                ],
                 'rules' => [
                     [
                         'actions' => ['review'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_POLICE_OFFICER,
-                            Role::ROLE_POLICE_OFFICER_SUPERVISOR,
                             Role::ROLE_PRINT_OPERATOR,
                             Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_ROOT_SUPERUSER
@@ -63,7 +82,7 @@ class RecordsController extends Controller
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],
@@ -71,8 +90,25 @@ class RecordsController extends Controller
                         'actions' => ['deactivate'],
                         'allow' => true,
                         'roles' => [
-                            Role::ROLE_VIDEO_ANALYST_SUPERVISOR,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['MakeDetermination'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_POLICE_OFFICER,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER,
+                        ],
+                    ],
+                    [
+                        'actions' => ['ChangeDetermination'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER,
                         ],
                     ],
                     [

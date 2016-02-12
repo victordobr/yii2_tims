@@ -49,7 +49,7 @@ class SearchAction extends Action
         $title = '';
         switch (Yii::$app->user->role->name) {
             case Role::ROLE_VIDEO_ANALYST:
-            case Role::ROLE_VIDEO_ANALYST_SUPERVISOR:
+            case Role::ROLE_SYSTEM_ADMINISTRATOR:
             case Role::ROLE_PRINT_OPERATOR:
                 $title = Yii::t('app', 'Search Panel - List of uploaded cases');
                 break;
