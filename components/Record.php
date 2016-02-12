@@ -220,8 +220,9 @@ class Record extends Component
 
             $record->setAttributes([
                 'status_id' => Status::DMV_DATA_RETRIEVED_COMPLETE,
+                'dmv_received_at' => time(),
             ]);
-            if (!$record->save(true, ['status_id'])) {
+            if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
                 throw new \Exception('Record status do not updated');
             }
 
