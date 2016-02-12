@@ -34,7 +34,7 @@ class ReviewAction extends Action
 
         $record = $this->findModel($id);
 
-        if ($record->status_id != CaseStatus::VIEWED_RECORD) {
+        if ($record->status_id < CaseStatus::VIEWED_RECORD) {
             $user = Yii::$app->user;
             if ($user->hasRole([Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_POLICE_OFFICER, Role::ROLE_ROOT_SUPERUSER])) {
                 self::record()->view($record->id, $user->id);
