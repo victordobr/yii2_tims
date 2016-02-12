@@ -71,10 +71,10 @@ class CaseStatus extends Enum
             self::VIEWED_RECORD  => Yii::t('app', 'Waiting for Evidence Review'), //2010
             self::AWAITING_DEACTIVATION  => Yii::t('app', 'Waiting for Deactivation'), //1030
             self::DEACTIVATED_RECORD  => Yii::t('app', 'Deactivated Case'), //1040
-            self::APPROVED_RECORD_2020  => Yii::t('app', 'Waiting for DMV Data'), //2020
+            self::APPROVED_RECORD  => Yii::t('app', 'Waiting for DMV Data'), //2020
             self::APPROVED_RECORD_2021  => Yii::t('app', 'Waiting for DMV Data'), //2021
             self::QUERY_SUBMITTED  => Yii::t('app', 'Waiting for DMV Data'), //3010
-            self::REJECTED_RECORD_2030  => Yii::t('app', 'Rejected Case'), //2030
+            self::REJECTED_RECORD  => Yii::t('app', 'Rejected Case'), //2030
             self::REJECTED_RECORD_2031  => Yii::t('app', 'Rejected Case'), //2031
             self::DMV_DATA_RETRIEVED_COMPLETE  => Yii::t('app', 'Waiting for Citation Print/Mail'), //3020
             self::DMV_DATA_RETRIEVED_INCOMPLETE  => Yii::t('app', 'Waiting for Citation Print/Mail'), //3021
@@ -100,10 +100,10 @@ class CaseStatus extends Enum
             self::VIEWED_RECORD  => Yii::t('app', '(review deadline in {N} days)', $dictionary), //2010
             self::AWAITING_DEACTIVATION  => Yii::t('app', '(requested by {requester_username}, {datetime})', $dictionary), //1030
             self::DEACTIVATED_RECORD  => Yii::t('app', '(deactivated by {requester_username}, {datetime})', $dictionary), //1040
-            self::APPROVED_RECORD_2020  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //2020
+            self::APPROVED_RECORD  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //2020
             self::APPROVED_RECORD_2021  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //2021
             self::QUERY_SUBMITTED  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //3010
-            self::REJECTED_RECORD_2030  => Yii::t('app', '(rejected by {approvers_username}, {datetime})', $dictionary), //2030
+            self::REJECTED_RECORD  => Yii::t('app', '(rejected by {approvers_username}, {datetime})', $dictionary), //2030
             self::REJECTED_RECORD_2031  => Yii::t('app', '(rejected by {approvers_username}, {datetime})', $dictionary), //2031
             self::DMV_DATA_RETRIEVED_COMPLETE  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //3020
             self::DMV_DATA_RETRIEVED_INCOMPLETE  => Yii::t('app', '(print deadline in {N} days)', $dictionary), //3021
