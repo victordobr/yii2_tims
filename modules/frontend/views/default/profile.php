@@ -20,10 +20,14 @@ $this->title = \Yii::t('app', 'Update Profile');
                     'options' => ['class' => 'required-asterisk'],
                 ]); ?>
 
+                <?php if(Yii::$app->user->hasRole([\app\enums\Role::ROLE_POLICE_OFFICER])):?>
+
                 <?= $form->field($model, 'officer_pin')->textInput([
-//                    'maxlength' => true,
+                    'maxlength' => true,
                     'class' => 'form-control form-field-short',
                 ]) ?>
+
+                <?php endif;?>
 
                 <?= $form->field($model, 'agency')->textInput([
                     'maxlength' => true,
