@@ -355,8 +355,11 @@ class Record extends Component
                 default:
                     throw new \Exception('Record has wrong status');
             }
-            $record->setAttributes(['status_id' => $status_id]);
-            if (!$record->save(true, ['status_id'])) {
+            $record->setAttributes([
+                'status_id' => $status_id,
+                'printed_at' => time()
+            ]);
+            if (!$record->save(true, ['status_id', 'printed_at'])) {
                 throw new \Exception('Record status do not updated');
             }
 
@@ -404,8 +407,11 @@ class Record extends Component
                 default:
                     throw new \Exception('Record has wrong status');
             }
-            $record->setAttributes(['status_id' => $status_id]);
-            if (!$record->save(true, ['status_id'])) {
+            $record->setAttributes([
+                'status_id' => $status_id,
+                'qc_verified_at' => time()
+            ]);
+            if (!$record->save(true, ['status_id', 'qc_verified_at'])) {
                 throw new \Exception('Record status do not updated');
             }
 
