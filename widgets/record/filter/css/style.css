@@ -6,7 +6,6 @@
     font-size: 18px;
     font-weight: normal;
     color: #666;
-    padding-bottom: 0;
     background: transparent;
     text-align: center;
 }
@@ -42,4 +41,39 @@
 #form-record-search-filter > .field-record-user_id > label {
     color: #8c8c8c;
     font-weight: normal;
+}
+
+.panel-body {
+    padding: 16px 16px 0 16px;
+}
+
+.panel-subtitle {
+    border-radius: 4px;
+    box-shadow: 0 -1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-subtitle > a {
+    display: block;
+    padding: 2px 6px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 32px;
+    color: #777;
+}
+
+.panel-subtitle > a > .fa {
+    float: right;
+    margin-right: 4px;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+/* common styles */
+
+.search-filter-label {
+    font-size: 14px;
+    line-height: 32px;
+    font-weight: normal;
+    color: #777;
 }
