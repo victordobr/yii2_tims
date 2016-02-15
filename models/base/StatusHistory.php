@@ -1,0 +1,85 @@
+<?php
+
+namespace app\models\base;
+
+use Yii;
+
+/**
+ * This is the model class for table "StatusHistory".
+ *
+ * @property integer $id
+ * @property integer $record_id
+ * @property integer $author_id
+ * @property string $officer_pin
+ * @property integer $status_code
+ * @property integer $created_at
+ * @property integer $expired_at
+ *
+ * @property Reason $reason
+ * @property CaseStatus $statusCode
+ * @property Record $record
+ * @property User $author
+ */
+class StatusHistory extends \yii\db\ActiveRecord
+{
+    const OFFICER_PIN_LENGTH = 6;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'StatusHistory';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
+            [['record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
+            [['officer_pin'], 'string', 'max' => self::OFFICER_PIN_LENGTH]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'record_id' => 'Record ID',
+            'author_id' => 'Author ID',
+            'status_code' => 'Status Code',
+            'created_at' => 'Created At',
+            'expired_at' => 'Expired At',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReason()
+    {
+        return $this->hasOne(Reason::className(), ['status_history_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecord()
+    {
+        return $this->hasOne(Record::className(), ['id' => 'record_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+}
