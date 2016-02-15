@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\frontend\models\form;
 
+use app\enums\YesNo;
 use Yii;
 use yii\base\Model;
 use app\enums\Reasons;
@@ -35,13 +36,13 @@ class MakeDeterminationForm extends Model
     {
         return [
             [['confirm', 'officer_pin'], 'required'],
-            [['code'], 'required', 'when' => function($model) {
+            [['code'], 'required', 'when' => function ($model) {
                 return $model->action == self::ACTION_REJECT;
             }],
-            [['description'], 'required', 'when' => function($model) {
+            [['description'], 'required', 'when' => function ($model) {
                 return $model->action == self::ACTION_REJECT && $model->code == Reasons::OTHER;
             }],
-            [['confirm'], 'compare', 'compareValue'=>'1', 'message' => ''],
+            [['confirm'], 'compare', 'compareValue' => YesNo::YES, 'message' => ''],
             [['code'], 'integer'],
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],

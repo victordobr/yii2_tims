@@ -2,6 +2,7 @@
 namespace app\modules\frontend\models\form;
 
 use app\enums\CaseStatus;
+use app\enums\YesNo;
 use app\models\StatusHistory;
 use Yii;
 use yii\base\Model;
@@ -91,7 +92,7 @@ class ChangeDeterminationForm extends Model
             [['description'], 'required', 'when' => function ($model) {
                 return $model->code == Reasons::OTHER;
             }],
-            [['confirm'], 'compare', 'compareValue' => '1', 'message' => ''],
+            [['confirm'], 'compare', 'compareValue' => YesNo::YES, 'message' => ''],
             [['code'], 'integer'],
             [['description'], 'string'],
             [['officer_pin'], 'string', 'max' => 16],
