@@ -2,77 +2,56 @@
 namespace app\modules\frontend\models\base;
 
 use app\components\Settings;
-use app\enums\Role;
+use app\models\base\StatusHistory;
+use app\models\base\User;
 use Yii;
 use yii\db\ActiveQuery;
+use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\frontend\models\base\Record as RecordSearch;
+use app\enums\CaseStatus as Status;
 
 /**
  * Record represents the model behind the search form about `app\models\Record`.
  */
-class Record extends \app\models\Record
+class Record extends \app\models\base\Record implements RecordFilter
 {
-    private $status;
-
-    public $author;
-    public $elapsedTime;
+    private $statuses = [];
 
     const SQL_SELECT_AUTHOR = 'CONCAT_WS(" ", User.first_name, User.last_name)';
-    const SQL_SELECT_ELAPSED_TIME = 'datediff(NOW(), FROM_UNIXTIME(record.infraction_date))';
+    const SQL_SELECT_ELAPSED_TIME = 'DATEDIFF(NOW(), FROM_UNIXTIME(record.infraction_date))';
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [];
-    }
+    public $filter_created_at = self::FILTER_CREATED_ALL;
+    public $filter_status = self::FILTER_STATUS_DISABLED;
+    public $filter_author_id;
+
+    public $filter_created_at_from;
+    public $filter_created_at_to;
+    public $filter_elapsed_time_x_days;
+    public $filter_state;
+    public $filter_case_number;
+    public $filter_smart_search_type = self::FILTER_SMART_SEARCH_EXACT;
+    public $filter_smart_search_text;
 
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
-            [['id', 'infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id'], 'integer'],
-            [['lat', 'lng', 'license', 'comments', 'user_plea_request'], 'safe'],
-            [['created_at'], 'date'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return ArrayHelper::merge(parent::attributeLabels(), [
-            'author' => $this->getAuthorLabelByRole(Yii::$app->user->role->name)
+        return ArrayHelper::merge(parent::rules(), [
+            [[
+                'filter_created_at',
+                'filter_status',
+                'filter_author_id',
+                'filter_created_at_from',
+                'filter_created_at_to',
+                'filter_elapsed_time_x_days',
+                'filter_state',
+                'filter_case_number',
+                'filter_smart_search_type',
+                'filter_smart_search_text',
+            ], 'integer'],
         ]);
-    }
-
-    public function getAuthorLabelByRole($role)
-    {
-        switch ($role) {
-            case Role::ROLE_VIDEO_ANALYST:
-            case Role::ROLE_SYSTEM_ADMINISTRATOR:
-            case Role::ROLE_PRINT_OPERATOR:
-                return Yii::t('app', 'Uploaded By');
-                break;
-            case Role::ROLE_POLICE_OFFICER:
-                return Yii::t('app', 'Reviewed By');
-        }
     }
 
     /**
@@ -84,7 +63,9 @@ class Record extends \app\models\Record
      */
     public function search($params)
     {
-        $query = RecordSearch::find()
+        $this->setAttributes($params);
+
+        $query = static::find()
             ->select([
                 'id' => 'record.id',
                 'license' => 'record.license',
@@ -93,71 +74,223 @@ class Record extends \app\models\Record
                 'state_id' => 'record.state_id',
                 'infraction_date' => 'record.infraction_date',
                 'created_at' => 'record.created_at',
-
                 'author_id' => 'StatusHistory.author_id',
-
                 'author' => self::SQL_SELECT_AUTHOR,
                 'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
             ])
-            ->from(['record' => static::tableName()])
+            ->from(['record' => self::tableName()])
             ->joinWith([
                 'statusHistory' => function (ActiveQuery $query) {
                     $query->joinWith('author');
                 },
             ]);
 
-        $dataProvider = new ActiveDataProvider([
+        $provider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'attributes' => [
-                    'id',
-                    'created_at',
-                    'author',
-                    'infraction_date',
-                    'license',
-                    'elapsedTime',
-                ],
-                'defaultOrder' => ['created_at' => SORT_DESC]
-            ],
             'pagination' => [
                 'pageSize' => self::settings()->get('search.page.size')
             ]
         ]);
 
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'state_id' => $this->state_id,
-            'infraction_date' => $this->infraction_date,
-            'record.created_at' => $this->created_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'license', $this->license])
-            ->andFilterWhere(['like', 'lat', $this->lat])
-            ->andFilterWhere(['like', 'lng', $this->lng]);
-
-//        $query->andFilterWhere(['like', self::SQL_SELECT_ELAPSED_TIME, $this->elapsedTime]);
-
-        if ($statuses = $this->getAvailableStatuses()) {
+        if ($statuses = $this->filterByAvailableStatuses()) {
             $query->andFilterWhere(['in', 'status_id', $statuses]);
+        } else {
+            $query->andFilterWhere(['status_id' => 0]);
+            return $provider;
         }
 
-        return $dataProvider;
+        // basic filters
+
+        if (!empty($this->filter_author_id)) {
+            $this->filterByAuthorID($query, $this->filter_author_id);
+        }
+
+        if (!empty($this->filter_created_at)) {
+            $this->filterByCreatedAt($query, $this->filter_created_at, $params['X']);
+        }
+
+        if (!empty($this->filter_status)) {
+            $this->filterByStatus($query, $this->filter_status);
+        }
+
+        // advanced filters
+
+        if (!empty($this->filter_created_at_from) || !empty($this->filter_created_at_to)) {
+            $this->filterByCreatedAtRange($query, $this->filter_created_at_from, $this->filter_created_at_to);
+        }
+
+        if (!empty($this->filter_elapsed_time_x_days)) {
+            $this->filterByCreatedAtDaysAgo($query, $this->filter_elapsed_time_x_days);
+        }
+
+        if (!empty($this->filter_state)) {
+            $this->filterByRecordState($query, $this->filter_state);
+        }
+
+        if (!empty($this->filter_case_number)) {
+            $this->filterByCaseNumber($query, $this->filter_case_number);
+        }
+
+//        if (!empty($this->filter_smart_search_type) && !empty($this->filter_smart_search_type)) {
+//            $this->filterByCreatedAtRange($query, $this->filter_smart_search_type, $this->filter_smart_search_type);
+//        }
+
+        return $provider;
+    }
+
+    // basic filters
+
+    protected function filterByAuthorID(QueryInterface &$query, $author_id)
+    {
+        $query->andWhere([StatusHistory::tableName() . '.author_id' => $author_id]);
+    }
+
+    protected function filterByStatus(QueryInterface &$query, $filter)
+    {
+        $statuses = [];
+        if (in_array(self::FILTER_STATUS_INCOMPLETE, $filter)) {
+            $statuses[] = Status::INCOMPLETE;
+        }
+        if (in_array(self::FILTER_STATUS_COMPLETE, $filter)) {
+            $statuses[] = Status::COMPLETE;
+            $statuses[] = Status::FULL_COMPLETE;
+        }
+        if (in_array(self::FILTER_STATUS_VIEWED, $filter)) {
+            $statuses[] = Status::VIEWED_RECORD;
+        }
+        if (in_array(self::FILTER_STATUS_DETERMINED, $filter)) {
+            $statuses[] = Status::APPROVED_RECORD;
+            $statuses[] = Status::REJECTED_RECORD;
+        }
+
+        $query->andFilterWhere(['in', 'status_id', $statuses]);
+    }
+
+    protected function filterByCreatedAt(QueryInterface &$query, $filter, $days_ago)
+    {
+        if (!array_key_exists($filter, $this->getCreatedAtFilters())) {
+            return false;
+        }
+
+        switch ($filter) {
+            case self::FILTER_CREATED_AT_TODAY:
+                $query->andFilterWhere(['>', 'record.created_at', strtotime('midnight')]);
+                break;
+            case self::FILTER_CREATED_AT_LAST_3_DAYS:
+                $query->andFilterWhere(['>', 'record.created_at', strtotime('-3 days')]);
+                break;
+            case self::FILTER_CREATED_AT_LAST_X_DAYS:
+                if (!is_numeric($days_ago) || $days_ago <= 0 || $days_ago > self::MAX_DAYS_AGO) {
+                    return false;
+                }
+                $query->andFilterWhere(['>', 'record.created_at', strtotime('-' . $days_ago . ' days')]);
+                break;
+        }
+    }
+
+    // advanced filters
+
+    protected function filterByCreatedAtRange(QueryInterface &$query, $from, $to)
+    {
+        switch(true){
+            case !empty($from) && !empty($to):
+                $query->andFilterWhere(['between', 'record.created_at', strtotime($from), strtotime($to)]);
+                break;
+            case !empty($from):
+                $query->andFilterWhere(['>=', 'record.created_at', strtotime($from)]);
+                break;
+            case !empty($to):
+                $query->andFilterWhere(['<=', 'record.created_at', strtotime($to)]);
+                break;
+        }
+    }
+
+    protected function filterByCreatedAtDaysAgo(QueryInterface &$query, $days_ago)
+    {
+        if (!is_numeric($days_ago) || $days_ago <= 0 || $days_ago > self::MAX_DAYS_AGO) {
+            return false;
+        }
+
+        return $query->andFilterWhere(['>', 'record.created_at', strtotime('-' . $days_ago . ' days')]);
+    }
+
+    protected function filterByRecordState(QueryInterface &$query, $status_id)
+    {
+        $query->andFilterWhere(['status_id' => $status_id]);
+    }
+
+    protected function filterByCaseNumber(QueryInterface &$query, $record_id)
+    {
+        $query->andWhere(['record.id' => $record_id]);
     }
 
     /**
      * @return array
      */
+    public function filterByAvailableStatuses()
+    {
+        if (!$this->statuses) {
+            $this->statuses = array_intersect(
+                $this->getAvailableStatuses(),
+                self::record()->getAvailableStatuses()
+            );
+        }
+
+        return $this->statuses;
+    }
+
+    // implemented methods
+
+    public function getCreatedAtFilters()
+    {
+        return [];
+    }
+
+    public function getStatusFilters($action)
+    {
+        return [];
+    }
+
+    public function getAuthorFilters()
+    {
+        return [];
+    }
+
+    public function getSmartSearchTypes()
+    {
+        return [];
+    }
+
+    public function getRecordStatuses()
+    {
+        return [];
+    }
+
     public function getAvailableStatuses()
     {
-        return self::record()->getAvailableStatuses();
+        return [];
+    }
+
+    // private methods
+
+    /**
+     * @return array|StatusHistory[]
+     */
+    protected function getHistory()
+    {
+        return StatusHistory::find()
+            ->select(['sh.author_id', 'u.id', 'u.pre_name', 'u.first_name', 'u.last_name'])
+            ->from(StatusHistory::tableName() . ' sh')
+            ->joinWith([
+                'record' => function (ActiveQuery $query) {
+                    $query->from(self::tableName() . ' r');
+                },
+                'author' => function (ActiveQuery $query) {
+                    $query->from(User::tableName() . ' u');
+                },
+            ])
+            ->where(['in', 'r.status_id', $this->getAvailableStatuses()])
+            ->all();
     }
 
     /**
@@ -171,7 +304,7 @@ class Record extends \app\models\Record
     /**
      * @return Settings
      */
-    private static function settings()
+    protected static function settings()
     {
         return Yii::$app->settings;
     }
