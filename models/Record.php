@@ -78,6 +78,14 @@ class Record extends base\Record
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['record_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getFiles()
     {
         return $this->hasMany(File::className(), ['record_id' => 'id']);
@@ -145,6 +153,15 @@ class Record extends base\Record
     public function getStatus()
     {
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
+    }
+
+    /**
+     * @return $this
+     */
+    public function getStatusHistory()
+    {
+        return $this->hasOne(StatusHistory::className(), ['record_id' => 'id', 'status_code' => 'status_id'])
+            ->orderBy([StatusHistory::tableName() . '.created_at' => SORT_DESC]);
     }
 
 }

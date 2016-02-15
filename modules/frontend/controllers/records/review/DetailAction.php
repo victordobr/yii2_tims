@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\review;
 
 use app\components\Settings;
 use app\enums\CaseStage;
@@ -11,7 +11,7 @@ use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\widgets\record\timeline\Timeline;
 use Yii;
 use app\enums\CaseStatus;
-use app\modules\frontend\models\base\Record;
+use app\models\Record;
 use app\modules\frontend\controllers\RecordsController;
 use app\modules\frontend\models\form\DeactivateForm;
 use app\modules\frontend\models\form\RequestDeactivateForm;
@@ -19,7 +19,7 @@ use yii\base\Action;
 use yii\helpers\Url;
 use app\enums\Reasons;
 
-class ReviewAction extends Action
+class DetailAction extends Action
 {
     public function init()
     {
@@ -45,7 +45,7 @@ class ReviewAction extends Action
         $this->setPageTitle($record->id);
         $this->setAside($record);
 
-        return $this->controller()->render('review', [
+        return $this->controller()->render('review/detail', [
             'model' => $record,
             'form' => $this->renderForm($record),
         ]);
@@ -137,7 +137,7 @@ class ReviewAction extends Action
      */
     private static function calculateRemainingDays(Record $record)
     {
-        $infraction_date = new \DateTime(date('Y-m-d', $record->infraction_date));
+        $infraction_date = new \DateTime($record->infraction_date);
 
         return self::settings()->get('case.lifetime') -(new \DateTime())->diff($infraction_date)->format('%a');
     }

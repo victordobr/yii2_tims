@@ -156,6 +156,8 @@ $config = [
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
+                'review' => 'frontend/records/review',
+                'review/<id:\d+>' => 'frontend/records/ReviewDetail',
                 [
                     'pattern' => '<action:(search|review|requestDeactivation|deactivate)>/<id:\d+>',
                     'route' => 'frontend/records/<action>',
@@ -216,6 +218,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
+    $config['components']['assetManager']['forceCopy'] = true;
 }
 
 return $config;
