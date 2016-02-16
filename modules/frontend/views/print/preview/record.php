@@ -3,13 +3,13 @@
  *
  */
 
-use app\helpers\TimsHelper;
+use app\helpers\GpsHelper;
 
 $this->registerJs(
     "function initialize_$model->id()
     {
 
-        var myCenter=new google.maps.LatLng(" . TimsHelper::convertDMSToDecimal($model->lat) . "," . TimsHelper::convertDMSToDecimal($model->lng) . ");
+        var myCenter=new google.maps.LatLng(" . GpsHelper::convertDMSToDecimal($model->lat) . "," . GpsHelper::convertDMSToDecimal($model->lng) . ");
 
         var mapProp = {
             center:myCenter,

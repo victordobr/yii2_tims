@@ -26,19 +26,11 @@ class Record extends base\Record
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
+            [['infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
             [['state_id', 'ticket_fee', 'status_id', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
             [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
             [['comments', 'user_plea_request'], 'string'],
-            [['lat', 'lng'], 'string', 'max' => 20],
-            [
-                ['lat', 'lng'],
-                'yii\validators\RegularExpressionValidator',
-                'pattern' => '(([0-9]{1,3})[º ]+([0-9]{1,3})[\' ]+([0-9]{1,3})[. ]+([0-9]{1,3})[" ]+([nsewNSEW]))',
-                'message' => Yii::t('app',
-                    'Incorrect format. Enter correct number, for example: 36º 13\' 49.378" E')
-            ],
             [['license'], 'string', 'max' => 250],
             [['bus_number'], 'string', 'max' => 10],
         ];
@@ -50,8 +42,6 @@ class Record extends base\Record
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'lat' => 'Latitude',
-            'lng' => 'Longitude',
             'open_date' => 'Case Open date',
             'state_id' => 'State',
             'status_id' => 'Status',
@@ -153,6 +143,14 @@ class Record extends base\Record
     {
         return $this->hasOne(StatusHistory::className(), ['record_id' => 'id', 'status_code' => 'status_id'])
             ->orderBy([StatusHistory::tableName() . '.created_at' => SORT_DESC]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocation()
+    {
+        return $this->hasOne(Location::className(), ['record_id' => 'id']);
     }
 
 }

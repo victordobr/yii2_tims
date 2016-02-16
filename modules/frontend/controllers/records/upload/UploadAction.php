@@ -6,6 +6,8 @@ use app\components\media\Media;
 use app\enums\EventNames;
 use app\enums\EvidenceFileType;
 use app\events\record\Upload as UploadEvent;
+use app\helpers\GpsHelper;
+use app\models\Location;
 use app\modules\frontend\controllers\RecordsController;
 use Yii;
 use yii\base\Action;
@@ -28,10 +30,12 @@ class UploadAction extends Action
 
         if ($recordId) {
             $model = $this->controller()->findModel(Record::className(), $recordId);
+            $location = $this->controller()->findModel(Location::className(), $recordId);
         }
         else {
             $model = new Record();
             $model->scenario = Record::SCENARIO_UPLOAD;
+            $location = new Location();
         }
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
@@ -49,6 +53,11 @@ class UploadAction extends Action
                 ]));
             }
 
+            if ($location->load($post)) {
+                $location->record_id = $model->id;
+                $this->saveLocation($location);
+            }
+
             return $this->controller()->redirect(['upload', 'id' => $model->id]);
         }
 
@@ -64,6 +73,7 @@ class UploadAction extends Action
 
         return $this->controller()->render($view, [
             'model' => $model,
+            'location' => $location,
             'handleUrl' => $handleUrl,
             'uploadUrl' => $uploadUrl,
             'dropZone' => $dropZone,
@@ -71,6 +81,16 @@ class UploadAction extends Action
             'maxChunkSize' => $maxChunkSize,
             'acceptMimeTypes' => $acceptMimeTypes,
         ]);
+    }
+
+    public function saveLocation($model) {
+        $model->lat_dd = GpsHelper::convertDDMToDecimal($model->lat_ddm);
+        $model->lng_dd = GpsHelper::convertDDMToDecimal($model->lng_ddm);
+        $model->lat_dms = GpsHelper::convertDDMToDMS($model->lat_ddm);
+        $model->lng_dms = GpsHelper::convertDDMToDMS($model->lng_ddm);
+        if ($model->validate()) {
+            $model->save();
+        }
     }
 
     public function saveRecord($model, $post)

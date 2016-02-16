@@ -37,10 +37,9 @@ class Record extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lat', 'lng', 'infraction_date', 'open_date', 'state_id', 'license', 'bus_number'], 'required'],
+            [['infraction_date', 'open_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at'], 'integer'],
             [['comments', 'user_plea_request'], 'string'],
-            [['lat', 'lng'], 'string', 'max' => 20],
             [['license'], 'string', 'max' => 250],
             [['bus_number'], 'string', 'max' => 10],
         ];
@@ -53,8 +52,6 @@ class Record extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'lat' => 'Lat',
-            'lng' => 'Lng',
             'infraction_date' => 'Infraction Date',
             'open_date' => 'Open Date',
             'state_id' => 'State ID',
@@ -76,4 +73,11 @@ class Record extends \yii\db\ActiveRecord
         return $this->hasOne(Owner::className(), ['record_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocation()
+    {
+        return $this->hasOne(Location::className(), ['record_id' => 'id']);
+    }
 }

@@ -8,7 +8,7 @@ namespace app\helpers;
  * Base helper file of the project
  * @package app\helpers
  */
-class TimsHelper
+class GpsHelper
 {
 
     /**
@@ -88,6 +88,62 @@ class TimsHelper
         if ($valid) {
             return $decimal_degrees;
         } else {
+            return false;
+        }
+    }
+
+    /**
+     * Convert DDM (degrees / decimal minutes) to decimal degrees
+     *
+     * @param string $latlng Latitude or longitude. For example $latlng = '49.59.366N'
+     * @return integer $decimal_degrees
+     */
+    public static function convertDDMToDecimal($latlng) {
+
+        $decimal_degrees = 0;
+        $degrees = 0; $minutes = 0; $seconds = 0; $direction = 1;
+
+        if (preg_match("/^(\d{1,3}).(\d{1,3}.\d{1,9})*([nsewNSEW])$/", $latlng, $matches)) {
+            $degrees = intval($matches[1]);
+            $dec_minutes = floatval($matches[2]);
+            if (strtoupper($matches[3]) == "S" || strtoupper($matches[3]) == "W")
+                $direction = -1;
+
+            $minutes = floor($dec_minutes);
+            $seconds = 60 * ($dec_minutes - $minutes);
+            $decimal_degrees = ($degrees + ($minutes / 60) + ($seconds / 3600)) * $direction;
+
+           return $decimal_degrees;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Convert DDM (degrees / decimal minutes) to DMS (degrees / minutes / seconds)
+     *
+     * @param string $latlng Latitude or longitude. For example $latlng = '49.59.366N'
+     * @return string $dms
+     */
+    public static function convertDDMToDMS($latlng) {
+
+        $decimal_degrees = 0;
+        $degrees = 0; $minutes = 0; $seconds = 0; $direction = 1;
+
+        if (preg_match("/^(\d{1,3}).(\d{1,3}.\d{1,9})*([nsewNSEW])$/", $latlng, $matches)) {
+            $degrees = intval($matches[1]);
+            $dec_minutes = floatval($matches[2]);
+            if (strtoupper($matches[3]) == "S" || strtoupper($matches[3]) == "W")
+                $direction = -1;
+
+            $minutes = floor($dec_minutes);
+            $seconds = 60 * ($dec_minutes - $minutes);
+
+            $dms = $degrees . "º " . $minutes . "' " . $seconds . "\" " . $matches[3];
+            return $dms;
+        }
+        else {
             return false;
         }
     }

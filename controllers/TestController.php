@@ -17,21 +17,10 @@ class TestController extends Controller
 
     public function actionIndex()
     {
-        $result = Log::find()->query(["match" => ["title" => "yii"]])->all(); // articles whose title contains "yii"
-
-        // http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html
-        $query = Log::find()->query([
-            "fuzzy_like_this" => [
-                "fields" => ["title", "description"],
-                "like_text" => "This query will return articles that are similar to this text :-)",
-                "max_query_terms" => 12
-            ]
-        ]);
-
-        $query->all(); // gives you all the documents
-        // you can add facets to your search:
-        $query->addStatisticalFacet('click_stats', ['field' => 'visit_count']);
-        $query->search(); // gives you all the records + stats about the visit_count field. e.g. mean, sum, min, max etc...
+//        $dms = "49º 02' 39.72\" N";
+        $ddm = "49.2.66200N";
+        $decimal = \app\helpers\GpsHelper::convertDDMToDMS($ddm);
+        \app\base\Module::pa($decimal,1);
     }
 
     public function actionPut()
