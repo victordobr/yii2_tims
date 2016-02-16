@@ -66,19 +66,7 @@ class SearchAction extends Action
 
     private function setPageTitle()
     {
-        $title = '';
-        switch (Yii::$app->user->role->name) {
-            case Role::ROLE_VIDEO_ANALYST:
-            case Role::ROLE_SYSTEM_ADMINISTRATOR:
-            case Role::ROLE_PRINT_OPERATOR:
-                $title = Yii::t('app', 'Search Panel - List of uploaded cases');
-                break;
-            case Role::ROLE_POLICE_OFFICER:
-                $title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
-                break;
-        }
-
-        return $this->controller()->view->title = $title;
+        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');;
     }
 
     /**

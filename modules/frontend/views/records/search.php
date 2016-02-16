@@ -8,7 +8,8 @@ use yii\helpers\Url;
 use \yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\icons\Icon;
-use kartik\grid\GridView;
+use app\widgets\base\GridView;
+use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
 ?>
 
@@ -27,14 +28,16 @@ use kartik\grid\ActionColumn;
         <?= GridView::widget([
             'id' => 'record-grid-search',
             'dataProvider' => $dataProvider,
-            'summary' => Yii::t('app', '<div class="summary">Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{record} other{records}}.</div>'),
             'columns' => [
-                'id',
+                [
+                    'class' => SerialColumn::className(),
+                ],
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
                     'attribute' => 'infraction_date',
                     'format' => 'date',
                 ],
+                'id',
                 'license',
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
@@ -53,7 +56,7 @@ use kartik\grid\ActionColumn;
                         'review' => function ($url, $model) {
                             return Html::a(
                                 Icon::show('eye', ['class' => 'fa-lg']),
-                                Url::to(['review', 'id' => $model->id]),
+                                Url::to(['ReviewDetail', 'id' => $model->id]),
                                 ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                             );
                         },
