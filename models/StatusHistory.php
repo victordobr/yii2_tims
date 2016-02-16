@@ -20,10 +20,8 @@ use Yii;
  * @property Record $record
  * @property User $author
  */
-class StatusHistory extends \yii\db\ActiveRecord
+class StatusHistory extends \app\models\base\StatusHistory
 {
-    private $reason;
-
     /**
      * @inheritdoc
      */

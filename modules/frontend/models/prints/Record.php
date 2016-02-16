@@ -90,11 +90,19 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
      */
     public function getAvailableStatuses()
     {
-        return [
-            Status::DMV_DATA_RETRIEVED_COMPLETE,
-            Status::DMV_DATA_RETRIEVED_INCOMPLETE,
-            Status::OVERDUE_P1,
-        ];
+        switch (Yii::$app->controller->action->id) {
+            case 'qc':
+                return [
+                    Status::PRINTED_P1,
+                    Status::PRINTED_P2,
+                ];
+            default:
+                return [ // index
+                    Status::DMV_DATA_RETRIEVED_COMPLETE,
+                    Status::DMV_DATA_RETRIEVED_INCOMPLETE,
+                    Status::OVERDUE_P1,
+                ];
+        }
     }
 
     public function getCreatedAtFilters()
@@ -135,14 +143,13 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         }
     }
 
-    public function getAuthorFilters()
-    {
-        return [];
-    }
-
     public function getSmartSearchTypes()
     {
-        return [];
+        return [
+            self::FILTER_SMART_SEARCH_EXACT => Yii::t('app', 'Exact'),
+            self::FILTER_SMART_SEARCH_PARTIAL => Yii::t('app', 'Partial'),
+            self::FILTER_SMART_SEARCH_WILDCARD => Yii::t('app', 'Wildcard'),
+        ];
     }
 
     public function getRecordStatuses()
