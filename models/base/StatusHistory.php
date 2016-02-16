@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $record_id
  * @property integer $author_id
- * @property string $officer_pin
  * @property integer $status_code
  * @property integer $created_at
  * @property integer $expired_at
@@ -22,8 +21,6 @@ use Yii;
  */
 class StatusHistory extends \yii\db\ActiveRecord
 {
-    const OFFICER_PIN_LENGTH = 6;
-
     /**
      * @inheritdoc
      */
@@ -40,7 +37,6 @@ class StatusHistory extends \yii\db\ActiveRecord
         return [
             [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
             [['record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
-            [['officer_pin'], 'string', 'max' => self::OFFICER_PIN_LENGTH]
         ];
     }
 

@@ -245,7 +245,7 @@ class Record extends Component
         }
     }
 
-    public function approveViolation($id, $user_id, $officer_pin)
+    public function approveViolation($id, $user_id)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -266,7 +266,6 @@ class Record extends Component
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => $user_id,
-                'officer_pin' => $officer_pin,
                 'status_code' => Status::APPROVED_RECORD,
                 'created_at' => time()
             ]);
@@ -282,7 +281,7 @@ class Record extends Component
         }
     }
 
-    public function rejectViolation($id, $user_id, $officer_pin,  $code, $description)
+    public function rejectViolation($id, $user_id,  $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -302,7 +301,6 @@ class Record extends Component
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => $user_id,
-                'officer_pin' => $officer_pin,
                 'status_code' => Status::REJECTED_RECORD,
                 'created_at' => time()
             ]);

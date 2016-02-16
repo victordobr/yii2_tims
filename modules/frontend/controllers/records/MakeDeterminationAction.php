@@ -36,8 +36,8 @@ class MakeDeterminationAction extends Action
         if ($form->validate()) {
             $user = Yii::$app->user;
             $success = $form->isRejectAction() ?
-                self::record()->rejectViolation($record->id, $user->id, $form->officer_pin, $form->code, $form->description) :
-                self::record()->approveViolation($record->id, $user->id, $form->officer_pin);
+                self::record()->rejectViolation($record->id, $user->id, $form->code, $form->description) :
+                self::record()->approveViolation($record->id, $user->id);
             if ($success) {
                 return $controller->redirect(['search']);
             }
