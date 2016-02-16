@@ -50,6 +50,7 @@ use kartik\grid\ActionColumn;
                     'attribute' => 'elapsedTime',
                 ],
                 [
+                    'header' => Html::a(Icon::show('refresh', ['class' => 'fa-lg']), '#', ['class' => 'grid-view-refresh', 'title' => Yii::t('app', 'refresh grid')]),
                     'class' => ActionColumn::className(),
                     'template'=>'{review}',
                     'buttons'=>[
