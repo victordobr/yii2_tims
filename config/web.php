@@ -158,6 +158,7 @@ $config = [
                 'logout' => 'auth/default/logout',
                 // search
                 'search' => 'frontend/records/search',
+                'search/<id:\d+>' => 'frontend/records/SearchDetail',
                 // review
                 'review' => 'frontend/records/review',
                 'review/<id:\d+>' => 'frontend/records/ReviewDetail',
