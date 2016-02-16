@@ -3,13 +3,15 @@
 use app\widgets\base\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model \app\modules\frontend\models\base\Record */
+/* @var $model \app\models\Record */
 /* @var $form string */
 /* @var $formatter \app\helpers\Formatter */
 
 $user = Yii::$app->user;
 $formatter = Yii::$app->formatter;
+
 ?>
+
 <div class="police-case-view">
 
     <div class="col-xs-12">
@@ -24,12 +26,10 @@ $formatter = Yii::$app->formatter;
                     'attributes' => [
                         [
                             'label' => Yii::t('app', 'Date case opened'),
-                            'format' => 'raw',
-                            'value' => $formatter->asDatetime($model->open_date)
+                            'attribute' => 'created_at',
                         ],
                         [
                             'label' => Yii::t('app', 'Case opened by'),
-                            'format' => 'raw',
                             'value' => $model->statusHistory->author->getFullName()
                         ],
                         [
@@ -62,7 +62,7 @@ $formatter = Yii::$app->formatter;
                                     'value' => 'to-do'
                                 ]
                             ],
-                            'footer' => $this->render('../partials/evidence', ['model' => $model])
+                            'footer' => $this->render('../../partials/evidence', ['model' => $model])
                         ]) ?>
 
             </div>

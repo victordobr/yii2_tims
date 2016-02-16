@@ -2,7 +2,6 @@
 /**
  * @var $this \yii\web\View
  * @var $model \app\modules\frontend\models\search\Record
- * @var $filters array
  */
 
 use kartik\form\ActiveForm;
@@ -19,7 +18,7 @@ use yii\helpers\ArrayHelper;
     'options' => ['data-pjax' => true]
 ]); ?>
 
-<?php if (!empty($filters['created_at'])): ?>
+<?php if ($created = $model->getCreatedAtFilters()): ?>
 
     <div class="row">
         <?= Form::widget([
@@ -34,7 +33,7 @@ use yii\helpers\ArrayHelper;
                         'filter_created_at' => [
                             'label' => null,
                             'type' => Form::INPUT_RADIO_LIST,
-                            'items' => $model->getCreatedAtFilters(),
+                            'items' => $created,
                             'options' => [
                                 'item' => function ($index, $label, $name, $checked, $value) {
                                     return Html::tag('div',
@@ -43,8 +42,6 @@ use yii\helpers\ArrayHelper;
                                             'class' => 'search-filter-list-label input-group-sm'
                                         ]), ['class' => 'radio']);
                                 },
-                            ],
-                            'columnOptions' => [
                             ],
                         ],
                     ]
@@ -55,7 +52,7 @@ use yii\helpers\ArrayHelper;
 
 <?php endif; ?>
 
-<?php if (!empty($filters['statuses'])): ?>
+<?php if ($statuses = $model->getStatusFilters(Yii::$app->controller->action->id)): ?>
 
     <div class="row">
         <?= Form::widget([
@@ -68,7 +65,7 @@ use yii\helpers\ArrayHelper;
                     'attributes' => [
                         'filter_status' => [
                             'type' => Form::INPUT_CHECKBOX_LIST,
-                            'items' => ArrayHelper::map($filters['statuses'], 'value', 'label'),
+                            'items' => ArrayHelper::map($statuses, 'value', 'label'),
                             'options' => [
                                 'item' => function ($index, $label, $name, $checked, $value) {
                                     return Html::tag('div',
@@ -87,7 +84,7 @@ use yii\helpers\ArrayHelper;
 
 <?php endif; ?>
 
-<?php if (!empty($filters['authors'])): ?>
+<?php if ($authors = $model->getAuthorFilters()): ?>
     <div class="row">
         <?= Form::widget([
             'id' => 'filter-record-state',
@@ -96,14 +93,17 @@ use yii\helpers\ArrayHelper;
             'columns' => 1,
             'attributes' => [
                 [
-                    'label' => Yii::t('app', 'Uploaded by'),
+                    'label' => $model->getAttributeLabel('filter_author_id'),
                     'labelOptions' => ['class' => 'search-filter-label'],
                     'columns' => 1,
                     'attributes' => [
                         'filter_author_id' => [
                             'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'type' => Form::INPUT_DROPDOWN_LIST,
-                            'items' => $filters['authors'],
+                            'items' => $authors,
+                            'options' => [
+                                'prompt' => Yii::t('app', 'Officer name / ID')
+                            ],
                         ],
                     ]
                 ]

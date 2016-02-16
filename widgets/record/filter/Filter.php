@@ -28,11 +28,6 @@ class Filter extends Widget
     {
         return $this->render('index', [
             'advanced' => $this->advanced_mode,
-            'filters' => [
-                'created_at' => $this->model->getCreatedAtFilters(),
-                'statuses' => $this->model->getStatusFilters(Yii::$app->controller->action->id),
-                'authors' => $this->model->getAuthorFilters(),
-            ],
             'model' => $this->model
         ]);
     }

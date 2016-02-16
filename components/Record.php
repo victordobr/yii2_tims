@@ -519,6 +519,32 @@ class Record extends Component
                     Status::FULL_COMPLETE,
                     Status::VIEWED_RECORD
                 ];
+            case Role::ROLE_ROOT_SUPERUSER:
+                return [
+                    Status::INCOMPLETE,
+                    Status::COMPLETE,
+                    Status::FULL_COMPLETE,
+                    Status::VIEWED_RECORD,
+                    Status::AWAITING_DEACTIVATION,
+                    Status::DEACTIVATED_RECORD,
+                    Status::APPROVED_RECORD,
+                    Status::APPROVED_RECORD_2021,
+                    Status::QUERY_SUBMITTED,
+                    Status::REJECTED_RECORD,
+                    Status::REJECTED_RECORD_2031,
+                    Status::DMV_DATA_RETRIEVED_COMPLETE,
+                    Status::DMV_DATA_RETRIEVED_INCOMPLETE,
+                    Status::DMV_DATA_RETRIEVED_INCOMPLETE_CRITICAL,
+                    Status::DMV_DATA_CORRUPT,
+                    Status::DMV_DATA_NOT_AVAILABLE,
+                    Status::DMV_DATA_MULTIPLE_MATCH,
+                    Status::PRINTED_P1,
+                    Status::PRINTED_P2,
+                    Status::VIEWED_RECORD_P1,
+                    Status::VIEWED_RECORD_P2,
+                    Status::PRINTED_P1,
+                    Status::PAID,
+                ];
         }
 
         return [];

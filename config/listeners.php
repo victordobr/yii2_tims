@@ -1,11 +1,11 @@
 <?php
-use app\enums\EventNames as Event;
+use app\enums\EventNames;
 use yii\web\User;
 use yii\db\ActiveRecord;
 use app\models\StatusHistory;
 
 return [
-    Event::UPLOAD_SUCCESS => [
+    EventNames::UPLOAD_SUCCESS => [
         ['\app\components\Record', 'setStatusCompleted'],
     ],
 

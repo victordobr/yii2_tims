@@ -52,10 +52,12 @@ class Module extends \app\base\Module  implements MenuInterface
 
     public static function getMenuItems()
     {
+        $action = Yii::$app->controller->action->id;
+
         return [
             ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
             ['encode' => false, 'label' => Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/frontend/records/search']],
-            ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/records/review']],
+            ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/frontend/records/review'], 'active' => in_array($action, ['review', 'ReviewDetail'])],
             ['encode' => false, 'label' => Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => ['/frontend/print/index'], 'active' => Yii::$app->controller->id == 'print'],
             ['encode' => false, 'label' => Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => false, 'options' => ['class' => 'disabled']],
             ['encode' => false, 'label' => Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => false, 'options' => ['class' => 'disabled']],

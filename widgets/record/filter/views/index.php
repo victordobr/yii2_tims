@@ -1,9 +1,8 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $model \app\modules\frontend\models\search\Record
+ * @var $model \app\modules\frontend\models\base\RecordFilter
  * @var $advanced bool
- * @var $filters array
  */
 
 use kartik\icons\Icon;
@@ -24,10 +23,7 @@ use kartik\icons\Icon;
             <?php endif; ?>
 
             <div class="panel-section<?= !$advanced ? '' : ' hide' ?>">
-                <?= $this->render('form/basic', [
-                    'model' => $model,
-                    'filters' => $filters,
-                ]); ?>
+                <?= $this->render('form/basic', ['model' => $model,]); ?>
             </div>
 
             <?php if ($advanced): ?>
@@ -36,10 +32,7 @@ use kartik\icons\Icon;
                 </div>
 
                 <div class="panel-section">
-                    <?= $this->render('form/advanced', [
-                        'model' => $model,
-                        'filters' => $filters,
-                    ]); ?>
+                    <?= $this->render('form/advanced', ['model' => $model,]); ?>
                 </div>
             <?php endif; ?>
 
