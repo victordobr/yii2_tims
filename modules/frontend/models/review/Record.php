@@ -15,6 +15,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'Case Number #'),
             'filter_author_id' => Yii::t('app', 'Reviewed By'),
+            'author' => Yii::t('app', 'Reviewed By'),
             'created_at' => Yii::t('app', 'Uploaded Date'),
             'license' => Yii::t('app', 'Vehicle Tag #'),
             'elapsedTime' => Yii::t('app', 'Elapsed Time'),

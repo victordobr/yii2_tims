@@ -2,7 +2,7 @@
 namespace app\modules\frontend\models\base;
 
 use app\components\Settings;
-use app\models\base\StatusHistory;
+use app\models\StatusHistory;
 use app\models\base\User;
 use Yii;
 use yii\db\ActiveQuery;

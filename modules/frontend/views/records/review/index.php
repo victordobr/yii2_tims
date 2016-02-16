@@ -8,7 +8,7 @@ use yii\helpers\Url;
 use \yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\icons\Icon;
-use kartik\grid\GridView;
+use app\widgets\base\GridView;
 use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
 ?>
