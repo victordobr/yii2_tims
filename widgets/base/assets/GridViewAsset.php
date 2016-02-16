@@ -11,7 +11,9 @@ class GridViewAsset extends AssetBundle
     public $sourcePath = '@app/widgets/base';
 
     public $js = [
+        'js/grid-view.js'
     ];
+
     public $css = [
         'css/grid-view.css',
     ];
