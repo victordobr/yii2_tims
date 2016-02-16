@@ -61,7 +61,7 @@ class Log extends Component
     {
         $listStatus = CaseStatus::listMainText();
         $user = User::find()->where(['id' => $event->sender->author_id])->one();
-        if ($event->sender->status_code == 1020) {
+        if ($event->sender->status_code == CaseStatus::COMPLETE) {
             $description = Yii::t('app','Record #{record_id}: changed status to \'{status}\', by user {username}', [
                 'record_id' => $event->sender->record_id,
                 'status' => $listStatus[$event->sender->status_code],
@@ -70,9 +70,10 @@ class Log extends Component
         }
         else {
             $statusHistory = StatusHistory::find()
-                ->where(['author_id' => $event->sender->author_id, 'record_id' => $event->sender->record_id])
+                ->where(['record_id' => $event->sender->record_id])
                 ->addOrderBy(['created_at' => SORT_DESC])
                 ->one();
+
             $description = Yii::t('app','Record #{record_id}: changed status from \'{status1}\' to \'{status2}\' , by user {username}', [
                 'record_id' => $event->sender->record_id,
                 'status1' => $listStatus[$statusHistory->status_code],
