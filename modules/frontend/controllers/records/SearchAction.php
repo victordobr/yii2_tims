@@ -46,7 +46,7 @@ class SearchAction extends Action
     }
 
     /**
-     * @param RecordSearch $model
+     * @param Record $model
      * @param bool $advanced_mode
      * @return string
      * @throws \Exception
@@ -66,7 +66,7 @@ class SearchAction extends Action
 
     private function setPageTitle()
     {
-        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');;
+        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');
     }
 
     /**

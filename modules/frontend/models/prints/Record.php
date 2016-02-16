@@ -12,24 +12,12 @@ use yii\helpers\Html;
 
 class Record extends \app\modules\frontend\models\base\Record implements RecordFilter
 {
-    const FILTER_CREATED_AT_TODAY = 1;
-    const FILTER_CREATED_AT_LAST_3_DAYS = 2;
-    const FILTER_CREATED_AT_LAST_X_DAYS = 3;
-    const FILTER_CREATED_ALL = 4;
-
-    const FILTER_STATUS_DISABLED = 0;
-    const FILTER_STATUS_PRINT_P1 = 1;
-    const FILTER_STATUS_PRINT_P2 = 2;
-    const FILTER_STATUS_PENDING_PRINT_P1 = 3;
-
-    public $filter_created_at = self::FILTER_CREATED_ALL;
-    public $filter_status = self::FILTER_STATUS_DISABLED;
 
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'Case Number #'),
-            'status_id' => Yii::t('app', 'Status'),
+            'status_id' => Yii::t('app', 'Case Status'),
             'created_at' => Yii::t('app', 'Uploaded Date'),
             'license' => Yii::t('app', 'Vehicle Tag #'),
             'elapsedTime' => Yii::t('app', 'Elapsed Time'),
@@ -41,21 +29,28 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         $provider = parent::search($params);
         $query = $provider->query;
 
-        $query->addSelect(['status_id' => 'record.status_id']);
-        $provider->sort->attributes = array_merge($provider->sort->attributes, [
-            'status_id' => [
-                'asc' => ['status_id' => SORT_ASC],
-                'desc' => ['status_id' => SORT_DESC],
-            ]
+        $query->select([
+            'id' => 'record.id',
+            'infraction_date' => 'record.infraction_date',
+            'license' => 'record.license',
+            'status_id' => 'record.status_id',
+            'created_at' => 'record.created_at',
+            'author' => self::SQL_SELECT_AUTHOR,
+            'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
         ]);
 
-        if (!empty($params['filter_created_at'])) {
-            $this->filterByInfractionDate($query, $params['filter_created_at'], $params['X']);
-        }
-
-        if (!empty($params['filter_status'])) {
-            $this->filterByStatus($query, $params['filter_status']);
-        }
+        $provider->setSort([
+            'attributes' => [
+                'id',
+                'infraction_date',
+                'license',
+                'status_id',
+                'created_at',
+                'author',
+                'elapsedTime'
+            ],
+            'defaultOrder' => ['created_at' => SORT_ASC],
+        ]);
 
         return $provider;
     }
@@ -90,46 +85,21 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         return $provider;
     }
 
-    private function filterByStatus(QueryInterface &$query, $filter)
+    /**
+     * @return array
+     */
+    public function getAvailableStatuses()
     {
-        $statuses = [];
-        if (in_array(self::FILTER_STATUS_PRINT_P1, $filter)) {
-            $statuses[] = Status::DMV_DATA_RETRIEVED_COMPLETE;
-            $statuses[] = Status::DMV_DATA_RETRIEVED_INCOMPLETE;
-        }
-        if (in_array(self::FILTER_STATUS_PRINT_P2, $filter)) {
-            $statuses[] = Status::QC_BAD_P1;
-        }
-        if (in_array(self::FILTER_STATUS_PENDING_PRINT_P1, $filter)) {
-            $statuses[] = Status::PRINTED_P1;
-        }
-        if (!empty($statuses)) {
-            $query->andFilterWhere(['in', 'status_id', $statuses]);
-        }
-    }
-
-    private function filterByInfractionDate(QueryInterface &$query, $filter, $days_ago)
-    {
-        if (!array_key_exists($filter, $this->getCreatedAtFilters())) {
-            return false;
-        }
-
-        switch ($filter) {
-            case self::FILTER_CREATED_AT_TODAY:
-                return $query->andFilterWhere(['>', 'record.created_at', strtotime('midnight')]);
-            case self::FILTER_CREATED_AT_LAST_3_DAYS:
-                return $query->andFilterWhere(['>', 'record.created_at', strtotime('-3 days')]);
-            case self::FILTER_CREATED_AT_LAST_X_DAYS:
-                if (!is_numeric($days_ago) || $days_ago <= 0 || $days_ago > 366) {
-                    return false;
-                }
-                return $query->andFilterWhere(['>', 'record.created_at', strtotime('-' . $days_ago . ' days')]);
-        }
+        return [
+            Status::DMV_DATA_RETRIEVED_COMPLETE,
+            Status::DMV_DATA_RETRIEVED_INCOMPLETE,
+            Status::OVERDUE_P1,
+        ];
     }
 
     public function getCreatedAtFilters()
     {
-        $input = Html::input('text', 'Record[X]', '', ['maxlength' => 3]);
+        $input = Html::input('text', 'Record[X]', '', ['class' => 'form-control input-in-text', 'maxlength' => 3]);
 
         return  [
             self::FILTER_CREATED_AT_TODAY => Yii::t('app', 'Today'),
@@ -165,28 +135,19 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAuthorFilters()
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getSmartSearchTypes()
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getRecordStatuses()
     {
-        return [];
+        return Status::listCodeDescription();
     }
 
 }

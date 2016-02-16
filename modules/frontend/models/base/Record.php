@@ -162,6 +162,16 @@ class Record extends \app\models\base\Record implements RecordFilter
             $statuses[] = Status::APPROVED_RECORD;
             $statuses[] = Status::REJECTED_RECORD;
         }
+        if (in_array(self::FILTER_STATUS_PRINT_P1, $filter)) {
+            $statuses[] = Status::DMV_DATA_RETRIEVED_COMPLETE;
+            $statuses[] = Status::DMV_DATA_RETRIEVED_INCOMPLETE;
+        }
+        if (in_array(self::FILTER_STATUS_PRINT_P2, $filter)) {
+            $statuses[] = Status::QC_BAD_P1;
+        }
+        if (in_array(self::FILTER_STATUS_PENDING_PRINT_P1, $filter)) {
+            $statuses[] = Status::PRINTED_P1;
+        }
 
         $query->andFilterWhere(['in', 'status_id', $statuses]);
     }
