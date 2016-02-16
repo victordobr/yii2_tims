@@ -24,7 +24,8 @@ use kartik\grid\ActionColumn;
             'formSelector' => join(',', [
                 '#form-record-search-filter-basic',
                 '#form-record-search-filter-advanced'
-            ])
+            ]),
+            'options' => ['class' => 'wrapper-grid-view',]
         ]); ?>
 
         <?= GridView::widget([

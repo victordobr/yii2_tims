@@ -17,14 +17,14 @@ use kartik\grid\ActionColumn;
 
     <div class="white-background">
 
-        <?php
-        Pjax::begin([
+        <?php Pjax::begin([
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
-            'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
-        ]);
-        ?>
+            'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced',
+            'options' => ['class' => 'wrapper-grid-view',]
+        ]); ?>
+
         <?= GridView::widget([
             'id' => 'record-grid-search',
             'dataProvider' => $dataProvider,
