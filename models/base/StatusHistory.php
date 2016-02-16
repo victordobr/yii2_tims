@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\base;
 
 use Yii;
 
@@ -20,8 +20,10 @@ use Yii;
  * @property Record $record
  * @property User $author
  */
-class StatusHistory extends \app\models\base\StatusHistory
+class StatusHistory extends \yii\db\ActiveRecord
 {
+    const OFFICER_PIN_LENGTH = 6;
+
     /**
      * @inheritdoc
      */
@@ -38,7 +40,7 @@ class StatusHistory extends \app\models\base\StatusHistory
         return [
             [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
             [['record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
-            [['officer_pin'], 'string', 'max' => 16]
+            [['officer_pin'], 'string', 'max' => self::OFFICER_PIN_LENGTH]
         ];
     }
 
@@ -63,14 +65,6 @@ class StatusHistory extends \app\models\base\StatusHistory
     public function getReason()
     {
         return $this->hasOne(Reason::className(), ['status_history_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getStatusCode()
-    {
-        return $this->hasOne(CaseStatus::className(), ['id' => 'status_code']);
     }
 
     /**

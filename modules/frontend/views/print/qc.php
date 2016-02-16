@@ -7,7 +7,9 @@
 
 use \yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\grid\GridView;
+use app\widgets\base\GridView;
+use kartik\grid\CheckboxColumn;
+use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
 use yii\widgets\Pjax;
 
@@ -19,7 +21,7 @@ use yii\widgets\Pjax;
         'id' => 'pjax-print-qc',
         'timeout' => false,
         'enablePushState' => false,
-        'formSelector' => '#form-record-search-filter'
+        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
     ]); ?>
 
     <div class="row">
@@ -32,17 +34,29 @@ use yii\widgets\Pjax;
         'id' => 'grid-print-qc',
         'dataProvider' => $dataProvider,
         'columns' => [
+            ['class' => CheckboxColumn::className()],
+            ['class' => SerialColumn::className()],
             [
-                'class' => 'kartik\grid\CheckboxColumn',
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'infraction_date',
+                'format' => 'datetime',
             ],
             [
-                'class' => 'yii\grid\SerialColumn',
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'id',
             ],
-            'infraction_date:datetime',
-            'id',
-            'license',
-            'status_id',
-            'elapsedTime',
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'license',
+            ],
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'status_id',
+            ],
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'elapsedTime',
+            ],
             [
                 'class' => ActionColumn::className(),
                 'template' => '{review}',
@@ -50,7 +64,7 @@ use yii\widgets\Pjax;
                     'review' => function ($url, $model) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-eye-open"></span>',
-                            Url::to(['records/review', 'id' => $model->id]),
+                            Url::to(['records/ReviewDetail', 'id' => $model->id]),
                             ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                         );
                     },

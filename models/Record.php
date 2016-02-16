@@ -16,8 +16,6 @@ class Record extends base\Record
     public $imageLprId;
     public $imageOverviewCameraId;
 
-    private $statusHistory;
-
     const SCENARIO_UPLOAD = 'upload';
 
     /**
@@ -75,6 +73,14 @@ class Record extends base\Record
                 'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date'],
             ],
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['record_id' => 'id']);
     }
 
     /**
@@ -149,6 +155,9 @@ class Record extends base\Record
         return $this->hasOne(CaseStatus::className(), ['id' => 'status_id']);
     }
 
+    /**
+     * @return $this
+     */
     public function getStatusHistory()
     {
         return $this->hasOne(StatusHistory::className(), ['record_id' => 'id', 'status_code' => 'status_id'])

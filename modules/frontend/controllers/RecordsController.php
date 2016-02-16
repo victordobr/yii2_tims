@@ -7,7 +7,8 @@ use app\modules\frontend\controllers\records\ChangeDeterminationAction;
 use app\modules\frontend\controllers\records\DeactivateAction;
 use app\modules\frontend\controllers\records\MakeDeterminationAction;
 use app\modules\frontend\controllers\records\RequestDeactivationAction;
-use app\modules\frontend\controllers\records\ReviewAction;
+use app\modules\frontend\controllers\records\review\DetailAction;
+use app\modules\frontend\controllers\records\review\IndexAction;
 use app\modules\frontend\controllers\records\SearchAction;
 use app\modules\frontend\controllers\records\upload\ChunkUploadAction;
 use app\modules\frontend\controllers\records\upload\HandleAction;
@@ -26,12 +27,17 @@ class RecordsController extends Controller
     public function actions()
     {
         $request = Yii::$app->request;
+
         return [
             'search' => [
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'review' => ReviewAction::className(),
+            'review' => [
+                'class' => IndexAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
+            'ReviewDetail' => DetailAction::className(),
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),
             'MakeDetermination' => [
@@ -59,6 +65,7 @@ class RecordsController extends Controller
                     'handle',
                     'search',
                     'review',
+                    'reviewDetail',
                     'RequestDeactivation',
                     'deactivate',
                     'MakeDetermination',
@@ -66,7 +73,7 @@ class RecordsController extends Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['review'],
+                        'actions' => ['review', 'reviewDetail'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,

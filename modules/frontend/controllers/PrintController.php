@@ -55,19 +55,18 @@ class PrintController extends Controller
     public function actionIndex()
     {
         $request = Yii::$app->request;
+        $user = Yii::$app->user;
         $model = new Record();
 
-        $view = Yii::$app->view;
-        $view->title = Yii::t('app', 'Search panel - List of records pending print');
-        $view->params['aside'] = Filter::widget(['model' => $model]);
+        $this->setPageTitle(Yii::t('app', 'Search panel - List of cases pending print'));
+        $this->setAside($model, $user->hasRole([
+            Role::ROLE_OPERATIONS_MANAGER,
+            Role::ROLE_SYSTEM_ADMINISTRATOR,
+            Role::ROLE_ROOT_SUPERUSER,
+        ]));
 
         $provider = $model->search($request->get('Record'));
 
-        $provider->query->andFilterWhere(['in', 'status_id', [
-            CaseStatus::DMV_DATA_RETRIEVED_COMPLETE,
-            CaseStatus::DMV_DATA_RETRIEVED_INCOMPLETE,
-            CaseStatus::OVERDUE_P1,
-        ]]);
 
         return $this->render('index', [
             'dataProvider' => $provider,
@@ -133,21 +132,44 @@ class PrintController extends Controller
     public function actionQc()
     {
         $request = Yii::$app->request;
+        $user = Yii::$app->user;
         $model = new Record();
 
-        $view = Yii::$app->view;
-        $view->title = Yii::t('app', 'Search panel - List of records to QC');
-        $view->params['aside'] = Filter::widget(['model' => $model]);
+        $this->setPageTitle(Yii::t('app', 'Search panel - List of records to QC'));
+        $this->setAside($model, $user->hasRole([
+            Role::ROLE_OPERATIONS_MANAGER,
+            Role::ROLE_SYSTEM_ADMINISTRATOR,
+            Role::ROLE_ROOT_SUPERUSER,
+        ]));
 
         $provider = $model->search($request->get('Record'));
-        $provider->query->andFilterWhere(['in', 'status_id', [
-            CaseStatus::PRINTED_P1,
-            CaseStatus::PRINTED_P2,
-        ]]);
 
         return $this->render('qc', [
             'dataProvider' => $provider,
         ]);
+    }
+
+    /**
+     * @param Record $model
+     * @param bool $advanced_mode
+     * @return string
+     * @throws \Exception
+     */
+    private function setAside(Record $model, $advanced_mode)
+    {
+        return Yii::$app->view->params['aside'] = Filter::widget([
+            'model' => $model,
+            'advanced_mode' => $advanced_mode,
+        ]);
+    }
+
+    /**
+     * @param string $title
+     * @return string
+     */
+    private function setPageTitle($title)
+    {
+        return $this->view->title = $title;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
+ * @var yii\data\ActiveDataProvider $provider
  */
 
 use yii\helpers\Url;
@@ -13,21 +13,24 @@ use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
 ?>
 
-<div class="user-index">
+<div class="record-review-wrapper">
 
     <div class="white-background">
 
-        <?php
-        Pjax::begin([
+        <?php Pjax::begin([
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
-            'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
-        ]);
-        ?>
+            'formSelector' => join(',', [
+                '#form-record-search-filter-basic',
+                '#form-record-search-filter-advanced'
+            ])
+        ]); ?>
+
         <?= GridView::widget([
-            'id' => 'record-grid-search',
-            'dataProvider' => $dataProvider,
+            'id' => 'record-review-grid',
+            'dataProvider' => $provider,
+            'summary' => Yii::t('app', '<div class="summary">Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{record} other{records}}.</div>'),
             'columns' => [
                 [
                     'class' => SerialColumn::className(),

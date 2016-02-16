@@ -1,8 +1,7 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $model \app\modules\frontend\models\search\Record
- * @var $filters array
+ * @var $model \app\modules\frontend\models\base\RecordFilter
  */
 
 use kartik\form\ActiveForm;

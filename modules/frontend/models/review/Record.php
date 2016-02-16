@@ -1,13 +1,9 @@
 <?php
-namespace app\modules\frontend\models\search;
+namespace app\modules\frontend\models\review;
 
 use app\enums\CaseStatus as Status;
-use app\models\StatusHistory;
-use app\models\User;
 use app\modules\frontend\models\base\RecordFilter;
 use Yii;
-use yii\db\ActiveQuery;
-use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -18,8 +14,8 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'Case Number #'),
-            'filter_author_id' => Yii::t('app', 'Uploaded By'),
-            'author' => Yii::t('app', 'Uploaded By'),
+            'filter_author_id' => Yii::t('app', 'Reviewed By'),
+            'author' => Yii::t('app', 'Reviewed By'),
             'created_at' => Yii::t('app', 'Uploaded Date'),
             'license' => Yii::t('app', 'Vehicle Tag #'),
             'elapsedTime' => Yii::t('app', 'Elapsed Time'),
@@ -56,12 +52,11 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     }
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function getAvailableStatuses()
     {
         return [
-            Status::INCOMPLETE,
             Status::COMPLETE,
             Status::FULL_COMPLETE,
             Status::VIEWED_RECORD,
@@ -72,7 +67,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
 
     public function getCreatedAtFilters()
     {
-        $input = Html::input('text', 'Record[X]', '', ['class'=>'form-control input-in-text', 'maxlength' => 3]);
+        $input = Html::input('text', 'Record[X]', '', ['class' => 'form-control input-in-text', 'maxlength' => 3]);
 
         return [
             self::FILTER_CREATED_AT_TODAY => Yii::t('app', 'Today'),
@@ -85,15 +80,15 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     public function getStatusFilters($action)
     {
         switch ($action) {
-            case 'search':
+            case 'review':
                 return [
                     [
-                        'label' => Yii::t('app', 'Show only incomplete records'),
-                        'value' => self::FILTER_STATUS_INCOMPLETE,
+                        'label' => Yii::t('app', 'Show only viewed cases without a determination'),
+                        'value' => self::FILTER_STATUS_VIEWED,
                     ],
                     [
-                        'label' => Yii::t('app', 'Show only records within deactivation window'),
-                        'value' => self::FILTER_STATUS_COMPLETE,
+                        'label' => Yii::t('app', 'Show only records within change window'),
+                        'value' => self::FILTER_STATUS_DETERMINED,
                     ],
                 ];
         }
@@ -105,7 +100,9 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         foreach ($this->getHistory() as $history) {
             $author = $history->author;
             $full_name = trim($author->getFullName());
-            $authors[$author->id] = !$full_name ? '# ' . $author->id : $full_name . ' / ' . $author->id;
+            $authors[$author->id] = !$full_name ?
+                '# ' . $author->id :
+                $full_name . ' / ' . $author->id;
         }
 
         return $authors;

@@ -1,36 +1,30 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\review;
 
 use app\enums\Role;
-use app\modules\frontend\models\search\Record;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
-use app\modules\frontend\models\search\Record as RecordSearch;
+use app\modules\frontend\models\review\Record;
 
-class SearchAction extends Action
+class IndexAction extends Action
 {
     public $attributes;
 
     public function init()
     {
         parent::init();
-
         $this->setLayout('two-columns');
     }
 
-    /**
-     * Lists all Record models.
-     * @return mixed
-     */
     public function run()
     {
         $this->setPageTitle();
 
         $user = Yii::$app->user;
-        $model = new RecordSearch;
+        $model = new Record;
 
         $provider = $model->search($this->attributes);
 
@@ -40,9 +34,14 @@ class SearchAction extends Action
             Role::ROLE_ROOT_SUPERUSER,
         ]));
 
-        return $this->controller()->render('search', [
-            'dataProvider' => $provider,
+        return $this->controller()->render('review/index', [
+            'provider' => $provider,
         ]);
+    }
+
+    private function setPageTitle()
+    {
+        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
     }
 
     /**
@@ -59,14 +58,12 @@ class SearchAction extends Action
         ]);
     }
 
+    /**
+     * @param string $name
+     */
     private function setLayout($name)
     {
         $this->controller()->layout = $name;
-    }
-
-    private function setPageTitle()
-    {
-        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');
     }
 
     /**

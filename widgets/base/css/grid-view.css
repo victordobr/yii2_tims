@@ -1,0 +1,11 @@
+.kv-grid-table > thead > tr > th {
+    font-size: 12px;
+}
+
+.kv-grid-table > tbody > tr > td {
+    /*font-size: 13px;*/
+}
+
+.kv-grid-table > tbody > tr > td > a > .fa {
+    font-size: 16px;
+}

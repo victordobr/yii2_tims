@@ -4,11 +4,13 @@
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
-use \yii\helpers\Html;
+use app\widgets\base\GridView;
+use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use kartik\icons\Icon;
+use kartik\grid\CheckboxColumn;
+use kartik\grid\SerialColumn;
 ?>
 
 <div id="wrapper-record-print">
@@ -17,7 +19,7 @@ use kartik\icons\Icon;
         'id' => 'pjax-record-print',
         'timeout' => false,
         'enablePushState' => false,
-        'formSelector' => '#form-record-search-filter'
+        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
     ]); ?>
 
     <div class="row">
@@ -30,20 +32,21 @@ use kartik\icons\Icon;
         'id' => 'grid-record-print',
         'dataProvider' => $dataProvider,
         'columns' => [
-            [
-                'class' => 'kartik\grid\CheckboxColumn',
-            ],
-            [
-                'label' => '#',
-                'hAlign' => GridView::ALIGN_CENTER,
-                'attribute' => 'id',
-            ],
+            ['class' => CheckboxColumn::className(),],
+            ['class' => SerialColumn::className(),],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'attribute' => 'infraction_date',
                 'format' => 'date',
             ],
-            'license',
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'id',
+            ],
+            [
+                'hAlign' => GridView::ALIGN_CENTER,
+                'attribute' => 'license',
+            ],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'attribute' => 'status_id',
