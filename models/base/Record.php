@@ -10,8 +10,6 @@ use app\enums\EvidenceFileType;
  * This is the model class for table "Record".
  *
  * @property integer $id
- * @property string $lat
- * @property string $lng
  * @property integer $infraction_date
  * @property integer $open_date
  * @property integer $state_id
@@ -31,6 +29,8 @@ class Record extends ActiveRecord
 {
     public $author;
     public $elapsedTime;
+    public $latitude;
+    public $longitude;
 
     /**
      * @inheritdoc

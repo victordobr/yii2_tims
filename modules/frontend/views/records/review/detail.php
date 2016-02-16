@@ -50,20 +50,26 @@ $formatter = Yii::$app->formatter;
             </div>
 
             <div class="col-xs-6">
-                        <?= DetailView::widget([
-                            'title'=>Yii::t('app', 'Photo/Video evidence'),
-                            'model' => $model,
-                            'options' => ['class' => 'table'],
-                            'attributes' => [
-                                'lat',
-                                'lng',
-                                [
-                                    'label' => Yii::t('app', 'Location (nearby address)'),
-                                    'value' => 'to-do'
-                                ]
-                            ],
-                            'footer' => $this->render('../../partials/evidence', ['model' => $model])
-                        ]) ?>
+                <?= DetailView::widget([
+                    'title'=>Yii::t('app', 'Photo/Video evidence'),
+                    'model' => $model,
+                    'options' => ['class' => 'table'],
+                    'attributes' => [
+                        [
+                            'label' => Yii::t('app', 'GPS Latitude'),
+                            'value' => $model->location->lat_dms . ' ' . $model->location->lat_ddm,
+                        ],
+                        [
+                            'label' => Yii::t('app', 'GPS Longitude'),
+                            'value' => $model->location->lng_dms . ' ' . $model->location->lng_ddm,
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Location (nearby address)'),
+                            'value' => 'to-do'
+                        ]
+                    ],
+                    'footer' => $this->render('../../partials/evidence', ['model' => $model])
+                ]) ?>
 
             </div>
 

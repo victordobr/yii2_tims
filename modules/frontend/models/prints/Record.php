@@ -61,8 +61,8 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             ->select([
                 'id' => 'record.id',
                 'license' => 'record.license',
-                'lat' => 'record.lat',
-                'lng' => 'record.lng',
+                'latitude' => 'location.lat_dd',
+                'longitude' => 'location.lng_dd',
                 'state_id' => 'record.state_id',
                 'infraction_date' => 'record.infraction_date',
                 'created_at' => 'record.created_at',
@@ -73,6 +73,9 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             ->joinWith([
                 'owner' => function (ActiveQuery $query) {
                     $query->from('Owner owner');
+                },
+                'location' => function (ActiveQuery $query) {
+                    $query->from('Location location');
                 },
             ]);
 

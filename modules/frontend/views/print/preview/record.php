@@ -9,7 +9,7 @@ $this->registerJs(
     "function initialize_$model->id()
     {
 
-        var myCenter=new google.maps.LatLng(" . GpsHelper::convertDMSToDecimal($model->lat) . "," . GpsHelper::convertDMSToDecimal($model->lng) . ");
+        var myCenter=new google.maps.LatLng(" . $model->latitude . "," . $model->longitude . ");
 
         var mapProp = {
             center:myCenter,

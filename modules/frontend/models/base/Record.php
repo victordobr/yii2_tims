@@ -69,8 +69,8 @@ class Record extends \app\models\base\Record implements RecordFilter
             ->select([
                 'id' => 'record.id',
                 'license' => 'record.license',
-                'lat' => 'record.lat',
-                'lng' => 'record.lng',
+                'latitude' => 'location.lat_dd',
+                'longitude' => 'location.lng_dd',
                 'state_id' => 'record.state_id',
                 'infraction_date' => 'record.infraction_date',
                 'created_at' => 'record.created_at',

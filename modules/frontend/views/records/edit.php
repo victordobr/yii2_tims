@@ -151,10 +151,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($location, 'lat_ddm')->widget(MaskedInput::classname(), [
             'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-        ])->hint('If the current value less than mask value, please use space key(on the keyboard) in order to move cursor to the next sub field! Latitude example 49º 59\' 36.6" N') ?>
+        ])->hint('(eg. 49.2.66200N)') ?>
         <?= $form->field($location, 'lng_ddm')->widget(MaskedInput::classname(), [
             'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-        ])->hint('If the current value less than mask value, please use space key(on the keyboard) in order to move cursor to the next sub field! Longitude example 36º 13\' 49.378" E') ?>
+        ])->hint('(eg. 122.21.73060W)') ?>
 
         <?= $form->field($model, 'state_id')->dropDownList(States::listData()) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>

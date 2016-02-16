@@ -44,10 +44,10 @@
     ]); ?>
 <?php endif; ?>
 
-<?php if ($model->lat && $model->lng): ?>
+<?php if ($model->location->lat_dd && $model->location->lng_dd): ?>
     <?= app\widgets\mapPopup\MapPopup::widget([
         'text' => Yii::t('app', 'MAP'),
-        'latitude' => $model->lat,
-        'longitude' => $model->lng,
+        'latitude' => $model->location->lat_dd,
+        'longitude' => $model->location->lng_dd,
     ]); ?>
 <?php endif; ?>

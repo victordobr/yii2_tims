@@ -4,9 +4,9 @@ use kartik\date\DatePicker;
 
 ?>
 
-<?= $form->field($record, 'lat')->textInput(['maxlength' => true]) ?>
+<?= $form->field($record, 'latitude')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($record, 'lng')->textInput(['maxlength' => true]) ?>
+<?= $form->field($record, 'longitude')->textInput(['maxlength' => true]) ?>
 
 <?=  $form->field($record, 'infraction_date')->widget(DatePicker::classname(), [
     'type' => DatePicker::TYPE_COMPONENT_APPEND,
