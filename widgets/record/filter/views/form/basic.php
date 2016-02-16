@@ -113,4 +113,10 @@ use yii\helpers\ArrayHelper;
 
 <?php endif; ?>
 
+    <div class="row">
+        <div class="form-group text-right">
+            <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-sm btn-default btn-reset']) ?>
+        </div>
+    </div>
+
 <?php ActiveForm::end(); ?>

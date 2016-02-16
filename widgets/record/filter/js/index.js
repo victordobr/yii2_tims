@@ -21,6 +21,15 @@ $(function () {
         }
     });
 
+    form.on('click', '.btn-reset', function(e){
+        e.preventDefault();
+
+        var form = $(this).parents('form');
+
+        form[0].reset();
+        form.submit();
+    });
+
     form.on('keyup', 'input[name="Record[X]"], #record-filter_elapsed_time_x_days', function (e) {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
