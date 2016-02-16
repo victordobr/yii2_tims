@@ -27,7 +27,7 @@ class Record extends base\Record
             [['lat', 'lng', 'infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
             [['state_id', 'ticket_fee', 'status_id', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
-            [['infraction_date', 'open_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
+            [['infraction_date', 'ticket_payment_expire_date'], 'date', 'format' => 'MM/dd/yy'],
             [['comments', 'user_plea_request'], 'string'],
             [['lat', 'lng'], 'string', 'max' => 20],
             [
@@ -50,7 +50,6 @@ class Record extends base\Record
         return ArrayHelper::merge(parent::attributeLabels(), [
             'lat' => 'Latitude',
             'lng' => 'Longitude',
-            'open_date' => 'Case Open date',
             'state_id' => 'State',
             'status_id' => 'Status',
             'statusName' => 'Status name',
@@ -70,7 +69,7 @@ class Record extends base\Record
             ],
             [
                 'class' => 'app\behaviors\IntegerStamp',
-                'attributes' => ['infraction_date', 'open_date', 'ticket_payment_expire_date'],
+                'attributes' => ['infraction_date', 'created_at',  'ticket_payment_expire_date'],
             ],
         ];
     }
