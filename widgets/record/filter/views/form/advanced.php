@@ -182,7 +182,6 @@ use yii\helpers\Html;
                             'type' => Form::INPUT_TEXT,
                             'options' => [
                                 'placeholder' => Yii::t('app', 'Freeform alphanumeric text'),
-                                'disabled' => 'disabled'
                             ],
                         ],
                         'filter_smart_search_type' => [
