@@ -11,7 +11,6 @@ use app\enums\EvidenceFileType;
  *
  * @property integer $id
  * @property integer $infraction_date
- * @property integer $open_date
  * @property integer $state_id
  * @property string $license
  * @property integer $ticket_fee
@@ -46,8 +45,9 @@ class Record extends ActiveRecord
     public function rules()
     {
         return [
-            [['infraction_date', 'open_date', 'state_id', 'license', 'bus_number'], 'required'],
-            [['infraction_date', 'open_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
+
+            [['infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
+            [['infraction_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
             [['comments', 'user_plea_request'], 'string'],
             [['license'], 'string', 'max' => 250],
             [['bus_number'], 'string', 'max' => 10],
@@ -62,7 +62,6 @@ class Record extends ActiveRecord
         return [
             'id' => 'ID',
             'infraction_date' => 'Infraction Date',
-            'open_date' => 'Open Date',
             'state_id' => 'State ID',
             'license' => 'License',
             'ticket_fee' => 'Ticket Fee',

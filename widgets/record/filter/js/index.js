@@ -10,18 +10,33 @@ $(function () {
             '#record-filter_created_at_from',
             '#record-filter_created_at_to',
             '#record-filter_elapsed_time_x_days',
-            '#record-filter_case_number'
+            '#record-filter_case_number',
+            '#record-filter_smart_search_text',
+            'input[name="Record[filter_smart_search_type]"]'
         ];
 
     form.on('change', selectors.join(','), function () {
-        if ($(this).prop('name') == 'Record[filter_created_at]' && $(this).val() == 3) { //todo: magic number
+        var name = $(this).prop('name');
+
+        if (name == 'Record[filter_created_at]' && $(this).val() == 3) { //todo: magic number
             $(this).parent('label').find('input[type="text"]').focus();
+        } else if (name == 'Record[filter_smart_search_type]') {
+            form.find('#record-filter_smart_search_text').focus();
         } else {
             $(this).parents('form').submit();
         }
     });
 
-    form.on('keyup', 'input[name="Record[X]"], #record-filter_elapsed_time_x_days', function (e) {
+    form.on('click', '.btn-reset', function(e){
+        e.preventDefault();
+
+        var form = $(this).parents('form');
+
+        form[0].reset();
+        form.submit();
+    });
+
+    form.on('keyup', 'input[name="Record[X]"], #record-filter_elapsed_time_x_days, #record-filter_case_number', function (e) {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 

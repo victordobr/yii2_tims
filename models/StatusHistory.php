@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $record_id
  * @property integer $author_id
- * @property string $officer_pin
  * @property integer $status_code
  * @property integer $created_at
  * @property integer $expired_at
@@ -38,7 +37,6 @@ class StatusHistory extends \app\models\base\StatusHistory
         return [
             [['record_id', 'author_id', 'status_code', 'created_at'], 'required'],
             [['record_id', 'author_id', 'status_code', 'created_at', 'expired_at'], 'integer'],
-            [['officer_pin'], 'string', 'max' => 16]
         ];
     }
 

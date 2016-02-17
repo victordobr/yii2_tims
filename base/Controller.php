@@ -52,7 +52,7 @@ class Controller extends \yii\web\Controller
         if (($model = $modelClass::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException("Model '{$modelClass}' with id = {$id} was not found.");
         }
     }
 

@@ -24,7 +24,8 @@ use kartik\grid\ActionColumn;
             'formSelector' => join(',', [
                 '#form-record-search-filter-basic',
                 '#form-record-search-filter-advanced'
-            ])
+            ]),
+            'options' => ['class' => 'wrapper-grid-view',]
         ]); ?>
 
         <?= GridView::widget([
@@ -53,6 +54,7 @@ use kartik\grid\ActionColumn;
                     'attribute' => 'elapsedTime',
                 ],
                 [
+                    'header' => Html::a(Icon::show('refresh', ['class' => 'fa-lg']), '#', ['class' => 'grid-view-refresh', 'title' => Yii::t('app', 'refresh grid')]),
                     'class' => ActionColumn::className(),
                     'template'=>'{review}',
                     'buttons'=>[

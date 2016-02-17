@@ -39,18 +39,25 @@ class Record extends \app\models\base\Record implements RecordFilter
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [[
-                'filter_created_at',
-                'filter_status',
-                'filter_author_id',
-                'filter_created_at_from',
-                'filter_created_at_to',
-                'filter_elapsed_time_x_days',
-                'filter_state',
-                'filter_case_number',
-                'filter_smart_search_type',
-                'filter_smart_search_text',
-            ], 'integer'],
+            [
+                [
+                    'filter_created_at',
+                    'filter_status',
+                    'filter_author_id',
+                    'filter_created_at_from',
+                    'filter_created_at_to',
+                    'filter_elapsed_time_x_days',
+                    'filter_state',
+                    'filter_case_number',
+                ],
+                'integer'
+            ],
+            ['filter_smart_search_type', 'in', 'range' => [
+                self::FILTER_SMART_SEARCH_EXACT,
+                self::FILTER_SMART_SEARCH_PARTIAL,
+                self::FILTER_SMART_SEARCH_WILDCARD,
+            ]],
+            ['filter_smart_search_text', 'string'],
         ]);
     }
 
@@ -131,9 +138,9 @@ class Record extends \app\models\base\Record implements RecordFilter
             $this->filterByCaseNumber($query, $this->filter_case_number);
         }
 
-//        if (!empty($this->filter_smart_search_type) && !empty($this->filter_smart_search_type)) {
-//            $this->filterByCreatedAtRange($query, $this->filter_smart_search_type, $this->filter_smart_search_type);
-//        }
+        if (!empty($this->filter_smart_search_type) && !empty($this->filter_smart_search_text)) {
+            $this->filterBySmartSearch($query, $this->filter_smart_search_type, $this->filter_smart_search_text);
+        }
 
         return $provider;
     }
@@ -232,6 +239,32 @@ class Record extends \app\models\base\Record implements RecordFilter
     protected function filterByCaseNumber(QueryInterface &$query, $record_id)
     {
         $query->andWhere(['record.id' => $record_id]);
+    }
+
+    protected function filterBySmartSearch(QueryInterface &$query, $type, $text)
+    {
+        switch ($type) {
+            case self::FILTER_SMART_SEARCH_EXACT:
+                $query->andFilterWhere(['OR',
+                    ['record.id' => $text],
+                    ['record.license' => $text],
+                ]);
+                break;
+            case self::FILTER_SMART_SEARCH_PARTIAL:
+                $query->andFilterWhere(['OR',
+                    ['like', 'record.id', $text],
+                    ['like', 'record.license', $text],
+                ]);
+                break;
+            case self::FILTER_SMART_SEARCH_WILDCARD:
+                $text = str_replace('*', '%', $text);
+                $text = str_replace('?', '_', $text);
+                $query->andFilterWhere(['OR',
+                    'record.id LIKE \''.$text.'\'',
+                    'record.license LIKE \''.$text.'\'',
+                ]);
+                break;
+        }
     }
 
     /**

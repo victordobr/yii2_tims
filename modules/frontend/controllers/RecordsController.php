@@ -33,6 +33,7 @@ class RecordsController extends Controller
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
+            'SearchDetail' => DetailAction::className(),
             'review' => [
                 'class' => IndexAction::className(),
                 'attributes' => $request->get('Record'),
@@ -64,6 +65,7 @@ class RecordsController extends Controller
                     'chunkUpload',
                     'handle',
                     'search',
+                    'SearchDetail',
                     'review',
                     'reviewDetail',
                     'RequestDeactivation',
@@ -119,7 +121,7 @@ class RecordsController extends Controller
                         ],
                     ],
                     [
-                        'actions' => ['upload', 'chunkUpload', 'handle', 'search'],
+                        'actions' => ['upload', 'chunkUpload', 'handle', 'search', 'SearchDetail'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

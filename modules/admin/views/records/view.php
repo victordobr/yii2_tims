@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'latitude',
             'longitude',
             'infraction_date',
-            'open_date',
             'state_id',
             'license',
             'ticket_fee',

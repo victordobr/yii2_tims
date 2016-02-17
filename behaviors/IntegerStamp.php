@@ -79,7 +79,7 @@ class IntegerStamp extends Behavior
                 if ($dateObject instanceof \DateTime) {
                     $this->owner->{$attribute} = Yii::$app->formatter->asTimestamp($dateObject);
                 } else {
-                    throw new \Exception('Invalid date format!');
+                    throw new \Exception("Invalid date format for field '{$attribute}': {$event->sender->{$attribute}}");
                 }
             }
         }

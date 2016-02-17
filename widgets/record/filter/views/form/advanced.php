@@ -182,7 +182,6 @@ use yii\helpers\Html;
                             'type' => Form::INPUT_TEXT,
                             'options' => [
                                 'placeholder' => Yii::t('app', 'Freeform alphanumeric text'),
-                                'disabled' => 'disabled'
                             ],
                         ],
                         'filter_smart_search_type' => [
@@ -205,6 +204,12 @@ use yii\helpers\Html;
                 ]
             ]
         ]); ?>
+    </div>
+
+    <div class="row">
+        <div class="form-group text-right">
+            <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-sm btn-default btn-reset']) ?>
+        </div>
     </div>
 
 <?php ActiveForm::end(); ?>

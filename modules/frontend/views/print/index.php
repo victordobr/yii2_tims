@@ -19,7 +19,8 @@ use kartik\grid\SerialColumn;
         'id' => 'pjax-record-print',
         'timeout' => false,
         'enablePushState' => false,
-        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
+        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced',
+        'options' => ['class' => 'wrapper-grid-view',]
     ]); ?>
 
     <div class="row">
@@ -56,6 +57,7 @@ use kartik\grid\SerialColumn;
                 'attribute' => 'elapsedTime',
             ],
             [
+                'header' => Html::a(Icon::show('refresh', ['class' => 'fa-lg']), '#', ['class' => 'grid-view-refresh', 'title' => Yii::t('app', 'refresh grid')]),
                 'class' => \kartik\grid\ActionColumn::className(),
                 'template' => '{review}',
                 'buttons' => [

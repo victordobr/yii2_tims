@@ -18,7 +18,7 @@ use kartik\date\DatePicker;
     ]
 ]); ?>
 
-<?=  $form->field($record, 'open_date')->widget(DatePicker::classname(), [
+<?=  $form->field($record, 'created_at')->widget(DatePicker::classname(), [
     'type' => DatePicker::TYPE_COMPONENT_APPEND,
     'options' => ['placeholder' => 'Enter date ...'],
     'pluginOptions' => [
