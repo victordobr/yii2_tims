@@ -17,6 +17,16 @@ class Module extends \app\base\Module  implements MenuInterface
 
     public $layout = 'main.php';
 
+    public function init()
+    {
+        parent::init();
+        $handler = new \yii\web\ErrorHandler([
+            'errorAction' => '/admin/default/error'
+        ]);
+        \Yii::$app->set('errorHandler', $handler);
+        $handler->register();
+    }
+
     /**
      * @inheritdoc
      */

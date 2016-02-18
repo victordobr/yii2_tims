@@ -15,6 +15,16 @@ class Module extends \app\base\Module  implements MenuInterface
     /** @var string $controllerNamespace controller namespace */
     public $controllerNamespace = 'app\modules\frontend\controllers';
 
+    public function init()
+    {
+        parent::init();
+        $handler = new \yii\web\ErrorHandler([
+            'errorAction' => '/frontend/default/error'
+        ]);
+        \Yii::$app->set('errorHandler', $handler);
+        $handler->register();
+    }
+
     /**
      * @inheritdoc
      */

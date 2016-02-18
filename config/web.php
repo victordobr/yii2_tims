@@ -109,7 +109,7 @@ $config = [
             'loginUrl' => '/auth/default/login',
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => '/frontend/default/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
