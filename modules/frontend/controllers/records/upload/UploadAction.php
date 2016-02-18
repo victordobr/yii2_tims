@@ -30,7 +30,12 @@ class UploadAction extends Action
 
         if ($recordId) {
             $model = $this->controller()->findModel(Record::className(), $recordId);
-            $location = $this->controller()->findModel(Location::className(), $recordId);
+            if (isset($model->location)) {
+                $location = $this->controller()->findModel(Location::className(), $recordId);
+            }
+            else {
+                $location = new Location();
+            }
         }
         else {
             $model = new Record();
@@ -45,18 +50,15 @@ class UploadAction extends Action
 
         $post = Yii::$app->request->post();
 
-        if ($model->load($post) && $model->validate()) {
+        if ($model->load($post) && $model->validate() && $location->load($post) && $location->validate()) {
             if($this->saveRecord($model, $post)){
                 Yii::$app->trigger(EventNames::UPLOAD_SUCCESS, new UploadEvent([
                     'record' => $model,
                     'user_id' => Yii::$app->user->id,
                 ]));
             }
-
-            if ($location->load($post)) {
-                $location->record_id = $model->id;
-                $this->saveLocation($location);
-            }
+            $location->record_id = $model->id;
+            $this->saveLocation($location);
 
             return $this->controller()->redirect(['upload', 'id' => $model->id]);
         }
@@ -88,9 +90,8 @@ class UploadAction extends Action
         $model->lng_dd = GpsHelper::convertDDMToDecimal($model->lng_ddm);
         $model->lat_dms = GpsHelper::convertDDMToDMS($model->lat_ddm);
         $model->lng_dms = GpsHelper::convertDDMToDMS($model->lng_ddm);
-        if ($model->validate()) {
-            $model->save();
-        }
+
+        return $model->save();
     }
 
     public function saveRecord($model, $post)
