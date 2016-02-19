@@ -39,11 +39,11 @@ class MakeDeterminationAction extends Action
                 self::record()->rejectViolation($record->id, $user->id, $form->code, $form->description) :
                 self::record()->approveViolation($record->id, $user->id);
             if ($success) {
-                return $controller->redirect(['search']);
+                return $controller->redirect(['SearchList']);
             }
         }
 
-        return $controller->redirect(['review', 'id' => $record->id]);
+        return $controller->redirect(['ReviewView', 'id' => $record->id]);
     }
 
     /**

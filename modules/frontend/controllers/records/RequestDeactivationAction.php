@@ -28,10 +28,10 @@ class RequestDeactivationAction extends Action
 
 
         if ($form->validate() && Yii::$app->record->requestDeactivation($record->id, Yii::$app->user->id, $form->code,  $form->description)) {
-            return $controller->redirect(['search']);
+            return $controller->redirect(['SearchList']);
         }
 
-        return $controller->redirect(['review', 'id' => $record->id]);
+        return $controller->redirect(['ReviewView', 'id' => $record->id]);
     }
 
 }

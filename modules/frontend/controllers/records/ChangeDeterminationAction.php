@@ -44,7 +44,7 @@ class ChangeDeterminationAction extends Action
             }
         }
 
-        return $controller->redirect(['review', 'id' => $record->id]);
+        return $controller->redirect(['ReviewView', 'id' => $record->id]);
     }
 
     /**
