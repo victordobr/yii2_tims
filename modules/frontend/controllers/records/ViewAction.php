@@ -39,7 +39,7 @@ class ViewAction extends Action
         $user = Yii::$app->user;
         $record = $this->findModel($id);
 
-        if (!Module::isCurrentTab('update') && $record->status_id < CaseStatus::VIEWED_RECORD) {
+        if (Module::isCurrentTab('review') && $record->status_id < CaseStatus::VIEWED_RECORD) {
             if ($user->hasRole([Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_POLICE_OFFICER, Role::ROLE_ROOT_SUPERUSER])) {
                 self::record()->view($record->id, $user->id);
             }
