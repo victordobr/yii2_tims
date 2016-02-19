@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records\review;
+namespace app\modules\frontend\controllers\records;
 
 use app\components\Settings;
 use app\enums\CaseStage;
@@ -8,7 +8,9 @@ use app\enums\Role;
 use app\models\User;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
+use app\modules\frontend\Module;
 use app\widgets\record\timeline\Timeline;
+use app\widgets\record\update\UpdateButton;
 use Yii;
 use app\enums\CaseStatus;
 use app\models\Record;
@@ -19,7 +21,7 @@ use yii\base\Action;
 use yii\helpers\Url;
 use app\enums\Reasons;
 
-class DetailAction extends Action
+class ViewAction extends Action
 {
     public function init()
     {
@@ -33,10 +35,10 @@ class DetailAction extends Action
             $this->controller()->redirect(['search']);
         }
 
+        $user = Yii::$app->user;
         $record = $this->findModel($id);
 
-        if ($record->status_id < CaseStatus::VIEWED_RECORD) {
-            $user = Yii::$app->user;
+        if (!Module::isCurrentTab('update') && $record->status_id < CaseStatus::VIEWED_RECORD) {
             if ($user->hasRole([Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_POLICE_OFFICER, Role::ROLE_ROOT_SUPERUSER])) {
                 self::record()->view($record->id, $user->id);
             }
@@ -45,10 +47,27 @@ class DetailAction extends Action
         $this->setPageTitle($record->id);
         $this->setAside($record);
 
-        return $this->controller()->render('review/detail', [
+        return $this->controller()->render(self::getView(), [
             'model' => $record,
             'form' => $this->renderForm($record),
+            'statuses' => CaseStatus::listCodeDescription(),
         ]);
+    }
+
+    private static function getView()
+    {
+        switch (Module::getTab()) {
+            case 'search':
+                return 'view/basic';
+            case 'review':
+                return 'view/advanced';
+            case 'print':
+                return 'view/basic';
+            case 'update':
+                return 'view/editable';
+            default:
+                return 'view/error';
+        }
     }
 
     /**
@@ -104,10 +123,21 @@ class DetailAction extends Action
      */
     private function setAside(Record $record)
     {
-        return Yii::$app->view->params['aside'] = Timeline::widget([
+        $aside = Timeline::widget([
             'stages' => self::collectCaseStages($record),
             'remaining' => self::calculateRemainingDays($record)
         ]);
+
+        if (Module::isCurrentTab('update')) {
+            $aside .= UpdateButton::widget([
+                'elements' => [
+                    '#case-details' => ['select'],
+                    '#photo-video-evidence' => ['input'],
+                ]
+            ]);
+        }
+
+        return Yii::$app->view->params['aside'] = $aside;
     }
 
     /**
