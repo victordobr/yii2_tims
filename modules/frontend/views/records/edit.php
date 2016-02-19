@@ -158,6 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'state_id')->dropDownList(States::listData()) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'bus_number')->textInput(['maxlength' => true])->hint('Please enter bus number.') ?>
 
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-8">
