@@ -156,14 +156,22 @@ $config = [
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
+
                 // search
-                'search' => 'frontend/records/search',
-                'search/<id:\d+>' => 'frontend/records/SearchDetail',
+                'search' => 'frontend/records/SearchList',
+                'search/<id:\d+>' => 'frontend/records/SearchView',
+
                 // review
-                'review' => 'frontend/records/review',
-                'review/<id:\d+>' => 'frontend/records/ReviewDetail',
+                'review' => 'frontend/records/ReviewList',
+                'review/<id:\d+>' => 'frontend/records/ReviewView',
+
+                // update
+                'update' => 'frontend/records/UpdateList',
+                'POST update/<id:\d+>' => 'frontend/records/update',
+                'update/<id:\d+>' => 'frontend/records/UpdateView',
+
                 [
-                    'pattern' => '<action:(upload|search|review|requestDeactivation|deactivate)>/<id:\d+>',
+                    'pattern' => '<action:(upload|search|review|update|requestDeactivation|deactivate)>/<id:\d+>',
                     'route' => 'frontend/records/<action>',
                 ],
                 [
