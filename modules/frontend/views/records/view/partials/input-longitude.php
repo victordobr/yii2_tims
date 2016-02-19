@@ -12,7 +12,7 @@ use yii\widgets\MaskedInput;
     </div>
     <div class="col-sm-6">
         <?= MaskedInput::widget([
-            'name' => 'Record[location][lat_ddm]',
+            'name' => 'Record[location][lng_ddm]',
             'mask' => '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
             'value' => $location->lng_ddm,
         ]); ?>
