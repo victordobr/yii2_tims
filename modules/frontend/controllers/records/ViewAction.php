@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\components\RbacUser;
 use app\components\Settings;
 use app\enums\CaseStage;
 use app\enums\Role;
@@ -47,22 +48,27 @@ class ViewAction extends Action
         $this->setPageTitle($record->id);
         $this->setAside($record);
 
-        return $this->controller()->render(self::getView(), [
+        return $this->controller()->render(self::getView($user), [
             'model' => $record,
             'form' => $this->renderForm($record),
             'statuses' => CaseStatus::listCodeDescription(),
         ]);
     }
 
-    private static function getView()
+    private static function getView(RbacUser $user)
     {
         switch (Module::getTab()) {
             case 'search':
-                return 'view/basic';
+                $view = !$user->hasRole([
+                    Role::ROLE_OPERATIONS_MANAGER,
+                    Role::ROLE_SYSTEM_ADMINISTRATOR,
+                    Role::ROLE_ROOT_SUPERUSER,
+                ]) ? 'basic' : 'advanced';
+                return 'view/' . $view;
             case 'review':
-                return 'view/advanced';
-            case 'print':
                 return 'view/basic';
+            case 'print':
+                return 'view/advanced';
             case 'update':
                 return 'view/editable';
             default:
@@ -169,7 +175,7 @@ class ViewAction extends Action
     {
         $infraction_date = new \DateTime($record->infraction_date);
 
-        return self::settings()->get('case.lifetime') -(new \DateTime())->diff($infraction_date)->format('%a');
+        return self::settings()->get('case.lifetime') - (new \DateTime())->diff($infraction_date)->format('%a');
     }
 
     /**
