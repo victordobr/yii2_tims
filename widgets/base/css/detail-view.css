@@ -3,29 +3,40 @@
 }
 
 .panel.panel-view > .panel-heading {
-    border: none;
-    font: 16px/0 'Open Sans', sans-serif;
-    color: #666;
-    text-transform: uppercase;
     float: left;
-    margin-top: -12px;
-    margin-left: 12px;
+    margin: -12px 0 0 12px;
     padding: 12px 4px;
+    border: none;
+    color: #666;
     background: rgba(255, 255, 255, .96);
+    font: bold 15px/0 'Open Sans', sans-serif;
+    text-transform: uppercase;
+}
+
+.panel.panel-view > .panel-heading-editable:after {
+    content: "\f044";
+    position: absolute;
+    top: 6px;
+    right: 20px;
+    color: #ccc;
+    font: 24px/24px 'FontAwesome', cursive;
+    text-align: center;
 }
 
 .panel.panel-view > .panel-body {
-    padding: 0;
+    padding: 12px 0 0 0;
 }
 
 .panel.panel-view > .panel-body tr > th {
     padding-left: 12px;
-    color: rgb(51, 51, 51);
+    font-weight: normal;
+    letter-spacing: -0.2px;
 }
 
 .panel.panel-view > .panel-body tr > th,
 .panel.panel-view > .panel-body tr > td {
-    line-height: 16px;
+    color: rgb(111, 111, 111);
+    line-height: 14px;
 }
 
 .panel.panel-view > .panel-body tr:nth-child(1) > th,
@@ -33,10 +44,54 @@
     border: none;
 }
 
-.panel > .panel-body > .table {
-    margin: 0;
+.panel > .panel-body > div > div > .table {
+    margin-bottom: 8px;
 }
 
 .panel.panel-view > .panel-footer {
     background: transparent;
+}
+
+/* photo/video evidence */
+
+#photo-video-evidence tr  > th {
+    width: 30%;
+    padding: 4px 8px;
+    line-height: 28px;
+}
+
+#photo-video-evidence tr  > td {
+    padding: 4px 0;
+}
+
+#photo-video-evidence tr ~ tr ~ tr  > th {
+    position: absolute;
+    width: 50%;
+    line-height: 24px;
+}
+
+#photo-video-evidence tr ~ tr ~ tr  > td {
+    line-height: 8px;
+    padding-top: 12px;
+    padding-left: 60px;
+}
+
+/* icons */
+
+.wrapper-dollar-amount > .wrapper-icon {
+    font-weight: bold;
+    color: #999;
+}
+
+.wrapper-icon {
+    color: #666;
+    font-size: 28px;
+    line-height: 60px;
+}
+
+.wrapper-text {
+    color: #555;
+    line-height: 20px;
+    font-size: 15px;
+    text-transform: uppercase;
 }
