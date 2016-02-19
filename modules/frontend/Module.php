@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend;
 
+use app\enums\YesNo;
 use \Yii;
 use \yii\filters\AccessControl;
 use \app\interfaces\Menu as MenuInterface;
@@ -88,18 +89,18 @@ class Module extends \app\base\Module  implements MenuInterface
     {
         $url = Yii::$app->request->url;
 
-        switch (true) {
-            case !is_bool(strpos($url, 'search')):
+        switch (YesNo::YES) {
+            case strpos($url, 'search'):
                 return self::$tab = 'search';
-            case !is_bool(strpos($url, 'review')):
+            case strpos($url, 'review'):
                 return self::$tab =  'review';
-            case !is_bool(strpos($url, 'print')):
+            case strpos($url, 'print'):
                 return self::$tab =  'print';
-            case !is_bool(strpos($url, 'update')):
+            case strpos($url, 'update'):
                 return self::$tab =  'update';
-            case !is_bool(strpos($url, 'reports')):
+            case strpos($url, 'reports'):
                 return self::$tab =  'reports';
-            case !is_bool(strpos($url, 'settings')):
+            case strpos($url, 'settings'):
                 return self::$tab =  'settings';
             default:
                 return self::$tab =  'undefined';
