@@ -1,7 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
+ * @var yii\data\ActiveDataProvider $provider
  */
 
 use yii\helpers\Url;
@@ -13,7 +13,7 @@ use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
 ?>
 
-<div class="user-index">
+<div class="record-update-index">
 
     <div class="white-background">
 
@@ -26,8 +26,8 @@ use kartik\grid\ActionColumn;
         ]); ?>
 
         <?= GridView::widget([
-            'id' => 'record-grid-search',
-            'dataProvider' => $dataProvider,
+            'id' => 'record-grid-update',
+            'dataProvider' => $provider,
             'columns' => [
                 [
                     'class' => SerialColumn::className(),
@@ -37,14 +37,15 @@ use kartik\grid\ActionColumn;
                     'attribute' => 'infraction_date',
                     'format' => 'date',
                 ],
-                'id',
+                [
+                    'hAlign' => GridView::ALIGN_CENTER,
+                    'attribute' => 'id',
+                ],
                 'license',
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
-                    'attribute' => 'created_at',
-                    'format' => 'date',
+                    'attribute' => 'status_id',
                 ],
-                'author',
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
                     'attribute' => 'elapsedTime',
@@ -57,7 +58,7 @@ use kartik\grid\ActionColumn;
                         'review' => function ($url, $model) {
                             return Html::a(
                                 Icon::show('eye', ['class' => 'fa-lg']),
-                                Url::to(['SearchDetail', 'id' => $model->id]),
+                                Url::to(['update', 'id' => $model->id]),
                                 ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                             );
                         },

@@ -129,4 +129,16 @@ class CaseStatus extends Enum
             self::PAID => Yii::t('app', '(payment received {datetime})', $dictionary), //5030
         ];
     }
+
+    /**
+     * @param int $status status code
+     * @return bool
+     */
+    public static function exists($status)
+    {
+        $list = self::listMainText();
+
+        return array_key_exists($status, $list);
+    }
+
 }

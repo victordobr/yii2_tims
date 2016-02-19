@@ -204,6 +204,51 @@ class Record extends Component
     }
 
     /**
+     * @param int $id
+     * @param int $user_id
+     * @param int $status_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function updateStatus($id, $user_id, $status_id)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $record = self::getRecord($id);
+            if (!Status::exists($status_id)) {
+                throw new \Exception('Wrong status code');
+            }
+            if ($record->status_id == $status_id) {
+                throw new \Exception('Record has same status');
+            }
+
+            $record->setAttributes([
+                'status_id' => $status_id,
+            ]);
+            if (!$record->save(true, ['status_id'])) {
+                throw new \Exception('Record status do not updated');
+            }
+
+            $history = new StatusHistory();
+            $history->setAttributes([
+                'record_id' => $id,
+                'author_id' => $user_id,
+                'status_code' => $status_id,
+                'created_at' => time()
+            ]);
+            if (!$history->save()) {
+                throw new \Exception('StatusHistory do not created');
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
      * @param int $id record id
      * @param int $user_id
      * @return bool

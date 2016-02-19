@@ -3,15 +3,17 @@
 namespace app\modules\frontend\controllers\records;
 
 use app\enums\Role;
-use app\modules\frontend\models\search\Record;
+use app\modules\frontend\models\base\Record;
+use app\modules\frontend\models\base\RecordFilter;
+use app\modules\frontend\Module;
 use app\widgets\record\filter\Filter;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
-use app\modules\frontend\models\search\Record as RecordSearch;
 
 class SearchAction extends Action
 {
+    public $tab = 'search';
     public $attributes;
 
     public function init()
@@ -30,7 +32,8 @@ class SearchAction extends Action
         $this->setPageTitle();
 
         $user = Yii::$app->user;
-        $model = new RecordSearch;
+
+        $model = $this->loadModel();
 
         $provider = $model->search($this->attributes);
 
@@ -40,18 +43,56 @@ class SearchAction extends Action
             Role::ROLE_ROOT_SUPERUSER,
         ]));
 
-        return $this->controller()->render('search', [
-            'dataProvider' => $provider,
+        return $this->controller()->render(self::getView(), [
+            'provider' => $provider,
         ]);
     }
 
     /**
-     * @param Record $model
+     * @return string
+     */
+    private static function getView()
+    {
+        switch (Module::getTab()) {
+            case 'search':
+                return 'search/index';
+            case 'review':
+                return 'search/review';
+            case 'print':
+                return 'search/print';
+            case 'update':
+                return 'search/update';
+            default:
+                return 'search/error';
+        }
+    }
+
+    /**
+     * @return Record
+     */
+    private static function loadModel()
+    {
+        switch (Module::getTab()) {
+            case 'search':
+                return new \app\modules\frontend\models\search\Record;
+            case 'review':
+                return new \app\modules\frontend\models\review\Record;
+            case 'print':
+                return new \app\modules\frontend\models\prints\Record;
+            case 'update':
+                return new \app\modules\frontend\models\update\Record;
+            default:
+                return new Record();
+        }
+    }
+
+    /**
+     * @param RecordFilter $model
      * @param bool $advanced_mode
      * @return string
      * @throws \Exception
      */
-    private function setAside(Record $model, $advanced_mode)
+    private function setAside(RecordFilter $model, $advanced_mode)
     {
         return Yii::$app->view->params['aside'] = Filter::widget([
             'model' => $model,
@@ -66,7 +107,18 @@ class SearchAction extends Action
 
     private function setPageTitle()
     {
-        return $this->controller()->view->title = Yii::t('app', 'Search Panel - List of uploaded cases');
+        $title = Yii::t('app', 'Search - implement me');
+
+        switch ($this->tab) {
+            case 'search':
+                $title = Yii::t('app', 'Search Panel - List of uploaded cases');
+                break;
+            case 'update':
+                $title = Yii::t('app', 'Search for a record to Update');
+                break;
+        }
+
+        return $this->controller()->view->title = $title;
     }
 
     /**

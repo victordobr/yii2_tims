@@ -13,4 +13,5 @@ class CaseStage extends \kfosoft\base\Enum
     const DMV_DATA_REQUEST = 4;
     const CITATION_PRINTED = 5;
     const CITATION_QC_VERIFIED = 6;
+    const CASE_CLOSED = 7;
 }

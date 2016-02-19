@@ -68,6 +68,11 @@ class Timeline extends Widget
                     'date' => !empty($this->stages[Stage::CITATION_QC_VERIFIED]) ?
                         $this->stages[Stage::CITATION_QC_VERIFIED] : $pending
                 ],
+                Stage::CASE_CLOSED => [
+                    'is_done' => false,
+                    'label' => Yii::t('app', 'Case Closed'),
+                    'date' => $pending
+                ],
             ];
         }
 

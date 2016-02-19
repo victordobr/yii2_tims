@@ -10,13 +10,16 @@ use app\modules\frontend\controllers\records\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\review\DetailAction;
 use app\modules\frontend\controllers\records\review\IndexAction;
 use app\modules\frontend\controllers\records\SearchAction;
+use app\modules\frontend\controllers\records\UpdateAction;
 use app\modules\frontend\controllers\records\upload\ChunkUploadAction;
 use app\modules\frontend\controllers\records\upload\HandleAction;
 use app\modules\frontend\controllers\records\upload\UploadAction;
+use app\modules\frontend\controllers\records\ViewAction;
 use Yii;
 
 use yii\filters\AccessControl;
 use \app\modules\frontend\base\Controller;
+use yii\helpers\BaseUrl;
 
 /**
  * RecordsController implements the actions for Record model.
@@ -29,16 +32,33 @@ class RecordsController extends Controller
         $request = Yii::$app->request;
 
         return [
-            'search' => [
+            // upload
+            'upload' => UploadAction::className(),
+            'handle' => HandleAction::className(),
+            'chunk-upload' => ChunkUploadAction::className(),
+            // lists
+            'SearchList' => [
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'SearchDetail' => DetailAction::className(),
-            'review' => [
-                'class' => IndexAction::className(),
+            'ReviewList' => [
+                'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'ReviewDetail' => DetailAction::className(),
+            'UpdateList' => [
+                'class' => SearchAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
+            // views
+            'SearchView' => ViewAction::className(),
+            'ReviewView' => ViewAction::className(),
+            'UpdateView' => ViewAction::className(),
+            //update
+            'update' => [
+                'class' => UpdateAction::className(),
+                'attributes' => $request->post('Record'),
+            ],
+            // actions
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),
             'MakeDetermination' => [
@@ -49,9 +69,6 @@ class RecordsController extends Controller
                 'class' => ChangeDeterminationAction::className(),
                 'attributes' => $request->post('ChangeDeterminationForm'),
             ],
-            'upload' => UploadAction::className(),
-            'handle' => HandleAction::className(),
-            'chunk-upload' => ChunkUploadAction::className(),
         ];
     }
 
@@ -64,10 +81,13 @@ class RecordsController extends Controller
                     'upload',
                     'chunkUpload',
                     'handle',
-                    'search',
-                    'SearchDetail',
-                    'review',
-                    'reviewDetail',
+                    'SearchList',
+                    'ReviewList',
+                    'UpdateList',
+                    'SearchView',
+                    'ReviewView',
+                    'UpdateView',
+                    'update',
                     'RequestDeactivation',
                     'deactivate',
                     'MakeDetermination',
@@ -75,14 +95,34 @@ class RecordsController extends Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['review', 'reviewDetail'],
+                        'actions' => ['SearchList', 'SearchView'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_VIDEO_ANALYST,
-                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_POLICE_OFFICER,
                             Role::ROLE_PRINT_OPERATOR,
                             Role::ROLE_OPERATIONS_MANAGER,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['ReviewList', 'ReviewView'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_POLICE_OFFICER,
+                            Role::ROLE_PRINT_OPERATOR,
+                            Role::ROLE_OPERATIONS_MANAGER,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['UpdateList', 'UpdateView'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_OPERATIONS_MANAGER,
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],
@@ -121,7 +161,15 @@ class RecordsController extends Controller
                         ],
                     ],
                     [
-                        'actions' => ['upload', 'chunkUpload', 'handle', 'search', 'SearchDetail'],
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_OPERATIONS_MANAGER,
+                            Role::ROLE_ROOT_SUPERUSER,
+                        ],
+                    ],
+                    [
+                        'actions' => ['upload', 'chunkUpload', 'handle'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

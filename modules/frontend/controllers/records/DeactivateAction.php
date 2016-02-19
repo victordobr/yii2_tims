@@ -28,18 +28,15 @@ class DeactivateAction extends Action
 
         if ($form->validate()) {
 
-            //true
-//            var_dump($form->isRejectAction()); die;
-
             $success = $form->isRejectAction() ?
                 self::record()->rejectDeactivation($record->id, Yii::$app->user->id, $form->code, $form->description) :
                 self::record()->approveDeactivate($record->id, Yii::$app->user->id);
             if ($success) {
-                return $controller->redirect(['search']);
+                return $controller->redirect(['SearchList']);
             }
         }
 
-        return $controller->redirect(['review', 'id' => $record->id]);
+        return $controller->redirect(['ReviewView', 'id' => $record->id]);
     }
 
     /**
