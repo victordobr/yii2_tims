@@ -140,6 +140,8 @@ class GpsHelper
             $minutes = floor($dec_minutes);
             $seconds = 60 * ($dec_minutes - $minutes);
 
+            $seconds = round($seconds, 5);
+
             $dms = $degrees . "º " . $minutes . "' " . $seconds . "\" " . $matches[3];
             return $dms;
         }

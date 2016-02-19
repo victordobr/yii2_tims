@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]); ?>
         <?php endif; ?>
 
-        <?php if ($model->location->lat_dd && $model->location->lng_dd): ?>
+        <?php if ($model->location && $model->location->lat_dd && $model->location->lng_dd): ?>
             <?= app\widgets\mapPopup\MapPopup::widget([
                 'latitude' => $model->location->lat_dd,
                 'longitude' => $model->location->lng_dd,
