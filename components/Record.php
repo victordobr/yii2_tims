@@ -587,6 +587,10 @@ class Record extends Component
                     Status::VIEWED_RECORD_P2,
                     Status::PRINTED_P1,
                     Status::PAID,
+                    Status::QC_BAD_P1,
+                    Status::QC_BAD_P2,
+                    Status::QC_CONFIRMED_GOOD_P1,
+                    Status::QC_CONFIRMED_GOOD_P2,
                 ];
         }
 
