@@ -52,7 +52,7 @@ use yii\helpers\ArrayHelper;
 
 <?php endif; ?>
 
-<?php if ($statuses = $model->getStatusFilters(Yii::$app->controller->action->id)): ?>
+<?php if ($statuses = $model->getStatusFilters()): ?>
 
     <div class="row">
         <?= Form::widget([
