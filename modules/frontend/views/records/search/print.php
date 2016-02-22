@@ -1,7 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
+ * @var yii\data\ActiveDataProvider $provider
  */
 
 use app\widgets\base\GridView;
@@ -31,7 +31,7 @@ use kartik\grid\SerialColumn;
 
     <?= GridView::widget([
         'id' => 'grid-record-print',
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $provider,
         'columns' => [
             ['class' => CheckboxColumn::className(),],
             ['class' => SerialColumn::className(),],

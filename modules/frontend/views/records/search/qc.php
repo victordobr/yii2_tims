@@ -1,8 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\frontend\models\search\PoliceCase $model
+ * @var yii\data\ActiveDataProvider $provider
  */
 
 use \yii\helpers\Html;
@@ -32,7 +31,7 @@ use yii\widgets\Pjax;
 
     <?= GridView::widget([
         'id' => 'grid-print-qc',
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $provider,
         'columns' => [
             ['class' => CheckboxColumn::className()],
             ['class' => SerialColumn::className()],
