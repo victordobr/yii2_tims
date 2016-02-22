@@ -57,8 +57,8 @@ use kartik\grid\ActionColumn;
                         'view' => function ($url, $model) {
                             return Html::a(
                                 Icon::show('eye', ['class' => 'fa-lg']),
-                                '/search/' . $model->id,
-                                ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
+                                Url::to(['SearchView', 'id' => $model->id]),
+                                ['title' => Yii::t('app', 'View'), 'data-pjax' => '0']
                             );
                         },
                     ],
