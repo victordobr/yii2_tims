@@ -2,6 +2,9 @@
 
 namespace app\modules\frontend\controllers\records;
 
+use app\assets\PrintAsset;
+use app\components\RbacUser;
+use app\enums\MenuTab;
 use app\enums\Role;
 use app\modules\frontend\models\base\Record;
 use app\modules\frontend\models\base\RecordFilter;
@@ -13,7 +16,7 @@ use yii\base\Action;
 
 class SearchAction extends Action
 {
-    public $tab = 'search';
+    public $qc = false;
     public $attributes;
 
     public function init()
@@ -21,6 +24,9 @@ class SearchAction extends Action
         parent::init();
 
         $this->setLayout('two-columns');
+        if (Module::isCurrentTab(MenuTab::TAB_PRINT)) {
+            PrintAsset::register($this->controller()->getView());
+        }
     }
 
     /**
@@ -37,13 +43,9 @@ class SearchAction extends Action
 
         $provider = $model->search($this->attributes);
 
-        $this->setAside($model, $user->hasRole([
-            Role::ROLE_OPERATIONS_MANAGER,
-            Role::ROLE_SYSTEM_ADMINISTRATOR,
-            Role::ROLE_ROOT_SUPERUSER,
-        ]));
+        $this->setAside($model, $user);
 
-        return $this->controller()->render(self::getView(), [
+        return $this->controller()->render($this->getViewName(), [
             'provider' => $provider,
         ]);
     }
@@ -51,16 +53,16 @@ class SearchAction extends Action
     /**
      * @return string
      */
-    private static function getView()
+    private function getViewName()
     {
         switch (Module::getTab()) {
-            case 'search':
+            case MenuTab::TAB_SEARCH:
                 return 'search/index';
-            case 'review':
+            case MenuTab::TAB_REVIEW:
                 return 'search/review';
-            case 'print':
-                return 'search/print';
-            case 'update':
+            case MenuTab::TAB_PRINT:
+                return !$this->qc ? 'search/print' : 'search/qc';
+            case MenuTab::TAB_UPDATE:
                 return 'search/update';
             default:
                 return 'search/error';
@@ -70,16 +72,18 @@ class SearchAction extends Action
     /**
      * @return Record
      */
-    private static function loadModel()
+    private function loadModel()
     {
         switch (Module::getTab()) {
-            case 'search':
+            case MenuTab::TAB_SEARCH:
                 return new \app\modules\frontend\models\search\Record;
-            case 'review':
+            case MenuTab::TAB_REVIEW:
                 return new \app\modules\frontend\models\review\Record;
-            case 'print':
-                return new \app\modules\frontend\models\prints\Record;
-            case 'update':
+            case MenuTab::TAB_PRINT:
+                return !$this->qc ?
+                    new \app\modules\frontend\models\prints\Record:
+                    new \app\modules\frontend\models\prints\qc\Record;
+            case MenuTab::TAB_UPDATE:
                 return new \app\modules\frontend\models\update\Record;
             default:
                 return new Record();
@@ -88,15 +92,19 @@ class SearchAction extends Action
 
     /**
      * @param RecordFilter $model
-     * @param bool $advanced_mode
+     * @param RbacUser $user
      * @return string
      * @throws \Exception
      */
-    private function setAside(RecordFilter $model, $advanced_mode)
+    private function setAside(RecordFilter $model, RbacUser $user)
     {
         return Yii::$app->view->params['aside'] = Filter::widget([
             'model' => $model,
-            'advanced_mode' => $advanced_mode,
+            'advanced_mode' => $user->hasRole([
+                Role::ROLE_OPERATIONS_MANAGER,
+                Role::ROLE_SYSTEM_ADMINISTRATOR,
+                Role::ROLE_ROOT_SUPERUSER,
+            ]),
         ]);
     }
 
@@ -109,11 +117,19 @@ class SearchAction extends Action
     {
         $title = Yii::t('app', 'Search - implement me');
 
-        switch ($this->tab) {
-            case 'search':
+        switch (Module::getTab()) {
+            case MenuTab::TAB_SEARCH:
                 $title = Yii::t('app', 'Search Panel - List of uploaded cases');
                 break;
-            case 'update':
+            case MenuTab::TAB_REVIEW:
+                $title = Yii::t('app', 'Search Panel - List of cases pending evidence review/determination');
+                break;
+            case MenuTab::TAB_PRINT:
+                $title =  !$this->qc ?
+                    Yii::t('app', 'Search panel - List of cases pending print'):
+                    Yii::t('app', 'Search panel - List of records to QC');
+                break;
+            case MenuTab::TAB_UPDATE:
                 $title = Yii::t('app', 'Search for a record to Update');
                 break;
         }
