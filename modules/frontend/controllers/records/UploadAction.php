@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records\upload;
+namespace app\modules\frontend\controllers\records;
 
 use app\components\media\Media;
 use app\enums\EventNames;
