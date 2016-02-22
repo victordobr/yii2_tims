@@ -181,7 +181,7 @@ $config = [
                 'print' => 'frontend/records/PrintList',
                 'print/qc' => 'frontend/records/QcList',
                 'print/preview' => 'frontend/records/PrintPreview',
-                'POST print' => 'frontend/records/SendToPrint',
+                'POST print/send' => 'frontend/records/SendToPrint',
                 'POST print/confirm' => 'frontend/records/ConfirmQc',
                 'POST print/reject' => 'frontend/records/RejectQc',
 
