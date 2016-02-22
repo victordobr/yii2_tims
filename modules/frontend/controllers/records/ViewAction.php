@@ -100,22 +100,20 @@ class ViewAction extends Action
                     'reasonsList' => Reasons::listReasonsRejectingDeactivationRequest(),
                 ]);
             case $record->status_id == CaseStatus::VIEWED_RECORD && $user->can('MakeDetermination'):
-                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/make-determination', [
                     'action' => Url::to(['MakeDetermination', 'id' => $record->id]),
                     'model' => new MakeDeterminationForm([
-                        'currentOfficerPin' => $userModel->officer_pin,
+                        'currentOfficerPin' => $user->identity->officer_pin,
                     ]),
-                    'reasons' => Reasons::listReasonsRejectingCase(),
+                    'reasons' => Reasons::listReasonsRejectingCase(), // todo: change list of reasons
                 ]);
             case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
-                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/change-determination', [
                     'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
                     'model' => new ChangeDeterminationForm([
                         'record_id' => $record->id,
                         'record_status' => $record->status_id,
-                        'currentOfficerPin' => $userModel->officer_pin,
+                        'currentOfficerPin' => $user->identity->officer_pin,
                     ]),
                     'reasons' => Reasons::listReasonsRejectingCase(),
                 ]);
