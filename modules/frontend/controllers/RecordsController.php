@@ -3,12 +3,10 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
-use app\modules\frontend\controllers\records\ChangeDeterminationAction;
-use app\modules\frontend\controllers\records\DeactivateAction;
-use app\modules\frontend\controllers\records\MakeDeterminationAction;
-use app\modules\frontend\controllers\records\RequestDeactivationAction;
-use app\modules\frontend\controllers\records\review\DetailAction;
-use app\modules\frontend\controllers\records\review\IndexAction;
+use app\modules\frontend\controllers\records\action\ChangeDeterminationAction;
+use app\modules\frontend\controllers\records\action\DeactivateAction;
+use app\modules\frontend\controllers\records\action\MakeDeterminationAction;
+use app\modules\frontend\controllers\records\action\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\SearchAction;
 use app\modules\frontend\controllers\records\UpdateAction;
 use app\modules\frontend\controllers\records\upload\ChunkUploadAction;

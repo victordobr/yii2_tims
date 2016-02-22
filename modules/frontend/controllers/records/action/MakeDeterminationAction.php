@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\action;
 
 use app\models\User;
 use app\modules\frontend\controllers\RecordsController;
