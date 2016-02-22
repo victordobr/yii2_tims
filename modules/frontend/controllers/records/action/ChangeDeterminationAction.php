@@ -40,7 +40,7 @@ class ChangeDeterminationAction extends Action
                 self::record()->retrieveDMVData($record->id, $user->id); // todo: temporary jump
 
             if ($success) {
-                return $controller->redirect(['search']);
+                return $controller->redirect(['ReviewList']);
             }
         }
 
