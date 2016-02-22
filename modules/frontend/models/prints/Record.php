@@ -55,64 +55,23 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         return $provider;
     }
 
-    public function preview($params)
-    {
-        $query = $this->find()
-            ->select([
-                'id' => 'record.id',
-                'license' => 'record.license',
-                'latitude' => 'location.lat_dd',
-                'longitude' => 'location.lng_dd',
-                'state_id' => 'record.state_id',
-                'infraction_date' => 'record.infraction_date',
-                'created_at' => 'record.created_at',
-                'status_id' => 'record.status_id',
-                'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
-            ])
-            ->from(['record' => static::tableName()])
-            ->joinWith([
-                'owner' => function (ActiveQuery $query) {
-                    $query->from('Owner owner');
-                },
-                'location' => function (ActiveQuery $query) {
-                    $query->from('Location location');
-                },
-            ]);
-
-        $provider = new ActiveDataProvider(['query' => $query]);
-
-        if (!empty($params['ids'])) {
-            $query->andFilterWhere(['in', 'record.id', $params['ids']]);
-        }
-
-        return $provider;
-    }
-
     /**
      * @return array
      */
     public function getAvailableStatuses()
     {
-        switch (Yii::$app->controller->action->id) {
-            case 'qc':
-                return [
-                    Status::PRINTED_P1,
-                    Status::PRINTED_P2,
-                ];
-            default:
-                return [ // index
-                    Status::DMV_DATA_RETRIEVED_COMPLETE,
-                    Status::DMV_DATA_RETRIEVED_INCOMPLETE,
-                    Status::OVERDUE_P1,
-                ];
-        }
+        return [
+            Status::DMV_DATA_RETRIEVED_COMPLETE,
+            Status::DMV_DATA_RETRIEVED_INCOMPLETE,
+            Status::OVERDUE_P1,
+        ];
     }
 
     public function getCreatedAtFilters()
     {
         $input = Html::input('text', 'Record[X]', '', ['class' => 'form-control input-in-text', 'maxlength' => 3]);
 
-        return  [
+        return [
             self::FILTER_CREATED_AT_TODAY => Yii::t('app', 'Today'),
             self::FILTER_CREATED_AT_LAST_3_DAYS => Yii::t('app', 'Last 3 days'),
             self::FILTER_CREATED_AT_LAST_X_DAYS => Yii::t('app', 'Last ') . $input . Yii::t('app', ' days'),
@@ -120,30 +79,18 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         ];
     }
 
-    public function getStatusFilters($action)
+    public function getStatusFilters()
     {
-        switch ($action) {
-            case 'index':
-                return [
-                    [
-                        'label' => Yii::t('app', 'Show only cases pending print for Period 1'),
-                        'value' => self::FILTER_STATUS_PRINT_P1,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Show only cases pending print for Period 2'),
-                        'value' => self::FILTER_STATUS_PRINT_P2,
-                    ],
-                ];
-            case 'qc':
-                return [
-                    [
-                        'label' => Yii::t('app', 'Show only records pending print for Period 1'),
-                        'value' => self::FILTER_STATUS_PENDING_PRINT_P1,
-                    ],
-                ];
-            default:
-                return [];
-        }
+        return [
+            [
+                'label' => Yii::t('app', 'Show only cases pending print for Period 1'),
+                'value' => self::FILTER_STATUS_PRINT_P1,
+            ],
+            [
+                'label' => Yii::t('app', 'Show only cases pending print for Period 2'),
+                'value' => self::FILTER_STATUS_PRINT_P2,
+            ],
+        ];
     }
 
     public function getSmartSearchTypes()

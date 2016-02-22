@@ -1,9 +1,12 @@
 <?php
-namespace app\modules\frontend\models\review;
+namespace app\modules\frontend\models\prints\qc;
 
 use app\enums\CaseStatus as Status;
 use app\modules\frontend\models\base\RecordFilter;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
+use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -14,8 +17,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'Case Number #'),
-            'filter_author_id' => Yii::t('app', 'Reviewed By'),
-            'author' => Yii::t('app', 'Reviewed By'),
+            'status_id' => Yii::t('app', 'Case Status'),
             'created_at' => Yii::t('app', 'Uploaded Date'),
             'license' => Yii::t('app', 'Vehicle Tag #'),
             'elapsedTime' => Yii::t('app', 'Elapsed Time'),
@@ -31,8 +33,8 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             'id' => 'record.id',
             'infraction_date' => 'record.infraction_date',
             'license' => 'record.license',
+            'status_id' => 'record.status_id',
             'created_at' => 'record.created_at',
-            'author' => self::SQL_SELECT_AUTHOR,
             'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
         ]);
 
@@ -41,8 +43,8 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
                 'id',
                 'infraction_date',
                 'license',
+                'status_id',
                 'created_at',
-                'author',
                 'elapsedTime'
             ],
             'defaultOrder' => ['created_at' => SORT_DESC],
@@ -57,19 +59,16 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     public function getAvailableStatuses()
     {
         return [
-            Status::COMPLETE,
-            Status::FULL_COMPLETE,
-            Status::VIEWED_RECORD,
+            Status::PRINTED_P1,
+            Status::PRINTED_P2,
         ];
     }
-
-    // implemented methods
 
     public function getCreatedAtFilters()
     {
         $input = Html::input('text', 'Record[X]', '', ['class' => 'form-control input-in-text', 'maxlength' => 3]);
 
-        return [
+        return  [
             self::FILTER_CREATED_AT_TODAY => Yii::t('app', 'Today'),
             self::FILTER_CREATED_AT_LAST_3_DAYS => Yii::t('app', 'Last 3 days'),
             self::FILTER_CREATED_AT_LAST_X_DAYS => Yii::t('app', 'Last ') . $input . Yii::t('app', ' days'),
@@ -81,29 +80,10 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     {
         return [
             [
-                'label' => Yii::t('app', 'Show only viewed cases without a determination'),
-                'value' => self::FILTER_STATUS_VIEWED,
-            ],
-            [
-                'label' => Yii::t('app', 'Show only records within change window'),
-                'value' => self::FILTER_STATUS_DETERMINED,
+                'label' => Yii::t('app', 'Show only records pending print for Period 1'),
+                'value' => self::FILTER_STATUS_PENDING_PRINT_P1,
             ],
         ];
-
-    }
-
-    public function getAuthorFilters()
-    {
-        $authors = [];
-        foreach ($this->getHistory() as $history) {
-            $author = $history->author;
-            $full_name = trim($author->getFullName());
-            $authors[$author->id] = !$full_name ?
-                '# ' . $author->id :
-                $full_name . ' / ' . $author->id;
-        }
-
-        return $authors;
     }
 
     public function getSmartSearchTypes()

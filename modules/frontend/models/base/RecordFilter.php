@@ -34,10 +34,9 @@ interface RecordFilter
     public function getCreatedAtFilters();
 
     /**
-     * @param string $action
      * @return array
      */
-    public function getStatusFilters($action);
+    public function getStatusFilters();
 
     /**
      * @return array

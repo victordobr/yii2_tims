@@ -289,7 +289,7 @@ class Record extends \app\models\base\Record implements RecordFilter
         return [];
     }
 
-    public function getStatusFilters($action)
+    public function getStatusFilters()
     {
         return [];
     }

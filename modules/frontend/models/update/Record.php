@@ -120,21 +120,18 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         ];
     }
 
-    public function getStatusFilters($action)
+    public function getStatusFilters()
     {
-        switch ($action) {
-            case 'search':
-                return [
-                    [
-                        'label' => Yii::t('app', 'Show only incomplete records'),
-                        'value' => self::FILTER_STATUS_INCOMPLETE,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Show only records within deactivation window'),
-                        'value' => self::FILTER_STATUS_COMPLETE,
-                    ],
-                ];
-        }
+        return [
+            [
+                'label' => Yii::t('app', 'Show only incomplete records'),
+                'value' => self::FILTER_STATUS_INCOMPLETE,
+            ],
+            [
+                'label' => Yii::t('app', 'Show only records within deactivation window'),
+                'value' => self::FILTER_STATUS_COMPLETE,
+            ],
+        ];
     }
 
     public function getAuthorFilters()
