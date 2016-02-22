@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a24833e901eb7d5ef4de124bb50f64b0",
-    "content-hash": "a9d659d6c30057fdb1a2aa04a77fcc16",
+    "hash": "e9938fcc6ea9204e9a495fa18c0a730d",
+    "content-hash": "d8cf6e68cb1d48ac50868d0d7125f9a4",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1143,6 +1143,64 @@
             "time": "2015-03-06 05:28:07"
         },
         {
+            "name": "circulon/yii2-columnlistview",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/circulon/yii2-columnlistview.git",
+                "reference": "06217130843005d96be2a69727f73cb37ccebe5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/circulon/yii2-columnlistview/zipball/06217130843005d96be2a69727f73cb37ccebe5c",
+                "reference": "06217130843005d96be2a69727f73cb37ccebe5c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "circulon\\widgets\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kieren Eaton",
+                    "email": "circledev@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Responsive columnar List View for Yii 2.x",
+            "homepage": "https://github.com/circulon/yii2-columnlistview.git",
+            "keywords": [
+                "ListView",
+                "circulon",
+                "column",
+                "columns",
+                "list view",
+                "responsive",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2015-06-28 12:49:52"
+        },
+        {
             "name": "components/flag-icon-css",
             "version": "1.2.0",
             "source": {
@@ -1496,16 +1554,16 @@
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
-            "version": "2.0.9",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-ajaxcrud.git",
-                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b"
+                "reference": "51004743169aee572aeb2425db448f752e59287d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/c15bdd01440ced81daedef762f8bbf2f6c337f0b",
-                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b",
+                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/51004743169aee572aeb2425db448f752e59287d",
+                "reference": "51004743169aee572aeb2425db448f752e59287d",
                 "shasum": ""
             },
             "require": {
@@ -1546,20 +1604,20 @@
                 "template",
                 "yii2"
             ],
-            "time": "2016-01-27 16:20:33"
+            "time": "2016-02-16 16:58:34"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-rbac-plus.git",
-                "reference": "3debbe05dc25e88c178c3202eceae970ba67dede"
+                "reference": "693b137ad6e5fd1919f9c025c7bf25ce3ee611b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-rbac-plus/zipball/3debbe05dc25e88c178c3202eceae970ba67dede",
-                "reference": "3debbe05dc25e88c178c3202eceae970ba67dede",
+                "url": "https://api.github.com/repos/johnitvn/yii2-rbac-plus/zipball/693b137ad6e5fd1919f9c025c7bf25ce3ee611b1",
+                "reference": "693b137ad6e5fd1919f9c025c7bf25ce3ee611b1",
                 "shasum": ""
             },
             "require": {
@@ -1590,7 +1648,7 @@
                 }
             ],
             "description": "Database role base access control manager for yii2",
-            "time": "2015-09-08 15:50:11"
+            "time": "2016-02-16 16:57:33"
         },
         {
             "name": "kartik-v/bootstrap-checkbox-x",

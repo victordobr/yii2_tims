@@ -1,6 +1,14 @@
 
 $(document).ready(function() {
     initHintBlocks();
+
+    $("#pjax-frontend-search").on("pjax:start", function() {
+        $("#pjax-frontend-search").addClass("page-loading");
+    });
+
+    $("#pjax-frontend-search").on("pjax:end", function() {
+        $("#pjax-frontend-search").removeClass("page-loading");
+    });
 });
 
 var initHintBlocks = function () {

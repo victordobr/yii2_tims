@@ -19,7 +19,7 @@ class CaseStatusSearch extends CaseStatus
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
