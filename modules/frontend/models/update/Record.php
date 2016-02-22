@@ -103,6 +103,10 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             Status::ARCHIVED,
             Status::RECORD_HOLD,
             Status::MARKED_FOR_PURGE_30D,
+            Status::QC_BAD_P1,
+            Status::QC_BAD_P2,
+            Status::QC_CONFIRMED_GOOD_P1,
+            Status::QC_CONFIRMED_GOOD_P2,
         ];
     }
 

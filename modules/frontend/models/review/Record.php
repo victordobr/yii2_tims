@@ -60,6 +60,7 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             Status::COMPLETE,
             Status::FULL_COMPLETE,
             Status::VIEWED_RECORD,
+            Status::REJECTED_RECORD,
         ];
     }
 
