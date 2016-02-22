@@ -157,6 +157,13 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
 
+                // upload
+                [
+                    'pattern' => 'upload/<id:\d+>',
+                    'route' => 'frontend/records/upload',
+                    'defaults' => ['id' => 0]
+                ],
+
                 // search
                 'search' => 'frontend/records/SearchList',
                 'search/<id:\d+>' => 'frontend/records/SearchView',

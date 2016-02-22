@@ -112,7 +112,7 @@ class Module extends \app\base\Module  implements MenuInterface
     public static function getMenuItems()
     {
         return [
-            ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
+            ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/upload'], 'active' => self::isCurrentTab(MenuTab::TAB_UPLOAD)],
             ['encode' => false, 'label' => Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/search'], 'active' => self::isCurrentTab(MenuTab::TAB_SEARCH)],
             ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/review'], 'active' => self::isCurrentTab(MenuTab::TAB_REVIEW)],
             ['encode' => false, 'label' => Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => ['/print'], 'active' =>  self::isCurrentTab(MenuTab::TAB_PRINT)],
