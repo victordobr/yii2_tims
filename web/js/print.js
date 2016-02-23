@@ -12,11 +12,7 @@ $(function () {
     wrapper.on('click', '.print-selected', function (e) {
         var ids = grid.yiiGridView('getSelectedRows');
         if (ids.length > 0) {
-            $.post('/print/send', {ids: ids}, function(sent){
-                if((sent.length > 0)) {
-                    window.location.href = '/print/preview?' + $.param({ids: sent});
-                }
-            }, 'json');
+            window.location.href = '/print/' + ids.join('-');
         }
     });
 
@@ -59,6 +55,23 @@ $(function () {
 
     $(document).ready(function(){
         initPrintSelectedButton();
+    });
+
+    $('.btn-print').on('click', function(e){
+        e.preventDefault();
+
+        $.post('/print/send', {ids: ids}, function (sent) {
+            if ((sent.length > 0)) {
+                print();
+                location.href = '/print/qc';
+            }
+        }, 'json');
+    });
+
+    $('.btn-back').on('click', function(e){
+        e.preventDefault();
+
+        location.href = '/print';
     });
 
 });
