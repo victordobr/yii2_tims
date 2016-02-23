@@ -64,7 +64,7 @@ use kartik\grid\SerialColumn;
                     'review' => function ($url, $model) {
                         return Html::a(
                             Icon::show('eye', ['class' => 'fa-lg']),
-                            Url::to(['ReviewView', 'id' => $model->id]),
+                            Url::to(['PrintView', 'id' => $model->id]),
                             ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                         );
                     },
