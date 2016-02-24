@@ -1,3 +1,7 @@
+.panel.panel-default {
+    background-color: transparent;
+}
+
 .panel.panel-view {
     border-radius: 12px;
 }

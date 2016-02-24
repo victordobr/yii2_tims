@@ -179,6 +179,7 @@ $config = [
 
                 // print
                 'print' => 'frontend/records/PrintList',
+                'print/<id:[\d-]+>' => 'frontend/records/PrintView',
                 'print/qc' => 'frontend/records/QcList',
                 'print/preview' => 'frontend/records/PrintPreview',
                 'POST print/send' => 'frontend/records/SendToPrint',

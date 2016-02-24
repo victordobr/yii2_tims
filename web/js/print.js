@@ -11,13 +11,12 @@ $(function () {
 
     wrapper.on('click', '.print-selected', function (e) {
         var ids = grid.yiiGridView('getSelectedRows');
-        if (ids.length > 0) {
-            $.post('/print/send', {ids: ids}, function(sent){
-                if((sent.length > 0)) {
-                    window.location.href = '/print/preview?' + $.param({ids: sent});
-                }
-            }, 'json');
-        }
+
+        $.post('/print/send', {ids: ids}, function (sent) {
+            if ((sent.length > 0)) {
+                window.location.href = '/print/' + ids.join('-');
+            }
+        }, 'json');
     });
 
     wrapper.on('click', '.qc-confirm-selected', function (e) {
@@ -57,8 +56,23 @@ $(function () {
         wrapper.find('[class$=-selected]').prop('disabled', ids.length == 0);
     }
 
-    $(document).ready(function(){
-        initPrintSelectedButton();
+    $(document).ready(function () {
+        if (location.pathname == '/print') {
+            initPrintSelectedButton();
+        }
+    });
+
+    $('.btn-print').on('click', function(e){
+        e.preventDefault();
+
+        print();
+        location.href = '/print/qc';
+    });
+
+    $('.btn-back').on('click', function(e){
+        e.preventDefault();
+
+        location.href = '/print/qc';
     });
 
 });

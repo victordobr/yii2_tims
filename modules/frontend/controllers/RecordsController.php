@@ -11,6 +11,7 @@ use app\modules\frontend\controllers\records\action\RejectQcAction;
 use app\modules\frontend\controllers\records\action\RequestDeactivationAction;
 use app\modules\frontend\controllers\records\action\SendToPrintAction;
 use app\modules\frontend\controllers\records\PreviewAction;
+use app\modules\frontend\controllers\records\PrintAction;
 use app\modules\frontend\controllers\records\SearchAction;
 use app\modules\frontend\controllers\records\action\UpdateAction;
 use app\modules\frontend\controllers\records\UploadAction;
@@ -59,6 +60,7 @@ class RecordsController extends Controller
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
+            'PrintView' => PrintAction::className(),
             'PrintPreview' => [
                 'class' => PreviewAction::className(),
                 'ids' => $request->get('ids'),
@@ -126,6 +128,7 @@ class RecordsController extends Controller
                     'ReviewView',
 
                     'PrintList',
+                    'PrintView',
                     'PrintPreview',
                     'QcList',
                     'SendToPrint',
@@ -166,7 +169,7 @@ class RecordsController extends Controller
                         ],
                     ],
                     [
-                        'actions' => ['PrintList', 'PrintPreview', 'QcList', 'SendToPrint', 'ConfirmQc', 'RejectQc'],
+                        'actions' => ['PrintList', 'PrintView', 'PrintPreview', 'QcList', 'SendToPrint', 'ConfirmQc', 'RejectQc'],
                         'allow' => true,
                         'roles' => [
                             Role::ROLE_PRINT_OPERATOR,

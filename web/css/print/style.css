@@ -1,0 +1,13 @@
+@media print {
+    .noprint { display:none; }
+    .page { page-break-after:always; }
+}
+
+.print-page-separator {
+    background-color: #eee;
+    height: 4px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+    border-radius: 12px;
+    z-index: -1;
+}

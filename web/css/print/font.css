@@ -1,0 +1,74 @@
+@font-face {
+    font-family: ABCDEE-Wingdings1;
+    src: url("/fonts/ABCDEE-Wingdings.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri1;
+    src: url("/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-CalibriLight1;
+    src: url("/fonts/ABCDEE-CalibriLight.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-CalibriLight-Italic1;
+    src: url("/fonts/ABCDEE-CalibriLight-Italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri-Bold1;
+    src: url("/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri-Italic1;
+    src: url("/fonts/ABCDEE-Calibri-Italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Wingdings2;
+    src: url("/fonts/ABCDEE-Wingdings.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri2;
+    src: url("/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-CalibriLight2;
+    src: url("/fonts/ABCDEE-CalibriLight.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-CalibriLight-Italic2;
+    src: url("/fonts/ABCDEE-CalibriLight-Italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri-Bold2;
+    src: url("/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri-Italic2;
+    src: url("/fonts/ABCDEE-Calibri-Italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-CalibriLight3;
+    src: url("/fonts/ABCDEE-CalibriLight.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri3;
+    src: url("/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+    font-family: ABCDEE-Calibri-Bold3;
+    src: url("/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
