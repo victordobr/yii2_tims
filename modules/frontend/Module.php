@@ -2,6 +2,7 @@
 
 namespace app\modules\frontend;
 
+use app\enums\MenuTab;
 use app\enums\YesNo;
 use \Yii;
 use \yii\filters\AccessControl;
@@ -99,33 +100,24 @@ class Module extends \app\base\Module  implements MenuInterface
     {
         $url = Yii::$app->request->url;
 
-        switch (YesNo::YES) {
-            case strpos($url, 'search'):
-                return self::$tab = 'search';
-            case strpos($url, 'review'):
-                return self::$tab =  'review';
-            case strpos($url, 'print'):
-                return self::$tab =  'print';
-            case strpos($url, 'update'):
-                return self::$tab =  'update';
-            case strpos($url, 'reports'):
-                return self::$tab =  'reports';
-            case strpos($url, 'settings'):
-                return self::$tab =  'settings';
-            default:
-                return self::$tab =  'undefined';
+        foreach (MenuTab::getTabs() as $tab) {
+            if (strpos($url, $tab) == YesNo::YES) {
+                return self::$tab = $tab;
+            }
         }
+
+        return self::$tab = 'undefined';
     }
 
     public static function getMenuItems()
     {
         return [
-            ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/frontend/records/upload']],
-            ['encode' => false, 'label' => Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/search'], 'active' => self::isCurrentTab('search')],
-            ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/review'], 'active' => self::isCurrentTab('review')],
-            ['encode' => false, 'label' => Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => ['/print'], 'active' =>  self::isCurrentTab('print')],
-            ['encode' => false, 'label' => Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => ['/update'], 'active' =>  self::isCurrentTab('update')],
-            ['encode' => false, 'label' => Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => ['/frontend/reports/index'], 'active' =>  self::isCurrentTab('reports')],
+            ['encode' => false, 'label' => Html::icon('upload') . '&nbsp;&nbsp;' . Yii::t('app', 'Upload'), 'url' => ['/upload'], 'active' => self::isCurrentTab(MenuTab::TAB_UPLOAD)],
+            ['encode' => false, 'label' => Html::icon('search') . '&nbsp;&nbsp;' . Yii::t('app', 'Search'), 'url' => ['/search'], 'active' => self::isCurrentTab(MenuTab::TAB_SEARCH)],
+            ['encode' => false, 'label' => Html::icon('eye-open') . '&nbsp;&nbsp;' . Yii::t('app', 'Review'), 'url' => ['/review'], 'active' => self::isCurrentTab(MenuTab::TAB_REVIEW)],
+            ['encode' => false, 'label' => Html::icon('print') . '&nbsp;&nbsp;' . Yii::t('app', 'Print'), 'url' => ['/print'], 'active' =>  self::isCurrentTab(MenuTab::TAB_PRINT)],
+            ['encode' => false, 'label' => Html::icon('pencil') . '&nbsp;&nbsp;' . Yii::t('app', 'Update'), 'url' => ['/update'], 'active' =>  self::isCurrentTab(MenuTab::TAB_UPDATE)],
+            ['encode' => false, 'label' => Html::icon('list-alt') . '&nbsp;&nbsp;' . Yii::t('app', 'Reports'), 'url' => ['/reports'], 'active' =>  self::isCurrentTab(MenuTab::TAB_REPORTS)],
             ['encode' => false, 'label' => Html::icon('asterisk') . '&nbsp;&nbsp;' . Yii::t('app', 'Settings'), 'url' => false, 'options' => ['class' => 'disabled']],
         ];
     }

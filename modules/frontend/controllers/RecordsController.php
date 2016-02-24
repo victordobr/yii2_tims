@@ -3,23 +3,24 @@
 namespace app\modules\frontend\controllers;
 
 use app\enums\Role;
-use app\modules\frontend\controllers\records\ChangeDeterminationAction;
-use app\modules\frontend\controllers\records\DeactivateAction;
-use app\modules\frontend\controllers\records\MakeDeterminationAction;
-use app\modules\frontend\controllers\records\RequestDeactivationAction;
-use app\modules\frontend\controllers\records\review\DetailAction;
-use app\modules\frontend\controllers\records\review\IndexAction;
+use app\modules\frontend\controllers\records\action\ChangeDeterminationAction;
+use app\modules\frontend\controllers\records\action\ConfirmQcAction;
+use app\modules\frontend\controllers\records\action\DeactivateAction;
+use app\modules\frontend\controllers\records\action\MakeDeterminationAction;
+use app\modules\frontend\controllers\records\action\RejectQcAction;
+use app\modules\frontend\controllers\records\action\RequestDeactivationAction;
+use app\modules\frontend\controllers\records\action\SendToPrintAction;
+use app\modules\frontend\controllers\records\PreviewAction;
 use app\modules\frontend\controllers\records\SearchAction;
-use app\modules\frontend\controllers\records\UpdateAction;
+use app\modules\frontend\controllers\records\action\UpdateAction;
+use app\modules\frontend\controllers\records\UploadAction;
 use app\modules\frontend\controllers\records\upload\ChunkUploadAction;
 use app\modules\frontend\controllers\records\upload\HandleAction;
-use app\modules\frontend\controllers\records\upload\UploadAction;
 use app\modules\frontend\controllers\records\ViewAction;
 use Yii;
 
 use yii\filters\AccessControl;
 use \app\modules\frontend\base\Controller;
-use yii\helpers\BaseUrl;
 
 /**
  * RecordsController implements the actions for Record model.
@@ -29,36 +30,72 @@ class RecordsController extends Controller
 
     public function actions()
     {
+        $user = Yii::$app->user;
         $request = Yii::$app->request;
 
         return [
+
             // upload
             'upload' => UploadAction::className(),
             'handle' => HandleAction::className(),
             'chunk-upload' => ChunkUploadAction::className(),
-            // lists
+
+            // search
             'SearchList' => [
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
+            'SearchView' => ViewAction::className(),
+
+            // review
             'ReviewList' => [
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
+            'ReviewView' => ViewAction::className(),
+
+            // print
+            'PrintList' => [
+                'class' => SearchAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
+            'PrintPreview' => [
+                'class' => PreviewAction::className(),
+                'ids' => $request->get('ids'),
+            ],
+            'QcList' => [
+                'class' => SearchAction::className(),
+                'attributes' => $request->get('Record'),
+                'qc' => true,
+            ],
+            'SendToPrint' => [
+                'class' => SendToPrintAction::className(),
+                'ids' => $request->post('ids'),
+                'user_id' => $user->id,
+            ],
+            'ConfirmQc' => [
+                'class' => ConfirmQcAction::className(),
+                'ids' => $request->post('ids'),
+                'user_id' => $user->id,
+            ],
+            'RejectQc' => [
+                'class' => RejectQcAction::className(),
+                'ids' => $request->post('ids'),
+                'user_id' => $user->id,
+            ],
+
+            // update
             'UpdateList' => [
                 'class' => SearchAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            // views
-            'SearchView' => ViewAction::className(),
-            'ReviewView' => ViewAction::className(),
             'UpdateView' => ViewAction::className(),
-            //update
+
+            // actions
             'update' => [
                 'class' => UpdateAction::className(),
                 'attributes' => $request->post('Record'),
             ],
-            // actions
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),
             'MakeDetermination' => [
@@ -81,13 +118,24 @@ class RecordsController extends Controller
                     'upload',
                     'chunkUpload',
                     'handle',
+
                     'SearchList',
-                    'ReviewList',
-                    'UpdateList',
                     'SearchView',
+
+                    'ReviewList',
                     'ReviewView',
+
+                    'PrintList',
+                    'PrintPreview',
+                    'QcList',
+                    'SendToPrint',
+                    'ConfirmQc',
+                    'RejectQc',
+
+                    'UpdateList',
                     'UpdateView',
                     'update',
+
                     'RequestDeactivation',
                     'deactivate',
                     'MakeDetermination',
@@ -114,6 +162,15 @@ class RecordsController extends Controller
                             Role::ROLE_PRINT_OPERATOR,
                             Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
+                    [
+                        'actions' => ['PrintList', 'PrintPreview', 'QcList', 'SendToPrint', 'ConfirmQc', 'RejectQc'],
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_PRINT_OPERATOR,
+                            Role::ROLE_OPERATIONS_MANAGER,
                             Role::ROLE_ROOT_SUPERUSER
                         ],
                     ],

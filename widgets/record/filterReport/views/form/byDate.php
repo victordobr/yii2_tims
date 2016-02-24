@@ -68,6 +68,7 @@ use yii\helpers\Html;
                 ]
             ]
         ]); ?>
+
     </div>
 
     <div class="row">

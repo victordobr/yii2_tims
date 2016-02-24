@@ -2,13 +2,11 @@
 namespace app\modules\frontend\models\report;
 
 use app\enums\CaseStatus as Status;
-use app\modules\admin\Module;
-use app\modules\frontend\models\base\RecordFilter;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-class Record extends \app\modules\frontend\models\base\Record implements RecordFilter
+class Record extends \app\modules\frontend\models\base\Record
 {
 
     public function attributeLabels()
@@ -36,10 +34,6 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
             'author' => self::SQL_SELECT_AUTHOR,
             'elapsedTime' => self::SQL_SELECT_ELAPSED_TIME,
         ]);
-
-//        $query->andFilterWhere(['record.status_id' => $queryParams['id']]);
-
-//        \app\base\Module::pa($this);
 
         $provider->setSort([
             'attributes' => [
@@ -89,21 +83,19 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
         ];
     }
 
-    public function getStatusFilters($action)
+    public function getStatusFilters()
     {
-        switch ($action) {
-            case 'review':
-                return [
-                    [
-                        'label' => Yii::t('app', 'Show only viewed cases without a determination'),
-                        'value' => self::FILTER_STATUS_VIEWED,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Show only records within change window'),
-                        'value' => self::FILTER_STATUS_DETERMINED,
-                    ],
-                ];
-        }
+        return [
+            [
+                'label' => Yii::t('app', 'Show only viewed cases without a determination'),
+                'value' => self::FILTER_STATUS_VIEWED,
+            ],
+            [
+                'label' => Yii::t('app', 'Show only records within change window'),
+                'value' => self::FILTER_STATUS_DETERMINED,
+            ],
+        ];
+
     }
 
     public function getAuthorFilters()

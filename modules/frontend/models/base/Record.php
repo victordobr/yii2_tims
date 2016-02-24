@@ -123,6 +123,7 @@ class Record extends \app\models\base\Record implements RecordFilter
         // advanced filters
 
         if (!empty($this->filter_created_at_from) || !empty($this->filter_created_at_to)) {
+
             $this->filterByCreatedAtRange($query, $this->filter_created_at_from, $this->filter_created_at_to);
         }
 
@@ -289,7 +290,7 @@ class Record extends \app\models\base\Record implements RecordFilter
         return [];
     }
 
-    public function getStatusFilters($action)
+    public function getStatusFilters()
     {
         return [];
     }

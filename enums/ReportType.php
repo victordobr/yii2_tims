@@ -1,5 +1,5 @@
 <?php
-namespace app\enums\report;
+namespace app\enums;
 
 use Yii;
 use yii\helpers\Html;
@@ -49,15 +49,15 @@ class ReportType extends \kfosoft\base\Enum
     public static function listUrl()
     {
         return [
-            self::OVERALL_SUMMARY_DASHBOARD  => 'test',
-            self::OVERALL_OPERATIONS_DASHBOARD  => 'test',
-            self::OVERALL_FINANCIAL_DASHBOARD  => 'test',
+            self::OVERALL_SUMMARY_DASHBOARD  => 'overall-summary-dashboard',
+            self::OVERALL_OPERATIONS_DASHBOARD  => false,
+            self::OVERALL_FINANCIAL_DASHBOARD  => false,
             self::VIOLATIONS_BY_DATE  => 'violations-by-date',
-            self::ALL_VIOLATION_DETAILS  => 'test',
-            self::ALL_CITATIONS_PENDING_PAYMENT  => 'test',
-            self::VIOLATIONS_BY_SCHOOL_BUS  => 'test',
-            self::VIOLATIONS_PENDING_DMV_DATA  => 'test',
-            self::ALL_CITATIONS_PAID  => 'test',
+            self::ALL_VIOLATION_DETAILS  => false,
+            self::ALL_CITATIONS_PENDING_PAYMENT  => false,
+            self::VIOLATIONS_BY_SCHOOL_BUS  => 'violations-by-school-bus',
+            self::VIOLATIONS_PENDING_DMV_DATA  => false,
+            self::ALL_CITATIONS_PAID  => false,
         ];
     }
 
@@ -86,32 +86,4 @@ class ReportType extends \kfosoft\base\Enum
             ],
         ];
     }
-
-    public static function createItems()
-    {
-        $list = [];
-        $list_url = self::listUrl();
-        foreach (self::getHierarchy() as $parent_id => $ids) {
-            $list = [];
-            foreach ($ids as $id) {
-                $list[$id]['id'] = $id;
-                $list[$id]['url'] = Html::a(parent::labelById($id), [$list_url[$id]], ['class' => '']);
-            }
-            $list_arr[$parent_id] = $list;
-        }
-        return $list_arr;
-    }
-
-//    /**
-//     * Hierarchy of Report Types
-//     * @return array
-//     */
-//    public static function getMainTypes()
-//    {
-//        return [
-//            self::SUMMARY_REPORTS  => Yii::t('app', 'SUMMARY REPORTS'),
-//            self::OPERATIONAL_REPORTS  => Yii::t('app', 'OPERATIONAL REPORTS'),
-//            self::FINANCIAL_REPORTS  => Yii::t('app', 'FINANCIAL REPORTS'),
-//        ];
-//    }
 }

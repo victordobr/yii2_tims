@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\action;
 
 use app\models\User;
 use app\modules\frontend\controllers\RecordsController;
@@ -40,7 +40,7 @@ class ChangeDeterminationAction extends Action
                 self::record()->retrieveDMVData($record->id, $user->id); // todo: temporary jump
 
             if ($success) {
-                return $controller->redirect(['search']);
+                return $controller->redirect(['ReviewList']);
             }
         }
 

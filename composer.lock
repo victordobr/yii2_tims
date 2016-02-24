@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e9938fcc6ea9204e9a495fa18c0a730d",
-    "content-hash": "d8cf6e68cb1d48ac50868d0d7125f9a4",
+    "hash": "a24833e901eb7d5ef4de124bb50f64b0",
+    "content-hash": "a9d659d6c30057fdb1a2aa04a77fcc16",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -446,16 +446,16 @@
         },
         {
             "name": "bower-asset/blueimp-canvas-to-blob",
-            "version": "v3.1.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Canvas-to-Blob.git",
-                "reference": "28258354628fe0aca67e9d13ba60fe75a6dd13c0"
+                "reference": "c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/28258354628fe0aca67e9d13ba60fe75a6dd13c0",
-                "reference": "28258354628fe0aca67e9d13ba60fe75a6dd13c0",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9",
+                "reference": "c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9",
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -603,32 +603,32 @@
         },
         {
             "name": "bower-asset/blueimp-load-image",
-            "version": "v2.1.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Load-Image.git",
-                "reference": "dfadfa3b9a471b941040c33675a527f24a6db827"
+                "reference": "eabe7ecf43caa6fd38de26cac68af266419bb8ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/dfadfa3b9a471b941040c33675a527f24a6db827",
-                "reference": "dfadfa3b9a471b941040c33675a527f24a6db827",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/eabe7ecf43caa6fd38de26cac68af266419bb8ea",
+                "reference": "eabe7ecf43caa6fd38de26cac68af266419bb8ea",
                 "shasum": ""
             },
             "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/blueimp-tmpl",
-            "version": "v3.1.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Templates.git",
-                "reference": "42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a"
+                "reference": "781379515e223bfa99846a2f299791bfd323549c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a",
-                "reference": "42c8c31428d70d0f53ca1ab31b5c2b3a68af4c8a",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/781379515e223bfa99846a2f299791bfd323549c",
+                "reference": "781379515e223bfa99846a2f299791bfd323549c",
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -1141,64 +1141,6 @@
                 "markdown-extra"
             ],
             "time": "2015-03-06 05:28:07"
-        },
-        {
-            "name": "circulon/yii2-columnlistview",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/circulon/yii2-columnlistview.git",
-                "reference": "06217130843005d96be2a69727f73cb37ccebe5c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/circulon/yii2-columnlistview/zipball/06217130843005d96be2a69727f73cb37ccebe5c",
-                "reference": "06217130843005d96be2a69727f73cb37ccebe5c",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.0"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "asset-installer-paths": {
-                    "npm-asset-library": "vendor/npm",
-                    "bower-asset-library": "vendor/bower"
-                },
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "circulon\\widgets\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kieren Eaton",
-                    "email": "circledev@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Responsive columnar List View for Yii 2.x",
-            "homepage": "https://github.com/circulon/yii2-columnlistview.git",
-            "keywords": [
-                "ListView",
-                "circulon",
-                "column",
-                "columns",
-                "list view",
-                "responsive",
-                "yii",
-                "yii 2",
-                "yii2"
-            ],
-            "time": "2015-06-28 12:49:52"
         },
         {
             "name": "components/flag-icon-css",

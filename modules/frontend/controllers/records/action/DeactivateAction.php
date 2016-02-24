@@ -1,10 +1,8 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\action;
 
-use app\models\User;
 use app\modules\frontend\controllers\RecordsController;
-use app\modules\frontend\models\form\MakeDeterminationForm;
 use Yii;
 use yii\base\Action;
 use app\modules\frontend\models\search\Record;
@@ -12,32 +10,27 @@ use app\modules\frontend\models\form\DeactivateForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class MakeDeterminationAction extends Action
+class DeactivateAction extends Action
 {
-    public $attributes;
 
     public function run($id = 0)
     {
         $controller = $this->controller();
-        $request = Yii::$app->request;
         $record = $controller->findModel(Record::className(), $id);
 
-        $user = User::findOne(Yii::$app->user->id);
-        $form = new MakeDeterminationForm([
-            'currentOfficerPin' => $user->officer_pin,
-        ]);
+        $form = new DeactivateForm();
+        $form->setAttributes(Yii::$app->request->post('DeactivateForm'));
 
-        if ($request->isAjax && $form->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);
         }
 
-        $form->setAttributes($this->attributes);
         if ($form->validate()) {
-            $user = Yii::$app->user;
+
             $success = $form->isRejectAction() ?
-                self::record()->rejectViolation($record->id, $user->id, $form->code, $form->description) :
-                self::record()->approveViolation($record->id, $user->id);
+                self::record()->rejectDeactivation($record->id, Yii::$app->user->id, $form->code, $form->description) :
+                self::record()->approveDeactivate($record->id, Yii::$app->user->id);
             if ($success) {
                 return $controller->redirect(['SearchList']);
             }

@@ -1,45 +1,44 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\frontend\models\search\PoliceCase $model
+ * @var yii\data\ActiveDataProvider $provider
  */
 
-use \yii\helpers\Html;
-use yii\helpers\Url;
 use app\widgets\base\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
+use kartik\icons\Icon;
 use kartik\grid\CheckboxColumn;
 use kartik\grid\SerialColumn;
-use kartik\grid\ActionColumn;
-use yii\widgets\Pjax;
-
 ?>
 
-<div id="wrapper-print-qc">
+<div id="wrapper-record-print">
 
     <?php Pjax::begin([
-        'id' => 'pjax-print-qc',
+        'id' => 'pjax-record-print',
         'timeout' => false,
         'enablePushState' => false,
-        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced'
+        'formSelector' => '#form-record-search-filter-basic, #form-record-search-filter-advanced',
+        'options' => ['class' => 'wrapper-grid-view',]
     ]); ?>
 
     <div class="row">
         <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right qc-confirm-selected" disabled="disabled"><?= Yii::t('app', 'Confirm') ?></button>
+            <button type="submit" class="btn btn-primary pull-right print-selected" disabled="disabled"><?= Yii::t('app', 'Print') ?></button>
         </div>
     </div>
 
     <?= GridView::widget([
-        'id' => 'grid-print-qc',
-        'dataProvider' => $dataProvider,
+        'id' => 'grid-record-print',
+        'dataProvider' => $provider,
         'columns' => [
-            ['class' => CheckboxColumn::className()],
-            ['class' => SerialColumn::className()],
+            ['class' => CheckboxColumn::className(),],
+            ['class' => SerialColumn::className(),],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'attribute' => 'infraction_date',
-                'format' => 'datetime',
+                'format' => 'date',
             ],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
@@ -58,27 +57,22 @@ use yii\widgets\Pjax;
                 'attribute' => 'elapsedTime',
             ],
             [
-                'class' => ActionColumn::className(),
+                'header' => Html::a(Icon::show('refresh', ['class' => 'fa-lg']), '#', ['class' => 'grid-view-refresh', 'title' => Yii::t('app', 'refresh grid')]),
+                'class' => \kartik\grid\ActionColumn::className(),
                 'template' => '{review}',
                 'buttons' => [
                     'review' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-eye-open"></span>',
-                            Url::to(['records/ReviewDetail', 'id' => $model->id]),
+                            Icon::show('eye', ['class' => 'fa-lg']),
+                            Url::to(['ReviewView', 'id' => $model->id]),
                             ['title' => Yii::t('app', 'Review'), 'data-pjax' => '0']
                         );
                     },
                 ],
             ],
         ],
-    ]); ?>
+    ]);
 
-    <div class="row">
-        <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right qc-reject-selected" disabled="disabled"><?= Yii::t('app', 'Reject') ?></button>
-        </div>
-    </div>
-
-    <?php Pjax::end(); ?>
+    Pjax::end(); ?>
 
 </div>

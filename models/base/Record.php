@@ -112,7 +112,8 @@ class Record extends ActiveRecord
     public function getStatusHistory()
     {
         return $this->hasOne(StatusHistory::className(), ['record_id' => 'id', 'status_code' => 'status_id'])
-            ->orderBy([StatusHistory::tableName() . '.created_at' => SORT_DESC]);
+            ->orderBy([StatusHistory::tableName() . '.created_at' => SORT_DESC])
+            ->groupBy('record_id');
     }
 
     /**

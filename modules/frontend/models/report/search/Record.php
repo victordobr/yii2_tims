@@ -1,15 +1,20 @@
 <?php
 namespace app\modules\frontend\models\report\search;
 
+use app\modules\admin\Module;
 use kartik\helpers\Html;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\QueryInterface;
+use app\enums\CaseStatus as Status;
+use yii\helpers\ArrayHelper;
 
 class Record extends \app\models\base\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
+    public $filter_bus_number;
+
     public $count;
     public $status;
 
@@ -20,7 +25,7 @@ class Record extends \app\models\base\Record
     {
         return [
             [['filter_created_at_from', 'filter_created_at_to', 'count'], 'integer'],
-            [['status'], 'string'],
+            [['status', 'filter_bus_number'], 'string'],
         ];
     }
 
@@ -48,7 +53,9 @@ class Record extends \app\models\base\Record
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false,
+            'pagination' => [
+                    'pageSize' => 20,
+            ],
             'sort' => [
                 'attributes' => [
                     'status',
@@ -63,21 +70,36 @@ class Record extends \app\models\base\Record
             $this->filterByCreatedAtRange($query, $this->filter_created_at_from, $this->filter_created_at_to);
         }
 
+        if (!empty($this->filter_bus_number)) {
+            $this->filterByBusNumber($query, $this->filter_bus_number);
+        }
+
         return $dataProvider;
     }
 
-    public function getDetailLink()
+    public function getViewUrl()
     {
-        $date_from = strtotime(Yii::$app->request->getQueryParam('Record')['filter_created_at_from']);
-        $date_to = strtotime(Yii::$app->request->getQueryParam('Record')['filter_created_at_to']);
+//        $date_from = Yii::$app->request->getQueryParam('Record')['filter_created_at_from'];
+//        $date_to = Yii::$app->request->getQueryParam('Record')['filter_created_at_to'];
 
-        $query = [
-            'report-details',
+        $url = [
+            'report-view',
             'id' => $this->id,
-            'created_from' => ($date_from == 0) ? NULL : $date_from,
-            'created_to' => ($date_to == 0) ? NULL : $date_to,
+//            'created_from' => ($date_from == 0) ? NULL : $date_from,
+//            'created_to' => ($date_to == 0) ? NULL : $date_to,
         ];
-        return Html::a($this->count, $query, ['class' => 'report-details-link']);
+        return $url;
+    }
+
+    public function getBusNumberList() {
+        $array = Record::find()
+            ->select('r.bus_number')
+            ->distinct()
+            ->from(Record::tableName() . ' r')
+            ->where(['!=', 'r.bus_number', ''])
+            ->asArray()
+            ->all();
+        return $new_arr = ArrayHelper::getColumn($array, 'bus_number');
     }
 
     protected function filterByCreatedAtRange(QueryInterface &$query, $from, $to)
@@ -93,6 +115,11 @@ class Record extends \app\models\base\Record
                 $query->andFilterWhere(['<=', 'record.created_at', strtotime($to)]);
                 break;
         }
+    }
+
+    protected function filterByBusNumber(QueryInterface &$query, $bus_number)
+    {
+        $query->andWhere(['record.bus_number' => $bus_number]);
     }
 
 }

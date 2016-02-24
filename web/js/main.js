@@ -1,14 +1,8 @@
 
 $(document).ready(function() {
     initHintBlocks();
+    pjaxPageLoading();
 
-    $("#pjax-frontend-search").on("pjax:start", function() {
-        $("#pjax-frontend-search").addClass("page-loading");
-    });
-
-    $("#pjax-frontend-search").on("pjax:end", function() {
-        $("#pjax-frontend-search").removeClass("page-loading");
-    });
 });
 
 var initHintBlocks = function () {
@@ -25,5 +19,15 @@ var initHintBlocks = function () {
             placement: placement,
             content: $hint.html()
         });
+    });
+};
+
+var pjaxPageLoading = function () {
+    $("#pjax-frontend-search").on("pjax:start", function() {
+        $("#pjax-frontend-search").addClass("page-loading");
+    });
+
+    $("#pjax-frontend-search").on("pjax:end", function() {
+        $("#pjax-frontend-search").removeClass("page-loading");
     });
 };

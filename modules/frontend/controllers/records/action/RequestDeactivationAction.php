@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\frontend\controllers\records;
+namespace app\modules\frontend\controllers\records\action;
 
 use Yii;
 use yii\base\Action;

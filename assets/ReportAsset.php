@@ -4,6 +4,7 @@ namespace app\assets;
 use \Yii;
 use \yii\web\AssetBundle;
 
+
 class ReportAsset extends AssetBundle
 {
     public $basePath = '@webroot';

@@ -98,6 +98,11 @@ class CaseStatus extends Enum
             self::VIEWED_RECORD_P2 => Yii::t('app', 'Violator Received, Waiting for Payment'), //5021
             self::PRINTED_P1 => Yii::t('app', 'Payment Overdue'), //4010/5011
             self::PAID => Yii::t('app', 'Paid'), //5030
+
+            self::QC_BAD_P1 => Yii::t('app', 'Qc rejected P1'), //4030
+            self::QC_BAD_P2 => Yii::t('app', 'Qc rejected P2'), //4060
+            self::QC_CONFIRMED_GOOD_P1 => Yii::t('app', 'Qc confirmed P2'), //4020
+            self::QC_CONFIRMED_GOOD_P2 => Yii::t('app', 'Qc confirmed P2'), //4050
         ];
     }
 

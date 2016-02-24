@@ -1,18 +1,14 @@
 <?php
-/**
- * @var $this \yii\web\View
- * @var $model \app\modules\frontend\models\search\Record
- */
 
 use kartik\form\ActiveForm;
 use kartik\builder\Form;
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
+use kartik\date\DatePicker;
 
 ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'form-record-search-filter-basic',
+    'id' => 'form-record-reports-filter',
     'enableClientScript' => false,
     'method' => 'GET',
     'options' => ['data-pjax' => true]
@@ -52,37 +48,61 @@ use yii\helpers\ArrayHelper;
 
 <?php endif; ?>
 
-<?php if ($statuses = $model->getStatusFilters()): ?>
-
     <div class="row">
         <?= Form::widget([
+            'id' => 'filter-date-opened',
             'model' => $model,
             'form' => $form,
             'columns' => 1,
             'attributes' => [
                 [
-                    'labelOptions' => ['class' => 'hide'],
+                    'label' => Yii::t('app', 'Select date range to display'),
+                    'labelOptions' => ['class' => 'search-filter-label'],
+                    'columns' => 12,
                     'attributes' => [
-                        'filter_status' => [
-                            'type' => Form::INPUT_CHECKBOX_LIST,
-                            'items' => ArrayHelper::map($statuses, 'value', 'label'),
+                        'filter_created_at_from' => [
+                            'type' => Form::INPUT_WIDGET,
+                            'widgetClass' => DatePicker::classname(),
                             'options' => [
-                                'item' => function ($index, $label, $name, $checked, $value) {
-                                    return Html::tag('div',
-                                        Html::label(
-                                            Html::input(Form::INPUT_CHECKBOX, $name, $value) . ' ' . $label, null, [
-                                            'class' => 'search-filter-list-label input-group-sm'
-                                        ]), ['class' => Form::INPUT_CHECKBOX]);
-                                },
+                                'layout' => '{input}{remove}',
+                                'size' => 'sm',
+                                'options' => [
+                                    'placeholder' => 'from',
+                                    'todayHighlight' => true,
+                                ],
+                                'pluginOptions' => [
+                                    'format' => Yii::$app->settings->get('date.view.format'),
+                                    'autoclose' => true,
+                                ]
                             ],
-                        ]
+                            'columnOptions' => [
+                                'colspan' => 6,
+                            ],
+                        ],
+                        'filter_created_at_to' => [
+                            'type' => Form::INPUT_WIDGET,
+                            'widgetClass' => DatePicker::classname(),
+                            'options' => [
+                                'layout' => '{input}{remove}',
+                                'size' => 'sm',
+                                'options' => [
+                                    'placeholder' => 'to',
+                                    'todayHighlight' => true,
+                                ],
+                                'pluginOptions' => [
+                                    'format' => Yii::$app->settings->get('date.view.format'),
+                                    'autoclose' => true,
+                                ]
+                            ],
+                            'columnOptions' => [
+                                'colspan' => 6,
+                            ],
+                        ],
                     ]
                 ]
             ]
         ]); ?>
     </div>
-
-<?php endif; ?>
 
 <?php if ($authors = $model->getAuthorFilters()): ?>
     <div class="row">

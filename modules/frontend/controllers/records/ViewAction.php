@@ -5,6 +5,7 @@ namespace app\modules\frontend\controllers\records;
 use app\components\RbacUser;
 use app\components\Settings;
 use app\enums\CaseStage;
+use app\enums\MenuTab;
 use app\enums\Role;
 use app\models\User;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
@@ -39,9 +40,10 @@ class ViewAction extends Action
         $user = Yii::$app->user;
         $record = $this->findModel($id);
 
-        if (Module::isCurrentTab('review') && $record->status_id < CaseStatus::VIEWED_RECORD) {
+        if (Module::isCurrentTab(MenuTab::TAB_REVIEW) && in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE])) {
             if ($user->hasRole([Role::ROLE_SYSTEM_ADMINISTRATOR, Role::ROLE_POLICE_OFFICER, Role::ROLE_ROOT_SUPERUSER])) {
                 self::record()->view($record->id, $user->id);
+                $record->refresh();
             }
         }
 
@@ -58,18 +60,18 @@ class ViewAction extends Action
     private static function getView(RbacUser $user)
     {
         switch (Module::getTab()) {
-            case 'search':
+            case MenuTab::TAB_SEARCH:
                 $view = !$user->hasRole([
                     Role::ROLE_OPERATIONS_MANAGER,
                     Role::ROLE_SYSTEM_ADMINISTRATOR,
                     Role::ROLE_ROOT_SUPERUSER,
                 ]) ? 'basic' : 'advanced';
                 return 'view/' . $view;
-            case 'review':
+            case MenuTab::TAB_REVIEW:
                 return 'view/basic';
-            case 'print':
+            case MenuTab::TAB_PRINT:
                 return 'view/advanced';
-            case 'update':
+            case MenuTab::TAB_UPDATE:
                 return 'view/editable';
             default:
                 return 'view/error';
@@ -98,22 +100,20 @@ class ViewAction extends Action
                     'reasonsList' => Reasons::listReasonsRejectingDeactivationRequest(),
                 ]);
             case $record->status_id == CaseStatus::VIEWED_RECORD && $user->can('MakeDetermination'):
-                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/make-determination', [
                     'action' => Url::to(['MakeDetermination', 'id' => $record->id]),
                     'model' => new MakeDeterminationForm([
-                        'currentOfficerPin' => $userModel->officer_pin,
+                        'currentOfficerPin' => $user->identity->officer_pin,
                     ]),
-                    'reasons' => Reasons::listReasonsRejectingCase(),
+                    'reasons' => Reasons::listReasonsRejectingCase(), // todo: change list of reasons
                 ]);
             case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
-                $userModel = User::findOne(Yii::$app->user->id);
                 return $this->controller()->renderPartial('../forms/change-determination', [
                     'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
                     'model' => new ChangeDeterminationForm([
                         'record_id' => $record->id,
                         'record_status' => $record->status_id,
-                        'currentOfficerPin' => $userModel->officer_pin,
+                        'currentOfficerPin' => $user->identity->officer_pin,
                     ]),
                     'reasons' => Reasons::listReasonsRejectingCase(),
                 ]);
@@ -134,7 +134,7 @@ class ViewAction extends Action
             'remaining' => self::calculateRemainingDays($record)
         ]);
 
-        if (Module::isCurrentTab('update')) {
+        if (Module::isCurrentTab(MenuTab::TAB_UPDATE)) {
             $aside .= UpdateButton::widget([
                 'elements' => [
                     '#case-details' => ['select'],

@@ -157,6 +157,13 @@ $config = [
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
 
+                // upload
+                [
+                    'pattern' => 'upload/<id:\d+>',
+                    'route' => 'frontend/records/upload',
+                    'defaults' => ['id' => 0]
+                ],
+
                 // search
                 'search' => 'frontend/records/SearchList',
                 'search/<id:\d+>' => 'frontend/records/SearchView',
@@ -170,19 +177,20 @@ $config = [
                 'POST update/<id:\d+>' => 'frontend/records/update',
                 'update/<id:\d+>' => 'frontend/records/UpdateView',
 
+                // print
+                'print' => 'frontend/records/PrintList',
+                'print/qc' => 'frontend/records/QcList',
+                'print/preview' => 'frontend/records/PrintPreview',
+                'POST print/send' => 'frontend/records/SendToPrint',
+                'POST print/confirm' => 'frontend/records/ConfirmQc',
+                'POST print/reject' => 'frontend/records/RejectQc',
+
                 [
-                    'pattern' => '<action:(upload|search|review|update|requestDeactivation|deactivate)>/<id:\d+>',
-                    'route' => 'frontend/records/<action>',
-                ],
-                [
-                    'pattern' => '<action:(upload|chunkUpload|handle)>',
-                    'route' => 'frontend/records/<action>',
-                ],
-                [
-                    'pattern' => 'print/<action:(index|preview|qc|send|confirm|reject)>',
-                    'route' => 'frontend/print/<action>',
+                    'pattern' => 'reports/<action:[\w-]+>',
+                    'route' => 'frontend/reports/<action>',
                     'defaults' => ['action' => '']
                 ],
+
                 // admin roles
                 'admin/roles' => 'admin/rbac/role/index',
                 'admin/role/create' => 'admin/rbac/role/create',

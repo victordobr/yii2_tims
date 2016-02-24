@@ -9,7 +9,7 @@ use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
 
-class ViolationsByDateAction extends Action
+class ViolationsBySchoolBusAction extends Action
 {
     public $attributes;
 
@@ -27,13 +27,11 @@ class ViolationsByDateAction extends Action
     {
         $this->setPageTitle();
 
-        $user = Yii::$app->user;
-
         $model = new RecordSearch();
 
         $dataProvider = $model->search($this->attributes);
 
-        $this->setAside($model, $user);
+        $this->setAside($model);
 
         return $this->controller()->render('violationsByDate', [
             'model' => $model,
@@ -44,11 +42,10 @@ class ViolationsByDateAction extends Action
     /**
      * RecordFilter $model
      * @param RecordFilter $model
-     * @param RbacUser $user
      * @return string
      * @throws \Exception
      */
-    private function setAside($model,  $user)
+    private function setAside($model)
     {
         return Yii::$app->view->params['aside'] = FilterReport::widget([
             'model' => $model,
