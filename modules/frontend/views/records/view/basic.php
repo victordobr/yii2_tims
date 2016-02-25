@@ -51,17 +51,21 @@ $formatter = Yii::$app->formatter;
 
             <div class="col-xs-6">
                 <?= DetailView::widget([
+                    'id' => 'photo-video-evidence',
                     'title'=>Yii::t('app', 'Photo/Video evidence'),
+                    'template' => '<tr><th class="evidence-headers"><span>{label}</span></th><td>{value}</td></tr>',
                     'model' => $model,
                     'options' => ['class' => 'table'],
                     'attributes' => [
                         [
+                            'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Latitude'),
-                            'value' => $model->location->lat_dms . ' ' . $model->location->lat_ddm,
+                            'value' => $this->render('partials/text-latitude', ['location' => $model->location]),
                         ],
                         [
+                            'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Longitude'),
-                            'value' => $model->location->lng_dms . ' ' . $model->location->lng_ddm,
+                            'value' => $this->render('partials/text-longitude', ['location' => $model->location]),
                         ],
                         [
                             'label' => Yii::t('app', 'Location (nearby address)'),

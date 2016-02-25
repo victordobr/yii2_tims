@@ -35,13 +35,14 @@ $formatter = Yii::$app->formatter;
                     'enableClientScript' => false,
                     'options' => ['data-pjax' => true],
                     'fieldConfig' => [
-                        'template' => '<div class="col-lg-12">{label}{input}{error}</div>',
+                        'template' => '{label}{input}',
                     ],
                 ]); ?>
                 <?= DetailView::widget([
                     'id' => 'case-details',
                     'editable' => true,
                     'title' => Yii::t('app', 'Case details'),
+                    'template' => '<tr><th class="case-details-headers"><span>{label}</span></th><td>{value}</td></tr>',
                     'model' => $model,
                     'options' => ['class' => 'table'],
                     'attributes' => [
@@ -68,7 +69,7 @@ $formatter = Yii::$app->formatter;
                         ],
                         [
                             'format' => 'raw',
-                            'label' => Yii::t('app', 'Change record state to'),
+                            'label' => Yii::t('app', 'Change record state'),
                             'value' => $form->field($model, 'status_id', [
                                 'options' => ['class' => 'form-group form-group-sm'],
                             ])->dropDownList($statuses)->label(false),
@@ -92,7 +93,7 @@ $formatter = Yii::$app->formatter;
                     'method' => 'GET',
                     'options' => ['data-pjax' => true],
                     'fieldConfig' => [
-                        'template' => '<div class="col-lg-12">{label}{input}{error}</div>',
+                        'template' => '<div class="col-lg-12">{input}</div>',
                     ],
                 ]); ?>
                 <?= DetailView::widget([
@@ -100,7 +101,7 @@ $formatter = Yii::$app->formatter;
                     'editable' => true,
                     'title' => Yii::t('app', 'Photo/Video evidence'),
                     'model' => $model,
-                    'template' => '<tr><th class="evidence-headers">{label}</th><td>{value}</td></tr>',
+                    'template' => '<tr><th class="evidence-headers"><span>{label}</span></th><td>{value}</td></tr>',
                     'options' => ['class' => 'table'],
                     'attributes' => [
                         [

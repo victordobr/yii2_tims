@@ -8,11 +8,16 @@ use yii\widgets\MaskedInput;
 
 ?>
 
-<div class="form-group form-group-sm">
-    <div class="col-sm-6">
-        <?= $location->lat_dms; ?>
+<div class="col-sm-6">
+    <div class="row">
+        <div class="form-group form-group-sm location-dms">
+            <?= $location->lat_dms; ?>
+        </div>
     </div>
-    <div class="col-sm-6">
+</div>
+
+<div class="col-sm-6">
+    <div class="row">
         <?= $form->field($location, 'lat_ddm', [
             'options' => ['class' => 'form-group form-group-sm'],
         ])->widget(MaskedInput::classname(), [
