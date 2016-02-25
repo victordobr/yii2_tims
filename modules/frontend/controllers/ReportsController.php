@@ -5,6 +5,7 @@ namespace app\modules\frontend\controllers;
 use app\components\RbacUser;
 use app\enums\Role;
 use app\modules\frontend\controllers\reports\OverallSummaryDashboardAction;
+use app\modules\frontend\controllers\reports\RenderPdfAction;
 use app\modules\frontend\controllers\reports\ReportViewAction;
 use app\modules\frontend\controllers\reports\ViolationsBySchoolBusAction;
 use Yii;
@@ -42,7 +43,10 @@ class ReportsController extends Controller
 
 
 
-
+            'render-pdf' => [
+                'class' =>  RenderPdfAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
             'report-view' => [
                 'class' =>  ReportViewAction::className(),
                 'attributes' => $request->get('Record'),

@@ -23,6 +23,8 @@ class Pdf extends \kartik\mpdf\Pdf
         if (!empty($this->_css)) {
             return $this->_css;
         }
+        $css .= $this->cssInline;
+
         $cssFile = empty($this->cssFile) ? '' : Yii::getAlias($this->cssFile);
         if (empty($cssFile) || !file_exists($cssFile)) {
             $css = '';
@@ -42,7 +44,6 @@ class Pdf extends \kartik\mpdf\Pdf
             }
         }
 
-        $css .= $this->cssInline;
         return $css;
     }
 
