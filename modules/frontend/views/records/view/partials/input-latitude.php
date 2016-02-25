@@ -1,20 +1,27 @@
 <?php
 /**
  * @var \app\models\Location $location
+ * @var \yii\widgets\ActiveForm $form
  */
 
 use yii\widgets\MaskedInput;
+
 ?>
 
-<div class="form-group form-group-sm">
-    <div class="col-sm-6">
-        <?= $location->lat_dms; ?>
+<div class="col-sm-6">
+    <div class="row">
+        <div class="form-group form-group-sm location-dms">
+            <?= $location->lat_dms; ?>
+        </div>
     </div>
-    <div class="col-sm-6">
-        <?= MaskedInput::widget([
-            'name' => 'Record[location][lat_ddm]',
+</div>
+
+<div class="col-sm-6">
+    <div class="row">
+        <?= $form->field($location, 'lat_ddm', [
+            'options' => ['class' => 'form-group form-group-sm'],
+        ])->widget(MaskedInput::classname(), [
             'mask' => '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-            'value' => $location->lat_ddm,
-        ]); ?>
+        ])->label(false) ?>
     </div>
 </div>

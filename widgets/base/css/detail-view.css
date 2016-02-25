@@ -13,7 +13,7 @@
     border: none;
     color: #666;
     background: rgba(255, 255, 255, .96);
-    font: bold 15px/0 'Open Sans', sans-serif;
+    font: 16px/0 'Open Sans', sans-serif;
     text-transform: uppercase;
 }
 
@@ -33,14 +33,21 @@
 
 .panel.panel-view > .panel-body tr > th {
     padding-left: 12px;
+    word-spacing: -1.8px;
     font-weight: normal;
-    letter-spacing: -0.2px;
+    color: rgb(100, 100, 100);
+}
+
+.panel.panel-view > .panel-body tr > td {
+    color: rgb(130, 130, 130);
 }
 
 .panel.panel-view > .panel-body tr > th,
 .panel.panel-view > .panel-body tr > td {
-    color: rgb(111, 111, 111);
+    font-size: 14px;
     line-height: 14px;
+    letter-spacing: -0.4px;
+    word-spacing: -1.2px;
 }
 
 .panel.panel-view > .panel-body tr:nth-child(1) > th,
@@ -61,14 +68,14 @@
 #photo-video-evidence tr  > th {
     width: 30%;
     padding: 4px 8px;
-    line-height: 28px;
+    line-height: 30px;
 }
 
 #photo-video-evidence tr  > td {
     padding: 4px 0;
 }
 
-#photo-video-evidence tr ~ tr ~ tr  > th {
+#photo-video-evidence tr ~ tr ~ tr  > th > span {
     position: absolute;
     width: 50%;
     line-height: 24px;
@@ -78,6 +85,41 @@
     line-height: 8px;
     padding-top: 12px;
     padding-left: 60px;
+}
+
+#photo-video-evidence .location-dms {
+    line-height: 30px;
+    letter-spacing: -0.8px;
+}
+
+#photo-video-evidence .field-location-lat_ddm > .col-lg-12,
+#photo-video-evidence .field-location-lng_ddm > .col-lg-12 {
+    padding-left: 0;
+}
+
+#photo-video-evidence .field-location-lat_ddm > .col-lg-12 > .form-control,
+#photo-video-evidence .field-location-lng_ddm > .col-lg-12 > .form-control {
+    letter-spacing: -0.4px;
+}
+
+#form-photo-video-evidence > .panel > .panel-footer {
+    text-align: center;
+}
+
+/* case-details */
+
+#case-details > tbody:nth-child(1) > tr:nth-child(6) > th:nth-child(1) {
+
+
+}
+
+#case-details > tbody > tr:nth-child(6) > th.case-details-headers {
+    position: relative;
+}
+
+#case-details > tbody > tr:nth-child(6) > th.case-details-headers > span {
+    position: absolute;
+    top: 16px;
 }
 
 /* icons */
