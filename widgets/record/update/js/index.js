@@ -1,21 +1,42 @@
-$("#record-save-changes").on("click", function(e){
-    e.preventDefault();
+$(function () {
 
-    var attributes = '';
+    var
+        submit = $('#record-save-changes'),
+        wrapper = $(submit.data('wrapper')),
+        forms = submit.data('forms');
 
-    $.each($(this).data('elements'), function (wrapper, selectors) {
-        if (attributes.length > 0) {
-            attributes += '&'
-        }
-        $.each(selectors, function (i, selector) {
-            attributes += $(wrapper).find(selector).serialize();
-        });
+
+    submit.on('click', function (e) {
+        e.preventDefault();
+
+        $(forms.join(',')).submit();
     });
 
-    $.post(null, attributes, function (response) {
-        if (!$.isEmptyObject(response['status']) && response['status'].length > 0) {
-            $('#case-details').find('tr:nth-child(5) > td').text(response['status']);
-        }
-    }, 'json');
+    $.each(forms, function(i, form){
+
+        wrapper.on('submit', form, function (e) {
+            var update = false;
+
+            $.ajax({
+                type: 'POST',
+                url: null,
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response['success']) {
+                        $.notify(response['success'], 'success');
+                        update = true;
+                    } else if (response['info']) {
+                        //$.notify(response['info'], 'info');
+                    } else if (response['error']) {
+                        $.notify(response['error'], 'error');
+                    }
+                },
+                dataType: 'json',
+                async: false
+            });
+
+            return update;
+        });
+    });
 
 });

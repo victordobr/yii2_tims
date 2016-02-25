@@ -9,10 +9,17 @@ use yii\helpers\Json;
 
 class UpdateButton extends Widget
 {
+    private $id = 'record-save-changes';
+
+    /**
+     * @var string
+     */
+    public $wrapper;
+
     /**
      * @var array
      */
-    public $elements = [];
+    public $forms = [];
 
     public function init()
     {
@@ -22,7 +29,9 @@ class UpdateButton extends Widget
     function run()
     {
         return $this->render('index', [
-            'elements' => Json::encode($this->elements),
+            'id' => $this->id,
+            'wrapper' => $this->wrapper,
+            'forms' => Json::encode($this->forms),
         ]);
     }
 
