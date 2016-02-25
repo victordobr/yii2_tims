@@ -1,9 +1,11 @@
 <?php
 /**
  * @var \app\models\Location $location
+ * @var \yii\widgets\ActiveForm $form
  */
 
 use yii\widgets\MaskedInput;
+
 ?>
 
 <div class="form-group form-group-sm">
@@ -11,10 +13,10 @@ use yii\widgets\MaskedInput;
         <?= $location->lng_dms; ?>
     </div>
     <div class="col-sm-6">
-        <?= MaskedInput::widget([
-            'name' => 'Record[location][lng_ddm]',
+        <?= $form->field($location, 'lng_ddm', [
+            'options' => ['class' => 'form-group form-group-sm'],
+        ])->widget(MaskedInput::classname(), [
             'mask' => '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-            'value' => $location->lng_ddm,
-        ]); ?>
+        ])->label(false) ?>
     </div>
 </div>

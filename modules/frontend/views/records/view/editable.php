@@ -106,20 +106,18 @@ $formatter = Yii::$app->formatter;
                         [
                             'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Latitude'),
-                            'value'=> $form->field($model->location, 'lat_ddm', [
-                                'options' => ['class' => 'form-group form-group-sm'],
-                            ])->widget(MaskedInput::classname(), [
-                            'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-                        ])->label(false)->hint('(eg. 122.21.73060W)'),
+                            'value'=> $this->render('partials/input-latitude', [
+                                'form' => $form,
+                                'location' => $model->location,
+                            ]),
                         ],
                         [
                             'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Longitude'),
-                            'value'=> $form->field($model->location, 'lng_ddm', [
-                                'options' => ['class' => 'form-group form-group-sm'],
-                            ])->widget(MaskedInput::classname(), [
-                                'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-                            ])->label(false)->hint('(eg. 122.21.73060W)'),
+                            'value'=> $this->render('partials/input-longitude', [
+                                'form' => $form,
+                                'location' => $model->location,
+                            ]),
                         ],
                         [
                             'label' => Yii::t('app', 'Location (nearby address)'),
