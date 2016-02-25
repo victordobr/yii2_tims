@@ -2,12 +2,10 @@
 
 namespace app\modules\frontend\controllers\records;
 
-use app\components\RbacUser;
 use app\components\Settings;
 use app\enums\CaseStage;
 use app\enums\MenuTab;
 use app\enums\Role;
-use app\models\User;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\modules\frontend\Module;
@@ -25,10 +23,18 @@ use app\enums\Reasons;
 
 class ViewAction extends Action
 {
+    const MODE_UNDEFINED = 0;
+    const MODE_BASIC = 1;
+    const MODE_ADVANCED = 2;
+    const MODE_EDITABLE = 3;
+
+    private $mode = self::MODE_UNDEFINED;
+
     public function init()
     {
         parent::init();
         $this->setLayout('two-columns');
+        $this->initMode();
     }
 
     public function run($id = 0)
@@ -50,32 +56,79 @@ class ViewAction extends Action
         $this->setPageTitle($record->id);
         $this->setAside($record);
 
-        return $this->controller()->render(self::getView($user), [
+        return $this->controller()->render($this->getView(), [
             'model' => $record,
             'form' => $this->renderForm($record),
             'statuses' => CaseStatus::listCodeDescription(),
         ]);
     }
 
-    private static function getView(RbacUser $user)
+    /**
+     * @return string
+     */
+    private function getView()
     {
-        switch (Module::getTab()) {
-            case MenuTab::TAB_SEARCH:
-                $view = !$user->hasRole([
-                    Role::ROLE_OPERATIONS_MANAGER,
-                    Role::ROLE_SYSTEM_ADMINISTRATOR,
-                    Role::ROLE_ROOT_SUPERUSER,
-                ]) ? 'basic' : 'advanced';
-                return 'view/' . $view;
-            case MenuTab::TAB_REVIEW:
+        switch ($this->mode) {
+            case self::MODE_BASIC:
                 return 'view/basic';
-            case MenuTab::TAB_PRINT:
+            case self::MODE_ADVANCED:
                 return 'view/advanced';
-            case MenuTab::TAB_UPDATE:
+            case self::MODE_EDITABLE:
                 return 'view/editable';
             default:
                 return 'view/error';
         }
+    }
+
+    /**
+     * @return int|null
+     */
+    private function initMode()
+    {
+        switch (Module::getTab()) {
+            case MenuTab::TAB_SEARCH:
+                $advanced = Yii::$app->user->hasRole([
+                    Role::ROLE_OPERATIONS_MANAGER,
+                    Role::ROLE_SYSTEM_ADMINISTRATOR,
+                    Role::ROLE_ROOT_SUPERUSER,
+                ]);
+                return $this->mode = !$advanced ? self::MODE_BASIC : self::MODE_ADVANCED;
+            case MenuTab::TAB_REVIEW:
+                return $this->mode = self::MODE_BASIC;
+            case MenuTab::TAB_UPDATE:
+                return $this->mode = self::MODE_EDITABLE;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isEditableMode()
+    {
+        return $this->mode == self::MODE_EDITABLE;
+    }
+
+    /**
+     * @param string $name
+     */
+    private function setLayout($name)
+    {
+        $this->controller()->layout = $name;
+    }
+
+    /**
+     * @param int $record_id
+     * @return string
+     */
+    private function setPageTitle($record_id)
+    {
+        $title = !$this->isEditableMode()?
+            Yii::t('app', 'View record - Case #' . $record_id):
+            Yii::t('app', 'Update record - Case #' . $record_id);
+
+        return $this->controller()->view->title = $title;
     }
 
     /**
@@ -134,11 +187,12 @@ class ViewAction extends Action
             'remaining' => self::calculateRemainingDays($record)
         ]);
 
-        if (Module::isCurrentTab(MenuTab::TAB_UPDATE)) {
+        if ($this->isEditableMode()) {
             $aside .= UpdateButton::widget([
-                'elements' => [
-                    '#case-details' => ['select'],
-                    '#photo-video-evidence' => ['input'],
+                'wrapper' => '#record-editable-view',
+                'forms' => [
+                    '#form-case-details',
+                    '#form-photo-video-evidence',
                 ]
             ]);
         }
@@ -188,27 +242,12 @@ class ViewAction extends Action
         return $this->controller()->findModel(Record::className(), $id);
     }
 
-    private function setPageTitle($record_id)
-    {
-        $title = Yii::t('app', 'View uploaded record - Case #' . $record_id);
-
-        return $this->controller()->view->title = $title;
-    }
-
     /**
      * @return Settings
      */
     private static function settings()
     {
         return Yii::$app->settings;
-    }
-
-    /**
-     * @param string $name
-     */
-    private function setLayout($name)
-    {
-        $this->controller()->layout = $name;
     }
 
     /**
