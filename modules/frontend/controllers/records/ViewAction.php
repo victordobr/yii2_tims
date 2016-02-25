@@ -34,7 +34,12 @@ class ViewAction extends Action
     {
         parent::init();
         $this->setLayout('two-columns');
+    }
+
+    public function beforeRun()
+    {
         $this->initMode();
+        return parent::beforeRun();
     }
 
     public function run($id = 0)

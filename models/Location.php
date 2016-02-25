@@ -68,8 +68,8 @@ class Location extends base\Location
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->lat_dd = Yii::$app->formatter->asDecimal($this->lat_ddm);
-            $this->lng_dd = Yii::$app->formatter->asDecimal($this->lng_ddm);
+            $this->lat_dd = Yii::$app->formatter->asDecimalCoord($this->lat_ddm);
+            $this->lng_dd = Yii::$app->formatter->asDecimalCoord($this->lng_ddm);
             $this->lat_dms = Yii::$app->formatter->asDMS($this->lat_ddm);
             $this->lng_dms = Yii::$app->formatter->asDMS($this->lng_ddm);
             return true;

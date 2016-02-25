@@ -276,7 +276,7 @@ class Formatter extends \yii\i18n\Formatter
      * @param string $latlng Latitude or longitude. For example $latlng = '49.59.366N'
      * @return integer $decimal_degrees
      */
-    public function asDecimal($latlng) {
+    public function asDecimalCoord($latlng) {
 
         $decimal_degrees = 0;
         $degrees = 0; $minutes = 0; $seconds = 0; $direction = 1;
