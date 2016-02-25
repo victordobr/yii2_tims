@@ -58,7 +58,7 @@ class UploadAction extends Action
                 ]));
             }
             $location->record_id = $model->id;
-            $this->saveLocation($location);
+            $location->save();
 
             return $this->controller()->redirect(['upload', 'id' => $model->id]);
         }
@@ -83,15 +83,6 @@ class UploadAction extends Action
             'maxChunkSize' => $maxChunkSize,
             'acceptMimeTypes' => $acceptMimeTypes,
         ]);
-    }
-
-    public function saveLocation($model) {
-        $model->lat_dd = GpsHelper::convertDDMToDecimal($model->lat_ddm);
-        $model->lng_dd = GpsHelper::convertDDMToDecimal($model->lng_ddm);
-        $model->lat_dms = GpsHelper::convertDDMToDMS($model->lat_ddm);
-        $model->lng_dms = GpsHelper::convertDDMToDMS($model->lng_ddm);
-
-        return $model->save();
     }
 
     public function saveRecord($model, $post)

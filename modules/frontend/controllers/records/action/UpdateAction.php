@@ -42,10 +42,6 @@ class UpdateAction extends Action
         if (!empty($this->attributes['location'])) {
             $location->setAttributes($this->attributes['location']);
             if ($location->getDirtyAttributes() && $location->validate()) {
-                $location->lat_dd = GpsHelper::convertDDMToDecimal($location->lat_ddm);
-                $location->lng_dd = GpsHelper::convertDDMToDecimal($location->lng_ddm);
-                $location->lat_dms = GpsHelper::convertDDMToDMS($location->lat_ddm);
-                $location->lng_dms = GpsHelper::convertDDMToDMS($location->lng_ddm);
                 if (!$location->save()) {
                     $errors = $location->getErrors();
                 }

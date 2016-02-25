@@ -269,4 +269,62 @@ class Formatter extends \yii\i18n\Formatter
     {
         return preg_replace('/\D/', '', $number);
     }
+
+    /**
+     * Convert DDM (degrees / decimal minutes) to decimal degrees
+     *
+     * @param string $latlng Latitude or longitude. For example $latlng = '49.59.366N'
+     * @return integer $decimal_degrees
+     */
+    public function asDecimal($latlng) {
+
+        $decimal_degrees = 0;
+        $degrees = 0; $minutes = 0; $seconds = 0; $direction = 1;
+
+        if (preg_match("/^(\d{1,3}).(\d{1,3}.\d{1,9})*([nsewNSEW])$/", $latlng, $matches)) {
+            $degrees = intval($matches[1]);
+            $dec_minutes = floatval($matches[2]);
+            if (strtoupper($matches[3]) == "S" || strtoupper($matches[3]) == "W")
+                $direction = -1;
+
+            $minutes = floor($dec_minutes);
+            $seconds = 60 * ($dec_minutes - $minutes);
+            $decimal_degrees = ($degrees + ($minutes / 60) + ($seconds / 3600)) * $direction;
+
+            return $decimal_degrees;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Convert DDM (degrees / decimal minutes) to DMS (degrees / minutes / seconds)
+     *
+     * @param string $latlng Latitude or longitude. For example $latlng = '49.59.366N'
+     * @return string $dms
+     */
+    public static function asDMS($latlng) {
+
+        $decimal_degrees = 0;
+        $degrees = 0; $minutes = 0; $seconds = 0; $direction = 1;
+
+        if (preg_match("/^(\d{1,3}).(\d{1,3}.\d{1,9})*([nsewNSEW])$/", $latlng, $matches)) {
+            $degrees = intval($matches[1]);
+            $dec_minutes = floatval($matches[2]);
+            if (strtoupper($matches[3]) == "S" || strtoupper($matches[3]) == "W")
+                $direction = -1;
+
+            $minutes = floor($dec_minutes);
+            $seconds = 60 * ($dec_minutes - $minutes);
+
+            $seconds = round($seconds, 5);
+
+            $dms = $degrees . "º " . $minutes . "' " . $seconds . "\" " . $matches[3];
+            return $dms;
+        }
+        else {
+            return false;
+        }
+    }
 }
