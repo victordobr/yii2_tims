@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\models;
 
 class Setting extends \pheme\settings\models\Setting
 {

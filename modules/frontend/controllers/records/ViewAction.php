@@ -20,6 +20,7 @@ use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
 use yii\helpers\Url;
 use app\enums\Reasons;
+use app\components\Record as RecordComponent;
 
 class ViewAction extends Action
 {
@@ -145,13 +146,13 @@ class ViewAction extends Action
         $user = Yii::$app->user;
 
         switch (true) {
-            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
+            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation') && RecordComponent::checkDeactivateTimeout($record->created_at):
                 return $this->controller()->renderPartial('../forms/request-deactivation', [
                     'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
                     'model' => new RequestDeactivateForm(),
                     'reasonsList' => Reasons::listReasonsRequestDeactivation(),
                 ]);
-            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
+            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation') && RecordComponent::checkDeactivateTimeout($record->created_at):
                 return $this->controller()->renderPartial('../forms/deactivate', [
                     'action' => Url::to(['deactivate', 'id' => $record->id]),
                     'model' => new DeactivateForm(['record_id' => $record->id]),
@@ -165,7 +166,7 @@ class ViewAction extends Action
                     ]),
                     'reasons' => Reasons::listReasonsRejectingCase(), // todo: change list of reasons
                 ]);
-            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
+            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination') && RecordComponent::checkChangeDeterminationTimeout($record->created_at):
                 return $this->controller()->renderPartial('../forms/change-determination', [
                     'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
                     'model' => new ChangeDeterminationForm([

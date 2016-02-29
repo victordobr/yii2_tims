@@ -24,8 +24,21 @@ class Auth extends User
     public function init()
     {
         parent::init();
-
+        if (!empty(Yii::$app->settings->get('user.inactive_interval'))) {
+            $this->setUserInactiveTimeout(Yii::$app->settings->get('user.inactive_interval'));
+        }
         $this->authManager = Yii::$app->authManager;
+    }
+
+    /**
+     * The number of seconds in which the user will be logged out automatically if he remains inactive
+     * @param $timeout the number of seconds
+     */
+    private function setUserInactiveTimeout($timeout)
+    {
+        $this->authTimeout = $timeout;
+        $this->enableAutoLogin = false;
+        $this->enableSession = true;
     }
 
     /**

@@ -44,6 +44,12 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'settings' => [
+                'class' => 'pheme\settings\SettingsAction',
+                'modelClass' => 'app\models\Setting',
+                //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
+                'viewName' => 'settings'   // The form we need to render
+            ],
         ];
     }
 
