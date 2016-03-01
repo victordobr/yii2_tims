@@ -3,14 +3,14 @@
     text-align: center;
 }
 
-ul {
+.panel-user-info ul {
     margin: 0 auto;
     padding: 0;
     list-style: none;
     text-align: center;
 }
 
-ul li {
+.panel-user-info ul li {
     display: inline;
     text-align: center;
 }

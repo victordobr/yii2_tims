@@ -21,8 +21,7 @@ class Setting extends \app\models\Setting
             return $dataProvider;
         }
 
-        $query->andFilterWhere(
-            [
+        $query->andFilterWhere( [
                 'id' => $this->id,
                 'active' => $this->active,
                 'section' => $this->section,

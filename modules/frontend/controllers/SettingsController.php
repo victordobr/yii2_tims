@@ -10,7 +10,9 @@ namespace app\modules\frontend\controllers;
 
 use app\assets\AppAsset;
 use app\assets\NotifyJsAsset;
+use app\enums\Role;
 use Yii;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Setting;
 use app\modules\frontend\models\setting\Setting as SettingSearch;
@@ -18,9 +20,9 @@ use yii\helpers\ArrayHelper;
 
 
 /**
- * SiteinfoController implements the CRUD actions for Setting model.
+ * SettingsController implements the CRUD actions for Setting model.
  *
- * @author Vitalii Fokov
+ * @author Victor Dobrianskiy
  */
 class SettingsController extends \pheme\settings\controllers\DefaultController
 {
@@ -57,10 +59,16 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [
+                            Role::ROLE_SYSTEM_ADMINISTRATOR,
+                            Role::ROLE_ROOT_SUPERUSER
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -88,6 +96,38 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
             'dataProvider' => $dataProvider,
             'sectionsList' => $sectionsList,
         ]);
+    }
+
+    /**
+     * Updates an existing Setting.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+        else {
+            return $this->render('update',[
+                    'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing Setting.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+        return $this->redirect(['index']);
     }
 
 }

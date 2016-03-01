@@ -40,13 +40,14 @@ use kartik\grid\ActionColumn;
 //                    'id',
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
+                    'vAlign' => GridView::ALIGN_MIDDLE,
                     'attribute' => 'section',
                     'filterType' => GridView::FILTER_SELECT2,
                     'filter' => $sectionsList,
                     'filterWidgetOptions' => [
                         'pluginOptions' => ['allowClear' => true, 'width' => 200],
                     ],
-                    'filterInputOptions' => ['placeholder' => 'Choose section'],
+                    'filterInputOptions' => ['placeholder' => 'Choose section', 'multiple' => true],
                     'format' => 'raw',
                     'group' => true,
                 ],
@@ -59,11 +60,15 @@ use kartik\grid\ActionColumn;
                 ],
                 [
                     'attribute' => 'created',
+                    'format' => ['date', 'php:d/m/y H:i'],
                     'mergeHeader' => true,
+                    'width' => 200
                 ],
                 [
                     'attribute' => 'modified',
+                    'format' => ['date', 'php:d/m/Y H:i'],
                     'mergeHeader' => true,
+                    'width' => 200
                 ],
                 [
                     'header' => Html::a(Icon::show('refresh', ['class' => 'fa-lg']), '#', ['class' => 'grid-view-refresh', 'title' => Yii::t('app', 'refresh grid')]),
