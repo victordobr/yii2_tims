@@ -117,10 +117,8 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             return $this->redirect(['index']);
         }
-        // rev: else excessively
-        else {
-            return $this->render('create', ['model' => $model,]);
-        }
+
+        return $this->render('create', ['model' => $model,]);
     }
 
     /**
@@ -141,10 +139,8 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             return $this->redirect(['index']);
         }
-        // rev: else excessively
-        else {
-            return $this->render('update', ['model' => $model,]);
-        }
+
+        return $this->render('update', ['model' => $model,]);
     }
 
     /**
@@ -168,12 +164,11 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
      */
     protected function findModel($id)
     {
-        // rev: else excessively
-        if (($model = Setting::findOne($id)) !== null) {
-            return $model;
-        } else {
+        if (is_null($model = Setting::findOne($id))) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        return $model;
     }
 
 }

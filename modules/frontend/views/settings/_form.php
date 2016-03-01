@@ -1,18 +1,9 @@
 <?php
-/**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
- */
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\enums\VarType;
 
-/**
- * @var yii\web\View $this
- * @var pheme\settings\models\Setting $model
- * @var yii\widgets\ActiveForm $form
- */
 ?>
 
 <div class="setting-form">
@@ -36,18 +27,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'active')->checkbox(['value' => 1]) ?>
 
     <?=
-    $form->field($model, 'type')->dropDownList(
-        // rev: move to enum like VarTypeEnum
-        [
-            'string' => 'string',
-            'integer' => 'integer',
-            'boolean' => 'boolean',
-            'float' => 'float',
-            'array' => 'array',
-            'object' => 'object',
-            'null' => 'null'
-        ]
-    )->hint(\Yii::t('app', 'Change at your own risk')) ?>
+    $form->field($model, 'type')->dropDownList(VarType::listData())->hint(\Yii::t('app', 'Change at your own risk')) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-3 col-lg-8">

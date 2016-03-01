@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
- */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -15,32 +10,29 @@ use kartik\grid\ActionColumn;
 
 ?>
 
-<?php // rev: change class wrapper?>
-<div class="user-index">
+<?php ?>
+<div class="settings-index">
 
     <div class="white-background col-md-12">
 
         <p>
             <?= Html::a(Yii::t('app', 'Create New Setting'), ['create'], ['class' => 'btn btn-default', 'role' => 'button']) ?>
         </p>
-        <?php
-        // rev: unique pjax id
-        Pjax::begin([
-            'id' => 'pjax-frontend-search',
+        <?php Pjax::begin([
+            'id' => 'pjax-settings-index',
             'timeout' => false,
             'enablePushState' => false,
-            'options' => ['class' => 'wrapper-grid-view',]
+            'options' => ['class' => 'wrapper-settings-grid',]
         ]); ?>
 
         <?= GridView::widget([
-            'id' => 'settings-grid-search',
+            'id' => 'settings-grid',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
                 [
                     'class' => SerialColumn::className(),
                 ],
-//                    'id',
                 [
                     'hAlign' => GridView::ALIGN_CENTER,
                     'vAlign' => GridView::ALIGN_MIDDLE,

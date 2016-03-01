@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
- */
-
 namespace app\modules\admin\controllers;
 
 use Yii;
@@ -86,13 +80,11 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/admin/settings/index']);
         }
-        // rev: else excessively
-        else {
-            return $this->render('update', [
-                    'model' => $model,
-                ]
-            );
-        }
+
+        return $this->render('update', [
+                'model' => $model,
+            ]
+        );
     }
 
     public function actionView($id)
@@ -105,14 +97,12 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
 
     protected function findModel($id)
     {
-        // rev: first errors and after return model
-        if (($model = Setting::findOne($id)) !== null) {
-            return $model;
-        } else {
+        if (is_null($model = Setting::findOne($id))) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
 
+        return $model;
+    }
 }
 
 

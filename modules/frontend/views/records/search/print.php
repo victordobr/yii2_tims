@@ -74,9 +74,7 @@ use \app\components\Record;
             ],
         ],
         'rowOptions' => function($model, $key, $index, $grid) {
-            // rev: pass setting interval from controller
-            // rev:  return ['class' => Record::getPrintRowClass($model->created_at)];
-            return Record::getPrintRowClass($model->created_at);
+            return ['class' => Record::getPrintRowClass($model->created_at)];
         },
     ]);
 

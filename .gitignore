@@ -33,3 +33,4 @@ phpunit.phar
 /config/local/params.php
 
 /logs/
+/controllers/TestController.php
