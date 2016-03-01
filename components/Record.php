@@ -655,10 +655,12 @@ class Record extends Component
      * @param integer $default_interval default time interval in hours
      * @return bool
      */
-    private static function checkTimeout($created_at, $settings_interval, $default_interval = self::ONE_DAY_HOURS)
+    private static function checkTimeout($created_at, $settings_interval = self::ONE_DAY_HOURS, $default_interval = self::ONE_DAY_HOURS)
     {
+        // rev: defaults
         $deactivate_interval = (!empty($settings_interval)) ? $settings_interval : $default_interval;
         $deactivate_time = $created_at + $deactivate_interval * 3600;
+        // rev: return $deactivate_time > time();
         if ($deactivate_time > time()) {
             return true;
         }
@@ -676,6 +678,7 @@ class Record extends Component
      */
     public static function checkDeactivateTimeout($created_at)
     {
+        // rev: pass interval as param
         return self::checkTimeout($created_at, Yii::$app->settings->get('record.deactivate_interval'));
     }
 
@@ -688,9 +691,11 @@ class Record extends Component
      */
     public static function checkChangeDeterminationTimeout($created_at)
     {
+        // rev: pass interval as param
         return self::checkTimeout($created_at, Yii::$app->settings->get('record.change_determination_interval'));
     }
 
+    // rev: check doc blocks: type of params
     /**
      * Get class name by timeout
      * @param $amber_timeout time in hours
@@ -698,7 +703,8 @@ class Record extends Component
      * @return array
      */
     public static function getRowClassByTimeout($created_at, $amber_timeout, $red_timeout) {
-
+        // rev: modify conditions
+        // rev: return only class name
         switch(true) {
             case time() > $created_at + $amber_timeout * 3600 && time() < $created_at + $red_timeout * 3600:
                 return ['class' => 'warning'];
@@ -712,6 +718,7 @@ class Record extends Component
      * @return array
      */
     public static function getReviewRowClass($created_at) {
+        // rev: pass interval as param
         $amber_timeout = (empty(Yii::$app->settings->get('record.review_pending_interval_amber'))) ? self::TWO_DAY_HOURS : Yii::$app->settings->get('record.review_pending_interval_amber');
         $red_timeout = (empty(Yii::$app->settings->get('record.review_pending_interval_red'))) ? self::THREE_DAY_HOURS : Yii::$app->settings->get('record.review_pending_interval_red');
         return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
@@ -722,6 +729,7 @@ class Record extends Component
      * @return array
      */
     public static function getPrintRowClass($created_at) {
+        // rev: pass interval as param
         $amber_timeout = (empty(Yii::$app->settings->get('record.print_pending_interval_amber'))) ? self::ONE_DAY_HOURS : Yii::$app->settings->get('record.print_pending_interval_amber');
         $red_timeout = (empty(Yii::$app->settings->get('record.print_pending_interval_red'))) ? self::TWO_DAY_HOURS : Yii::$app->settings->get('record.print_pending_interval_red');
         return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);

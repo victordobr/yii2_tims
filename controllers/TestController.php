@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Log;
 
+// add test controller to gitignore
 
 class TestController extends Controller
 {

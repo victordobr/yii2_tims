@@ -24,6 +24,7 @@ class Auth extends User
     public function init()
     {
         parent::init();
+        // rev: two times call one method
         if (!empty(Yii::$app->settings->get('user.inactive_interval'))) {
             $this->setUserInactiveTimeout(Yii::$app->settings->get('user.inactive_interval'));
         }

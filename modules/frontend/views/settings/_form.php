@@ -37,6 +37,7 @@ use yii\widgets\ActiveForm;
 
     <?=
     $form->field($model, 'type')->dropDownList(
+        // rev: move to enum like VarTypeEnum
         [
             'string' => 'string',
             'integer' => 'integer',

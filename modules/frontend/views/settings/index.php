@@ -15,6 +15,7 @@ use kartik\grid\ActionColumn;
 
 ?>
 
+<?php // rev: change class wrapper?>
 <div class="user-index">
 
     <div class="white-background col-md-12">
@@ -22,7 +23,9 @@ use kartik\grid\ActionColumn;
         <p>
             <?= Html::a(Yii::t('app', 'Create New Setting'), ['create'], ['class' => 'btn btn-default', 'role' => 'button']) ?>
         </p>
-        <?php Pjax::begin([
+        <?php
+        // rev: unique pjax id
+        Pjax::begin([
             'id' => 'pjax-frontend-search',
             'timeout' => false,
             'enablePushState' => false,
