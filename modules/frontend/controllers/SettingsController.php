@@ -12,11 +12,13 @@ use app\assets\AppAsset;
 use app\assets\NotifyJsAsset;
 use app\enums\Role;
 use Yii;
+use yii\web\NotFoundHttpException;
+use \yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use app\models\Setting;
 use app\modules\frontend\models\setting\Setting as SettingSearch;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 
 /**
@@ -99,6 +101,28 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
     }
 
     /**
+     * Creates a new Setting.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Setting(['active' => 1]);
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            return $this->redirect(['index']);
+        }
+        else {
+            return $this->render('create', ['model' => $model,]);
+        }
+    }
+
+    /**
      * Updates an existing Setting.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -108,13 +132,16 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             return $this->redirect(['index']);
         }
         else {
-            return $this->render('update',[
-                    'model' => $model,
-            ]);
+            return $this->render('update', ['model' => $model,]);
         }
     }
 
@@ -128,6 +155,22 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
     {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds a Setting model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Setting the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Setting::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

@@ -7,7 +7,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use pheme\settings\Module;
 
 /**
  * @var yii\web\View $this

@@ -2,22 +2,28 @@
 
 namespace app\models;
 
+use pheme\settings\Module;
+
 class Setting extends \pheme\settings\models\Setting
 {
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function rules()
     {
         return [
-            'id' => \Yii::t('app', 'ID'),
-            'type' => \Yii::t('app', 'Type'),
-            'section' => \Yii::t('app', 'Section'),
-            'key' => \Yii::t('app', 'Key'),
-            'value' => \Yii::t('app', 'Value'),
-            'active' => \Yii::t('app', 'Active'),
-            'created' => \Yii::t('app', 'Created'),
-            'modified' => \Yii::t('app', 'Modified'),
+            [['section', 'key', 'value'], 'required'],
+            [['value'], 'string'],
+            [['section', 'key'], 'string', 'max' => 255],
+            [
+                ['key'],
+                'unique',
+                'targetAttribute' => ['section', 'key'],
+                'message' =>
+                    Module::t('settings', '{attribute} "{value}" already exists for this section.')
+            ],
+            [['type', 'created', 'modified'], 'safe'],
+            [['active'], 'boolean'],
         ];
     }
 }
