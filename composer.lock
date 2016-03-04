@@ -718,12 +718,12 @@
             "version": "2.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery.git",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
+                "url": "https://api.github.com/repos/jquery/jquery/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85",
                 "shasum": ""
             },
@@ -1496,16 +1496,16 @@
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
-            "version": "2.0.9",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-ajaxcrud.git",
-                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b"
+                "reference": "51004743169aee572aeb2425db448f752e59287d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/c15bdd01440ced81daedef762f8bbf2f6c337f0b",
-                "reference": "c15bdd01440ced81daedef762f8bbf2f6c337f0b",
+                "url": "https://api.github.com/repos/johnitvn/yii2-ajaxcrud/zipball/51004743169aee572aeb2425db448f752e59287d",
+                "reference": "51004743169aee572aeb2425db448f752e59287d",
                 "shasum": ""
             },
             "require": {
@@ -1546,20 +1546,20 @@
                 "template",
                 "yii2"
             ],
-            "time": "2016-01-27 16:20:33"
+            "time": "2016-02-16 16:58:34"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnitvn/yii2-rbac-plus.git",
-                "reference": "3debbe05dc25e88c178c3202eceae970ba67dede"
+                "reference": "693b137ad6e5fd1919f9c025c7bf25ce3ee611b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnitvn/yii2-rbac-plus/zipball/3debbe05dc25e88c178c3202eceae970ba67dede",
-                "reference": "3debbe05dc25e88c178c3202eceae970ba67dede",
+                "url": "https://api.github.com/repos/johnitvn/yii2-rbac-plus/zipball/693b137ad6e5fd1919f9c025c7bf25ce3ee611b1",
+                "reference": "693b137ad6e5fd1919f9c025c7bf25ce3ee611b1",
                 "shasum": ""
             },
             "require": {
@@ -1590,7 +1590,7 @@
                 }
             ],
             "description": "Database role base access control manager for yii2",
-            "time": "2015-09-08 15:50:11"
+            "time": "2016-02-16 16:57:33"
         },
         {
             "name": "kartik-v/bootstrap-checkbox-x",
@@ -2413,8 +2413,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP Abstract Enum",
@@ -2455,8 +2455,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
