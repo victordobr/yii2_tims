@@ -1,15 +1,16 @@
 <?php
 namespace app\components;
 
-use app\enums\CaseStage as Stage;
+use app\models\Owner;
 use app\models\StatusHistory;
+use app\models\Vehicle;
 use Yii;
 use app\enums\Role;
-use app\models\User;
 use yii\base\Component;
 use app\models\Reason;
 use app\enums\CaseStatus as Status;
 use app\events\record\Upload as UploadEvent;
+use app\components\NLETSystem as NLETS;
 
 /**
  * Record component to handle record statuses
@@ -250,22 +251,57 @@ class Record extends Component
 
     /**
      * @param int $id record id
-     * @param int $user_id
      * @return bool
      * @throws \yii\db\Exception
      */
-    public function retrieveDMVData($id, $user_id)
+    public function retrieveDMVData($id)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = self::getRecord($id);
-            if ($record->status_id == Status::DMV_DATA_RETRIEVED_COMPLETE) {
+
+            $data = NLETS::retrieveDMVData($record->license);
+
+            $status = Status::DMV_DATA_NOT_AVAILABLE;
+            $time = 0;
+
+            if (!empty($data)) {
+                $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
+                $time = time();
+
+                $vehicle = new Vehicle();
+                $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year']));
+                if (!$vehicle->save()) {
+                    throw new \Exception('Vehicle do not saved');
+                }
+
+                $owner = new Owner();
+                $owner->setAttributes(self::extract($data['owner'], [
+                    'first_name',
+                    'middle_name',
+                    'last_name',
+                    'city',
+                ]));
+                $owner->setAttributes([
+                    'address_1' => $data['owner']['address'],
+                    'state_id' => 1,
+                    'license' => $record->license,
+                    'zip_code' => (string)$data['owner']['postal_code'],
+                    'vehicle_id' => $vehicle->id,
+                    'vehicle_color_id' => 1,
+                ]);
+                if (!$owner->save()) {
+                    throw new \Exception('Owner do not saved');
+                }
+            }
+
+            if ($record->status_id == $status) {
                 throw new \Exception('Record has same status');
             }
 
             $record->setAttributes([
-                'status_id' => Status::DMV_DATA_RETRIEVED_COMPLETE,
-                'dmv_received_at' => time(),
+                'status_id' => $status,
+                'dmv_received_at' => $time,
             ]);
             if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
                 throw new \Exception('Record status do not updated');
@@ -274,9 +310,9 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::DMV_DATA_RETRIEVED_COMPLETE,
-                'created_at' => time()
+                'author_id' => 11,
+                'status_code' => $status,
+                'created_at' => $time
             ]);
             if (!$history->save()) {
                 throw new \Exception('StatusHistory do not created');
@@ -642,6 +678,16 @@ class Record extends Component
     private static function getRecord($id)
     {
         return \app\models\Record::findOne($id);
+    }
+
+    /**
+     * @param array $data
+     * @param array $keys
+     * @return array
+     */
+    private static function extract(array $data, array $keys)
+    {
+        return array_intersect_key($data, array_flip($keys));
     }
 
 }

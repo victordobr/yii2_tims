@@ -211,19 +211,31 @@ class ViewAction extends Action
      */
     private static function collectCaseStages(Record $record)
     {
-        $formatter = Yii::$app->formatter;
         return [
-            CaseStage::SET_INFRACTION_DATE => $formatter->asDate($record->infraction_date, 'php:d M Y'),
-            CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
-            CaseStage::VIOLATION_APPROVED => !empty($record->approved_at) ?
-                $formatter->asDate($record->approved_at, 'php:d M Y') : null,
-            CaseStage::DMV_DATA_REQUEST => !empty($record->dmv_received_at) ?
-                $formatter->asDate($record->dmv_received_at, 'php:d M Y') : null,
-            CaseStage::CITATION_PRINTED => !empty($record->printed_at) ?
-                $formatter->asDate($record->printed_at, 'php:d M Y') : null,
-            CaseStage::CITATION_QC_VERIFIED => !empty($record->qc_verified_at) ?
-                $formatter->asDate($record->qc_verified_at, 'php:d M Y') : null,
+            CaseStage::SET_INFRACTION_DATE => self::formatDate($record->infraction_date),
+            CaseStage::DATA_UPLOADED => self::formatDate($record->created_at),
+            CaseStage::VIOLATION_APPROVED => self::formatDate($record->approved_at),
+            CaseStage::DMV_DATA_REQUEST => self::formatDate($record->dmv_received_at, true),
+            CaseStage::CITATION_PRINTED => self::formatDate($record->printed_at),
+            CaseStage::CITATION_QC_VERIFIED => self::formatDate($record->qc_verified_at),
         ];
+    }
+
+    /**
+     * @param int $timestamp
+     * @param bool $is_dmv_data
+     * @param string $format
+     * @return null|string
+     */
+    private static function formatDate($timestamp, $is_dmv_data = false, $format = 'php:d M Y')
+    {
+        if ($is_dmv_data && $timestamp === 0) {
+            return $timestamp;
+        }
+
+        $formatter = Yii::$app->formatter;
+
+        return !empty($timestamp) ? $formatter->asDate($timestamp, $format) : null;
     }
 
     /**
