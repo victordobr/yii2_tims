@@ -310,7 +310,7 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => 11,
+                'author_id' => 1,
                 'status_code' => $status,
                 'created_at' => $time
             ]);
