@@ -2,14 +2,16 @@
 
 namespace app\modules\frontend\controllers\reports;
 
+use app\enums\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\search\Record as RecordSearch;
 use app\widgets\record\filterReport\FilterReport;
+use kartik\base\Module;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
 
-class ViolationsByDateAction extends Action
+class SummaryReportDashboardViewAction extends Action
 {
     public $attributes;
 
@@ -25,34 +27,33 @@ class ViolationsByDateAction extends Action
      */
     public function run()
     {
-        $this->setPageTitle();
-
-        $user = Yii::$app->user;
+        $title = ReportType::labelById(ReportType::SUMMARY_REPORT_DASHBOARD_VIEW);
+        $this->setPageTitle($title);
 
         $model = new RecordSearch();
 
         $dataProvider = $model->search($this->attributes);
 
-        $this->setAside($model, $user);
+        $this->setAside($model, 2);
 
-        return $this->controller()->render('violationsByDate', [
+        return $this->controller()->render('summaryReportDashboardView', [
             'model' => $model,
-            'dataProvider' => $dataProvider,
+//            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
      * RecordFilter $model
-     * @param RecordFilter $model
-     * @param RbacUser $user
+     * @param $model
+     * @param $mode
      * @return string
      * @throws \Exception
      */
-    private function setAside($model,  $user)
+    private function setAside($model,  $mode)
     {
         return Yii::$app->view->params['aside'] = FilterReport::widget([
             'model' => $model,
-            'action' => Yii::$app->controller->action->id,
+            'mode' => $mode,
         ]);
     }
 
@@ -61,9 +62,9 @@ class ViolationsByDateAction extends Action
         $this->controller()->layout = $name;
     }
 
-    private function setPageTitle()
+    private function setPageTitle($title)
     {
-        $title = Yii::t('app', 'Reports');
+        $title = Yii::t('app', $title);
 
         return $this->controller()->view->title = $title;
     }

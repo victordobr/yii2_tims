@@ -7,6 +7,10 @@ use app\enums\Role;
 use app\modules\frontend\controllers\reports\OverallSummaryDashboardAction;
 use app\modules\frontend\controllers\reports\RenderPdfAction;
 use app\modules\frontend\controllers\reports\ReportViewAction;
+use app\modules\frontend\controllers\reports\SummaryReportAction;
+use app\modules\frontend\controllers\reports\SummaryReportDashboardViewAction;
+use app\modules\frontend\controllers\reports\SummaryReportViolationsByDateAction;
+use app\modules\frontend\controllers\reports\SummaryReportViolationsBySchoolBusAction;
 use app\modules\frontend\controllers\reports\ViolationsBySchoolBusAction;
 use Yii;
 use app\enums\ReportType;
@@ -28,19 +32,28 @@ class ReportsController extends Controller
         $request = Yii::$app->request;
 
         return [
-            'overall-summary-dashboard' => [
-                'class' =>  OverallSummaryDashboardAction::className(),
+
+            'summary-report–dashboard-view' => [
+                'class' =>  SummaryReportDashboardViewAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'violations-by-date' => [
-                'class' =>  ViolationsByDateAction::className(),
+            'summary-report–violations-by-date' => [
+                'class' =>  SummaryReportViolationsByDateAction::className(),
                 'attributes' => $request->get('Record'),
             ],
+            'summary-report' => [
+                'class' =>  SummaryReportAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
+
             'violations-by-school-bus' => [
                 'class' =>  ViolationsBySchoolBusAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-
+            'overall-summary-dashboard' => [
+                'class' =>  OverallSummaryDashboardAction::className(),
+                'attributes' => $request->get('Record'),
+            ],
 
 
             'render-pdf' => [
@@ -115,17 +128,26 @@ class ReportsController extends Controller
     public static function createItems($report_types)
     {
         $list_url = ReportType::listUrl();
-        foreach (ReportType::getHierarchy() as $parent_id => $ids) {
-            if (in_array($parent_id, $report_types)) {
+        $new_arr = [];
+        foreach (ReportType::getHierarchy() as $second_level_id => $second_level) {
+            $list_arr = [];
+
+            foreach ($second_level as $parent_id => $ids) {
                 $list = [];
-                foreach ($ids as $id) {
-                    $list[$id]['id'] = $id;
-                    $list[$id]['url'] = Html::a(ReportType::labelById($id), [$list_url[$id]], ['class' => ($list_url[$id]) ? '' : 'disabled']);
-                }
-                $list_arr[$parent_id] = $list;
+                $list[$parent_id]['id'] = $parent_id;
+                $list[$parent_id]['url'] = ReportType::labelById($parent_id);
+//                if (in_array($parent_id, $report_types)) {
+//
+                    foreach ($ids as $id) {
+                        $list[$id]['id'] = $id;
+                        $list[$id]['url'] = Html::a(ReportType::labelById($id), 'reports/' . $list_url[$id], ['class' => ($list_url[$id]) ? '' : 'disabled']);
+                    }
+                    $list_arr = array_merge($list_arr, $list);
+//                }
             }
+            $new_arr[$second_level_id] = $list_arr;
         }
-        return $list_arr;
+        return $new_arr;
     }
 
 }

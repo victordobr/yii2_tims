@@ -13,6 +13,7 @@ class Record extends \app\models\base\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
+    public $filter_group_by;
     public $filter_bus_number;
 
     public $count;
@@ -79,14 +80,9 @@ class Record extends \app\models\base\Record
 
     public function getViewUrl()
     {
-//        $date_from = Yii::$app->request->getQueryParam('Record')['filter_created_at_from'];
-//        $date_to = Yii::$app->request->getQueryParam('Record')['filter_created_at_to'];
-
         $url = [
             'report-view',
             'id' => $this->id,
-//            'created_from' => ($date_from == 0) ? NULL : $date_from,
-//            'created_to' => ($date_to == 0) ? NULL : $date_to,
         ];
         return $url;
     }

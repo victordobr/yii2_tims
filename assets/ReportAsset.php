@@ -10,7 +10,9 @@ class ReportAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
 
-    public $css = [];
+    public $css = [
+        'css/report.css',
+    ];
 
     public $js = [
         'js/report.js',

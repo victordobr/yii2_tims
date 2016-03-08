@@ -9,7 +9,6 @@ use app\enums\ReportType;
     'dataProvider' => $dataProvider,
     'showHeader' => true,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
         [
             'class' => 'yii\grid\DataColumn',
             'label' => ReportType::labelById($dataProvider->id),

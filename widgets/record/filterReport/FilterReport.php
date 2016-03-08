@@ -9,7 +9,7 @@ use app\widgets\record\filterReport\assets\FilterReportAsset;
 class FilterReport extends Widget
 {
     public $model;
-    public $action;
+    public $mode;
 
     public function init()
     {
@@ -18,20 +18,20 @@ class FilterReport extends Widget
 
     function run()
     {
-        return $this->renderFilter($this->action);
+        return $this->renderFilter($this->mode);
     }
-//TODO
-    private function renderFilter($action) {
-        switch ($action) {
-            case 'report-view':
+
+    private function renderFilter($mode) {
+        switch ($mode) {
+            case 1:
                 return $this->render('view', [
                     'model' => $this->model,
                     'view' => 'form/reportView',
                 ]);
-            case 'violations-by-date':
+            case 2:
                 $view = 'form/byDate';
                 break;
-            case 'violations-by-school-bus':
+            case 3:
                 $view = 'form/bySchoolBus';
                 break;
             default:

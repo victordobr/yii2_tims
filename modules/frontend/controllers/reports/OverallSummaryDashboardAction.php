@@ -17,7 +17,7 @@ class OverallSummaryDashboardAction extends Action
     public function init()
     {
         parent::init();
-        $this->setLayout('one-column');
+        $this->setLayout('two-column');
     }
 
     /**
