@@ -3,10 +3,11 @@
 namespace app\modules\frontend\controllers\reports;
 
 use app\assets\ReportAsset;
+use app\enums\ReportGroup;
 use app\enums\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\summary\Record as RecordSearch;
-use app\widgets\record\filterReport\FilterReport;
+use app\widgets\report\filters\Filters;
 use kartik\helpers\Html;
 use pheme\settings\Module;
 use Yii;
@@ -31,16 +32,17 @@ class SummaryReportAction extends Action
     public function run($group)
     {
 //        var_dump($group);die();
-        $group_by = 'bus_number';
+//        \app\base\Module::pa(ReportGroup::getUrlById(ReportGroup::getIdByUrl($group)),1);
+
         $title = ReportType::labelById(ReportType::SUMMARY_REPORT_VIOLATIONS_BY_DATE);
         $this->setPageTitle($title);
 
         $this->setPageDateRange($this->attributes['filter_created_at_from'], $this->attributes['filter_created_at_to']);
-        $this->setPageGroupBy($group_by);
+//        $this->setPageGroupBy($filter_group_by);
 
         $model = new RecordSearch();
 
-        $model->group_by = $group;
+        $model->filter_group_by = $group;
         $dataProvider = $model->search($this->attributes);
 
         $this->setAside($model, 2);
@@ -59,7 +61,7 @@ class SummaryReportAction extends Action
      */
     private function setAside($model,  $mode)
     {
-        return Yii::$app->view->params['aside'] = FilterReport::widget([
+        return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'mode' => $mode,
         ]);
@@ -110,10 +112,10 @@ class SummaryReportAction extends Action
     private function setPageGroupBy($group_by)
     {
         if (empty($group_by)) {
-            return $this->controller()->view->params['group_by'] = '';
+            return $this->controller()->view->params['filter_group_by'] = '';
         }
 
-        return $this->controller()->view->params['group_by'] = $group_by;
+        return $this->controller()->view->params['filter_group_by'] = $group_by;
     }
 
     /**

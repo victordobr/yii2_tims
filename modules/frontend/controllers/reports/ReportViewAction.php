@@ -5,7 +5,7 @@ namespace app\modules\frontend\controllers\reports;
 use app\assets\ReportAsset;
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\Record;
-use app\widgets\record\filterReport\FilterReport;
+use app\widgets\report\filters\Filters;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
@@ -65,7 +65,7 @@ class ReportViewAction extends Action
      */
     private function setAside(RecordFilter $model)
     {
-        return Yii::$app->view->params['aside'] = FilterReport::widget([
+        return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'action' => Yii::$app->controller->action->id,
         ]);

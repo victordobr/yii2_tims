@@ -11,7 +11,7 @@ use app\enums\CaseStatus as Status;
 $group = Status::listGroupsReport();
 $hierarchy = Status::getHierarchyReport();
 $header_columns[]= [
-    'content' => $model->getAttributeLabel($model->group_by),
+    'content' => $model->getAttributeLabel($model->filter_group_by),
 ];
 foreach ($hierarchy as $id => $items) {
     $header_columns[] = [

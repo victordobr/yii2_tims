@@ -5,7 +5,7 @@ namespace app\modules\frontend\controllers\reports;
 use app\enums\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\search\Record as RecordSearch;
-use app\widgets\record\filterReport\FilterReport;
+use app\widgets\report\filters\Filters;
 use kartik\base\Module;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
@@ -51,7 +51,7 @@ class SummaryReportDashboardViewAction extends Action
      */
     private function setAside($model,  $mode)
     {
-        return Yii::$app->view->params['aside'] = FilterReport::widget([
+        return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'mode' => $mode,
         ]);

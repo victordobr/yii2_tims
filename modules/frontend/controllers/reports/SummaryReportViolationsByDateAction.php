@@ -5,8 +5,8 @@ namespace app\modules\frontend\controllers\reports;
 use app\assets\ReportAsset;
 use app\enums\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
-use app\modules\frontend\models\report\search\Record as RecordSearch;
-use app\widgets\record\filterReport\FilterReport;
+use app\modules\frontend\models\report\summary\Record as RecordSearch;
+use app\widgets\report\filters\Filters;
 use kartik\helpers\Html;
 use pheme\settings\Module;
 use Yii;
@@ -56,7 +56,7 @@ class SummaryReportViolationsByDateAction extends Action
      */
     private function setAside($model,  $mode)
     {
-        return Yii::$app->view->params['aside'] = FilterReport::widget([
+        return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'mode' => $mode,
         ]);
@@ -104,9 +104,9 @@ class SummaryReportViolationsByDateAction extends Action
         return $this->controller()->view->params['date_range'] = Html::tag('h4', $content, ['align' => 'center']);
     }
 
-    private function setPageGroupBy($group_by)
+    private function setPageGroupBy($filter_group_by)
     {
-        if (empty($group_by)) {
+        if (empty($filter_group_by)) {
             return $this->controller()->view->params['group_by'] = '';
         }
 

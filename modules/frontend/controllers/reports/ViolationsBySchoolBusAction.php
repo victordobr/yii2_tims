@@ -4,7 +4,7 @@ namespace app\modules\frontend\controllers\reports;
 
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\search\Record as RecordSearch;
-use app\widgets\record\filterReport\FilterReport;
+use app\widgets\report\filters\Filters;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
@@ -47,7 +47,7 @@ class ViolationsBySchoolBusAction extends Action
      */
     private function setAside($model)
     {
-        return Yii::$app->view->params['aside'] = FilterReport::widget([
+        return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'action' => Yii::$app->controller->action->id,
         ]);

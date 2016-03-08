@@ -11,12 +11,12 @@ use yii\db\QueryInterface;
 use app\enums\CaseStatus as Status;
 use yii\helpers\ArrayHelper;
 
-class Record extends \app\models\base\Record
+class Record extends \app\modules\frontend\models\base\report\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
 
-    public $group_by;
+    public $filter_group_by;
 
     public $status_1020;
     public $status_1040;
@@ -42,7 +42,7 @@ class Record extends \app\models\base\Record
         return [
             [['filter_created_at_from', 'filter_created_at_to', 'count'], 'integer'],
             [$statuses, 'integer'],
-            [['status', 'filter_bus_number'], 'string'],
+            [['status'], 'string'],
         ];
     }
 
@@ -52,7 +52,10 @@ class Record extends \app\models\base\Record
     public function attributeLabels()
     {
         $labels['created'] = Yii::t('app', 'Date');
-        $labels['bus_number'] = Yii::t('app', 'Bus number');
+        $labels['filter_created_at_from'] = Yii::t('app', 'From');
+        $labels['filter_created_at_to'] = Yii::t('app', 'To');
+        $labels['filter_group_by'] = Yii::t('app', 'Group by');
+
         foreach (Status::listStatusesReport() as $id => $label) {
             $labels['status_' . $id] = $label;
         }
@@ -81,7 +84,7 @@ class Record extends \app\models\base\Record
 
     public function getGroupAttribute()
     {
-        switch ($this->group_by) {
+        switch ($this->filter_group_by) {
             case 'violations-by-date':
                 return 'created_at';
             case 'violations-by-school-bus':
@@ -100,7 +103,7 @@ class Record extends \app\models\base\Record
             $select['status_' . $id] = 'sum(record.status_id=' . $id . ')';
         }
 
-        switch ($this->group_by) {
+        switch ($this->filter_group_by) {
             case 'violations-by-date':
                 return static::find()
                     ->select($select)
