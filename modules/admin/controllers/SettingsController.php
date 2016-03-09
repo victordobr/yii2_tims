@@ -1,19 +1,11 @@
 <?php
 
-/**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
- */
-
 namespace app\modules\admin\controllers;
 
-use pheme\settings\components\Settings;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\rest\Controller;
-use app\modules\admin\models\Setting;
-use app\modules\admin\models\SettingSearch;
+use app\models\Setting;
+use app\modules\admin\models\search\Setting as SettingSearch;
 use yii\web\NotFoundHttpException;
 
 
@@ -71,10 +63,10 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/admin/settings/index']);
-        } else {
-            return $this->render(
-                'create',
-                [
+        }
+        // rev: else excessively
+        else {
+            return $this->render('create', [
                     'model' => $model,
                 ]
             );
@@ -87,21 +79,17 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/admin/settings/index']);
-        } else {
-            return $this->render(
-                'update',
-                [
-                    'model' => $model,
-                ]
-            );
         }
+
+        return $this->render('update', [
+                'model' => $model,
+            ]
+        );
     }
 
     public function actionView($id)
     {
-        return $this->render(
-            'view',
-            [
+        return $this->render('view', [
                 'model' => $this->findModel($id),
             ]
         );
@@ -109,13 +97,12 @@ class SettingsController extends \pheme\settings\controllers\DefaultController
 
     protected function findModel($id)
     {
-        if (($model = Setting::findOne($id)) !== null) {
-            return $model;
-        } else {
+        if (is_null($model = Setting::findOne($id))) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
 
+        return $model;
+    }
 }
 
 

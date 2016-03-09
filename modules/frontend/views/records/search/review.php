@@ -11,6 +11,8 @@ use kartik\icons\Icon;
 use app\widgets\base\GridView;
 use kartik\grid\SerialColumn;
 use kartik\grid\ActionColumn;
+use app\components\Record;
+
 ?>
 
 <div class="record-review-wrapper">
@@ -68,6 +70,9 @@ use kartik\grid\ActionColumn;
                     ],
                 ]
             ],
+            'rowOptions' => function($model, $key, $index, $grid) {
+                return ['class' => Record::getPrintRowClass($model->created_at)];
+            },
         ]);
         yii\widgets\Pjax::end();
         ?>

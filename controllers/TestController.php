@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use app\models\Log;
 
-
 class TestController extends Controller
 {
 //    public function actions()
@@ -17,16 +16,15 @@ class TestController extends Controller
 
     public function actionIndex()
     {
-//        $dms = "49º 02' 39.72\" N";
-        $ddm = "49.2.66200N";
-        $decimal = \app\helpers\GpsHelper::convertDDMToDMS($ddm);
-        \app\base\Module::pa($decimal,1);
+        $settings = Yii::$app->settings;
+        $value = $settings->get('global.interval');
+        \app\base\Module::pa($value,1);
     }
 
     public function actionPut()
     {
         $log = Yii::$app->user->login();
-        var_dump($log);
+//        var_dump($log);
 //        $Log = new \app\components\Log;
 //        $Log->bar();
 

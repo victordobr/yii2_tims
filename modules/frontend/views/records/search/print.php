@@ -11,6 +11,8 @@ use yii\widgets\Pjax;
 use kartik\icons\Icon;
 use kartik\grid\CheckboxColumn;
 use kartik\grid\SerialColumn;
+use \app\components\Record;
+
 ?>
 
 <div id="wrapper-record-print">
@@ -71,6 +73,9 @@ use kartik\grid\SerialColumn;
                 ],
             ],
         ],
+        'rowOptions' => function($model, $key, $index, $grid) {
+            return ['class' => Record::getPrintRowClass($model->created_at)];
+        },
     ]);
 
     Pjax::end(); ?>

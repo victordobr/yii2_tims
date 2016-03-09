@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a24833e901eb7d5ef4de124bb50f64b0",
-    "content-hash": "a9d659d6c30057fdb1a2aa04a77fcc16",
+    "hash": "c34956533a08322b7da4515547b53132",
+    "content-hash": "3acd00305d9183d30cf193845f70cff9",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -1919,16 +1919,16 @@
         },
         {
             "name": "kartik-v/yii2-grid",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "8d596b9e5458291786677618b7fe9d5b84de4aa5"
+                "reference": "9359dcc7f34451af035294bd4127c8ff5d1ffffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/8d596b9e5458291786677618b7fe9d5b84de4aa5",
-                "reference": "8d596b9e5458291786677618b7fe9d5b84de4aa5",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/9359dcc7f34451af035294bd4127c8ff5d1ffffc",
+                "reference": "9359dcc7f34451af035294bd4127c8ff5d1ffffc",
                 "shasum": ""
             },
             "require": {
@@ -1959,7 +1959,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-24 05:23:50"
+            "time": "2015-07-07 17:50:12"
         },
         {
             "name": "kartik-v/yii2-helpers",

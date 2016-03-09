@@ -21,4 +21,12 @@ return [
     'common.autocomplete.limit' => 5, // days
     'common.autoсomplete.display.key'  => 'value',
     'common.default.page.size' => 10,
+
+    'user.inactive_interval' => 3600, // seconds
+    'record.deactivate_available_interval' => 24, // hours
+    'record.change_determination_available_interval' => 24, // hours
+    'record.print_pending_interval_amber' => 24, // hours
+    'record.print_pending_interval_red' => 72, // hours
+    'record.review_pending_interval_amber' => 48, // hours
+    'record.review_pending_interval_red' => 72, // hours
 ];

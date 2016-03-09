@@ -18,6 +18,13 @@ use app\components\NLETSystem as NLETS;
  */
 class Record extends Component
 {
+    const ONE_DAY_HOURS = 24;
+    const TWO_DAY_HOURS = 48;
+    const THREE_DAY_HOURS = 72;
+
+    const CLASS_WARNING = 'warning';
+    const CLASS_DANGER = 'danger';
+
     /**
      * @param int $id record id
      * @param int $user_id user id
@@ -679,7 +686,6 @@ class Record extends Component
     }
 
     /* event handlers */
-
     public static function setStatusCompleted(UploadEvent $event)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
@@ -734,6 +740,83 @@ class Record extends Component
     private static function extract(array $data, array $keys)
     {
         return array_intersect_key($data, array_flip($keys));
+
     }
 
+    /**
+     * Check timeout
+     * @param integer $created_at time of created record
+     * @param integer $settings_interval time interval in hours (has a default value)
+     * @return bool
+     */
+    private static function checkTimeout($created_at, $settings_interval = self::ONE_DAY_HOURS)
+    {
+        $deactivate_time = $created_at + $settings_interval * 3600;
+        return $deactivate_time > time();
+    }
+
+    /**
+     * Check deactivate timeout
+     * Option to deactivate only available within 24 hours of initial record submission to TIMS
+     * (this interval is configurable in TIMS settings)
+     * @param integer $created_at created date
+     * @return bool
+     */
+    public static function checkDeactivateTimeout($created_at, $interval = self::ONE_DAY_HOURS)
+    {
+        return self::checkTimeout($created_at, $interval);
+    }
+
+    /**
+     * Check timeout of the change determination options
+     * Option to change determination only available within 24 hours of approval/rejection
+     * (this interval is configurable in TIMS settings).
+     * @param integer $created_at created date
+     * @return bool
+     */
+    public static function checkChangeDeterminationTimeout($created_at, $interval = self::ONE_DAY_HOURS)
+    {
+        return self::checkTimeout($created_at, $interval);
+    }
+
+    /**
+     * Get class name by timeout
+     * @param integer $created_at
+     * @param integer $amber_timeout time in hours
+     * @param integer $red_timeout time in hours
+     * @return string class name
+     */
+    public static function getRowClassByTimeout($created_at, $amber_timeout, $red_timeout)
+    {
+        switch(true) {
+            case time() >= $created_at + $red_timeout * 3600:
+                return self::CLASS_DANGER;
+            case time() > $created_at + $amber_timeout * 3600:
+                return self::CLASS_WARNING;
+        }
+    }
+
+    /**
+     * Get class name of Review table
+     * @param integer $created_at
+     * @param integer $amber_timeout
+     * @param integer $red_timeout
+     * @return string
+     */
+    public static function getReviewRowClass($created_at, $amber_timeout = self::TWO_DAY_HOURS, $red_timeout = self::THREE_DAY_HOURS)
+    {
+        return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
+    }
+
+    /**
+     * Get class name of Print table
+     * @param integer $created_at
+     * @param integer $amber_timeout
+     * @param integer $red_timeout
+     * @return string
+     */
+    public static function getPrintRowClass($created_at, $amber_timeout = self::ONE_DAY_HOURS, $red_timeout = self::TWO_DAY_HOURS)
+    {
+        return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
+    }
 }
