@@ -13,36 +13,19 @@ use yii\helpers\ArrayHelper;
 
 class Record extends \app\modules\frontend\models\base\report\Record
 {
-    public $filter_created_at_from;
-    public $filter_created_at_to;
+    const DEFAULT_FILTER_GROUP_ID = 1;
+    public $filter_group_id;
 
-    public $filter_group_by;
-
-    public $status_1020;
-    public $status_1040;
-    public $status_2010;
-    public $status_2020;
-    public $status_2030;
-    public $status_3020;
-    public $status_3030;
-    public $status_4010;
-    public $status_4040;
-    public $status_5030;
-    public $status_5040;
+    public $count;
 
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        $statuses_ids = array_keys(Status::listStatusesReport());
-        foreach ($statuses_ids as $id) {
-            $statuses[] = 'status_' . $id;
-        }
         return [
-            [['filter_created_at_from', 'filter_created_at_to', 'count'], 'integer'],
-            [$statuses, 'integer'],
-            [['status'], 'string'],
+            [['count'], 'integer'],
+            [['filter_group_id'], 'integer']
         ];
     }
 
@@ -51,14 +34,9 @@ class Record extends \app\modules\frontend\models\base\report\Record
      */
     public function attributeLabels()
     {
-        $labels['created'] = Yii::t('app', 'Date');
-        $labels['filter_created_at_from'] = Yii::t('app', 'From');
-        $labels['filter_created_at_to'] = Yii::t('app', 'To');
-        $labels['filter_group_by'] = Yii::t('app', 'Group by');
 
-        foreach (Status::listStatusesReport() as $id => $label) {
-            $labels['status_' . $id] = $label;
-        }
+        $labels['filter_group_id'] = Yii::t('app', 'Group by');
+        $labels['count'] = Yii::t('app', 'Count');
         return $labels;
     }
 
@@ -67,7 +45,7 @@ class Record extends \app\modules\frontend\models\base\report\Record
         $this->setAttributes($params);
 
         $query = $this->getQueryByGroup();
-
+        \app\base\Module::pa($query,1);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -84,7 +62,7 @@ class Record extends \app\modules\frontend\models\base\report\Record
 
     public function getGroupAttribute()
     {
-        switch ($this->filter_group_by) {
+        switch ($this->filter_group_id) {
             case 'violations-by-date':
                 return 'created_at';
             case 'violations-by-school-bus':
@@ -92,24 +70,33 @@ class Record extends \app\modules\frontend\models\base\report\Record
         }
     }
 
+    public function listAttributes($group_id = self::DEFAULT_FILTER_GROUP_ID)
+    {
+        $list_attributes = [
+            1 => 'created_at',
+            2 => 'bus_number',
+        ];
+        return $list_attributes;
+    }
+
     public function getQueryByGroup()
     {
         $statuses_ids = array_keys(Status::listStatusesReport());
 
-        $group_attribute = $this->getGroupAttribute();
+        $group_attribute = $this->listAttributes($this->filter_group_id);
 
         $select = [$group_attribute => 'record.created_at'];
         foreach ($statuses_ids as $id) {
             $select['status_' . $id] = 'sum(record.status_id=' . $id . ')';
         }
 
-        switch ($this->filter_group_by) {
-            case 'violations-by-date':
+        switch ($this->filter_group_id) {
+            case 1:
                 return static::find()
                     ->select($select)
                     ->from(['record' => self::tableName()])
                     ->groupBy(['DAY(FROM_UNIXTIME(record.created_at, "%Y-%m-%d"))']);
-            case 'violations-by-school-bus':
+            case 2:
                 array_unshift($select, [$group_attribute => 'record.' . $group_attribute]);
                 return static::find()
                     ->select($select)

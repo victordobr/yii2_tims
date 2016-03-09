@@ -6,7 +6,7 @@ use app\assets\ReportAsset;
 use app\enums\ReportGroup;
 use app\enums\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
-use app\modules\frontend\models\report\summary\Record as RecordSearch;
+use app\modules\frontend\models\report\summary\Record as SummaryRecordSearch;
 use app\widgets\report\filters\Filters;
 use kartik\helpers\Html;
 use pheme\settings\Module;
@@ -31,18 +31,16 @@ class SummaryReportAction extends Action
      */
     public function run($group)
     {
-//        var_dump($group);die();
-//        \app\base\Module::pa(ReportGroup::getUrlById(ReportGroup::getIdByUrl($group)),1);
-
         $title = ReportType::labelById(ReportType::SUMMARY_REPORT_VIOLATIONS_BY_DATE);
         $this->setPageTitle($title);
 
         $this->setPageDateRange($this->attributes['filter_created_at_from'], $this->attributes['filter_created_at_to']);
-//        $this->setPageGroupBy($filter_group_by);
+//        $this->setPageGroupBy($filter_group_id);
 
-        $model = new RecordSearch();
+        $model = new SummaryRecordSearch();
 
-        $model->filter_group_by = $group;
+
+        $model->filter_group_id = ReportGroup::getIdByUrl($group);
         $dataProvider = $model->search($this->attributes);
 
         $this->setAside($model, 2);
@@ -112,10 +110,10 @@ class SummaryReportAction extends Action
     private function setPageGroupBy($group_by)
     {
         if (empty($group_by)) {
-            return $this->controller()->view->params['filter_group_by'] = '';
+            return $this->controller()->view->params['filter_group_id'] = '';
         }
 
-        return $this->controller()->view->params['filter_group_by'] = $group_by;
+        return $this->controller()->view->params['filter_group_id'] = $group_by;
     }
 
     /**

@@ -34,7 +34,7 @@ class SummaryReportViolationsByDateAction extends Action
         $this->setPageTitle($title);
 
         $this->setPageDateRange($this->attributes['filter_created_at_from'], $this->attributes['filter_created_at_to']);
-        $this->setPageGroupBy($this->attributes['filter_group_by']);
+        $this->setPageGroupBy($this->attributes['filter_group_id']);
 
         $model = new RecordSearch();
 
@@ -104,9 +104,9 @@ class SummaryReportViolationsByDateAction extends Action
         return $this->controller()->view->params['date_range'] = Html::tag('h4', $content, ['align' => 'center']);
     }
 
-    private function setPageGroupBy($filter_group_by)
+    private function setPageGroupBy($filter_group_id)
     {
-        if (empty($filter_group_by)) {
+        if (empty($filter_group_id)) {
             return $this->controller()->view->params['group_by'] = '';
         }
 

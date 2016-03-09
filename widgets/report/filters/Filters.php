@@ -25,6 +25,8 @@ class Filters extends Widget
         return $this->render('view', [
             'model' => $this->model,
         ]);
+
+
         switch ($mode) {
             case 1:
                 return $this->render('view', [

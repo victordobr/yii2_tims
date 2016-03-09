@@ -4,7 +4,8 @@ use kartik\builder\Form;
 use app\enums\ReportGroup;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
-
+//\app\base\Module::pa($model->filter_group_id,1);
+$model->filter_group_id =1;
 ?>
 
 <?php $form = \kartik\form\ActiveForm::begin([
@@ -12,7 +13,7 @@ use kartik\helpers\Html;
     'type' => ActiveForm::TYPE_VERTICAL,
     'enableClientScript' => false,
     'action' => ['reports/summary-report'],
-    'method' => 'GET',
+    'method' => 'get',
     'options' => ['data-pjax' => true]
 ]); ?>
 
@@ -23,12 +24,18 @@ use kartik\helpers\Html;
             'model' => $model,
             'form' => $form,
             'attributes' => [
-                'filter_group_by' => [
+                'filter_group_id' => [
                     'type' => Form::INPUT_RADIO_LIST,
                     'items' => ReportGroup::listData(),
+                    'columnOptions' => [
+                        'class' => 'text-center',
+                    ],
                 ],
 
             ],
+        'attributeDefaults' => [
+            'filter_group_id' => 1,
+        ]
     ]); ?>
 
 </div>

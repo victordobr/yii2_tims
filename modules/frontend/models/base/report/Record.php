@@ -10,7 +10,7 @@ class Record extends \app\models\base\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
-    public $filter_group_by;
+    public $filter_group_id;
 
     public $count;
 
@@ -36,9 +36,11 @@ class Record extends \app\models\base\Record
             $statuses[] = 'status_' . $id;
         }
         return [
+            [['count'], 'integer'],
+            [['filter_group_id'], 'integer'],
             [['filter_created_at_from', 'filter_created_at_to', 'count'], 'integer'],
             [$statuses, 'integer'],
-            [['filter_group_by','status'], 'string'],
+            [['filter_group_id','status'], 'string'],
         ];
     }
 
@@ -50,7 +52,7 @@ class Record extends \app\models\base\Record
         $labels['created'] = Yii::t('app', 'Date');
         $labels['filter_created_at_from'] = Yii::t('app', 'From');
         $labels['filter_created_at_to'] = Yii::t('app', 'To');
-        $labels['filter_group_by'] = Yii::t('app', 'Group by');
+        $labels['filter_group_id'] = Yii::t('app', 'Group by');
 
         foreach (Status::listStatusesReport() as $id => $label) {
             $labels['status_' . $id] = $label;
@@ -60,6 +62,7 @@ class Record extends \app\models\base\Record
 
     public function search($params)
     {
+        $this->setAttributes($params);
         $query = $this->getQueryByGroup();
 
         $dataProvider = new ActiveDataProvider([
@@ -68,10 +71,6 @@ class Record extends \app\models\base\Record
                 'pageSize' => 20,
             ],
         ]);
-
-        if (!empty($this->filter_created_at_from) || !empty($this->filter_created_at_to)) {
-            $this->filterByCreatedAtRange($query, $this->filter_created_at_from, $this->filter_created_at_to);
-        }
 
         return $dataProvider;
     }
@@ -87,13 +86,13 @@ class Record extends \app\models\base\Record
             $select['status_' . $id] = 'sum(record.status_id=' . $id . ')';
         }
 
-        switch ($this->filter_group_by) {
-            case 'violations-by-date':
+        switch ($this->filter_group_id) {
+            case 1:
                 return static::find()
                     ->select($select)
                     ->from(['record' => self::tableName()])
                     ->groupBy(['DAY(FROM_UNIXTIME(record.created_at, "%Y-%m-%d"))']);
-            case 'violations-by-school-bus':
+            case 2:
                 array_unshift($select, [$group_attribute => 'record.' . $group_attribute]);
                 return static::find()
                     ->select($select)
@@ -101,6 +100,16 @@ class Record extends \app\models\base\Record
                     ->groupBy(['record.' . $group_attribute]);
         }
 
+    }
+
+    public function getGroupAttribute()
+    {
+        switch ($this->filter_group_id) {
+            case 'violations-by-date':
+                return 'created_at';
+            case 'violations-by-school-bus':
+                return 'bus_number';
+        }
     }
 
 }
