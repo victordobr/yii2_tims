@@ -461,7 +461,7 @@ class Record extends Component
             $citation->setAttributes([
                 'owner_id' => $owner->id,
                 'location_code' => 'JCA',
-                'citation_number' => 'JCA-000001',
+                'citation_number' => 'JCA-00000' . $record->id,
                 'unique_passcode' => '1111',
                 'penalty' => 300,
                 'fee' => 5,
