@@ -18,7 +18,7 @@ class Owner extends base\Owner
         return [
             [['first_name', 'last_name', 'address_1', 'city', 'state_id', 'license', 'zip_code'], 'required'],
             [['address_1', 'address_2'], 'string'],
-            [['state_id'], 'integer'],
+            [['record_id', 'state_id'], 'integer'],
             [['email'], 'unique'],
 //            [['created_at'], 'date'],
             [['first_name', 'middle_name', 'last_name', 'city'], 'string', 'max' => 255],
@@ -58,6 +58,8 @@ class Owner extends base\Owner
             'address_2' => 'Address Line 2',
             'state_id' => 'State',
             'license' => 'Tag',
+            'vehicle_id' => 'Vehicle model',
+            'vehicle_color_id' => 'Vehicle Color',
             'created_at' => 'Created',
             'fullName' => 'Full name',
             'stateName' => 'State',
