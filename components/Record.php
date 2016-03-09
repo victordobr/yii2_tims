@@ -749,7 +749,7 @@ class Record extends Component
      * @param integer $settings_interval time interval in hours (has a default value)
      * @return bool
      */
-    private static function checkTimeout($created_at, $settings_interval = self::ONE_DAY_HOURS)
+    public static function checkTimeout($created_at, $settings_interval = self::ONE_DAY_HOURS)
     {
         $deactivate_time = $created_at + $settings_interval * 3600;
         return $deactivate_time > time();
