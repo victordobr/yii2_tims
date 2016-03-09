@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\base\Citation;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
@@ -15,11 +16,10 @@ class Owner extends base\Owner
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'address_1', 'city', 'state_id', 'license', 'zip_code', 'vehicle_id', 'vehicle_color_id'], 'required'],
+            [['first_name', 'last_name', 'address_1', 'city', 'state_id', 'license', 'zip_code'], 'required'],
             [['address_1', 'address_2'], 'string'],
-            [['state_id', 'vehicle_id', 'vehicle_year', 'vehicle_color_id'], 'integer'],
-            [['vehicle_year'],'number', 'min' => 1900, 'max' => 2070],
-            [['license', 'email'], 'unique'],
+            [['state_id'], 'integer'],
+            [['email'], 'unique'],
 //            [['created_at'], 'date'],
             [['first_name', 'middle_name', 'last_name', 'city'], 'string', 'max' => 255],
             [['license', 'zip_code'], 'string', 'max' => 20],
@@ -58,8 +58,6 @@ class Owner extends base\Owner
             'address_2' => 'Address Line 2',
             'state_id' => 'State',
             'license' => 'Tag',
-            'vehicle_id' => 'Vehicle model',
-            'vehicle_color_id' => 'Vehicle Color',
             'created_at' => 'Created',
             'fullName' => 'Full name',
             'stateName' => 'State',
@@ -73,6 +71,14 @@ class Owner extends base\Owner
     public function getVehicle()
     {
         return $this->hasOne(Vehicle::className(), ['id' => 'vehicle_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCitation()
+    {
+        return $this->hasOne(Citation::className(), ['owner_id' => 'id']);
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
 namespace app\components;
 
+use app\models\base\Citation;
 use app\models\Owner;
 use app\models\StatusHistory;
-use app\models\Vehicle;
+use app\models\base\Vehicle;
 use Yii;
 use app\enums\Role;
 use yii\base\Component;
@@ -116,7 +117,7 @@ class Record extends Component
      * @param string $description reason description
      * @return bool
      */
-    public function rejectDeactivation($id, $user_id,  $code, $description)
+    public function rejectDeactivation($id, $user_id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -150,14 +151,12 @@ class Record extends Component
                 'description' => $description,
             ]);
             if (!$reason->save()) {
-//                var_dump($reason->getErrors()); die;
                 throw new \Exception('Reason do not saved');
             }
 
             $transaction->commit();
             return true;
         } catch (\Exception $e) {
-//            var_dump($e); die;
             $transaction->rollBack();
             return false;
         }
@@ -251,10 +250,11 @@ class Record extends Component
 
     /**
      * @param int $id record id
+     * @param int $user_id
      * @return bool
      * @throws \yii\db\Exception
      */
-    public function retrieveDMVData($id)
+    public function retrieveDMVData($id, $user_id)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -269,12 +269,6 @@ class Record extends Component
                 $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
                 $time = time();
 
-                $vehicle = new Vehicle();
-                $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year']));
-                if (!$vehicle->save()) {
-                    throw new \Exception('Vehicle do not saved');
-                }
-
                 $owner = new Owner();
                 $owner->setAttributes(self::extract($data['owner'], [
                     'first_name',
@@ -283,15 +277,25 @@ class Record extends Component
                     'city',
                 ]));
                 $owner->setAttributes([
+                    'record_id' => $record->id,
                     'address_1' => $data['owner']['address'],
                     'state_id' => 1,
                     'license' => $record->license,
                     'zip_code' => (string)$data['owner']['postal_code'],
-                    'vehicle_id' => $vehicle->id,
-                    'vehicle_color_id' => 1,
                 ]);
                 if (!$owner->save()) {
                     throw new \Exception('Owner do not saved');
+                }
+
+                $vehicle = new Vehicle();
+                $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year', 'color']));
+                $vehicle->setAttributes([
+                    'owner_id' => $owner->id,
+                    'tag' => $data['vehicle']['plate'],
+                    'state' => 1,
+                ]);
+                if (!$vehicle->save()) {
+                    throw new \Exception('Vehicle do not saved');
                 }
             }
 
@@ -310,7 +314,7 @@ class Record extends Component
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
-                'author_id' => 1,
+                'author_id' => $user_id,
                 'status_code' => $status,
                 'created_at' => $time
             ]);
@@ -362,7 +366,7 @@ class Record extends Component
         }
     }
 
-    public function rejectViolation($id, $user_id,  $code, $description)
+    public function rejectViolation($id, $user_id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -436,10 +440,29 @@ class Record extends Component
             }
             $record->setAttributes([
                 'status_id' => $status_id,
-                'printed_at' => time()
+                'printed_at' => time(),
             ]);
             if (!$record->save(true, ['status_id', 'printed_at'])) {
                 throw new \Exception('Record status do not updated');
+            }
+
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            // create citation
+            $citation = new Citation();
+            $citation->setAttributes([
+                'owner_id' => $owner->id,
+                'location_code' => 'JCA',
+                'citation_number' => 'JCA-000001',
+                'unique_passcode' => '1111',
+                'penalty' => 300,
+                'fee' => 5,
+                'created_at' => time(),
+                'expired_at' => time(),
+            ]);
+            if (!$citation->save()) {
+                throw new \Exception('Citation do not created');
             }
 
             $history = new StatusHistory();
@@ -494,6 +517,19 @@ class Record extends Component
                 throw new \Exception('Record status do not updated');
             }
 
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            if (!($citation = $owner->citation)) {
+                throw new \Exception('Owner has not citation');
+            }
+            $citation->setAttributes([
+                'is_active' => (int)true,
+            ]);
+            if (!$citation->save(true, ['is_active'])) {
+                throw new \Exception('Citation do not updated');
+            }
+
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
@@ -543,6 +579,16 @@ class Record extends Component
                 throw new \Exception('Record status do not updated');
             }
 
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            if (!($citation = $owner->citation)) {
+                throw new \Exception('Owner has not citation');
+            }
+            if(!$citation->delete()){
+                throw new \Exception('Citation do not deleted');
+            }
+
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
@@ -567,8 +613,7 @@ class Record extends Component
      */
     public static function getAvailableStatuses()
     {
-        switch (Yii::$app->user->role->name)
-        {
+        switch (Yii::$app->user->role->name) {
             case Role::ROLE_VIDEO_ANALYST:
                 return [
                     Status::INCOMPLETE,
@@ -635,7 +680,8 @@ class Record extends Component
 
     /* event handlers */
 
-    public static function setStatusCompleted(UploadEvent $event){
+    public static function setStatusCompleted(UploadEvent $event)
+    {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = self::getRecord($event->record->id);
