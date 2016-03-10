@@ -531,9 +531,9 @@ class Record extends Component
                 throw new \Exception('Owner has not citation');
             }
             $citation->setAttributes([
-                'is_active' => (int)true,
+                'status' => Citation::STATUS_ACTIVE,
             ]);
-            if (!$citation->save(true, ['is_active'])) {
+            if (!$citation->save(true, ['status'])) {
                 throw new \Exception('Citation do not updated');
             }
 
@@ -592,7 +592,7 @@ class Record extends Component
             if (!($citation = $owner->citation)) {
                 throw new \Exception('Owner has not citation');
             }
-            if(!$citation->delete()){
+            if (!$citation->delete()) {
                 throw new \Exception('Citation do not deleted');
             }
 
@@ -788,7 +788,7 @@ class Record extends Component
      */
     public static function getRowClassByTimeout($created_at, $amber_timeout, $red_timeout)
     {
-        switch(true) {
+        switch (true) {
             case time() >= $created_at + $red_timeout * 3600:
                 return self::CLASS_DANGER;
             case time() > $created_at + $amber_timeout * 3600:
