@@ -13,7 +13,6 @@ use yii\db\ActiveRecord;
  * @property string $location_code
  * @property string $citation_number
  * @property string $unique_passcode
- * @property integer $is_active
  * @property integer $status
  * @property integer $created_at
  * @property integer $penalty
