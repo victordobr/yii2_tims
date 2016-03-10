@@ -22,13 +22,13 @@ CREATE UNIQUE INDEX U_VehicleModelYear_year_make_model ON Vehicle (year, make, m
 
     private $columns = [
         'id' => Schema::TYPE_PK,
-        'tag' => Schema::TYPE_STRING . ' NOT NULL',
-        'state'=>Schema::TYPE_INTEGER .' UNSIGNED NOT NULL',
-        'make' => Schema::TYPE_STRING . ' NOT NULL',
-        'model' => Schema::TYPE_STRING . ' NOT NULL',
-        'year' => Schema::TYPE_STRING . ' NOT NULL',
-        'color' => Schema::TYPE_STRING . ' NOT NULL',
-        'owner_id' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
+        'tag' => 'VARCHAR(12) NOT NULL',
+        'state' => 'INT(11) UNSIGNED NOT NULL',
+        'make' => 'VARCHAR(30) NOT NULL',
+        'model' => 'VARCHAR(30) NOT NULL',
+        'year' => 'VARCHAR(4) NOT NULL',
+        'color' => 'VARCHAR(32) NOT NULL',
+        'owner_id' => 'INT(11) UNSIGNED NOT NULL',
     ];
 
     private $options = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
