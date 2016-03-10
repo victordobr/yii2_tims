@@ -59,7 +59,6 @@ class Citation extends ActiveRecord
             'location_code' => 'Location Code',
             'citation_number' => 'Citation Number',
             'unique_passcode' => 'Unique Passcode',
-            'is_active' => 'Is Active',
             'status' => 'Status',
             'created_at' => 'Created At',
             'penalty' => 'Penalty',
