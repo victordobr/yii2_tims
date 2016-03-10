@@ -1,8 +1,8 @@
 <?php
 
 use yii\db\Migration;
-//use yii\db\Schema;
-use yii\db\mysql\Schema;
+use yii\db\Schema;
+//use yii\db\mysql\Schema;
 
 class m160309_093910_re_create_Vehicle extends Migration
 {
