@@ -87,7 +87,7 @@ class ReportType extends \kfosoft\base\Enum
             self::SUMMARY_REPORT_DASHBOARD_VIEW => 'summary-report–dashboard-view',
             self::SUMMARY_REPORT_VIOLATIONS_BY_DATE => 'summary-report/violations-by-date',
             self::SUMMARY_REPORT_VIOLATIONS_BY_SCHOOL_BUS => 'summary-report/violations-by-school-bus',
-            self::SUMMARY_REPORT_VIOLATIONS_BY_VIDEO_ANALYST => false,
+            self::SUMMARY_REPORT_VIOLATIONS_BY_VIDEO_ANALYST => 'summary-report/violations-by-video-analyst',
             self::SUMMARY_REPORT_VIOLATIONS_BY_POLICE_OFFICER => false,
             self::SUMMARY_REPORT_VIOLATIONS_BY_PRINT_OPERATOR => false,
 

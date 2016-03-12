@@ -111,6 +111,10 @@ class CaseStatus extends Enum
         ];
     }
 
+    /**
+     * The list of groups with the statuses
+     * @return array
+     */
     public static function listGroupsReport()
     {
         return [

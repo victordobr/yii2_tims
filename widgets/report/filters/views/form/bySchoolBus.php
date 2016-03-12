@@ -3,7 +3,7 @@ use kartik\form\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\builder\Form;
 use yii\helpers\Html;
-use kartik\select2\Select2;
+use kartik\select2\Select2;d
 
 //\app\base\Module::pa($model->getBusNumberList(),1);
 ?>

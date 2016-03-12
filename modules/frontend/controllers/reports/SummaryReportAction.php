@@ -13,6 +13,7 @@ use pheme\settings\Module;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
+use app\enums\CaseStatus as Status;
 
 class SummaryReportAction extends Action
 {
@@ -41,13 +42,29 @@ class SummaryReportAction extends Action
 
 
         $model->filter_group_id = ReportGroup::getIdByUrl($group);
+
         $dataProvider = $model->search($this->attributes);
 
+
+        $model->getAttributeLabel($model->filter_group_id);
+//        \app\base\Module::pa($model->getAttributeLabel($model->filter_group_id),1);
         $this->setAside($model, 2);
 
+
+//        $groups = Status::listGroupsReport();
+//        $hierarchy = ;
+        $groupAttribute = ReportGroup::getGroupAttribute($model->filter_group_id);
+
+        $headerGroup = [
+            'content' => Status::listGroupsReport(),
+            'colspan' => Status::getHierarchyReport(),
+        ];
+//        \app\base\Module::pa($listColumn,1);
         return $this->controller()->render('summary', [
             'model' => $model,
             'dataProvider' => $dataProvider,
+            'headerGroup' => $headerGroup,
+            'groupAttribute' => $groupAttribute,
         ]);
     }
 

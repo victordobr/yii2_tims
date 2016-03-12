@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\frontend\models\report\summary;
 
+use app\enums\ReportGroup;
 use app\enums\ReportType;
 use app\modules\admin\Module;
 use kartik\helpers\Html;
@@ -14,7 +15,7 @@ use yii\helpers\ArrayHelper;
 class Record extends \app\modules\frontend\models\base\report\Record
 {
     const DEFAULT_FILTER_GROUP_ID = 1;
-    public $filter_group_id;
+    public $filter_group_id = self::DEFAULT_FILTER_GROUP_ID;
 
     public $count;
 
@@ -45,7 +46,7 @@ class Record extends \app\modules\frontend\models\base\report\Record
         $this->setAttributes($params);
 
         $query = $this->getQueryByGroup();
-        \app\base\Module::pa($query,1);
+//        \app\base\Module::pa($query,1);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -60,48 +61,48 @@ class Record extends \app\modules\frontend\models\base\report\Record
         return $dataProvider;
     }
 
-    public function getGroupAttribute()
-    {
-        switch ($this->filter_group_id) {
-            case 'violations-by-date':
-                return 'created_at';
-            case 'violations-by-school-bus':
-                return 'bus_number';
-        }
-    }
-
-    public function listAttributes($group_id = self::DEFAULT_FILTER_GROUP_ID)
-    {
-        $list_attributes = [
-            1 => 'created_at',
-            2 => 'bus_number',
-        ];
-        return $list_attributes;
-    }
-
     public function getQueryByGroup()
     {
         $statuses_ids = array_keys(Status::listStatusesReport());
 
-        $group_attribute = $this->listAttributes($this->filter_group_id);
+        $group_attribute = ReportGroup::getGroupAttribute($this->filter_group_id);
 
-        $select = [$group_attribute => 'record.created_at'];
         foreach ($statuses_ids as $id) {
-            $select['status_' . $id] = 'sum(record.status_id=' . $id . ')';
+            $status_arr['status_' . $id] = 'sum(record.status_id=' . $id . ')';
         }
 
         switch ($this->filter_group_id) {
             case 1:
+                $select = [$group_attribute => 'record.' . $group_attribute] + $status_arr;
                 return static::find()
                     ->select($select)
                     ->from(['record' => self::tableName()])
                     ->groupBy(['DAY(FROM_UNIXTIME(record.created_at, "%Y-%m-%d"))']);
             case 2:
-                array_unshift($select, [$group_attribute => 'record.' . $group_attribute]);
+                $select = [$group_attribute => 'record.' . $group_attribute] + $status_arr;
+//                \app\base\Module::pa($group_attribute,1);
                 return static::find()
                     ->select($select)
                     ->from(['record' => self::tableName()])
                     ->groupBy(['record.' . $group_attribute]);
+            case 3:
+                $select = [$group_attribute => 'user.email'] + $status_arr;
+                \app\base\Module::pa($group_attribute,1);
+                return static::find()
+                    ->select($select)
+                    ->from(['history' => 'StatusHistory'])
+                    ->innerJoin(['user' => 'User'], ['user.id' => 'history.author_id'], ['user.is_active' => 1])
+                    ->innerJoin(['auth' => 'AuthAssignment'], ['user.user_id' => 'auth.id'], ['auth.item_name' => 'RootSuperuser'])
+                    ->where(['history.status_code' => 1020])
+                    ->groupBy('history.author_id');
+
+//                $sql = 'SELECT r.*
+//                FROM StatusHistory AS sh
+//                  INNER JOIN User AS u ON sh.author_id = u.id AND u.is_active = 1
+//                  INNER JOIN AuthAssignment AS auth ON u.id = auth.user_id AND auth.item_name = \'RootSuperuser\'
+//                  INNER JOIN Record AS r ON sh.record_id = r.id
+//                WHERE sh.status_code = 1020
+//                GROUP BY sh.author_id;';
         }
 
     }

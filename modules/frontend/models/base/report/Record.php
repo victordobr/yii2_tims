@@ -10,7 +10,6 @@ class Record extends \app\models\base\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
-    public $filter_group_id;
 
     public $count;
 
@@ -81,7 +80,7 @@ class Record extends \app\models\base\Record
 
         $group_attribute = $this->getGroupAttribute();
 
-        $select = [$group_attribute => 'record.created_at'];
+        $select = [$group_attribute => 'record.bus_number'];
         foreach ($statuses_ids as $id) {
             $select['status_' . $id] = 'sum(record.status_id=' . $id . ')';
         }
@@ -102,14 +101,6 @@ class Record extends \app\models\base\Record
 
     }
 
-    public function getGroupAttribute()
-    {
-        switch ($this->filter_group_id) {
-            case 'violations-by-date':
-                return 'created_at';
-            case 'violations-by-school-bus':
-                return 'bus_number';
-        }
-    }
+
 
 }
