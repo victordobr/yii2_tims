@@ -86,15 +86,37 @@ class Record extends \app\modules\frontend\models\base\report\Record
                     ->from(['record' => self::tableName()])
                     ->groupBy(['record.' . $group_attribute]);
             case 3:
-                $select = [$group_attribute => 'user.email'] + $status_arr;
-                \app\base\Module::pa($group_attribute,1);
+                $select = $status_arr;
+
+                $subQuery = (new Query())->select('history.id')
+                    ->from(['history' => 'StatusHistory'])
+                    ->where([
+                        'history.author_id' => (new Query())->select('user_id')
+                            ->from(['auth' => 'AuthAssignment'])
+                            ->leftJoin(['user' => 'User'], ['user.id' => 'auth.user_id', 'user.is_active' => 1])
+                            ->where(['item_name' => 'RootSuperuser']),
+                    ])
+                    ->andWhere(['history.status_code' => 1020])
+                    ->groupBy('history.author_id');
+
+//                $subQuery->all();
+//                \app\base\Module::pa($subQuery,1);
+//                $command = $subQuery->createCommand();
+//                \app\base\Module::pa($command->sql,1);
+                $subQuery = (new Query())->select('id')
+                    ->from('StatusHistory')
+                    ->groupBy(['record_id']);
+                $command = $subQuery->createCommand();
+                \app\base\Module::pa($command->sql,1);
                 return static::find()
                     ->select($select)
-                    ->from(['history' => 'StatusHistory'])
-                    ->innerJoin(['user' => 'User'], ['user.id' => 'history.author_id'], ['user.is_active' => 1])
-                    ->innerJoin(['auth' => 'AuthAssignment'], ['user.user_id' => 'auth.id'], ['auth.item_name' => 'RootSuperuser'])
-                    ->where(['history.status_code' => 1020])
-                    ->groupBy('history.author_id');
+                    ->from(['record' => $subQuery], ['user' => 'User'])
+                    ->leftJoin(['history' => 'StatusHistory'], ['history.id' => 'record.id'])
+                    ->leftJoin(['user' => 'User'], ['user.id' => 'history.user_id', 'user.is_active' => 1])
+//                    ->where(['record.id' => $subQuery])
+                    ->groupBy(['user.id']);
+
+
 
 //                $sql = 'SELECT r.*
 //                FROM StatusHistory AS sh

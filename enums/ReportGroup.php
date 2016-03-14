@@ -43,9 +43,9 @@ class ReportGroup extends \kfosoft\base\Enum
         return [
             self::GROUP_DAY => 'created_at',
             self::GROUP_BUS_NUMBER => 'bus_number',
-            self::GROUP_VIDEO_ANALYST => 'violations-by-video-analyst',
-            self::GROUP_POLICE_OFFICER => 'violations-by-police-officer',
-            self::GROUP_PRINT_OPERATOR => 'violations-by-print-operator',
+            self::GROUP_VIDEO_ANALYST => 'VideoAnalyst',
+            self::GROUP_POLICE_OFFICER => 'PoliceOfficer',
+            self::GROUP_PRINT_OPERATOR => 'PrintOperator',
         ];
     }
 
