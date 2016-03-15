@@ -190,6 +190,10 @@ $config = [
                 'POST print/confirm' => 'frontend/records/ConfirmQc',
                 'POST print/reject' => 'frontend/records/RejectQc',
 
+                // reports
+                'reports' => 'frontend/reports/index',
+                'reports/<action>/<group>' => 'frontend/reports/<action>',
+
                 // admin roles
                 'admin/roles' => 'admin/rbac/role/index',
                 'admin/role/create' => 'admin/rbac/role/create',

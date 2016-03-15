@@ -446,16 +446,16 @@
         },
         {
             "name": "bower-asset/blueimp-canvas-to-blob",
-            "version": "v3.3.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blueimp/JavaScript-Canvas-to-Blob.git",
-                "reference": "cb5add6fd18abba567c4824a601f57b9a9e30e04"
+                "reference": "c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/cb5add6fd18abba567c4824a601f57b9a9e30e04",
-                "reference": "cb5add6fd18abba567c4824a601f57b9a9e30e04",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9",
+                "reference": "c81c81a13aa9cf5491f2bc6338f5ef248c5ab3e9",
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -603,6 +603,18 @@
         },
         {
             "name": "bower-asset/blueimp-load-image",
+<<<<<<< HEAD
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Load-Image.git",
+                "reference": "eabe7ecf43caa6fd38de26cac68af266419bb8ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/eabe7ecf43caa6fd38de26cac68af266419bb8ea",
+                "reference": "eabe7ecf43caa6fd38de26cac68af266419bb8ea",
+=======
             "version": "v2.6.0",
             "source": {
                 "type": "git",
@@ -613,12 +625,25 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/eca5709e8d8ee037800e924b6ccb828bcfa82a6d",
                 "reference": "eca5709e8d8ee037800e924b6ccb828bcfa82a6d",
+>>>>>>> 797dc5596f21ae69a96dcd218c458984a3d68434
                 "shasum": ""
             },
             "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/blueimp-tmpl",
+<<<<<<< HEAD
+            "version": "v3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Templates.git",
+                "reference": "781379515e223bfa99846a2f299791bfd323549c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/781379515e223bfa99846a2f299791bfd323549c",
+                "reference": "781379515e223bfa99846a2f299791bfd323549c",
+=======
             "version": "v3.3.0",
             "source": {
                 "type": "git",
@@ -629,6 +654,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/14d8b68c1175033d4080600b907390cc89263380",
                 "reference": "14d8b68c1175033d4080600b907390cc89263380",
+>>>>>>> 797dc5596f21ae69a96dcd218c458984a3d68434
                 "shasum": ""
             },
             "type": "bower-asset-library"

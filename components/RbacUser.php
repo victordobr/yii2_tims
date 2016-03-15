@@ -9,12 +9,14 @@
 namespace app\components;
 
 
+use app\enums\ReportType;
 use Yii;
 use yii\base\InvalidConfigException;
 use \app\models\User as UserModel;
 use \yii\base\Exception;
 use yii\rbac\Role;
 use yii\rbac\Permission;
+use app\enums\Role as RoleName;
 
 class RbacUser extends \app\modules\auth\components\Auth
 {
@@ -149,4 +151,26 @@ class RbacUser extends \app\modules\auth\components\Auth
         return $model->delete();
     }
 
+    public static function getReportTypesByRole()
+    {
+        switch (Yii::$app->user->role->name) {
+            case RoleName::ROLE_OPERATIONS_MANAGER:
+                return [
+                    ReportType::SUMMARY_REPORTS,
+                    ReportType::OPERATIONAL_REPORTS,
+                ];
+            case RoleName::ROLE_ACCOUNTS_RECONCILIATION:
+                return [
+                    ReportType::SUMMARY_REPORTS,
+                    ReportType::FINANCIAL_REPORTS,
+                ];
+            case RoleName::ROLE_ROOT_SUPERUSER:
+                return [
+                    ReportType::SUMMARY_REPORTS,
+                    ReportType::OPERATIONAL_REPORTS,
+                    ReportType::FINANCIAL_REPORTS,];
+            default:
+                return [];
+        }
+    }
 }
