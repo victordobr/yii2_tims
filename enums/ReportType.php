@@ -84,10 +84,10 @@ class ReportType extends \kfosoft\base\Enum
     public static function listUrl()
     {
         return [
-            self::SUMMARY_REPORT_DASHBOARD_VIEW => 'summary-report–dashboard-view',
+            self::SUMMARY_REPORT_DASHBOARD_VIEW => false,//'summary-report–dashboard-view',
             self::SUMMARY_REPORT_VIOLATIONS_BY_DATE => 'summary-report/violations-by-date',
             self::SUMMARY_REPORT_VIOLATIONS_BY_SCHOOL_BUS => 'summary-report/violations-by-school-bus',
-            self::SUMMARY_REPORT_VIOLATIONS_BY_VIDEO_ANALYST => 'summary-report/violations-by-video-analyst',
+            self::SUMMARY_REPORT_VIOLATIONS_BY_VIDEO_ANALYST => false,//'summary-report/violations-by-video-analyst',
             self::SUMMARY_REPORT_VIOLATIONS_BY_POLICE_OFFICER => false,
             self::SUMMARY_REPORT_VIOLATIONS_BY_PRINT_OPERATOR => false,
 

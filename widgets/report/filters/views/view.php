@@ -13,13 +13,6 @@ use yii\bootstrap\Html;
 
                 <?= $this->render('form/date', ['model' => $model]); ?>
 
-                <?= $this->render('form/group', ['model' => $model]); ?>
-
-                <div class="form-group text-right">
-<!--                    <?//= //Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-sm btn-default btn-submit']) ?>-->
-                    <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-sm btn-default btn-reset']) ?>
-                </div>
-
         </div>
 
         <div class="panel-footer">

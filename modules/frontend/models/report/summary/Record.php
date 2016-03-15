@@ -2,12 +2,8 @@
 namespace app\modules\frontend\models\report\summary;
 
 use app\enums\ReportGroup;
-use app\enums\ReportType;
-use app\modules\admin\Module;
-use kartik\helpers\Html;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
 use yii\db\QueryInterface;
 use app\enums\CaseStatus as Status;
 use yii\helpers\ArrayHelper;
@@ -16,6 +12,8 @@ class Record extends \app\modules\frontend\models\base\report\Record
 {
     const DEFAULT_FILTER_GROUP_ID = 1;
     public $filter_group_id = self::DEFAULT_FILTER_GROUP_ID;
+    public $filter_created_at_from;
+    public $filter_created_at_to;
 
     public $count;
 
@@ -26,7 +24,8 @@ class Record extends \app\modules\frontend\models\base\report\Record
     {
         return [
             [['count'], 'integer'],
-            [['filter_group_id'], 'integer']
+            [['filter_group_id'], 'integer'],
+            [['filter_created_at_from', 'filter_created_at_to'], 'safe'],
         ];
     }
 
@@ -46,11 +45,11 @@ class Record extends \app\modules\frontend\models\base\report\Record
         $this->setAttributes($params);
 
         $query = $this->getQueryByGroup();
-//        \app\base\Module::pa($query,1);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                    'pageSize' => 20,
+//                    'pageSize' => 20,
             ],
         ]);
 
@@ -88,25 +87,11 @@ class Record extends \app\modules\frontend\models\base\report\Record
             case 3:
                 $select = $status_arr;
 
-                $subQuery = (new Query())->select('history.id')
-                    ->from(['history' => 'StatusHistory'])
-                    ->where([
-                        'history.author_id' => (new Query())->select('user_id')
-                            ->from(['auth' => 'AuthAssignment'])
-                            ->leftJoin(['user' => 'User'], ['user.id' => 'auth.user_id', 'user.is_active' => 1])
-                            ->where(['item_name' => 'RootSuperuser']),
-                    ])
-                    ->andWhere(['history.status_code' => 1020])
-                    ->groupBy('history.author_id');
+                $query = static::find()
+                    ->select($select)
+                    ->groupBy(['user.id']);
 
-//                $subQuery->all();
-//                \app\base\Module::pa($subQuery,1);
-//                $command = $subQuery->createCommand();
-//                \app\base\Module::pa($command->sql,1);
-                $subQuery = (new Query())->select('id')
-                    ->from('StatusHistory')
-                    ->groupBy(['record_id']);
-                $command = $subQuery->createCommand();
+
                 \app\base\Module::pa($command->sql,1);
                 return static::find()
                     ->select($select)
@@ -117,7 +102,21 @@ class Record extends \app\modules\frontend\models\base\report\Record
                     ->groupBy(['user.id']);
 
 
-
+//                $subQuery = (new Query())->select('history.id')
+//                    ->from(['history' => 'StatusHistory'])
+//                    ->where([
+//                        'history.author_id' => (new Query())->select('user_id')
+//                            ->from(['auth' => 'AuthAssignment'])
+//                            ->leftJoin(['user' => 'User'], ['user.id' => 'auth.user_id', 'user.is_active' => 1])
+//                            ->where(['item_name' => 'RootSuperuser']),
+//                    ])
+//                    ->andWhere(['history.status_code' => 1020])
+//                    ->groupBy('history.author_id');
+//                $command = $subQuery->createCommand();
+//
+//                $subQuery = (new Query())->select('id')
+//                    ->from('StatusHistory')
+//                    ->groupBy(['record_id']);
 //                $sql = 'SELECT r.*
 //                FROM StatusHistory AS sh
 //                  INNER JOIN User AS u ON sh.author_id = u.id AND u.is_active = 1

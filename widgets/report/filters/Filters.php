@@ -4,7 +4,7 @@ namespace app\widgets\report\filters;
 
 use Yii;
 use yii\base\Widget;
-use app\widgets\record\filterReport\assets\FilterReportAsset;
+use app\widgets\report\filters\assets\FilterReportAsset;
 
 class Filters extends Widget
 {
@@ -27,21 +27,21 @@ class Filters extends Widget
         ]);
 
 
-        switch ($mode) {
-            case 1:
-                return $this->render('view', [
-                    'model' => $this->model,
-                    'view' => 'form/reportView',
-                ]);
-            case 2:
-                $view = 'form/byDate';
-                break;
-            case 3:
-                $view = 'form/bySchoolBus';
-                break;
-            default:
-                return false;
-        }
+//        switch ($mode) {
+//            case 1:
+//                return $this->render('view', [
+//                    'model' => $this->model,
+//                    'view' => 'form/reportView',
+//                ]);
+//            case 2:
+//                $view = 'form/byDate';
+//                break;
+//            case 3:
+//                $view = 'form/bySchoolBus';
+//                break;
+//            default:
+//                return false;
+//        }
         return $this->render('index', [
             'model' => $this->model,
             'view' => $view,

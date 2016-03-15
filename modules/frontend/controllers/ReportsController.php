@@ -38,7 +38,7 @@ class ReportsController extends Controller
                 'attributes' => $request->get('Record'),
             ],
             'summary-report–violations-by-date' => [
-                'class' =>  SummaryReportViolationsByDateAction::className(),
+                'class' =>  SummaryReportAction::className(),
                 'attributes' => $request->get('Record'),
             ],
             'summary-report' => [
@@ -47,7 +47,7 @@ class ReportsController extends Controller
             ],
 
             'violations-by-school-bus' => [
-                'class' =>  ViolationsBySchoolBusAction::className(),
+                'class' =>  SummaryReportAction::className(),
                 'attributes' => $request->get('Record'),
             ],
             'overall-summary-dashboard' => [

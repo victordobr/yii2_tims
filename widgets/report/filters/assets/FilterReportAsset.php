@@ -1,12 +1,12 @@
 <?php
-namespace app\widgets\record\filterReport\assets;
+namespace app\widgets\report\filters\assets;
 
 use \Yii;
 use \yii\web\AssetBundle;
 
 class FilterReportAsset extends AssetBundle
 {
-    public $sourcePath = '@app/widgets/record/filterReport';
+    public $sourcePath = '@app/widgets/report/filters';
 
     public $js = [
         'js/index.js',

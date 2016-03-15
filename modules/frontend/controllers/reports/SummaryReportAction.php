@@ -36,20 +36,16 @@ class SummaryReportAction extends Action
         $this->setPageTitle($title);
 
         $this->setPageDateRange($this->attributes['filter_created_at_from'], $this->attributes['filter_created_at_to']);
-//        $this->setPageGroupBy($filter_group_id);
 
         $model = new SummaryRecordSearch();
-
 
         $model->filter_group_id = ReportGroup::getIdByUrl($group);
 
         $dataProvider = $model->search($this->attributes);
 
-
         $model->getAttributeLabel($model->filter_group_id);
 //        \app\base\Module::pa($model->getAttributeLabel($model->filter_group_id),1);
         $this->setAside($model, 2);
-
 
 //        $groups = Status::listGroupsReport();
 //        $hierarchy = ;
