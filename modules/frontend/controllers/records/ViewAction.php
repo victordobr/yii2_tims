@@ -2,12 +2,10 @@
 
 namespace app\modules\frontend\controllers\records;
 
-use app\components\RbacUser;
 use app\components\Settings;
 use app\enums\CaseStage;
 use app\enums\MenuTab;
 use app\enums\Role;
-use app\models\User;
 use app\modules\frontend\models\form\ChangeDeterminationForm;
 use app\modules\frontend\models\form\MakeDeterminationForm;
 use app\modules\frontend\Module;
@@ -22,13 +20,27 @@ use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
 use yii\helpers\Url;
 use app\enums\Reasons;
+use app\components\Record as RecordComponent;
 
 class ViewAction extends Action
 {
+    const MODE_UNDEFINED = 0;
+    const MODE_BASIC = 1;
+    const MODE_ADVANCED = 2;
+    const MODE_EDITABLE = 3;
+
+    private $mode = self::MODE_UNDEFINED;
+
     public function init()
     {
         parent::init();
         $this->setLayout('two-columns');
+    }
+
+    public function beforeRun()
+    {
+        $this->initMode();
+        return parent::beforeRun();
     }
 
     public function run($id = 0)
@@ -50,32 +62,79 @@ class ViewAction extends Action
         $this->setPageTitle($record->id);
         $this->setAside($record);
 
-        return $this->controller()->render(self::getView($user), [
+        return $this->controller()->render($this->getView(), [
             'model' => $record,
             'form' => $this->renderForm($record),
             'statuses' => CaseStatus::listCodeDescription(),
         ]);
     }
 
-    private static function getView(RbacUser $user)
+    /**
+     * @return string
+     */
+    private function getView()
     {
-        switch (Module::getTab()) {
-            case MenuTab::TAB_SEARCH:
-                $view = !$user->hasRole([
-                    Role::ROLE_OPERATIONS_MANAGER,
-                    Role::ROLE_SYSTEM_ADMINISTRATOR,
-                    Role::ROLE_ROOT_SUPERUSER,
-                ]) ? 'basic' : 'advanced';
-                return 'view/' . $view;
-            case MenuTab::TAB_REVIEW:
+        switch ($this->mode) {
+            case self::MODE_BASIC:
                 return 'view/basic';
-            case MenuTab::TAB_PRINT:
+            case self::MODE_ADVANCED:
                 return 'view/advanced';
-            case MenuTab::TAB_UPDATE:
+            case self::MODE_EDITABLE:
                 return 'view/editable';
             default:
                 return 'view/error';
         }
+    }
+
+    /**
+     * @return int|null
+     */
+    private function initMode()
+    {
+        switch (Module::getTab()) {
+            case MenuTab::TAB_SEARCH:
+                $advanced = Yii::$app->user->hasRole([
+                    Role::ROLE_OPERATIONS_MANAGER,
+                    Role::ROLE_SYSTEM_ADMINISTRATOR,
+                    Role::ROLE_ROOT_SUPERUSER,
+                ]);
+                return $this->mode = !$advanced ? self::MODE_BASIC : self::MODE_ADVANCED;
+            case MenuTab::TAB_REVIEW:
+                return $this->mode = self::MODE_BASIC;
+            case MenuTab::TAB_UPDATE:
+                return $this->mode = self::MODE_EDITABLE;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isEditableMode()
+    {
+        return $this->mode == self::MODE_EDITABLE;
+    }
+
+    /**
+     * @param string $name
+     */
+    private function setLayout($name)
+    {
+        $this->controller()->layout = $name;
+    }
+
+    /**
+     * @param int $record_id
+     * @return string
+     */
+    private function setPageTitle($record_id)
+    {
+        $title = !$this->isEditableMode()?
+            Yii::t('app', 'View record - Case #' . $record_id):
+            Yii::t('app', 'Update record - Case #' . $record_id);
+
+        return $this->controller()->view->title = $title;
     }
 
     /**
@@ -87,13 +146,13 @@ class ViewAction extends Action
         $user = Yii::$app->user;
 
         switch (true) {
-            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation'):
+            case in_array($record->status_id, [CaseStatus::COMPLETE, CaseStatus::FULL_COMPLETE]) && $user->can('RequestDeactivation') && self::record()->checkTimeout($record->created_at, Yii::$app->settings->get('record.deactivate_available_interval')):
                 return $this->controller()->renderPartial('../forms/request-deactivation', [
                     'action' => Url::to(['RequestDeactivation', 'id' => $record->id]),
                     'model' => new RequestDeactivateForm(),
                     'reasonsList' => Reasons::listReasonsRequestDeactivation(),
                 ]);
-            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation'):
+            case $record->status_id == CaseStatus::AWAITING_DEACTIVATION && $user->can('ApproveDeactivation') && self::record()->checkTimeout($record->created_at, Yii::$app->settings->get('record.deactivate_available_interval')):
                 return $this->controller()->renderPartial('../forms/deactivate', [
                     'action' => Url::to(['deactivate', 'id' => $record->id]),
                     'model' => new DeactivateForm(['record_id' => $record->id]),
@@ -107,7 +166,7 @@ class ViewAction extends Action
                     ]),
                     'reasons' => Reasons::listReasonsRejectingCase(), // todo: change list of reasons
                 ]);
-            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination'):
+            case in_array($record->status_id, [CaseStatus::APPROVED_RECORD, CaseStatus::REJECTED_RECORD]) && $user->can('ChangeDetermination') && self::record()->checkTimeout($record->created_at, Yii::$app->settings->get('record.change_determination_available_interval')):
                 return $this->controller()->renderPartial('../forms/change-determination', [
                     'action' => Url::to(['ChangeDetermination', 'id' => $record->id]),
                     'model' => new ChangeDeterminationForm([
@@ -134,11 +193,12 @@ class ViewAction extends Action
             'remaining' => self::calculateRemainingDays($record)
         ]);
 
-        if (Module::isCurrentTab(MenuTab::TAB_UPDATE)) {
+        if ($this->isEditableMode()) {
             $aside .= UpdateButton::widget([
-                'elements' => [
-                    '#case-details' => ['select'],
-                    '#photo-video-evidence' => ['input'],
+                'wrapper' => '#record-editable-view',
+                'forms' => [
+                    '#form-case-details',
+                    '#form-photo-video-evidence',
                 ]
             ]);
         }
@@ -152,19 +212,31 @@ class ViewAction extends Action
      */
     private static function collectCaseStages(Record $record)
     {
-        $formatter = Yii::$app->formatter;
         return [
-            CaseStage::SET_INFRACTION_DATE => $formatter->asDate($record->infraction_date, 'php:d M Y'),
-            CaseStage::DATA_UPLOADED => $formatter->asDate($record->created_at, 'php:d M Y'),
-            CaseStage::VIOLATION_APPROVED => !empty($record->approved_at) ?
-                $formatter->asDate($record->approved_at, 'php:d M Y') : null,
-            CaseStage::DMV_DATA_REQUEST => !empty($record->dmv_received_at) ?
-                $formatter->asDate($record->dmv_received_at, 'php:d M Y') : null,
-            CaseStage::CITATION_PRINTED => !empty($record->printed_at) ?
-                $formatter->asDate($record->printed_at, 'php:d M Y') : null,
-            CaseStage::CITATION_QC_VERIFIED => !empty($record->qc_verified_at) ?
-                $formatter->asDate($record->qc_verified_at, 'php:d M Y') : null,
+            CaseStage::SET_INFRACTION_DATE => self::formatDate($record->infraction_date),
+            CaseStage::DATA_UPLOADED => self::formatDate($record->created_at),
+            CaseStage::VIOLATION_APPROVED => self::formatDate($record->approved_at),
+            CaseStage::DMV_DATA_REQUEST => self::formatDate($record->dmv_received_at, true),
+            CaseStage::CITATION_PRINTED => self::formatDate($record->printed_at),
+            CaseStage::CITATION_QC_VERIFIED => self::formatDate($record->qc_verified_at),
         ];
+    }
+
+    /**
+     * @param int $timestamp
+     * @param bool $is_dmv_data
+     * @param string $format
+     * @return null|string
+     */
+    private static function formatDate($timestamp, $is_dmv_data = false, $format = 'php:d M Y')
+    {
+        if ($is_dmv_data && $timestamp === 0) {
+            return $timestamp;
+        }
+
+        $formatter = Yii::$app->formatter;
+
+        return !empty($timestamp) ? $formatter->asDate($timestamp, $format) : null;
     }
 
     /**
@@ -188,27 +260,12 @@ class ViewAction extends Action
         return $this->controller()->findModel(Record::className(), $id);
     }
 
-    private function setPageTitle($record_id)
-    {
-        $title = Yii::t('app', 'View uploaded record - Case #' . $record_id);
-
-        return $this->controller()->view->title = $title;
-    }
-
     /**
      * @return Settings
      */
     private static function settings()
     {
         return Yii::$app->settings;
-    }
-
-    /**
-     * @param string $name
-     */
-    private function setLayout($name)
-    {
-        $this->controller()->layout = $name;
     }
 
     /**

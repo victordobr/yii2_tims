@@ -1,21 +1,30 @@
 <?php
 namespace app\components;
 
-use app\enums\CaseStage as Stage;
+use app\models\base\Citation;
+use app\models\Owner;
 use app\models\StatusHistory;
+use app\models\base\Vehicle;
 use Yii;
 use app\enums\Role;
-use app\models\User;
 use yii\base\Component;
 use app\models\Reason;
 use app\enums\CaseStatus as Status;
 use app\events\record\Upload as UploadEvent;
+use app\components\NLETSystem as NLETS;
 
 /**
  * Record component to handle record statuses
  */
 class Record extends Component
 {
+    const ONE_DAY_HOURS = 24;
+    const TWO_DAY_HOURS = 48;
+    const THREE_DAY_HOURS = 72;
+
+    const CLASS_WARNING = 'warning';
+    const CLASS_DANGER = 'danger';
+
     /**
      * @param int $id record id
      * @param int $user_id user id
@@ -115,7 +124,7 @@ class Record extends Component
      * @param string $description reason description
      * @return bool
      */
-    public function rejectDeactivation($id, $user_id,  $code, $description)
+    public function rejectDeactivation($id, $user_id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -149,14 +158,12 @@ class Record extends Component
                 'description' => $description,
             ]);
             if (!$reason->save()) {
-//                var_dump($reason->getErrors()); die;
                 throw new \Exception('Reason do not saved');
             }
 
             $transaction->commit();
             return true;
         } catch (\Exception $e) {
-//            var_dump($e); die;
             $transaction->rollBack();
             return false;
         }
@@ -259,13 +266,53 @@ class Record extends Component
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = self::getRecord($id);
-            if ($record->status_id == Status::DMV_DATA_RETRIEVED_COMPLETE) {
+
+            $data = NLETS::retrieveDMVData($record->license);
+
+            $status = Status::DMV_DATA_NOT_AVAILABLE;
+            $time = 0;
+
+            if (!empty($data)) {
+                $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
+                $time = time();
+
+                $owner = new Owner();
+                $owner->setAttributes(self::extract($data['owner'], [
+                    'first_name',
+                    'middle_name',
+                    'last_name',
+                    'city',
+                ]));
+                $owner->setAttributes([
+                    'record_id' => $record->id,
+                    'address_1' => $data['owner']['address'],
+                    'state_id' => 1,
+                    'license' => $record->license,
+                    'zip_code' => (string)$data['owner']['postal_code'],
+                ]);
+                if (!$owner->save()) {
+                    throw new \Exception('Owner do not saved');
+                }
+
+                $vehicle = new Vehicle();
+                $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year', 'color']));
+                $vehicle->setAttributes([
+                    'owner_id' => $owner->id,
+                    'tag' => $data['vehicle']['plate'],
+                    'state' => 1,
+                ]);
+                if (!$vehicle->save()) {
+                    throw new \Exception('Vehicle do not saved');
+                }
+            }
+
+            if ($record->status_id == $status) {
                 throw new \Exception('Record has same status');
             }
 
             $record->setAttributes([
-                'status_id' => Status::DMV_DATA_RETRIEVED_COMPLETE,
-                'dmv_received_at' => time(),
+                'status_id' => $status,
+                'dmv_received_at' => $time,
             ]);
             if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
                 throw new \Exception('Record status do not updated');
@@ -275,8 +322,8 @@ class Record extends Component
             $history->setAttributes([
                 'record_id' => $id,
                 'author_id' => $user_id,
-                'status_code' => Status::DMV_DATA_RETRIEVED_COMPLETE,
-                'created_at' => time()
+                'status_code' => $status,
+                'created_at' => $time
             ]);
             if (!$history->save()) {
                 throw new \Exception('StatusHistory do not created');
@@ -326,7 +373,7 @@ class Record extends Component
         }
     }
 
-    public function rejectViolation($id, $user_id,  $code, $description)
+    public function rejectViolation($id, $user_id, $code, $description)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
@@ -400,10 +447,29 @@ class Record extends Component
             }
             $record->setAttributes([
                 'status_id' => $status_id,
-                'printed_at' => time()
+                'printed_at' => time(),
             ]);
             if (!$record->save(true, ['status_id', 'printed_at'])) {
                 throw new \Exception('Record status do not updated');
+            }
+
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            // create citation
+            $citation = new Citation();
+            $citation->setAttributes([
+                'owner_id' => $owner->id,
+                'location_code' => 'JCA',
+                'citation_number' => 'JCA-00000' . $record->id,
+                'unique_passcode' => '1111',
+                'penalty' => 300,
+                'fee' => 5,
+                'created_at' => time(),
+                'expired_at' => time(),
+            ]);
+            if (!$citation->save()) {
+                throw new \Exception('Citation do not created');
             }
 
             $history = new StatusHistory();
@@ -458,6 +524,19 @@ class Record extends Component
                 throw new \Exception('Record status do not updated');
             }
 
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            if (!($citation = $owner->citation)) {
+                throw new \Exception('Owner has not citation');
+            }
+            $citation->setAttributes([
+                'is_active' => (int)true,
+            ]);
+            if (!$citation->save(true, ['is_active'])) {
+                throw new \Exception('Citation do not updated');
+            }
+
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
@@ -507,6 +586,16 @@ class Record extends Component
                 throw new \Exception('Record status do not updated');
             }
 
+            if (!($owner = $record->owner)) {
+                throw new \Exception('Record has not owner');
+            }
+            if (!($citation = $owner->citation)) {
+                throw new \Exception('Owner has not citation');
+            }
+            if(!$citation->delete()){
+                throw new \Exception('Citation do not deleted');
+            }
+
             $history = new StatusHistory();
             $history->setAttributes([
                 'record_id' => $id,
@@ -531,8 +620,7 @@ class Record extends Component
      */
     public static function getAvailableStatuses()
     {
-        switch (Yii::$app->user->role->name)
-        {
+        switch (Yii::$app->user->role->name) {
             case Role::ROLE_VIDEO_ANALYST:
                 return [
                     Status::INCOMPLETE,
@@ -598,8 +686,8 @@ class Record extends Component
     }
 
     /* event handlers */
-
-    public static function setStatusCompleted(UploadEvent $event){
+    public static function setStatusCompleted(UploadEvent $event)
+    {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             $record = self::getRecord($event->record->id);
@@ -644,4 +732,91 @@ class Record extends Component
         return \app\models\Record::findOne($id);
     }
 
+    /**
+     * @param array $data
+     * @param array $keys
+     * @return array
+     */
+    private static function extract(array $data, array $keys)
+    {
+        return array_intersect_key($data, array_flip($keys));
+
+    }
+
+    /**
+     * Check timeout
+     * @param integer $created_at time of created record
+     * @param integer $settings_interval time interval in hours (has a default value)
+     * @return bool
+     */
+    public static function checkTimeout($created_at, $settings_interval = self::ONE_DAY_HOURS)
+    {
+        $deactivate_time = $created_at + $settings_interval * 3600;
+        return $deactivate_time > time();
+    }
+
+    /**
+     * Check deactivate timeout
+     * Option to deactivate only available within 24 hours of initial record submission to TIMS
+     * (this interval is configurable in TIMS settings)
+     * @param integer $created_at created date
+     * @return bool
+     */
+    public static function checkDeactivateTimeout($created_at, $interval = self::ONE_DAY_HOURS)
+    {
+        return self::checkTimeout($created_at, $interval);
+    }
+
+    /**
+     * Check timeout of the change determination options
+     * Option to change determination only available within 24 hours of approval/rejection
+     * (this interval is configurable in TIMS settings).
+     * @param integer $created_at created date
+     * @return bool
+     */
+    public static function checkChangeDeterminationTimeout($created_at, $interval = self::ONE_DAY_HOURS)
+    {
+        return self::checkTimeout($created_at, $interval);
+    }
+
+    /**
+     * Get class name by timeout
+     * @param integer $created_at
+     * @param integer $amber_timeout time in hours
+     * @param integer $red_timeout time in hours
+     * @return string class name
+     */
+    public static function getRowClassByTimeout($created_at, $amber_timeout, $red_timeout)
+    {
+        switch(true) {
+            case time() >= $created_at + $red_timeout * 3600:
+                return self::CLASS_DANGER;
+            case time() > $created_at + $amber_timeout * 3600:
+                return self::CLASS_WARNING;
+        }
+    }
+
+    /**
+     * Get class name of Review table
+     * @param integer $created_at
+     * @param integer $amber_timeout
+     * @param integer $red_timeout
+     * @return string
+     */
+    public static function getReviewRowClass($created_at, $amber_timeout = self::TWO_DAY_HOURS, $red_timeout = self::THREE_DAY_HOURS)
+    {
+        return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
+    }
+
+    /**
+     * Get class name of Print table
+     * @param integer $created_at
+     * @param integer $amber_timeout
+     * @param integer $red_timeout
+     * @return string
+     */
+    public static function getPrintRowClass($created_at, $amber_timeout = self::ONE_DAY_HOURS, $red_timeout = self::TWO_DAY_HOURS)
+    {
+        return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
+    }
 }

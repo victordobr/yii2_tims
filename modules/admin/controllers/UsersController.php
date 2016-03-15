@@ -90,7 +90,7 @@ class UsersController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            Yii::$app->user->createUser($model->attributes, $model->role);
+            Yii::$app->user->createUser($model->attributes, $model->role, 1);
             return $this->redirect(['manage']);
 
         } else {

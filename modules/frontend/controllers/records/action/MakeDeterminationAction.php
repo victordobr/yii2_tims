@@ -37,7 +37,8 @@ class MakeDeterminationAction extends Action
             $user = Yii::$app->user;
             $success = $form->isRejectAction() ?
                 self::record()->rejectViolation($record->id, $user->id, $form->code, $form->description) :
-                self::record()->approveViolation($record->id, $user->id);
+                self::record()->approveViolation($record->id, $user->id) &&
+                self::record()->retrieveDMVData($record->id, $user->id); // todo: temporary jump;
             if ($success) {
                 return $controller->redirect(['ReviewList']);
             }

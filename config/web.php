@@ -177,6 +177,10 @@ $config = [
                 'POST update/<id:\d+>' => 'frontend/records/update',
                 'update/<id:\d+>' => 'frontend/records/UpdateView',
 
+                // settings
+                'settings' => 'frontend/settings/index',
+                'settings/<id:\d+>' => 'frontend/settings/update',
+
                 // print
                 'print' => 'frontend/records/PrintList',
                 'print/<id:[\d-]+>' => 'frontend/records/PrintView',

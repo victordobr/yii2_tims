@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a24833e901eb7d5ef4de124bb50f64b0",
-    "content-hash": "a9d659d6c30057fdb1a2aa04a77fcc16",
+    "hash": "c34956533a08322b7da4515547b53132",
+    "content-hash": "3acd00305d9183d30cf193845f70cff9",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -603,6 +603,7 @@
         },
         {
             "name": "bower-asset/blueimp-load-image",
+<<<<<<< HEAD
             "version": "v2.5.0",
             "source": {
                 "type": "git",
@@ -613,12 +614,25 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/eabe7ecf43caa6fd38de26cac68af266419bb8ea",
                 "reference": "eabe7ecf43caa6fd38de26cac68af266419bb8ea",
+=======
+            "version": "v2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Load-Image.git",
+                "reference": "eca5709e8d8ee037800e924b6ccb828bcfa82a6d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/eca5709e8d8ee037800e924b6ccb828bcfa82a6d",
+                "reference": "eca5709e8d8ee037800e924b6ccb828bcfa82a6d",
+>>>>>>> 797dc5596f21ae69a96dcd218c458984a3d68434
                 "shasum": ""
             },
             "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/blueimp-tmpl",
+<<<<<<< HEAD
             "version": "v3.2.1",
             "source": {
                 "type": "git",
@@ -629,6 +643,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/781379515e223bfa99846a2f299791bfd323549c",
                 "reference": "781379515e223bfa99846a2f299791bfd323549c",
+=======
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Templates.git",
+                "reference": "14d8b68c1175033d4080600b907390cc89263380"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/14d8b68c1175033d4080600b907390cc89263380",
+                "reference": "14d8b68c1175033d4080600b907390cc89263380",
+>>>>>>> 797dc5596f21ae69a96dcd218c458984a3d68434
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -718,12 +744,12 @@
             "version": "2.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery.git",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
+                "url": "https://api.github.com/repos/jquery/jquery/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
                 "reference": "7751e69b615c6eca6f783a81e292a55725af6b85",
                 "shasum": ""
             },
@@ -1010,16 +1036,16 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-            "version": "v2.0.5",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67"
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/60728da6ade5879e807a49ce59ef9a72039b8978",
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978",
                 "shasum": ""
             },
             "require": {
@@ -1032,6 +1058,7 @@
                     ".travis.yml",
                     "Gemfile",
                     "Gemfile.lock",
+                    "CONTRIBUTING.md",
                     "vendor/",
                     "script/",
                     "test/"
@@ -1144,16 +1171,16 @@
         },
         {
             "name": "components/flag-icon-css",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lipis/flag-icon-css.git",
-                "reference": "bc91153f32e6f7e4bcb275429f747be37de0950f"
+                "reference": "fa5ed396e360c996b6c75f5c78d4bded4a12ca9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/bc91153f32e6f7e4bcb275429f747be37de0950f",
-                "reference": "bc91153f32e6f7e4bcb275429f747be37de0950f",
+                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/fa5ed396e360c996b6c75f5c78d4bded4a12ca9b",
+                "reference": "fa5ed396e360c996b6c75f5c78d4bded4a12ca9b",
                 "shasum": ""
             },
             "type": "component",
@@ -1178,7 +1205,7 @@
                 }
             ],
             "description": "CSS for vector based country flags",
-            "time": "2016-02-13 22:52:20"
+            "time": "2016-02-25 07:34:02"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1918,16 +1945,16 @@
         },
         {
             "name": "kartik-v/yii2-grid",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "8d596b9e5458291786677618b7fe9d5b84de4aa5"
+                "reference": "9359dcc7f34451af035294bd4127c8ff5d1ffffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/8d596b9e5458291786677618b7fe9d5b84de4aa5",
-                "reference": "8d596b9e5458291786677618b7fe9d5b84de4aa5",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/9359dcc7f34451af035294bd4127c8ff5d1ffffc",
+                "reference": "9359dcc7f34451af035294bd4127c8ff5d1ffffc",
                 "shasum": ""
             },
             "require": {
@@ -1958,7 +1985,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-24 05:23:50"
+            "time": "2015-07-07 17:50:12"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -2413,8 +2440,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP Abstract Enum",
@@ -2455,8 +2482,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Cyril Turkevich",
-                    "email": "cyril.turkevich@gmail.com"
+                    "name": "Alex Makhorin",
+                    "email": "despected@gmail.com"
                 }
             ],
             "description": "PHP/Mysql Integer Types (Exact Value) for x64 platforms",
@@ -2522,16 +2549,16 @@
         },
         {
             "name": "pheme/yii2-settings",
-            "version": "0.3",
+            "version": "0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phemellc/yii2-settings.git",
-                "reference": "8c81f472d5342f9be5a842e62f96a35211c1bc75"
+                "reference": "186a7123797a5459883043518a563b26bc0fd6f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phemellc/yii2-settings/zipball/8c81f472d5342f9be5a842e62f96a35211c1bc75",
-                "reference": "8c81f472d5342f9be5a842e62f96a35211c1bc75",
+                "url": "https://api.github.com/repos/phemellc/yii2-settings/zipball/186a7123797a5459883043518a563b26bc0fd6f0",
+                "reference": "186a7123797a5459883043518a563b26bc0fd6f0",
                 "shasum": ""
             },
             "require": {
@@ -2560,20 +2587,20 @@
                 "config",
                 "yii2"
             ],
-            "time": "2015-12-16 03:25:55"
+            "time": "2016-03-03 05:34:35"
         },
         {
             "name": "pheme/yii2-toggle-column",
-            "version": "0.1",
+            "version": "0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phemellc/yii2-toggle-column.git",
-                "reference": "6fb846a86f76234c63b3d475dc70dd59022718c1"
+                "reference": "a8a6902e240d4bfa80ce2fc8227f672da7a6a2a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phemellc/yii2-toggle-column/zipball/6fb846a86f76234c63b3d475dc70dd59022718c1",
-                "reference": "6fb846a86f76234c63b3d475dc70dd59022718c1",
+                "url": "https://api.github.com/repos/phemellc/yii2-toggle-column/zipball/a8a6902e240d4bfa80ce2fc8227f672da7a6a2a4",
+                "reference": "a8a6902e240d4bfa80ce2fc8227f672da7a6a2a4",
                 "shasum": ""
             },
             "require": {
@@ -2602,7 +2629,7 @@
                 "toggle",
                 "yii2"
             ],
-            "time": "2014-10-12 15:54:14"
+            "time": "2015-08-07 19:20:42"
         },
         {
             "name": "phpspec/php-diff",

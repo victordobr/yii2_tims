@@ -81,7 +81,7 @@ class RbacUser extends \app\modules\auth\components\Auth
 
         if ($activation) {
             $password = $this->generateNewPassword();
-            $model->password = $password;
+            $model->password = $this->generatePasswordHash($password);
             $model->activation_hash = Yii::$app->security->generateRandomString();
         }
 

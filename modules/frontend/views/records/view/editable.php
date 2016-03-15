@@ -2,12 +2,13 @@
 
 use app\widgets\base\DetailView;
 use kartik\icons\Icon;
-use yii\helpers\Html;
+use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
 
 /**
  * @var $this yii\web\View
  * @var $model \app\models\Record
- * @var $form string
  * @var $formatter \app\helpers\Formatter
  * @var $statuses array
  */
@@ -15,16 +16,33 @@ use yii\helpers\Html;
 $formatter = Yii::$app->formatter;
 ?>
 
-<div class="record-view-full-details">
+<div id="record-editable-view">
 
     <div class="col-xs-12">
 
         <div class="row">
             <div class="col-xs-6">
+                <?php Pjax::begin([
+                    'id' => 'pjax-case-details',
+                    'timeout' => false,
+                    'enablePushState' => false,
+                    'formSelector' => '#form-case-details',
+                    'options' => ['class' => 'wrapper-detail-view',]
+                ]); ?>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'form-case-details',
+                    'method' => 'GET',
+                    'enableClientScript' => false,
+                    'options' => ['data-pjax' => true],
+                    'fieldConfig' => [
+                        'template' => '{label}{input}',
+                    ],
+                ]); ?>
                 <?= DetailView::widget([
                     'id' => 'case-details',
                     'editable' => true,
                     'title' => Yii::t('app', 'Case details'),
+                    'template' => '<tr><th class="case-details-headers"><span>{label}</span></th><td>{value}</td></tr>',
                     'model' => $model,
                     'options' => ['class' => 'table'],
                     'attributes' => [
@@ -50,31 +68,57 @@ $formatter = Yii::$app->formatter;
                             'attribute' => 'statusName',
                         ],
                         [
-                            'label' => Yii::t('app', 'Change record state to'),
-                            'value' => $this->render('partials/dropdown-statuses', ['statuses' => $statuses]),
-                            'format' => 'raw'
+                            'format' => 'raw',
+                            'label' => Yii::t('app', 'Change record state'),
+                            'value' => $form->field($model, 'status_id', [
+                                'options' => ['class' => 'form-group form-group-sm'],
+                            ])->dropDownList($statuses)->label(false),
                         ]
                     ],
                 ]) ?>
+                <?php ActiveForm::end(); ?>
+                <?php Pjax::end(); ?>
             </div>
             <div class="col-xs-6">
+                <?php Pjax::begin([
+                    'id' => 'pjax-photo-video-evidence',
+                    'timeout' => false,
+                    'enablePushState' => false,
+                    'formSelector' => '#form-photo-video-evidence',
+                    'options' => ['class' => 'wrapper-detail-view',]
+                ]); ?>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'form-photo-video-evidence',
+                    'enableClientScript' => false,
+                    'method' => 'GET',
+                    'options' => ['data-pjax' => true],
+                    'fieldConfig' => [
+                        'template' => '<div class="col-lg-12">{input}</div>',
+                    ],
+                ]); ?>
                 <?= DetailView::widget([
                     'id' => 'photo-video-evidence',
                     'editable' => true,
                     'title' => Yii::t('app', 'Photo/Video evidence'),
                     'model' => $model,
-                    'template' => '<tr><th class="evidence-headers">{label}</th><td>{value}</td></tr>',
+                    'template' => '<tr><th class="evidence-headers"><span>{label}</span></th><td>{value}</td></tr>',
                     'options' => ['class' => 'table'],
                     'attributes' => [
                         [
                             'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Latitude'),
-                            'value' => $this->render('partials/input-latitude', ['location' => $model->location]),
+                            'value'=> $this->render('partials/input-latitude', [
+                                'form' => $form,
+                                'location' => $model->location,
+                            ]),
                         ],
                         [
                             'format' => 'raw',
                             'label' => Yii::t('app', 'GPS Longitude'),
-                            'value' => $this->render('partials/input-longitude', ['location' => $model->location]),
+                            'value'=> $this->render('partials/input-longitude', [
+                                'form' => $form,
+                                'location' => $model->location,
+                            ]),
                         ],
                         [
                             'label' => Yii::t('app', 'Location (nearby address)'),
@@ -83,6 +127,8 @@ $formatter = Yii::$app->formatter;
                     ],
                     'footer' => $this->render('../../partials/evidence', ['model' => $model])
                 ]) ?>
+                <?php ActiveForm::end(); ?>
+                <?php Pjax::end(); ?>
             </div>
         </div>
 

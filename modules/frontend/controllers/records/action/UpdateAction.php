@@ -2,7 +2,6 @@
 
 namespace app\modules\frontend\controllers\records\action;
 
-use app\enums\CaseStatus;
 use app\helpers\GpsHelper;
 use app\models\Location;
 use Yii;
@@ -13,7 +12,8 @@ use app\models\Record;
 
 class UpdateAction extends Action
 {
-    public $attributes;
+    public $record;
+    public $location;
 
     /**
      * @param $id
@@ -29,33 +29,29 @@ class UpdateAction extends Action
          * @var Location $location
          */
         $location = $record->location;
-        $status = '';
-        $errors = [];
+        $message = [];
 
-        if (!empty($this->attributes['status_id'])) {
-            if (self::record()->updateStatus($record->id, $user->id, $this->attributes['status_id'])) {
-                $list = CaseStatus::listMainText();
-                $status = $list[$this->attributes['status_id']];
+        if (!empty($this->record['status_id'])) {
+            if(self::record()->updateStatus($record->id, $user->id, $this->record['status_id'])){
+                $message['success'] = Yii::t('app', 'Record status updated');
+            } else {
+                $message['info'] = Yii::t('app', 'Record status is not updated');
             }
         }
 
-        if (!empty($this->attributes['location'])) {
-            $location->setAttributes($this->attributes['location']);
-            if ($location->getDirtyAttributes() && $location->validate()) {
-                $location->lat_dd = GpsHelper::convertDDMToDecimal($location->lat_ddm);
-                $location->lng_dd = GpsHelper::convertDDMToDecimal($location->lng_ddm);
-                $location->lat_dms = GpsHelper::convertDDMToDMS($location->lat_ddm);
-                $location->lng_dms = GpsHelper::convertDDMToDMS($location->lng_ddm);
-                if (!$location->save()) {
-                    $errors = $location->getErrors();
-                }
+        if (!empty($this->location)) {
+            $location->setAttributes($this->location);
+            if (!$location->getDirtyAttributes()) {
+                $message['info'] = Yii::t('app', 'Location attributes is not updated');
+            } elseif (!$location->validate()) {
+                $message['error'] = Yii::t('app', 'Location attributes is not valid');
+            } else {
+                $location->save(false);
+                $message['success'] = Yii::t('app', 'Location attributes updated');
             }
         }
 
-        return [
-            'status' => $status,
-            'errors' => $errors,
-        ];
+        return $message;
     }
 
     /**

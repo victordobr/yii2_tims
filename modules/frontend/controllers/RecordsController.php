@@ -96,7 +96,8 @@ class RecordsController extends Controller
             // actions
             'update' => [
                 'class' => UpdateAction::className(),
-                'attributes' => $request->post('Record'),
+                'record' => $request->post('Record'),
+                'location' => $request->post('Location'),
             ],
             'RequestDeactivation' => RequestDeactivationAction::className(),
             'deactivate' => DeactivateAction::className(),

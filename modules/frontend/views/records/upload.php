@@ -15,7 +15,7 @@ use yii\bootstrap\ActiveForm;
 use app\enums\EvidenceFileType;
 use kartik\date\DatePicker;
 use app\enums\States;
-use yii\widgets\MaskedInput;
+use app\widgets\base\MaskedInput;
 
 $this->title = 'Upload Evidence';
 $this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
@@ -99,12 +99,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
         ?>
 
-        <?= $form->field($location, 'lat_ddm')->widget(MaskedInput::classname(), [
-            'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-        ])->hint('(eg. 49.2.66200N)') ?>
-        <?= $form->field($location, 'lng_ddm')->widget(MaskedInput::classname(), [
-            'mask' =>  '9[9[9]].9[9[9]].9[9[9[9[9]]]]a',
-        ])->hint('(eg. 122.21.73060W)') ?>
+        <?= $form->field($location, 'lat_ddm')->widget(MaskedInput::classname())->hint('(eg. 49.2.66200N)') ?>
+        <?= $form->field($location, 'lng_ddm')->widget(MaskedInput::classname())->hint('(eg. 122.21.73060W)') ?>
 
         <?= $form->field($model, 'state_id')->dropDownList(States::listData(), array('prompt' => ' - choose state - ')) ?>
         <?= $form->field($model, 'license')->textInput(['maxlength' => true])->hint('Please enter driver licence.') ?>

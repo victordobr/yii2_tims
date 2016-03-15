@@ -1,12 +1,11 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\modules\admin\models\search;
 
 use Yii;
 use yii\data\ActiveDataProvider;
-use app\modules\admin\models\Setting;
 
-class SettingSearch extends Setting
+class Setting extends \app\models\Setting
 {
 
     public function search($params)
