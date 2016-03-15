@@ -38,7 +38,7 @@ class ReportGroup extends \kfosoft\base\Enum
         ];
     }
 
-    public function listGroupAttribute()
+    public static function listGroupAttribute()
     {
         return [
             self::GROUP_DAY => 'created_at',
