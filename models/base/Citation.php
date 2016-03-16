@@ -13,7 +13,6 @@ use yii\db\ActiveRecord;
  * @property string $location_code
  * @property string $citation_number
  * @property string $unique_passcode
- * @property integer $is_active
  * @property integer $status
  * @property integer $created_at
  * @property integer $penalty
@@ -24,6 +23,11 @@ use yii\db\ActiveRecord;
  */
 class Citation extends ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_PAID = 2;
+    const STATUS_REQUESTED = 3;
+
     /**
      * @inheritdoc
      */
@@ -39,7 +43,7 @@ class Citation extends ActiveRecord
     {
         return [
             [['owner_id', 'created_at', 'penalty', 'fee', 'expired_at'], 'required'],
-            [['owner_id', 'is_active', 'status', 'created_at', 'penalty', 'fee', 'expired_at'], 'integer'],
+            [['owner_id', 'status', 'created_at', 'penalty', 'fee', 'expired_at'], 'integer'],
             [['location_code', 'citation_number', 'unique_passcode'], 'string', 'max' => 255]
         ];
     }
@@ -55,7 +59,6 @@ class Citation extends ActiveRecord
             'location_code' => 'Location Code',
             'citation_number' => 'Citation Number',
             'unique_passcode' => 'Unique Passcode',
-            'is_active' => 'Is Active',
             'status' => 'Status',
             'created_at' => 'Created At',
             'penalty' => 'Penalty',
