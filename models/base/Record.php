@@ -155,4 +155,5 @@ class Record extends ActiveRecord
     {
         return $this->hasOne(File::className(), ['record_id' => 'id'])->andWhere(['record_file_type' => EvidenceFileType::TYPE_IMAGE_OVERVIEW_CAMERA]);
     }
+
 }

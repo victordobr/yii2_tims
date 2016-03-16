@@ -85,4 +85,30 @@ class Owner extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Record::className(), ['id' => 'record_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVehicle()
+    {
+        return $this->hasOne(Vehicle::className(), ['owner_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCitation()
+    {
+        return $this->hasOne(Citation::className(), ['owner_id' => 'id']);
+    }
+
+    /**
+     * Returns owner full name. Composed from first name and last name.
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
 }

@@ -29,4 +29,6 @@ return [
     'record.print_pending_interval_red' => 72, // hours
     'record.review_pending_interval_amber' => 48, // hours
     'record.review_pending_interval_red' => 72, // hours
+
+    'public.host' => 'www.stop4thebus.com',
 ];

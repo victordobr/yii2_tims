@@ -44,13 +44,25 @@ class PrintAction extends Action
         $content = '';
         foreach (self::parseId($id) as $id) {
             $record = $this->findModel($id);
-            $params = [
+            $owner = $record->owner;
+            $images = [
                 'img_lpr' => $record->imageLpr->url,
                 'img_oc' => $record->imageOverviewCamera->url,
             ];
-            $content .= $this->controller()->renderPartial('print/notice/first', ['svg' => $this->renderSvgFile('print/notice/first', $params)]);
-            $content .= $this->controller()->renderPartial('print/notice/final', ['svg' => $this->renderSvgFile('print/notice/final', $params)]);
-            $content .= $this->controller()->renderPartial('print/appendix', ['svg' => $this->renderSvgFile('print/appendix')]);
+            $params = [
+                'record' => $record,
+                'owner' => $owner,
+                'citation' => $owner->citation,
+                'vehicle' => $owner->vehicle,
+                'public_host' => Yii::$app->settings->get('public.host'),
+            ];
+
+            $params['svg'] = $this->renderSvgFile('print/notice/first', $images);
+            $content .= $this->controller()->renderPartial('print/notice/first', $params);
+            $params['svg'] = $this->renderSvgFile('print/notice/final', $images);
+            $content .= $this->controller()->renderPartial('print/notice/final', $params);
+            $params['svg'] = $this->renderSvgFile('print/appendix');
+            $content .= $this->controller()->renderPartial('print/appendix', $params);
             $content .= $this->controller()->renderPartial('print/separator');
         }
 
@@ -86,7 +98,7 @@ class PrintAction extends Action
      */
     private function findModel($id)
     {
-        return $this->controller()->findModel(Record::className(), $id);
+        return $this->controller()->findModel(\app\models\base\Record::className(), $id);
     }
 
     /**

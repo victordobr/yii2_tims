@@ -74,4 +74,24 @@ class Citation extends ActiveRecord
     {
         return $this->hasOne(Owner::className(), ['id' => 'owner_id']);
     }
+
+    /**
+     * @param bool $sign
+     * @param int $mode
+     * @return string
+     */
+    public function getTotalPayment($sign = false, $mode = PHP_ROUND_HALF_UP)
+    {
+        return (!$sign ? '' : '$') . round($this->penalty * (100 + $this->fee) / 100, $mode);
+    }
+
+    /**
+     * @param int $mode
+     * @return float
+     */
+    public function getProcessingFee($mode = PHP_ROUND_HALF_UP)
+    {
+        return round($this->penalty * $this->fee / 100, $mode);
+    }
+
 }

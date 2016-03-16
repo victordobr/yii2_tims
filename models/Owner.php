@@ -72,7 +72,7 @@ class Owner extends base\Owner
      */
     public function getVehicle()
     {
-        return $this->hasOne(Vehicle::className(), ['id' => 'vehicle_id']);
+        return $this->hasOne(Vehicle::className(), ['owner_id' => 'id']);
     }
 
     /**
@@ -81,15 +81,6 @@ class Owner extends base\Owner
     public function getCitation()
     {
         return $this->hasOne(Citation::className(), ['owner_id' => 'id']);
-    }
-
-    /**
-     * Returns owner full name. Composed from first name and last name.
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFullName()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
