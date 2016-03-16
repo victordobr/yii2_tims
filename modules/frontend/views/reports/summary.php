@@ -17,16 +17,16 @@ $header_columns = array_map(function($content, $colspan) {
         ];
     }, $headerGroup['content'], $headerGroup['colspan']);
 
-$list_statuses = Status::listStatusesReport();
-$statuses_ids = array_keys($list_statuses);
-
 $columns[] = [
     'header' => '',
-    'attribute' => $groupAttribute,
+    'attribute' => $groupTableAttribute,
     'width'=>'120px',
     'pageSummary' => Yii::t('app', 'Total'),
     'footer' => true,
 ];
+
+$list_statuses = Status::listStatusesReport();
+$statuses_ids = array_keys($list_statuses);
 foreach ($statuses_ids as $id) {
     $columns[] = [
         'header' => '<div><span>' . $list_statuses[$id] . '</span></div>',
@@ -70,7 +70,7 @@ foreach ($statuses_ids as $id) {
         'responsive' => false,
         'condensed' => false,
         'persistResize' => false,
-        'layout'=>"\n{items}",
+        'layout'=>"\n{items}\n{pager}",
     ]); ?>
 
 <?php Pjax::end(); ?>

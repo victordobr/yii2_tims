@@ -145,6 +145,12 @@ class CaseStatus extends Enum
         ];
     }
 
+    public static function labelStatusReportById($id)
+    {
+        $list = static::listStatusesReport();
+        return isset($list[$id]) ? $list[$id] : null;
+    }
+
     /**
      * Hierarchy of Statuses
      * @return array

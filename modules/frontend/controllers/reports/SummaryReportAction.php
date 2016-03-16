@@ -44,23 +44,23 @@ class SummaryReportAction extends Action
         $dataProvider = $model->search($this->attributes);
 
         $model->getAttributeLabel($model->filter_group_id);
-//        \app\base\Module::pa($model->getAttributeLabel($model->filter_group_id),1);
         $this->setAside($model, 2);
 
-//        $groups = Status::listGroupsReport();
-//        $hierarchy = ;
-        $groupAttribute = ReportGroup::getGroupAttribute($model->filter_group_id);
+        $groupTableAttribute = ReportGroup::getGroupTableAttribute($model->filter_group_id);
 
         $headerGroup = [
             'content' => Status::listGroupsReport(),
             'colspan' => Status::getHierarchyReport(),
         ];
-//        \app\base\Module::pa($listColumn,1);
+
+        array_unshift($headerGroup['content'], ReportGroup::labelById($model->filter_group_id));
+        array_unshift($headerGroup['colspan'], 1);
+
         return $this->controller()->render('summary', [
             'model' => $model,
             'dataProvider' => $dataProvider,
             'headerGroup' => $headerGroup,
-            'groupAttribute' => $groupAttribute,
+            'groupTableAttribute' => $groupTableAttribute,
         ]);
     }
 

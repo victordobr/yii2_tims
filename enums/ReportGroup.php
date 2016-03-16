@@ -38,7 +38,7 @@ class ReportGroup extends \kfosoft\base\Enum
         ];
     }
 
-    public function listGroupAttribute()
+    public static function listGroupAttribute()
     {
         return [
             self::GROUP_DAY => 'created_at',
@@ -62,5 +62,15 @@ class ReportGroup extends \kfosoft\base\Enum
     public static function getGroupAttribute($id)
     {
         return self::listGroupAttribute()[$id];
+    }
+
+    public static function getGroupTableAttribute($id)
+    {
+        switch(true) {
+            case in_array($id, [self::GROUP_DAY, self::GROUP_BUS_NUMBER]):
+                return self::listGroupAttribute()[$id];
+            case in_array($id, [self::GROUP_VIDEO_ANALYST, self::GROUP_POLICE_OFFICER, self::GROUP_PRINT_OPERATOR]):
+                return 'author';
+        }
     }
 }
