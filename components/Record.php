@@ -1,6 +1,7 @@
 <?php
 namespace app\components;
 
+use app\enums\location\Code as LocationCode;
 use app\models\base\Citation;
 use app\models\Owner;
 use app\models\StatusHistory;
@@ -299,7 +300,7 @@ class Record extends Component
                 $vehicle->setAttributes([
                     'owner_id' => $owner->id,
                     'tag' => $data['vehicle']['plate'],
-                    'state' => 1,
+                    'state' => 1, //todo: hard code
                 ]);
                 if (!$vehicle->save()) {
                     throw new \Exception('Vehicle do not saved');
@@ -457,16 +458,13 @@ class Record extends Component
                 throw new \Exception('Record has not owner');
             }
             // create citation
-            $citation = new Citation();
-            $citation->setAttributes([
+            $citation = new Citation([
+                'record_id' => $record->id,
                 'owner_id' => $owner->id,
-                'location_code' => 'JCA',
-                'citation_number' => 'JCA-00000' . $record->id,
-                'unique_passcode' => '1111',
-                'penalty' => 300,
-                'fee' => 5,
+                'location_code' => LocationCode::JCA,
+                'penalty' => 300, // todo: hard code
+                'fee' => 5, // todo: hard code
                 'created_at' => time(),
-                'expired_at' => time(),
             ]);
             if (!$citation->save()) {
                 throw new \Exception('Citation do not created');
