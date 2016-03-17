@@ -25,7 +25,9 @@ use yii\widgets\Pjax;
 
     <div class="row">
         <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right qc-confirm-selected" disabled="disabled"><?= Yii::t('app', 'Confirm') ?></button>
+            <div class="control-group-buttons">
+                <button type="submit" class="btn btn-sm btn-primary pull-right qc-confirm-selected" disabled="disabled"><?= Yii::t('app', 'Confirm') ?></button>
+            </div>
         </div>
     </div>
 
@@ -74,7 +76,9 @@ use yii\widgets\Pjax;
 
     <div class="row">
         <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right qc-reject-selected" disabled="disabled"><?= Yii::t('app', 'Reject') ?></button>
+            <div class="control-group-buttons">
+                <button type="submit" class="btn btn-sm btn-primary pull-right qc-reject-selected" disabled="disabled"><?= Yii::t('app', 'Reject') ?></button>
+            </div>
         </div>
     </div>
 

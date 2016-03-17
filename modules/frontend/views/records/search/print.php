@@ -27,7 +27,9 @@ use \app\components\Record;
 
     <div class="row">
         <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right print-selected" disabled="disabled"><?= Yii::t('app', 'Print') ?></button>
+            <div class="control-group-buttons">
+            <button type="submit" class="btn btn-sm btn-primary pull-right print-selected" disabled="disabled"><?= Yii::t('app', 'Print') ?></button>
+            </div>
         </div>
     </div>
 
