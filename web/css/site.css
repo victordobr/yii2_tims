@@ -240,6 +240,11 @@ label.help {
     margin-right: 7px;
 }
 
+.control-group-buttons {
+    height: 40px;
+    padding-top: 4px;
+}
+
 .font-normal {
     font-weight: normal;
 }
