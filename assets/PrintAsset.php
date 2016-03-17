@@ -21,6 +21,6 @@ class PrintAsset extends AssetBundle
     ];
 
     public $depends = [
-        'app\assets\AppAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

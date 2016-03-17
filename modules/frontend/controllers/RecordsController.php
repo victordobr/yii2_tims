@@ -28,6 +28,16 @@ use \app\modules\frontend\base\Controller;
  */
 class RecordsController extends Controller
 {
+    public function init(){}
+
+    public function beforeAction($action)
+    {
+        if(!in_array($action->id, ['PrintView'])){
+            parent::init();
+        }
+
+        return parent::beforeAction($action);
+    }
 
     public function actions()
     {
