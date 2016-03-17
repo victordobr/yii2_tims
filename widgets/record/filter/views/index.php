@@ -23,7 +23,9 @@ use kartik\icons\Icon;
             <?php endif; ?>
 
             <div class="panel-section<?= !$advanced ? '' : ' hide' ?>">
-                <?= $this->render('form/basic', ['model' => $model,]); ?>
+                <div class="col-lg-12">
+                    <?= $this->render('form/basic', ['model' => $model,]); ?>
+                </div>
             </div>
 
             <?php if ($advanced): ?>
@@ -32,7 +34,9 @@ use kartik\icons\Icon;
                 </div>
 
                 <div class="panel-section">
-                    <?= $this->render('form/advanced', ['model' => $model,]); ?>
+                    <div class="col-lg-12">
+                        <?= $this->render('form/advanced', ['model' => $model,]); ?>
+                    </div>
                 </div>
             <?php endif; ?>
 
