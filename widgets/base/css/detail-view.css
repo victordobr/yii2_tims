@@ -3,7 +3,8 @@
 }
 
 .panel.panel-view {
-    border-radius: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
 }
 
 .panel.panel-view > .panel-heading {
@@ -11,7 +12,7 @@
     margin: -12px 0 0 12px;
     padding: 12px 4px;
     border: none;
-    color: #666;
+    color: rgba(0, 0, 0, .4);
     background: rgba(255, 255, 255, .96);
     font: 16px/0 'Open Sans', sans-serif;
     text-transform: uppercase;
@@ -20,7 +21,7 @@
 .panel.panel-view > .panel-heading-editable:after {
     content: "\f044";
     position: absolute;
-    top: 6px;
+    top: 16px;
     right: 20px;
     color: #ccc;
     font: 24px/24px 'FontAwesome', cursive;
@@ -35,7 +36,7 @@
     padding-left: 12px;
     word-spacing: -1.8px;
     font-weight: normal;
-    color: rgb(100, 100, 100);
+    color: rgba(0, 0, 0, .6);
 }
 
 .panel.panel-view > .panel-body tr > td {
@@ -88,6 +89,7 @@
 }
 
 #photo-video-evidence .location-dms {
+    margin-bottom: 0;
     line-height: 30px;
     letter-spacing: -0.8px;
 }
