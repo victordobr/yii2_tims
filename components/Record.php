@@ -26,579 +26,578 @@ class Record extends Component
     const CLASS_WARNING = 'warning';
     const CLASS_DANGER = 'danger';
 
+    private $actions = [
+        'requestDeactivation',
+        'approveDeactivate',
+        'rejectDeactivation',
+        'view',
+        'updateStatus',
+        'retrieveDMVData',
+        'approveViolation',
+        'rejectViolation',
+        'sendToPrint',
+        'confirmQc',
+        'rejectQc',
+    ];
+
+    // protected methods - record actions
+
     /**
      * @param int $id record id
-     * @param int $user_id user id
+     * @param int $user_id
      * @param int $code reason code
      * @param string $description reason description
      * @return bool
+     * @throws \Exception
      */
-    public function requestDeactivation($id, $user_id, $code, $description)
+    protected function requestDeactivation($id, $user_id, $code, $description)
     {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::AWAITING_DEACTIVATION) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::AWAITING_DEACTIVATION,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::AWAITING_DEACTIVATION,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $reason = new Reason();
-            $reason->setAttributes([
-                'status_history_id' => $history->id,
-                'code' => $code,
-                'description' => $description,
-            ]);
-            if (!$reason->save()) {
-                throw new \Exception('Reason do not saved');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::AWAITING_DEACTIVATION) {
+            throw new \Exception('Record has same status');
         }
-    }
 
-    /**
-     * @param int $id record id
-     * @param int $user_id user id
-     * @return bool
-     */
-    public function approveDeactivate($id, $user_id)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::DEACTIVATED_RECORD) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::DEACTIVATED_RECORD,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::DEACTIVATED_RECORD,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
+        $record->setAttributes([
+            'status_id' => Status::AWAITING_DEACTIVATION,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
         }
-    }
 
-    /**
-     * @param int $id record id
-     * @param int $user_id user id
-     * @param int $code reason code
-     * @param string $description reason description
-     * @return bool
-     */
-    public function rejectDeactivation($id, $user_id, $code, $description)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::FULL_COMPLETE) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::FULL_COMPLETE,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::FULL_COMPLETE,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $reason = new Reason();
-            $reason->setAttributes([
-                'status_history_id' => $history->id,
-                'code' => $code,
-                'description' => $description,
-            ]);
-            if (!$reason->save()) {
-                throw new \Exception('Reason do not saved');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::AWAITING_DEACTIVATION,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
         }
+
+        $reason = new Reason();
+        $reason->setAttributes([
+            'status_history_id' => $history->id,
+            'code' => $code,
+            'description' => $description,
+        ]);
+        if (!$reason->save()) {
+            throw new \Exception('Reason do not saved');
+        }
+
+        return true;
     }
 
     /**
      * @param int $id record id
      * @param int $user_id
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws \Exception
      */
-    public function view($id, $user_id)
+    protected function approveDeactivate($id, $user_id)
     {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::VIEWED_RECORD) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::VIEWED_RECORD,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::VIEWED_RECORD,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::DEACTIVATED_RECORD) {
+            throw new \Exception('Record has same status');
         }
+
+        $record->setAttributes([
+            'status_id' => Status::DEACTIVATED_RECORD,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::DEACTIVATED_RECORD,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
     }
 
     /**
-     * @param int $id
+     * @param int $id record id
+     * @param int $user_id
+     * @param int $code
+     * @param string $description
+     * @return bool
+     * @throws \Exception
+     */
+    protected function rejectDeactivation($id, $user_id, $code, $description)
+    {
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::FULL_COMPLETE) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => Status::FULL_COMPLETE,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::FULL_COMPLETE,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        $reason = new Reason();
+        $reason->setAttributes([
+            'status_history_id' => $history->id,
+            'code' => $code,
+            'description' => $description,
+        ]);
+        if (!$reason->save()) {
+            throw new \Exception('Reason do not saved');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @return bool
+     * @throws \Exception
+     */
+    protected function view($id, $user_id)
+    {
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::VIEWED_RECORD) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => Status::VIEWED_RECORD,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::VIEWED_RECORD,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
      * @param int $user_id
      * @param int $status_id
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws \Exception
      */
-    public function updateStatus($id, $user_id, $status_id)
+    protected function updateStatus($id, $user_id, $status_id)
     {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if (!Status::exists($status_id)) {
-                throw new \Exception('Wrong status code');
-            }
-            if ($record->status_id == $status_id) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => $status_id,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => $status_id,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
+        $record = self::getRecord($id);
+        if (!Status::exists($status_id)) {
+            throw new \Exception('Wrong status code');
         }
+        if ($record->status_id == $status_id) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => $status_id,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => $status_id,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
     }
 
     /**
      * @param int $id record id
      * @param int $user_id
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws \Exception
      */
-    public function retrieveDMVData($id, $user_id)
+    protected function retrieveDMVData($id, $user_id)
     {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
+        $record = self::getRecord($id);
 
-            $data = NLETS::retrieveDMVData($record->license);
+        $data = NLETS::retrieveDMVData($record->license);
 
-            $status = Status::DMV_DATA_NOT_AVAILABLE;
-            $time = 0;
+        $status = Status::DMV_DATA_NOT_AVAILABLE;
+        $time = 0;
 
-            if (!empty($data)) {
-                $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
-                $time = time();
+        if (!empty($data)) {
+            $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
+            $time = time();
 
-                $owner = new Owner();
-                $owner->setAttributes(self::extract($data['owner'], [
-                    'first_name',
-                    'middle_name',
-                    'last_name',
-                    'city',
-                ]));
-                $owner->setAttributes([
-                    'record_id' => $record->id,
-                    'address_1' => $data['owner']['address'],
-                    'state_id' => 1,
-                    'license' => $record->license,
-                    'zip_code' => (string)$data['owner']['postal_code'],
-                ]);
-                if (!$owner->save()) {
-                    throw new \Exception('Owner do not saved');
-                }
-
-                $vehicle = new Vehicle();
-                $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year', 'color']));
-                $vehicle->setAttributes([
-                    'owner_id' => $owner->id,
-                    'tag' => $data['vehicle']['plate'],
-                    'state' => 1, //todo: hard code
-                ]);
-                if (!$vehicle->save()) {
-                    throw new \Exception('Vehicle do not saved');
-                }
-            }
-
-            if ($record->status_id == $status) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => $status,
-                'dmv_received_at' => $time,
-            ]);
-            if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => $status,
-                'created_at' => $time
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
-
-    public function approveViolation($id, $user_id)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::APPROVED_RECORD) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::APPROVED_RECORD,
-                'approved_at' => time(),
-            ]);
-            if (!$record->save(true, ['status_id', 'approved_at'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::APPROVED_RECORD,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
-
-    public function rejectViolation($id, $user_id, $code, $description)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if ($record->status_id == Status::REJECTED_RECORD) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::REJECTED_RECORD,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => Status::REJECTED_RECORD,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $reason = new Reason();
-            $reason->setAttributes([
-                'status_history_id' => $history->id,
-                'code' => $code,
-                'description' => $description,
-            ]);
-            if (!$reason->save()) {
-                throw new \Exception('Reason do not saved');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
-
-    /**
-     * @param int $id record id
-     * @param int $user_id user id
-     * @return bool
-     */
-    public function sendToPrint($id, $user_id)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if (in_array($record->status_id, [Status::PRINTED_P1, Status::PRINTED_P2])) {
-                throw new \Exception('Record already printed');
-            }
-
-            switch ($record->status_id) {
-                case Status::DMV_DATA_RETRIEVED_COMPLETE:
-                case Status::DMV_DATA_RETRIEVED_INCOMPLETE:
-                case Status::QC_BAD_P1:
-                    $status_id = Status::PRINTED_P1;
-                    break;
-                case Status::QC_BAD_P2:
-                case Status::OVERDUE_P1:
-                    $status_id = Status::PRINTED_P2;
-                    break;
-                default:
-                    throw new \Exception('Record has wrong status');
-            }
-            $record->setAttributes([
-                'status_id' => $status_id,
-                'printed_at' => time(),
-            ]);
-            if (!$record->save(true, ['status_id', 'printed_at'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            if (!($owner = $record->owner)) {
-                throw new \Exception('Record has not owner');
-            }
-            // create citation
-            $citation = new Citation([
+            $owner = new Owner();
+            $owner->setAttributes(self::extract($data['owner'], [
+                'first_name',
+                'middle_name',
+                'last_name',
+                'city',
+            ]));
+            $owner->setAttributes([
                 'record_id' => $record->id,
+                'address_1' => $data['owner']['address'],
+                'state_id' => 1,
+                'license' => $record->license,
+                'zip_code' => (string)$data['owner']['postal_code'],
+            ]);
+            if (!$owner->save()) {
+                throw new \Exception('Owner do not saved');
+            }
+
+            $vehicle = new Vehicle();
+            $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year', 'color']));
+            $vehicle->setAttributes([
                 'owner_id' => $owner->id,
-                'location_code' => LocationCode::JCA,
-                'penalty' => 300, // todo: hard code
-                'fee' => 5, // todo: hard code
-                'created_at' => time(),
+                'tag' => $data['vehicle']['plate'],
+                'state' => 1, //todo: hard code
             ]);
-            if (!$citation->save()) {
-                throw new \Exception('Citation do not created');
+            if (!$vehicle->save()) {
+                throw new \Exception('Vehicle do not saved');
             }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => $status_id,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
         }
+
+        if ($record->status_id == $status) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => $status,
+            'dmv_received_at' => $time,
+        ]);
+        if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => $status,
+            'created_at' => $time
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @return bool
+     * @throws \Exception
+     */
+    protected function approveViolation($id, $user_id)
+    {
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::APPROVED_RECORD) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => Status::APPROVED_RECORD,
+            'approved_at' => time(),
+        ]);
+        if (!$record->save(true, ['status_id', 'approved_at'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::APPROVED_RECORD,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id
+     * @param int $code
+     * @param string $description
+     * @return bool
+     * @throws \Exception
+     */
+    protected function rejectViolation($id, $user_id, $code, $description)
+    {
+        $record = self::getRecord($id);
+        if ($record->status_id == Status::REJECTED_RECORD) {
+            throw new \Exception('Record has same status');
+        }
+
+        $record->setAttributes([
+            'status_id' => Status::REJECTED_RECORD,
+        ]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => Status::REJECTED_RECORD,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        $reason = new Reason();
+        $reason->setAttributes([
+            'status_history_id' => $history->id,
+            'code' => $code,
+            'description' => $description,
+        ]);
+        if (!$reason->save()) {
+            throw new \Exception('Reason do not saved');
+        }
+
+        return true;
     }
 
     /**
      * @param int $id record id
      * @param int $user_id user id
      * @return bool
+     * @throws \Exception
+     */
+    protected function sendToPrint($id, $user_id)
+    {
+        $record = self::getRecord($id);
+        if (in_array($record->status_id, [Status::PRINTED_P1, Status::PRINTED_P2])) {
+            throw new \Exception('Record already printed');
+        }
+
+        switch ($record->status_id) {
+            case Status::DMV_DATA_RETRIEVED_COMPLETE:
+            case Status::DMV_DATA_RETRIEVED_INCOMPLETE:
+            case Status::QC_BAD_P1:
+                $status_id = Status::PRINTED_P1;
+                break;
+            case Status::QC_BAD_P2:
+            case Status::OVERDUE_P1:
+                $status_id = Status::PRINTED_P2;
+                break;
+            default:
+                throw new \Exception('Record has wrong status');
+        }
+        $record->setAttributes([
+            'status_id' => $status_id,
+            'printed_at' => time(),
+        ]);
+        if (!$record->save(true, ['status_id', 'printed_at'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        if (!($owner = $record->owner)) {
+            throw new \Exception('Record has not owner');
+        }
+        // create citation
+        $citation = new Citation([
+            'record_id' => $record->id,
+            'owner_id' => $owner->id,
+            'location_code' => LocationCode::JCA,
+            'penalty' => 300, // todo: hard code
+            'fee' => 5, // todo: hard code
+            'created_at' => time(),
+        ]);
+        if (!$citation->save()) {
+            throw new \Exception('Citation do not created');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => $status_id,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id user id
+     * @return bool
+     * @throws \Exception
+     */
+    protected function confirmQc($id, $user_id)
+    {
+        $record = self::getRecord($id);
+        if (in_array($record->status_id, [Status::QC_CONFIRMED_GOOD_P1, Status::QC_CONFIRMED_GOOD_P2])) {
+            throw new \Exception('Record already confirmed');
+        }
+
+        switch ($record->status_id) {
+            case Status::PRINTED_P1:
+                $status_id = Status::QC_CONFIRMED_GOOD_P1;
+                break;
+            case Status::PRINTED_P2:
+                $status_id = Status::QC_CONFIRMED_GOOD_P2;
+                break;
+            default:
+                throw new \Exception('Record has wrong status');
+        }
+        $record->setAttributes([
+            'status_id' => $status_id,
+            'qc_verified_at' => time()
+        ]);
+        if (!$record->save(true, ['status_id', 'qc_verified_at'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        if (!($owner = $record->owner)) {
+            throw new \Exception('Record has not owner');
+        }
+        if (!($citation = $owner->citation)) {
+            throw new \Exception('Owner has not citation');
+        }
+        $citation->setAttributes([
+            'status' => Citation::STATUS_ACTIVE,
+        ]);
+        if (!$citation->save(true, ['status'])) {
+            throw new \Exception('Citation do not updated');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => $status_id,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id record id
+     * @param int $user_id user id
+     * @return bool
+     * @throws \Exception
+     */
+    protected function rejectQc($id, $user_id)
+    {
+        $record = self::getRecord($id);
+        if (in_array($record->status_id, [Status::QC_BAD_P1, Status::QC_BAD_P2])) {
+            throw new \Exception('Record already rejected');
+        }
+
+        switch ($record->status_id) {
+            case Status::PRINTED_P1:
+                $status_id = Status::QC_BAD_P1;
+                break;
+            case Status::PRINTED_P2:
+                $status_id = Status::QC_BAD_P2;
+                break;
+            default:
+                throw new \Exception('Record has wrong status');
+        }
+        $record->setAttributes(['status_id' => $status_id]);
+        if (!$record->save(true, ['status_id'])) {
+            throw new \Exception('Record status do not updated');
+        }
+
+        if (!($owner = $record->owner)) {
+            throw new \Exception('Record has not owner');
+        }
+        if (!($citation = $owner->citation)) {
+            throw new \Exception('Owner has not citation');
+        }
+        if (!$citation->delete()) {
+            throw new \Exception('Citation do not deleted');
+        }
+
+        $history = new StatusHistory();
+        $history->setAttributes([
+            'record_id' => $id,
+            'author_id' => $user_id,
+            'status_code' => $status_id,
+            'created_at' => time()
+        ]);
+        if (!$history->save()) {
+            throw new \Exception('StatusHistory do not created');
+        }
+
+        return true;
+    }
+
+    /* event handlers */
+
+    /**
+     * @param UploadEvent $event
+     * @return bool
      * @throws \yii\db\Exception
      */
-    public function confirmQc($id, $user_id)
+    public static function setStatusCompleted(UploadEvent $event)
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
-            $record = self::getRecord($id);
-            if (in_array($record->status_id, [Status::QC_CONFIRMED_GOOD_P1, Status::QC_CONFIRMED_GOOD_P2])) {
-                throw new \Exception('Record already confirmed');
+            $record = self::getRecord($event->record->id);
+            if ($record->status_id == Status::COMPLETE) {
+                throw new \Exception('Record has same status');
             }
 
-            switch ($record->status_id) {
-                case Status::PRINTED_P1:
-                    $status_id = Status::QC_CONFIRMED_GOOD_P1;
-                    break;
-                case Status::PRINTED_P2:
-                    $status_id = Status::QC_CONFIRMED_GOOD_P2;
-                    break;
-                default:
-                    throw new \Exception('Record has wrong status');
-            }
             $record->setAttributes([
-                'status_id' => $status_id,
-                'qc_verified_at' => time()
+                'status_id' => Status::COMPLETE,
             ]);
-            if (!$record->save(true, ['status_id', 'qc_verified_at'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            if (!($owner = $record->owner)) {
-                throw new \Exception('Record has not owner');
-            }
-            if (!($citation = $owner->citation)) {
-                throw new \Exception('Owner has not citation');
-            }
-            $citation->setAttributes([
-                'status' => Citation::STATUS_ACTIVE,
-            ]);
-            if (!$citation->save(true, ['status'])) {
-                throw new \Exception('Citation do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => $status_id,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
-
-    /**
-     * @param int $id record id
-     * @param int $user_id user id
-     * @return bool
-     * @throws \yii\db\Exception
-     */
-    public function rejectQc($id, $user_id)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($id);
-            if (in_array($record->status_id, [Status::QC_BAD_P1, Status::QC_BAD_P2])) {
-                throw new \Exception('Record already rejected');
-            }
-
-            switch ($record->status_id) {
-                case Status::PRINTED_P1:
-                    $status_id = Status::QC_BAD_P1;
-                    break;
-                case Status::PRINTED_P2:
-                    $status_id = Status::QC_BAD_P2;
-                    break;
-                default:
-                    throw new \Exception('Record has wrong status');
-            }
-            $record->setAttributes(['status_id' => $status_id]);
             if (!$record->save(true, ['status_id'])) {
                 throw new \Exception('Record status do not updated');
             }
 
-            if (!($owner = $record->owner)) {
-                throw new \Exception('Record has not owner');
-            }
-            if (!($citation = $owner->citation)) {
-                throw new \Exception('Owner has not citation');
-            }
-            if (!$citation->delete()) {
-                throw new \Exception('Citation do not deleted');
-            }
-
             $history = new StatusHistory();
             $history->setAttributes([
-                'record_id' => $id,
-                'author_id' => $user_id,
-                'status_code' => $status_id,
+                'record_id' => $record->id,
+                'author_id' => $event->user_id,
+                'status_code' => Status::COMPLETE,
                 'created_at' => time()
             ]);
             if (!$history->save()) {
@@ -612,6 +611,8 @@ class Record extends Component
             return false;
         }
     }
+
+    // public static methods - helpers
 
     /**
      * @return array
@@ -681,64 +682,6 @@ class Record extends Component
         }
 
         return [];
-    }
-
-    /* event handlers */
-    public static function setStatusCompleted(UploadEvent $event)
-    {
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $record = self::getRecord($event->record->id);
-            if ($record->status_id == Status::COMPLETE) {
-                throw new \Exception('Record has same status');
-            }
-
-            $record->setAttributes([
-                'status_id' => Status::COMPLETE,
-            ]);
-            if (!$record->save(true, ['status_id'])) {
-                throw new \Exception('Record status do not updated');
-            }
-
-            $history = new StatusHistory();
-            $history->setAttributes([
-                'record_id' => $record->id,
-                'author_id' => $event->user_id,
-                'status_code' => Status::COMPLETE,
-                'created_at' => time()
-            ]);
-            if (!$history->save()) {
-                throw new \Exception('StatusHistory do not created');
-            }
-
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
-
-    /* private methods */
-
-    /**
-     * @param int $id
-     * @return null|\app\models\Record
-     */
-    private static function getRecord($id)
-    {
-        return \app\models\Record::findOne($id);
-    }
-
-    /**
-     * @param array $data
-     * @param array $keys
-     * @return array
-     */
-    private static function extract(array $data, array $keys)
-    {
-        return array_intersect_key($data, array_flip($keys));
-
     }
 
     /**
@@ -817,4 +760,68 @@ class Record extends Component
     {
         return self::getRowClassByTimeout($created_at, $amber_timeout, $red_timeout);
     }
+
+    // private methods
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    private function isAction($name)
+    {
+        return in_array($name, $this->actions);
+    }
+
+    /**
+     * @param int $id
+     * @return null|\app\models\Record
+     */
+    private static function getRecord($id)
+    {
+        return \app\models\Record::findOne($id);
+    }
+
+    /**
+     * @param array $data
+     * @param array $keys
+     * @return array
+     */
+    private static function extract(array $data, array $keys)
+    {
+        return array_intersect_key($data, array_flip($keys));
+
+    }
+
+    // magic methods
+
+    /**
+     * @param string $method
+     * @param array $arguments
+     * @return bool|mixed
+     * @throws \Exception
+     * @throws \yii\db\Exception
+     */
+    public function __call($method, $arguments)
+    {
+        if (!$this->isAction($method)) {
+            return false;
+        }
+        if (!method_exists($this, $method)) {
+            throw new \Exception(sprintf('Record action [ %s ] is not implemented', $method));
+        }
+
+        $transaction = Yii::$app->getDb()->beginTransaction();
+
+        try {
+            if (!empty($result = call_user_func_array(array($this, $method), $arguments))) {
+                $transaction->commit();
+            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw new \Exception(sprintf('Record action error: %s', $e->getMessage()));
+        }
+
+        return $result;
+    }
+
 }
