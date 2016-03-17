@@ -1,11 +1,66 @@
-.kv-grid-table > thead > tr > th {
-    font-size: 12px;
+.grid-view {
+    position: relative;
 }
 
-.kv-grid-table > tbody > tr > td {
-    /*font-size: 13px;*/
+.grid-view > .summary {
+    /*position: absolute;*/
+    /*top: 24px;*/
+    /*right: 8px;*/
+
+    text-align: right;
+    padding-right: 8px;
+    line-height: 32px;
 }
 
-.kv-grid-table > tbody > tr > td > a > .fa {
+.grid-view > .summary > span {
+    padding-left: 4px;
     font-size: 16px;
+    line-height: 16px;
+}
+
+/* pagination */
+
+.grid-view > .pagination {
+    margin: 8px 2px;
+}
+
+.grid-view > .pagination > li > a,
+.grid-view > .pagination > li > span  {
+    position: relative;
+    float: left;
+    padding: 4px 8px;
+    margin-left: -1px;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+}
+
+/* kartik */
+
+.kv-grid-container {
+    border-radius: 4px;
+    /* padding: 0; */
+    border: 1px solid rgba(0, 0, 0, .05)
+}
+
+.kv-grid-container > .kv-grid-table {
+    margin-bottom: 0;
+}
+
+.kv-grid-container > .kv-grid-table > thead > tr > th {
+    font-size: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 8px 0;
+}
+
+.kv-grid-container > .kv-grid-table > tbody > tr > td {
+    font-size: 13px;
+    padding: 6px 8px;
+}
+
+.kv-grid-container > .kv-grid-table > tbody > tr > td > a > .fa {
+    font-size: 15px;
 }

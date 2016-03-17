@@ -6,7 +6,7 @@ use app\widgets\base\assets\GridViewAsset;
 
 class GridView extends \kartik\grid\GridView
 {
-    const SUMMARY_TEMPLATE = 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{record} other{records}}.';
+    const SUMMARY_TEMPLATE = '<b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b><span>{totalCount, plural, one{record} other{records}}<span>';
 
     public function init()
     {
@@ -14,11 +14,23 @@ class GridView extends \kartik\grid\GridView
         GridViewAsset::register($this->getView());
 
         $this->setSummary();
+        $this->setLayout();
     }
 
+    /**
+     * @return string
+     */
+    private function setLayout()
+    {
+        return $this->layout = "{summary}\n{items}\n{pager}";
+    }
+
+    /**
+     * @return string
+     */
     private function setSummary()
     {
-        $this->summary = Yii::t('app', '<div class="summary">' . self::SUMMARY_TEMPLATE . '</div>');
+        return $this->summary = Yii::t('app', '<div class="summary">' . self::SUMMARY_TEMPLATE . '</div>');
     }
 
 }
