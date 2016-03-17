@@ -3,27 +3,13 @@
 namespace app\modules\frontend\controllers\records;
 
 use app\assets\PrintAsset;
-use app\components\Pdf;
-use app\components\RbacUser;
 use app\components\Settings;
-use app\enums\CaseStage;
-use app\enums\MenuTab;
-use app\enums\Role;
-use app\models\User;
-use app\modules\frontend\models\form\ChangeDeterminationForm;
-use app\modules\frontend\models\form\MakeDeterminationForm;
-use app\modules\frontend\Module;
-use app\widgets\record\timeline\Timeline;
-use app\widgets\record\update\UpdateButton;
+use app\models\base\Citation;
 use Yii;
-use app\enums\CaseStatus;
 use app\models\Record;
 use app\modules\frontend\controllers\RecordsController;
-use app\modules\frontend\models\form\DeactivateForm;
-use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
-use yii\helpers\Url;
-use app\enums\Reasons;
+use app\enums\location\Code as LocationCode;
 
 class PrintAction extends Action
 {
@@ -49,10 +35,25 @@ class PrintAction extends Action
                 'img_lpr' => $record->imageLpr->url,
                 'img_oc' => $record->imageOverviewCamera->url,
             ];
+
+            if (empty($citation = $owner->citation)) {
+                $citation = new Citation([
+                    'record_id' => $record->id,
+                    'owner_id' => $owner->id,
+                    'location_code' => LocationCode::JCA,
+                    'penalty' => 100, // todo: hard code
+                    'fee' => 10, // todo: hard code
+                    'created_at' => time(),
+                ]);
+                if (!$citation->save()) {
+                    throw new \Exception('Citation do not created');
+                }
+            }
+
             $params = [
                 'record' => $record,
                 'owner' => $owner,
-                'citation' => $owner->citation,
+                'citation' => $citation,
                 'vehicle' => $owner->vehicle,
                 'public_host' => Yii::$app->settings->get('public.host'),
             ];
