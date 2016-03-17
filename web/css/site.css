@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    font: 14px/16px 'Oxygen', sans-serif;
 }
 
 .wrap {
@@ -125,7 +126,7 @@ a.desc:after {
 }
 
 .frontend-wrapper {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Oxygen", sans-serif;
 }
 
 .frontend-wrapper .top-menu {
@@ -138,16 +139,16 @@ a.desc:after {
 
 .frontend-wrapper h1 {
     margin: 0;
-    padding: 16px 0 10px;
-    font-size: 22px;
+    padding: 16px 0 8px;
+    font-weight: bold;
+    font-size: 18px;
     line-height: 24px;
-    letter-spacing: -1.2px;
+    letter-spacing: -.4px;
     text-transform: uppercase;
-    color: #666;
+    color: #777;
 }
 
 .frontend-wrapper .header-title {
-    margin-bottom: 16px;
     text-align: center;
 }
 
@@ -224,7 +225,7 @@ a.desc:after {
 
 .panel > .panel-heading {
     border: none;
-    font: bold 1.2em 'Open Sans', sans-serif;
+    font: bold 1.2em 'Oxygen', sans-serif;
     color: #999;
     text-transform: uppercase;
 }
@@ -237,17 +238,6 @@ label.help {
     float:right;
     margin-bottom: 3px;
     margin-right: 7px;
-}
-
-.grid-view {
-    position: relative;
-    padding-top: 24px;
-}
-
-.grid-view > .summary {
-    position: absolute;
-    top: 2px;
-    left: 4px;
 }
 
 .font-normal {
