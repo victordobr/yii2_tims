@@ -3,8 +3,8 @@
 namespace app\modules\frontend\controllers\reports;
 
 use app\assets\ReportAsset;
-use app\enums\ReportGroup;
-use app\enums\ReportType;
+use app\enums\report\ReportGroup;
+use app\enums\report\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
 use app\modules\frontend\models\report\summary\Record as SummaryRecordSearch;
 use app\widgets\report\filters\Filters;
@@ -14,6 +14,7 @@ use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
 use app\enums\CaseStatus as Status;
+use app\components\Report as ReportComponent;
 
 class SummaryReportAction extends Action
 {
@@ -39,28 +40,25 @@ class SummaryReportAction extends Action
 
         $model = new SummaryRecordSearch();
 
-        $model->filter_group_id = ReportGroup::getIdByUrl($group);
+        $model->filter_group_id = ReportComponent::getIdByUrl($group);
 
         $dataProvider = $model->search($this->attributes);
 
         $model->getAttributeLabel($model->filter_group_id);
-        $this->setAside($model, 2);
+        $this->setAside($model);
 
-        $groupTableAttribute = ReportGroup::getGroupTableAttribute($model->filter_group_id);
+        $groupAttribute = ReportComponent::getGroupTableAttribute($model->filter_group_id);
+        list($groups, $statuses) = ReportComponent::createViewData($model->filter_group_id);
 
-        $headerGroup = [
-            'content' => Status::listGroupsReport(),
-            'colspan' => Status::getHierarchyReport(),
-        ];
-
-        array_unshift($headerGroup['content'], ReportGroup::labelById($model->filter_group_id));
-        array_unshift($headerGroup['colspan'], 1);
+//        \app\base\Module::pa($groups[0]);
+        $this->setPageGroupBy($groups[0]['content']);
 
         return $this->controller()->render('summary', [
             'model' => $model,
             'dataProvider' => $dataProvider,
-            'headerGroup' => $headerGroup,
-            'groupTableAttribute' => $groupTableAttribute,
+            'headerGroups' => $groups,
+            'groupAttribute' => $groupAttribute,
+            'statuses' => $statuses,
         ]);
     }
 
@@ -70,8 +68,13 @@ class SummaryReportAction extends Action
      * @return string
      * @throws \Exception
      */
-    private function setAside($model,  $mode)
+    private function setAside($model)
     {
+        $mode = [
+            Filters::FILTER_DATE_RANGE => true,
+            Filters::FILTER_BUS_NUMBER => false,
+            Filters::FILTER_AUTHOR => false
+        ];
         return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'mode' => $mode,
@@ -123,10 +126,12 @@ class SummaryReportAction extends Action
     private function setPageGroupBy($group_by)
     {
         if (empty($group_by)) {
-            return $this->controller()->view->params['filter_group_id'] = '';
+            return $this->controller()->view->params['group_by'] = '';
         }
-
-        return $this->controller()->view->params['filter_group_id'] = $group_by;
+        $content = Yii::t('app', 'Group by: {group_by}', [
+            'group_by' => $group_by,
+        ]);
+        return $this->controller()->view->params['group_by'] = Html::tag('h4', $content, ['align' => 'center']);
     }
 
     /**

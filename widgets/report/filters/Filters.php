@@ -8,6 +8,13 @@ use app\widgets\report\filters\assets\FilterReportAsset;
 
 class Filters extends Widget
 {
+    const FILTER_DATE_RANGE = 1;
+    const FILTER_BUS_NUMBER = 2;
+    const FILTER_AUTHOR = 3;
+    const FILTER_VIDEO_ANALYST = 3;
+    const FILTER_POLICE_OFFICER  = 4;
+    const FILTER_PRINT_OPERATOR = 5;
+
     public $model;
     public $mode;
 
@@ -18,33 +25,9 @@ class Filters extends Widget
 
     function run()
     {
-        return $this->renderFilter($this->mode);
-    }
-
-    private function renderFilter($mode) {
         return $this->render('view', [
             'model' => $this->model,
-        ]);
-
-
-//        switch ($mode) {
-//            case 1:
-//                return $this->render('view', [
-//                    'model' => $this->model,
-//                    'view' => 'form/reportView',
-//                ]);
-//            case 2:
-//                $view = 'form/byDate';
-//                break;
-//            case 3:
-//                $view = 'form/bySchoolBus';
-//                break;
-//            default:
-//                return false;
-//        }
-        return $this->render('index', [
-            'model' => $this->model,
-            'view' => $view,
+            'mode' => $this->mode,
         ]);
     }
 

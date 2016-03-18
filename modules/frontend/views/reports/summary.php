@@ -8,28 +8,25 @@ use app\widgets\base\GridView;
 use kartik\grid\ActionColumn;
 use app\enums\CaseStatus as Status;
 
-$header_columns = array_map(function($content, $colspan) {
-        return [
-            'content' => $content,
-            'options' => [
-                'colspan' => count($colspan),
-            ]
-        ];
-    }, $headerGroup['content'], $headerGroup['colspan']);
+foreach($headerGroups as $key => $value)
+    $header_columns[] = [
+        'content' => $value['content'],
+        'options' => [
+            'colspan' => $value['colspan'],
+        ]
+];
 
 $columns[] = [
     'header' => '',
-    'attribute' => $groupTableAttribute,
+    'attribute' => $groupAttribute,
     'width'=>'120px',
     'pageSummary' => Yii::t('app', 'Total'),
     'footer' => true,
 ];
 
-$list_statuses = Status::listStatusesReport();
-$statuses_ids = array_keys($list_statuses);
-foreach ($statuses_ids as $id) {
+foreach ($statuses as $id => $value) {
     $columns[] = [
-        'header' => '<div><span>' . $list_statuses[$id] . '</span></div>',
+        'header' => '<div><span>' . $value . '</span></div>',
         'attribute' => 'status_' . $id,
         'headerOptions' => [
             'class' => 'rotated-text',
