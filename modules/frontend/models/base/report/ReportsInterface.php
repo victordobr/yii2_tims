@@ -2,7 +2,7 @@
 
 namespace app\modules\frontend\models\base\report;
 
-interface ReportsInterface
+interface ReportFilter
 {
     /**
      * @return array

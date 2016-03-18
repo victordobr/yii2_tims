@@ -3,20 +3,19 @@
 namespace app\modules\frontend\controllers\reports;
 
 use app\assets\ReportAsset;
+use app\base\Module;
 use app\enums\report\ReportGroup;
 use app\enums\report\ReportType;
 use app\modules\frontend\models\base\RecordFilter;
-use app\modules\frontend\models\report\summary\Record as SummaryRecordSearch;
+use app\modules\frontend\models\report\detail\Record as DetailRecordSearch;
 use app\widgets\report\filters\Filters;
 use kartik\helpers\Html;
-use pheme\settings\Module;
 use Yii;
 use app\modules\frontend\controllers\RecordsController;
 use yii\base\Action;
-use app\enums\CaseStatus as Status;
 use app\components\Report as ReportComponent;
 
-class SummaryReportAction extends Action
+class DetailReportAction extends Action
 {
     public $attributes;
 
@@ -38,21 +37,22 @@ class SummaryReportAction extends Action
 
         $this->setPageDateRange($this->attributes['filter_created_at_from'], $this->attributes['filter_created_at_to']);
 
-        $model = new SummaryRecordSearch();
+        $model = new DetailRecordSearch();
 
-        $model->filter_group_id = ReportComponent::getIdByUrl($group);
+        $model->filter_group_id = ReportGroup::GROUP_DAY;
+        $model->page_filter_id = ReportComponent::getIdByUrlDetail($group);
 
         $dataProvider = $model->search($this->attributes);
 
         $model->getAttributeLabel($model->filter_group_id);
-        $this->setAside($model);
+        $this->setAside($model, $model->page_filter_id);
 
-        $groupAttribute = ReportComponent::getGroupTableAttribute($model->filter_group_id);
-        list($groups, $statuses) = ReportComponent::createViewData($model->filter_group_id);
+        $groupAttribute = 'created_at';
+        list($groups, $statuses) = ReportComponent::createViewData($model->page_filter_id);
 
 //        \app\base\Module::pa($groups[0]);
         $this->setPageGroupBy($groups[0]['content']);
-
+//        Module::pa($statuses,1);
         return $this->controller()->render('summary', [
             'model' => $model,
             'dataProvider' => $dataProvider,
@@ -68,17 +68,39 @@ class SummaryReportAction extends Action
      * @return string
      * @throws \Exception
      */
-    private function setAside($model)
+    private function setAside($model, $filter_id)
     {
-        $mode = [
-            Filters::FILTER_DATE_RANGE => true,
-            Filters::FILTER_BUS_NUMBER => false,
-            Filters::FILTER_AUTHOR => false
-        ];
+        $mode = self::createFilterMode($filter_id);
         return Yii::$app->view->params['aside'] = Filters::widget([
             'model' => $model,
             'mode' => $mode,
         ]);
+    }
+
+    public static function createFilterMode($filter_id)
+    {
+        switch ($filter_id) {
+            case ReportGroup::GROUP_BUS_NUMBER:
+                return [
+                    Filters::FILTER_DATE_RANGE => true,
+                    Filters::FILTER_BUS_NUMBER => true,
+                    Filters::FILTER_AUTHOR => false
+                ];
+                break;
+            case ReportGroup::GROUP_VIDEO_ANALYST || ReportGroup::GROUP_POLICE_OFFICER || ReportGroup::GROUP_PRINT_OPERATOR:
+                return [
+                    Filters::FILTER_DATE_RANGE => true,
+                    Filters::FILTER_BUS_NUMBER => false,
+                    Filters::FILTER_AUTHOR => true
+                ];
+                break;
+            default:
+                return [
+                    Filters::FILTER_DATE_RANGE => true,
+                    Filters::FILTER_BUS_NUMBER => false,
+                    Filters::FILTER_AUTHOR => false
+                ];
+        }
     }
 
     private function setLayout($name)

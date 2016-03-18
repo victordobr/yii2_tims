@@ -57,6 +57,9 @@ $config = [
         'record' => [
             'class' => 'app\components\Record',
         ],
+        'report' => [
+            'class' => 'app\components\Report',
+        ],
         'common' => [
             'class' => 'app\components\Common',
         ],

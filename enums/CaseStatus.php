@@ -62,11 +62,6 @@ class CaseStatus extends Enum
     const RECORD_HOLD = 6021;
     const MARKED_FOR_PURGE_30D = 6022;
 
-    const GROUP_UPLOADS = 1;
-    const GROUP_REVIEWS = 2;
-    const GROUP_PRINT_MAIL = 3;
-    const GROUP_PAYMENT = 4;
-
     public static function listCodeDescription()
     {
         $list = [];
@@ -108,69 +103,6 @@ class CaseStatus extends Enum
             self::QC_BAD_P2 => Yii::t('app', 'Qc rejected P2'), //4060
             self::QC_CONFIRMED_GOOD_P1 => Yii::t('app', 'Qc confirmed P2'), //4020
             self::QC_CONFIRMED_GOOD_P2 => Yii::t('app', 'Qc confirmed P2'), //4050
-        ];
-    }
-
-    /**
-     * The list of groups with the statuses
-     * @return array
-     */
-    public static function listGroupsReport()
-    {
-        return [
-            self::GROUP_UPLOADS => Yii::t('app', 'Uploads'),
-            self::GROUP_REVIEWS => Yii::t('app', 'Reviews'),
-            self::GROUP_PRINT_MAIL => Yii::t('app', 'Print & Mail'),
-            self::GROUP_PAYMENT => Yii::t('app', 'Payment'),
-        ];
-    }
-
-    public static function listStatusesReport()
-    {
-        return [
-            self::COMPLETE => Yii::t('app', 'Cases Uploaded'), //1020
-            self::DEACTIVATED_RECORD => Yii::t('app', 'Cases Deactivated'), //1040
-
-            self::VIEWED_RECORD => Yii::t('app', 'Cases Reviewed'), //2010
-            self::APPROVED_RECORD => Yii::t('app', 'Violation Approved'), //2020
-            self::REJECTED_RECORD => Yii::t('app', 'Violation NOT Approved'), //2030
-
-            self::DMV_DATA_RETRIEVED_COMPLETE => Yii::t('app', 'Retrieved DMV Data'), //3020
-            self::DMV_DATA_RETRIEVED_INCOMPLETE_CRITICAL => Yii::t('app', 'No DMV Data Match Found'), //3030
-            self::PRINTED_P1 => Yii::t('app', 'Citations Printed & Mailed - Period 1'), //4010
-            self::PRINTED_P2 => Yii::t('app', 'Citations Printed & Mailed - Period 2'), //4040
-
-            self::PAID => Yii::t('app', 'Citations Paid (Online)'), //5030
-            self::COURT_DATE_REQUESTED => Yii::t('app', 'Court Date Requested'), //5040
-        ];
-    }
-
-    /**
-     * Hierarchy of Statuses
-     * @return array
-     */
-    public static function getHierarchyReport()
-    {
-        return [
-            self::GROUP_UPLOADS => [
-                self::COMPLETE => Yii::t('app', 'Cases Uploaded'), //1020
-                self::DEACTIVATED_RECORD => Yii::t('app', 'Cases Deactivated'), //1040
-            ],
-            self::GROUP_REVIEWS => [
-                self::VIEWED_RECORD => Yii::t('app', 'Cases Reviewed'), //2010
-                self::APPROVED_RECORD => Yii::t('app', 'Violation Approved'), //2020
-                self::REJECTED_RECORD => Yii::t('app', 'Violation NOT Approved'), //2030
-            ],
-            self::GROUP_PRINT_MAIL => [
-                self::DMV_DATA_RETRIEVED_COMPLETE => Yii::t('app', 'Retrieved DMV Data'), //3020
-                self::DMV_DATA_RETRIEVED_INCOMPLETE_CRITICAL => Yii::t('app', 'No DMV Data Match Found'), //3030
-                self::PRINTED_P1 => Yii::t('app', 'Citations Printed & Mailed - Period 1'), //4010
-                self::PRINTED_P2 => Yii::t('app', 'Citations Printed & Mailed - Period 2'), //4040
-            ],
-            self::GROUP_PAYMENT => [
-                self::PAID => Yii::t('app', 'Citations Paid (Online)'), //5030
-                self::COURT_DATE_REQUESTED => Yii::t('app', 'Court Date Requested'), //5030
-            ],
         ];
     }
 

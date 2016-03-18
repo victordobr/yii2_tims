@@ -6,7 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use app\enums\CaseStatus as Status;
 
-class Record extends \app\models\base\Record
+class Record extends \app\models\Record
 {
     public $filter_created_at_from;
     public $filter_created_at_to;
@@ -39,7 +39,6 @@ class Record extends \app\models\base\Record
             [['filter_group_id'], 'integer'],
             [['filter_created_at_from', 'filter_created_at_to', 'count'], 'integer'],
             [$statuses, 'integer'],
-            [['filter_group_id','status'], 'string'],
         ];
     }
 
@@ -62,14 +61,19 @@ class Record extends \app\models\base\Record
     public function search($params)
     {
         $this->setAttributes($params);
+
         $query = $this->getQueryByGroup();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20,
+                    'pageSize' => 5,
             ],
         ]);
+
+        if (!empty($this->filter_created_at_from) || !empty($this->filter_created_at_to)) {
+            $this->filterByCreatedAtRange($query, $this->filter_created_at_from, $this->filter_created_at_to);
+        }
 
         return $dataProvider;
     }
@@ -99,6 +103,21 @@ class Record extends \app\models\base\Record
                     ->groupBy(['record.' . $group_attribute]);
         }
 
+    }
+
+    protected function filterByCreatedAtRange(QueryInterface &$query, $from, $to)
+    {
+        switch(true){
+            case !empty($from) && !empty($to):
+                $query->andFilterWhere(['between', 'record.created_at', strtotime($from), strtotime($to)]);
+                break;
+            case !empty($from):
+                $query->andFilterWhere(['>=', 'record.created_at', strtotime($from)]);
+                break;
+            case !empty($to):
+                $query->andFilterWhere(['<=', 'record.created_at', strtotime($to)]);
+                break;
+        }
     }
 
 

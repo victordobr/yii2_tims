@@ -9,7 +9,7 @@ use kartik\grid\ActionColumn;
 use app\enums\CaseStatus as Status;
 
 $group = Status::listGroupsReport();
-$hierarchy = Status::getHierarchyReport();
+$hierarchy = Status::structureStatusesReport();
 $header_columns[]= [
     'content' => 'Date',
 ];

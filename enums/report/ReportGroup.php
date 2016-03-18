@@ -1,6 +1,6 @@
 <?php
 
-namespace app\enums;
+namespace app\enums\report;
 
 use Yii;
 
@@ -27,7 +27,7 @@ class ReportGroup extends \kfosoft\base\Enum
         ];
     }
 
-    public static function listUrl()
+    public static function listUrlSummary()
     {
         return [
             self::GROUP_DAY => 'violations-by-date',
@@ -35,6 +35,16 @@ class ReportGroup extends \kfosoft\base\Enum
             self::GROUP_VIDEO_ANALYST => 'violations-by-video-analyst',
             self::GROUP_POLICE_OFFICER => 'violations-by-police-officer',
             self::GROUP_PRINT_OPERATOR => 'violations-by-print-operator',
+        ];
+    }
+
+    public static function listUrlDetail()
+    {
+        return [
+            self::GROUP_BUS_NUMBER => 'bus-number',
+            self::GROUP_VIDEO_ANALYST => 'video-analyst',
+            self::GROUP_POLICE_OFFICER => 'police-officer',
+            self::GROUP_PRINT_OPERATOR => 'print-operator',
         ];
     }
 
@@ -47,20 +57,5 @@ class ReportGroup extends \kfosoft\base\Enum
             self::GROUP_POLICE_OFFICER => 'PoliceOfficer',
             self::GROUP_PRINT_OPERATOR => 'PrintOperator',
         ];
-    }
-
-    public static function getUrlById($id)
-    {
-        return self::listUrl()[$id];
-    }
-
-    public static function getIdByUrl($url)
-    {
-        return array_search($url, self::listUrl());
-    }
-
-    public static function getGroupAttribute($id)
-    {
-        return self::listGroupAttribute()[$id];
     }
 }
