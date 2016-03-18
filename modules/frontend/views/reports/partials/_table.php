@@ -1,7 +1,7 @@
 <?php
 
 use yii\grid\GridView;
-use app\enums\ReportType;
+use app\enums\report\ReportType;
 
 ?>
 

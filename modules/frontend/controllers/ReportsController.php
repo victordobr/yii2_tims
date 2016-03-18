@@ -2,8 +2,9 @@
 
 namespace app\modules\frontend\controllers;
 
-use app\components\RbacUser;
+use app\components\Report;
 use app\enums\Role;
+use app\modules\frontend\controllers\reports\DetailReportAction;
 use app\modules\frontend\controllers\reports\OverallSummaryDashboardAction;
 use app\modules\frontend\controllers\reports\RenderPdfAction;
 use app\modules\frontend\controllers\reports\ReportViewAction;
@@ -13,7 +14,7 @@ use app\modules\frontend\controllers\reports\SummaryReportViolationsByDateAction
 use app\modules\frontend\controllers\reports\SummaryReportViolationsBySchoolBusAction;
 use app\modules\frontend\controllers\reports\ViolationsBySchoolBusAction;
 use Yii;
-use app\enums\ReportType;
+use app\enums\report\ReportType;
 use app\modules\frontend\controllers\reports\IndexAction;
 use app\modules\frontend\controllers\reports\ViolationsByDateAction;
 use \app\modules\frontend\base\Controller;
@@ -37,12 +38,12 @@ class ReportsController extends Controller
                 'class' =>  SummaryReportDashboardViewAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'summary-report–violations-by-date' => [
+            'summary-report' => [
                 'class' =>  SummaryReportAction::className(),
                 'attributes' => $request->get('Record'),
             ],
-            'summary-report' => [
-                'class' =>  SummaryReportAction::className(),
+            'detail-report' => [
+                'class' =>  DetailReportAction::className(),
                 'attributes' => $request->get('Record'),
             ],
 
@@ -100,7 +101,7 @@ class ReportsController extends Controller
 
     public function actionIndex()
     {
-        $report_types = RbacUser::getReportTypesByRole();
+        $report_types = Report::getReportTypesByRole();
 
         $allItems = self::createItems($report_types);
 
