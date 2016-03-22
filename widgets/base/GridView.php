@@ -8,6 +8,9 @@ class GridView extends \kartik\grid\GridView
 {
     const SUMMARY_TEMPLATE = '<b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b><span>{totalCount, plural, one{record} other{records}}<span>';
 
+    public $bordered = false;
+//    public $striped = false;
+
     public function init()
     {
         parent::init();
