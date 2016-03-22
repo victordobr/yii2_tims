@@ -109,9 +109,20 @@ class Record extends base\Record
                 ]);
                 break;
             case $this->status_id < Status::DMV_DATA_HOLD:
-                !Status::isDmvRetrieved($this->status_id) ||  $this->setAttributes([
-                    'dmv_received_at' => time(),
-                ]);
+                if (Status::isDmvDataRequested($this->status_id)) {
+                    $this->setAttributes([
+                        'dmv_received_at' => null,
+                    ]);
+                } elseif (Status::isDmvDataRetrieved($this->status_id)) {
+                    $this->setAttributes([
+                        'dmv_received_at' => time(),
+                    ]);
+                } else {
+                    $this->setAttributes([
+                        'dmv_received_at' => 0,
+                    ]);
+                }
+
 
                 $this->setAttributes([
                     'printed_at' => null,

@@ -179,13 +179,18 @@ class CaseStatus extends Enum
      * @param int $status
      * @return bool
      */
-    public static function isDmvRetrieved($status)
+    public static function isDmvDataRetrieved($status)
     {
-        return in_array($status, [
-            self::DMV_DATA_RETRIEVED_COMPLETE,
-            self::DMV_DATA_RETRIEVED_INCOMPLETE,
-            self::DMV_DATA_RETRIEVED_INCOMPLETE_CRITICAL,
-        ]);
+        return $status == self::DMV_DATA_RETRIEVED_COMPLETE;
+    }
+
+    /**
+     * @param int $status
+     * @return bool
+     */
+    public static function isDmvDataRequested($status)
+    {
+        return $status == self::QUERY_SUBMITTED;
     }
 
 }
