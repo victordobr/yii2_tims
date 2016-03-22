@@ -1,12 +1,13 @@
 .media-popup-wrapper{
     display: inline-block;
     padding: 0 10px 0 0;
+
 }
 
 .media-popup-wrapper > a {
     display: block;
     width: 52px;
-    color: #333;
+    /*color: #333;*/
     font-size: 12px;
     text-align: center;
     cursor: pointer;
@@ -18,5 +19,17 @@
 }
 
 .media-popup-wrapper > a > .fa {
+    color: rgba(0, 0, 0, .6);
     font-size: 3em;
+    line-height: 1.2em;
+}
+
+.media-popup-wrapper > a:hover {
+    text-decoration: none;
+}
+
+.media-popup-wrapper > a:hover > .fa {
+    color: rgba(0, 0, 0, .7);
+    font-size: 3.2em;
+    line-height: 1.1em;
 }
