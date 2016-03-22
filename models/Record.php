@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\enums\EvidenceFileType;
+use app\enums\CaseStatus as Status;
 
 /**
  * This is the model class for table "Record".
@@ -63,6 +64,72 @@ class Record extends base\Record
                 'attributes' => ['infraction_date', 'ticket_payment_expire_date'],
             ],
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        $this->updateCaseTimeline();
+
+        return parent::beforeValidate();
+    }
+
+    /**
+     * @return void
+     */
+    public function updateCaseTimeline()
+    {
+        switch(true)
+        {
+            case $this->status_id < Status::UPLOAD_HOLD:
+                $this->setAttributes([
+                    'approved_at' => null,
+                    'dmv_received_at' => null,
+                    'printed_at' => null,
+                    'qc_verified_at' => null,
+                ]);
+                break;
+            case $this->status_id < Status::REVIEW_HOLD:
+                if ($this->status_id == Status::APPROVED_RECORD) {
+                    $this->setAttributes([
+                        'approved_at' => time(),
+                    ]);
+                } elseif (in_array($this->status_id, [Status::VIEWED_RECORD, Status::REJECTED_RECORD])) {
+                    $this->setAttributes([
+                        'approved_at' => null,
+                    ]);
+                }
+
+                $this->setAttributes([
+                    'dmv_received_at' => null,
+                    'printed_at' => null,
+                    'qc_verified_at' => null,
+                ]);
+                break;
+            case $this->status_id < Status::DMV_DATA_HOLD:
+                !Status::isDmvRetrieved($this->status_id) ||  $this->setAttributes([
+                    'dmv_received_at' => time(),
+                ]);
+
+                $this->setAttributes([
+                    'printed_at' => null,
+                    'qc_verified_at' => null,
+                ]);
+                break;
+            case Status::isPrinted($this->status_id):
+                $this->setAttributes([
+                    'printed_at' => time(),
+                    'qc_verified_at' => null,
+                ]);
+                break;
+            case Status::isQcConfirmed($this->status_id):
+                $this->setAttributes([
+                    'qc_verified_at' => time(),
+                ]);
+                break;
+        }
     }
 
     /**

@@ -222,16 +222,15 @@ class Record extends Component
         $record->setAttributes([
             'status_id' => $status_id,
         ]);
-        if (!$record->save(true, ['status_id'])) {
+        if (!$record->update()) {
             throw new \Exception('Record status do not updated');
         }
 
-        $history = new StatusHistory();
+        $history = new StatusHistory(['record_id' => $id]);
         $history->setAttributes([
-            'record_id' => $id,
             'author_id' => $user_id,
             'status_code' => $status_id,
-            'created_at' => time()
+            'created_at' => time(),
         ]);
         if (!$history->save()) {
             throw new \Exception('StatusHistory do not created');

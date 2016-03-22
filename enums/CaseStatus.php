@@ -16,12 +16,14 @@ class CaseStatus extends Enum
     const AWAITING_DEACTIVATION = 1030;
     const DEACTIVATED_RECORD = 1040;
     const HOLD_1999 = 1999;
+    const UPLOAD_HOLD = 1999;
 
     const VIEWED_RECORD = 2010;
     const APPROVED_RECORD_2021 = 2021;
     const REJECTED_RECORD_2031 = 2031;
     const AWAITING_CHANGE = 2040;
     const HOLD_2999 = 2999;
+    const REVIEW_HOLD = 2999;
 
     const APPROVED_RECORD = 2020;
     const REJECTED_RECORD = 2030;
@@ -34,6 +36,7 @@ class CaseStatus extends Enum
     const DMV_DATA_NOT_AVAILABLE = 3032;
     const DMV_DATA_MULTIPLE_MATCH = 3033;
     const HOLD_3999 = 3999;
+    const DMV_DATA_HOLD = 3999;
 
     const PRINTED_P1 = 4010;
     const QC_CONFIRMED_GOOD_P1 = 4020;
@@ -41,6 +44,7 @@ class CaseStatus extends Enum
     const PRINTED_P2 = 4040;
     const QC_CONFIRMED_GOOD_P2 = 4050;
     const QC_BAD_P2 = 4060;
+    const PRINT_HOLD = 4999;
 
     const RECEIVED_P1 = 5010;
     const VIEWED_RECORD_P1 = 5011;
@@ -69,6 +73,7 @@ class CaseStatus extends Enum
             $list[$key] = $key . ' - ' . $value;
         }
 
+        ksort($list);
         return $list;
     }
 
@@ -144,6 +149,43 @@ class CaseStatus extends Enum
         $list = self::listMainText();
 
         return array_key_exists($status, $list);
+    }
+
+    /**
+     * @param int $status
+     * @return bool
+     */
+    public static function isQcConfirmed($status)
+    {
+        return in_array($status, [
+            self::QC_CONFIRMED_GOOD_P1,
+            self::QC_CONFIRMED_GOOD_P2,
+        ]);
+    }
+
+    /**
+     * @param int $status
+     * @return bool
+     */
+    public static function isPrinted($status)
+    {
+        return in_array($status, [
+            self::PRINTED_P1,
+            self::PRINTED_P2,
+        ]);
+    }
+
+    /**
+     * @param int $status
+     * @return bool
+     */
+    public static function isDmvRetrieved($status)
+    {
+        return in_array($status, [
+            self::DMV_DATA_RETRIEVED_COMPLETE,
+            self::DMV_DATA_RETRIEVED_INCOMPLETE,
+            self::DMV_DATA_RETRIEVED_INCOMPLETE_CRITICAL,
+        ]);
     }
 
 }

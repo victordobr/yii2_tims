@@ -40,3 +40,12 @@ $(function () {
     });
 
 });
+
+$(document).on('pjax:end', function (e) {
+    var isCaseDetails = function () {
+        return $(e.target).find('form').prop('id') == 'form-case-details';
+    };
+    if (isCaseDetails()) {
+        location.reload();
+    }
+})
