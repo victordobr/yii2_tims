@@ -142,7 +142,11 @@ class Record extends \app\modules\frontend\models\base\Record implements RecordF
     {
         $authors = [];
         foreach ($this->getHistory() as $history) {
-            $author = $history->author;
+            if (empty($author = $history->author)) {
+                $authors[0] = Yii::t('app', '# System');
+                continue;
+            }
+
             $full_name = trim($author->getFullName());
             $authors[$author->id] = !$full_name ? '# ' . $author->id : $full_name . ' / ' . $author->id;
         }
