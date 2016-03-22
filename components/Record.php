@@ -2,7 +2,7 @@
 namespace app\components;
 
 use app\enums\location\Code as LocationCode;
-use app\models\base\Citation;
+use app\models\Citation;
 use app\models\Owner;
 use app\models\StatusHistory;
 use app\models\base\Vehicle;
@@ -498,7 +498,9 @@ class Record extends Component
         $citation->setAttributes([
             'status' => Citation::STATUS_ACTIVE,
         ]);
-        if (!$citation->save(true, ['status'])) {
+        if (!$citation->save()) {
+            print_r($citation->errors);
+            die;
             throw new \Exception('Citation do not updated');
         }
 
@@ -816,7 +818,7 @@ class Record extends Component
             }
         } catch (\Exception $e) {
             $transaction->rollBack();
-//            throw new \Exception(sprintf('Record action error: %s', $e->getMessage()));
+            throw new \Exception(sprintf('Record action error: %s', $e->getMessage()));
             return false;
         }
 

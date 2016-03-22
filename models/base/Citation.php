@@ -46,7 +46,10 @@ class Citation extends ActiveRecord
     public function rules()
     {
         return [
-            [['record_id', 'owner_id', 'created_at', 'penalty', 'fee'], 'required'],
+            [['owner_id', 'created_at', 'penalty', 'fee'], 'required'],
+            [['record_id'], 'required', 'when' => function($citation){
+                return $citation->isNewRecord;
+            }],
             [['record_id', 'owner_id', 'status', 'created_at', 'penalty', 'fee', 'expired_at'], 'integer'],
             [['location_code', 'citation_number', 'unique_passcode'], 'string', 'max' => 255]
         ];
