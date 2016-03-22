@@ -13,9 +13,9 @@ namespace app\components;
 class NLETSystem
 {
     private static $data = [
-        'DR4 60N' => [
+        'DR460N' => [
             'vehicle' => [
-                'plate' => 'DR4 60N',
+                'plate' => 'DR460N',
                 'state' => 'GA',
                 'make' => 'Honda',
                 'model' => 'Civic',
@@ -31,7 +31,26 @@ class NLETSystem
                 'state' => 'GA',
                 'postal_code' => 31032,
             ],
-        ]
+        ],
+        'GR390L' => [
+            'vehicle' => [
+                'plate' => 'GR390L',
+                'state' => 'GA',
+                'make' => 'Audi',
+                'model' => 'A3 3',
+                'year' => '2012',
+                'color' => 'orange',
+            ],
+            'owner' => [
+                'first_name' => 'John',
+                'middle_name' => '',
+                'last_name' => 'Montgomery',
+                'address' => '3240 164th St. Suite 520',
+                'city' => 'Hampshire place',
+                'state' => 'GA',
+                'postal_code' => 31032,
+            ],
+        ],
     ];
 
     /**
