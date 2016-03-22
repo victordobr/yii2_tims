@@ -499,8 +499,6 @@ class Record extends Component
             'status' => Citation::STATUS_ACTIVE,
         ]);
         if (!$citation->save()) {
-            print_r($citation->errors);
-            die;
             throw new \Exception('Citation do not updated');
         }
 
