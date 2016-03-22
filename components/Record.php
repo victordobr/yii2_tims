@@ -484,9 +484,8 @@ class Record extends Component
         }
         $record->setAttributes([
             'status_id' => $status_id,
-            'qc_verified_at' => time()
         ]);
-        if (!$record->save(true, ['status_id', 'qc_verified_at'])) {
+        if (!$record->save()) {
             throw new \Exception('Record status do not updated');
         }
 

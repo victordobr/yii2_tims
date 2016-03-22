@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use app\models\base\Citation;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
