@@ -817,7 +817,8 @@ class Record extends Component
             }
         } catch (\Exception $e) {
             $transaction->rollBack();
-            throw new \Exception(sprintf('Record action error: %s', $e->getMessage()));
+//            throw new \Exception(sprintf('Record action error: %s', $e->getMessage()));
+            return false;
         }
 
         return $result;
