@@ -27,9 +27,7 @@ use app\models\Vehicle;
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'state_id')->dropDownList(
-        States::listData()
-    ) ?>
+    <?= $form->field($model, 'state_id')->dropDownList(States::listData()) ?>
 
     <?= $form->field($model, 'license')->textInput(['maxlength' => true]) ?>
 
@@ -38,16 +36,6 @@ use app\models\Vehicle;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'vehicle_id')->dropDownList(
-        Vehicle::getVehicleList()
-    ) ?>
-
-    <?= $form->field($model, 'vehicle_year')->textInput(['maxlength' => 4]) ?>
-
-    <?= $form->field($model, 'vehicle_color_id')->dropDownList(
-        VehicleColors::listData()
-    ) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
