@@ -98,7 +98,7 @@ class Owner extends base\Owner
      */
     public function getVehicleName()
     {
-        return $this->vehicle->makeModel;
+        return $this->vehicle ? $this->vehicle->make : null;
     }
 
 
