@@ -37,12 +37,5 @@ $user = Yii::$app->user->identity;
                 ],
             ],
         ]) ?>
-        <div class="control-group">
-            <?= Html::a('User profile', Url::to('/frontend/default/profile'))?>
-            <?php if(Yii::$app->user->hasRole([\app\enums\Role::ROLE_ROOT_SUPERUSER])):?>
-                <?= Html::a('Admin portal', Url::to('/admin/users/manage'), ['style' => 'padding-left: 11px'])?>
-            <?php endif;?>
-            <?= Html::a('Logout', Url::to('/logout'), ['class' => 'pull-right'])?>
-        </div>
     </div>
 </div>
