@@ -21,8 +21,8 @@ body::after {
 .wrap {
   min-height: 100%;
   height: auto;
-  margin: 0 auto -60px;
-  padding: 0 0 60px;
+  margin: 0 auto -99px;
+  padding: 0 0 99px;
 }
 .wrap > .container {
   padding: 0 15px 20px;
@@ -35,7 +35,7 @@ body::after {
   color: #ddd;
 }
 .footer {
-  height: 60px;
+  height: 99px;
   position: relative;
 }
 .footer:after {
@@ -67,6 +67,13 @@ body::after {
 }
 .wrap header .sub-title {
   background-color: rgba(14, 81, 126, 0.3);
+}
+.wrap header .sub-title .control-group {
+  text-align: center;
+}
+.wrap header .sub-title .control-group > a {
+  color: rgba(255, 255, 255, 0.96);
+  line-height: 40px;
 }
 .wrap header .container h1 {
   margin: 0;
@@ -174,14 +181,6 @@ body::after {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   padding: 0 6px;
-}
-.wrap #site-navbar {
-  margin-bottom: 0;
-}
-.wrap .sub-title {
-  line-height: 36px;
-  font-size: 24px;
-  margin-bottom: 0;
 }
 /* Link non active */
 .disabled {
