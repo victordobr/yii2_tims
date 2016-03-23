@@ -25,45 +25,33 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
-    ]);
-    NavBar::end();
-    ?>
+
+    <header>
+        <div class="container">
+            <?= Html::tag('h1', Yii::t('app', '{logo} Traffic Infraction Management System', ['logo' => Html::tag('span', 'TIMS', ['class' => 'title-abbr'])])); ?>
+        </div>
+        <div class="sub-title">
+            <div class="container">
+                <?= Html::tag('h2', Yii::t('app', 'Jones County, Georgia')); ?>
+            </div>
+        </div>
+    </header>
 
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-            <?= $content ?>
-        </div>
+        <?= $content ?>
     </div>
+</div>
+
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left"><img src="/images/gatekeeper_gate_logo.jpg" alt="gatekeeper gate logo" height="47"></p>
-
-        <p class="pull-right"><img src="/images/splogo-black-dot-back.jpg" alt="splogo" height="47"></p>
     </div>
 </footer>
+
 <?php $this->endBody() ?>
 </body>
 </html>
