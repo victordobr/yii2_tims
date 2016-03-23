@@ -1,48 +1,46 @@
 <?php
-use yii\bootstrap\ActiveForm;
+use app\widgets\base\ActiveForm;
 
 /**
- * @var yii\web\View $this
+ * @var yii\web\View                        $this
  * @var app\modules\auth\models\forms\Login $model
- * @var yii\bootstrap\ActiveForm $form
+ * @var yii\bootstrap\ActiveForm            $form
  */
 
 $this->title = Yii::t('app', 'Login');
 ?>
+
 <div class="site-login">
-    <h1><?= yii\helpers\Html::encode($this->title) ?></h1>
 
     <?php if (Yii::$app->session->hasFlash('successActivation')): ?>
         <?= Yii::$app->session->getFlash('successActivation'); ?>
     <?php endif; ?>
 
-    <p><?= Yii::t('app', 'Please fill out the following fields to login') ?>:</p>
 
-    <?php $form = ActiveForm::begin([
-        'id'          => 'login-form',
-        'options'     => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template'     => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
+        <div class="col-md-offset-6 col-md-6">
 
-    <?= $form->field($model, 'username') ?>
+            <?php $form = ActiveForm::begin([
+                'id' => 'login-form',
+                'title' => Yii::t('app', 'Welcome back!'),
+                'panel_class' => 'panel-form-login',
+//                'options' => ['class' => 'form-horizontal'],
+                'fieldConfig' => [
+//                    'template' => "<div class=\"col-md-4\">{label}\n</div><div class=\"col-md-8\">{input}\n{error}\n</div>",
+//                    'labelOptions' => ['class' => 'col-lg-1 control-label'],
+                ],
+            ]); ?>
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
+            <?= $form->field($model, 'username')->textInput(['placeholder' => Yii::t('app', 'email')])->label(false) ?>
 
+            <?= $form->field($model, 'password')->passwordInput(['placeholder' => Yii::t('app', 'password')])->label(false) ?>
 
-    <?= $form->field($model, 'rememberMe')->checkbox(); ?>
+            <div class="form-group form-actions">
+                <?= yii\helpers\Html::a(Yii::t('app', 'Forgot password?'), ['forgot'], ['class' => 'btn btn-link']); ?>
+                <?= yii\helpers\Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary pull-right', 'name' => 'login-button']) ?>
+            </div>
 
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= yii\helpers\Html::submitButton(Yii::t('app', 'Login'),
-                ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?php ActiveForm::end(); ?>
 
-            <?php echo yii\helpers\Html::a(Yii::t('app', 'Forgot password?'), ['forgot'], ['class' => 'btn btn-link']); ?>
         </div>
-    </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>

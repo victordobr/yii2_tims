@@ -5,6 +5,7 @@ use app\widgets\base\assets\ActiveFormAsset;
 
 class ActiveForm extends \yii\widgets\ActiveForm
 {
+    public $panel_class = 'panel-form';
     public $title;
     public $footer;
 
@@ -13,8 +14,9 @@ class ActiveForm extends \yii\widgets\ActiveForm
         ActiveFormAsset::register($this->getView());
         parent::init();
 
-        echo '<div class="panel panel-default panel-form">';
-        if ($this->title) {
+        echo '<div class="panel panel-default "' . $this->panel_class . '>';
+        if ($this->title)
+        {
             echo '<div class="panel-heading">' . $this->title . '</div>';
         }
         echo '<div class="panel-body">';
