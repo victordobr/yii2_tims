@@ -1,145 +1,117 @@
 .panel.panel-default {
-    background-color: transparent;
+  background-color: transparent;
 }
-
 .panel.panel-view {
-    border-radius: 8px;
-    margin-top: 12px;
+  margin-top: 12px;
+  border: 1px solid rgba(14, 81, 126, 0.1);
+  border-radius: 8px;
+  color: rgba(14, 81, 126, 0.7);
+  background-color: rgba(255, 255, 255, 0.7);
 }
-
 .panel.panel-view > .panel-heading {
-    float: left;
-    margin: -12px 0 0 12px;
-    padding: 12px 4px;
-    border: none;
-    color: rgba(0, 0, 0, .4);
-    background: rgba(255, 255, 255, .96);
-    font: 16px/0 'Open Sans', sans-serif;
-    text-transform: uppercase;
+  float: left;
+  margin: -12px 0 0 12px;
+  padding: 12px 4px;
+  line-height: 0;
+  border: none;
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  text-transform: uppercase;
 }
-
 .panel.panel-view > .panel-heading-editable:after {
-    content: "\f044";
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    color: #ccc;
-    font: 24px/24px 'FontAwesome', cursive;
-    text-align: center;
+  content: "\f044";
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  color: rgba(14, 81, 126, 0.5);
+  font: 24px/24px 'FontAwesome', cursive;
+  text-align: center;
 }
-
 .panel.panel-view > .panel-body {
-    padding: 12px 0 0 0;
+  padding: 12px 0 0 0;
 }
-
 .panel.panel-view > .panel-body tr > th {
-    padding-left: 12px;
-    word-spacing: -1.8px;
-    font-weight: normal;
-    color: rgba(0, 0, 0, .6);
+  padding-left: 12px;
+  word-spacing: -1.8px;
+  font-weight: normal;
+  color: rgba(14, 81, 126, 0.96);
 }
-
 .panel.panel-view > .panel-body tr > td {
-    color: rgb(130, 130, 130);
+  color: rgba(14, 81, 126, 0.96);
 }
-
 .panel.panel-view > .panel-body tr > th,
 .panel.panel-view > .panel-body tr > td {
-    font-size: 14px;
-    line-height: 14px;
-    letter-spacing: -0.4px;
-    word-spacing: -1.2px;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.4px;
+  word-spacing: -1.2px;
 }
-
 .panel.panel-view > .panel-body tr:nth-child(1) > th,
 .panel.panel-view > .panel-body tr:nth-child(1) > td {
-    border: none;
+  border: none;
 }
-
 .panel > .panel-body > div > div > .table {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
-
 .panel.panel-view > .panel-footer {
-    background: transparent;
+  background: transparent;
 }
-
 /* photo/video evidence */
-
-#photo-video-evidence tr  > th {
-    width: 30%;
-    padding: 4px 8px;
-    line-height: 30px;
+#photo-video-evidence tr > th {
+  width: 30%;
+  padding: 4px 8px;
+  line-height: 30px;
 }
-
-#photo-video-evidence tr  > td {
-    padding: 4px 0;
+#photo-video-evidence tr > td {
+  padding: 4px 0;
 }
-
-#photo-video-evidence tr ~ tr ~ tr  > th > span {
-    position: absolute;
-    width: 50%;
-    line-height: 24px;
+#photo-video-evidence tr ~ tr ~ tr > th > span {
+  position: absolute;
+  width: 50%;
+  line-height: 24px;
 }
-
-#photo-video-evidence tr ~ tr ~ tr  > td {
-    line-height: 8px;
-    padding-top: 12px;
-    padding-left: 60px;
+#photo-video-evidence tr ~ tr ~ tr > td {
+  line-height: 8px;
+  padding-top: 12px;
+  padding-left: 60px;
 }
-
 #photo-video-evidence .location-dms {
-    margin-bottom: 0;
-    line-height: 30px;
-    letter-spacing: -0.8px;
+  margin-bottom: 0;
+  line-height: 30px;
+  letter-spacing: -0.8px;
 }
-
 #photo-video-evidence .field-location-lat_ddm > .col-lg-12,
 #photo-video-evidence .field-location-lng_ddm > .col-lg-12 {
-    padding-left: 0;
+  padding-left: 0;
 }
-
 #photo-video-evidence .field-location-lat_ddm > .col-lg-12 > .form-control,
 #photo-video-evidence .field-location-lng_ddm > .col-lg-12 > .form-control {
-    letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
 }
-
 #form-photo-video-evidence > .panel > .panel-footer {
-    text-align: center;
+  text-align: center;
 }
-
 /* case-details */
-
-#case-details > tbody:nth-child(1) > tr:nth-child(6) > th:nth-child(1) {
-
-
-}
-
 #case-details > tbody > tr:nth-child(6) > th.case-details-headers {
-    position: relative;
+  position: relative;
 }
-
 #case-details > tbody > tr:nth-child(6) > th.case-details-headers > span {
-    position: absolute;
-    top: 16px;
+  position: absolute;
+  top: 16px;
 }
-
 /* icons */
-
 .wrapper-dollar-amount > .wrapper-icon {
-    font-weight: bold;
-    color: #999;
+  font-weight: bold;
+  color: #999;
 }
-
 .wrapper-icon {
-    color: #666;
-    font-size: 28px;
-    line-height: 60px;
+  color: #666;
+  font-size: 28px;
+  line-height: 60px;
 }
-
 .wrapper-text {
-    color: #555;
-    line-height: 20px;
-    font-size: 15px;
-    text-transform: uppercase;
+  color: #555;
+  line-height: 20px;
+  font-size: 15px;
+  text-transform: uppercase;
 }
