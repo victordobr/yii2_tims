@@ -258,31 +258,18 @@ class Record extends Component
             $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
             $time = time();
 
-            $owner = new Owner();
-            $owner->setAttributes(self::extract($data['owner'], [
-                'first_name',
-                'middle_name',
-                'last_name',
-                'city',
-            ]));
+            $owner = new Owner(['record_id' => $record->id]);
+            $owner->setAttributes($data['owner']);
             $owner->setAttributes([
-                'record_id' => $record->id,
-                'address_1' => $data['owner']['address'],
-                'state_id' => 1,
                 'license' => $record->license,
-                'zip_code' => (string)$data['owner']['postal_code'],
             ]);
-            if (!$owner->save()) {
+            if (!$owner->save())
+            {
                 throw new \Exception('Owner do not saved');
             }
 
-            $vehicle = new Vehicle();
-            $vehicle->setAttributes(self::extract($data['vehicle'], ['make', 'model', 'year', 'color']));
-            $vehicle->setAttributes([
-                'owner_id' => $owner->id,
-                'tag' => $data['vehicle']['plate'],
-                'state' => 1, //todo: hard code
-            ]);
+            $vehicle = new Vehicle(['owner_id' => $owner->id]);
+            $vehicle->setAttributes($data['vehicle']);
             if (!$vehicle->save()) {
                 throw new \Exception('Vehicle do not saved');
             }
