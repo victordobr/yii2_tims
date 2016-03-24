@@ -58,6 +58,7 @@ use app\enums\Role;
             <div class="col-md-9">
                 <div class="top-menu">
                     <?= Nav::widget([
+                        'id' => 'top-menu',
                         'options' => ['class' => 'nav nav-tabs nav-justified'],
                         'items' => Module::getMenuItems(),
                     ]); ?>

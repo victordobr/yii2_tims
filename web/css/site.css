@@ -182,6 +182,21 @@ body::after {
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   padding: 0 6px;
 }
+/* top menu */
+#top-menu > li > a {
+  padding: 6px 0;
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+}
+#top-menu > li > a:hover {
+  border-bottom: 1px solid rgba(14, 81, 126, 0.1);
+}
+#top-menu > li.active > a {
+  border-bottom: 1px solid rgba(14, 81, 126, 0.3);
+}
 /* Link non active */
 .disabled {
   pointer-events: none;
@@ -261,18 +276,18 @@ a.desc:after {
 .frontend-wrapper thead {
   text-transform: uppercase;
 }
-.frontend-wrapper h1 {
+.frontend-wrapper .header-title {
+  text-align: center;
+}
+.frontend-wrapper .header-title > h1 {
+  color: rgba(14, 81, 126, 0.7);
   margin: 0;
   padding: 16px 0 8px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 24px;
-  letter-spacing: -0.4px;
+  letter-spacing: -1px;
   text-transform: uppercase;
-  color: #777;
-}
-.frontend-wrapper .header-title {
-  text-align: center;
 }
 .white-background {
   outline: 0 none;
