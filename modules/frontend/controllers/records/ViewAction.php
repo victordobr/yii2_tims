@@ -20,7 +20,6 @@ use app\modules\frontend\models\form\RequestDeactivateForm;
 use yii\base\Action;
 use yii\helpers\Url;
 use app\enums\Reasons;
-use app\components\Record as RecordComponent;
 
 class ViewAction extends Action
 {

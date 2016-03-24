@@ -11,9 +11,14 @@ use yii\widgets\MaskedInput;
  * @var $model \app\models\Record
  * @var $formatter \app\helpers\Formatter
  * @var $statuses array
+ * @var $owner \app\models\Owner
+ * @var $vehicle \app\models\Vehicle
  */
 
 $formatter = Yii::$app->formatter;
+
+$owner = $model->owner;
+$vehicle = !empty($owner) ? $owner->vehicle: null;
 ?>
 
 <div id="record-editable-view">
@@ -132,64 +137,65 @@ $formatter = Yii::$app->formatter;
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <?= DetailView::widget([
-                    'id' => 'violator-details',
-                    'title' => Yii::t('app', 'Violator details'),
-                    'max_rows' => 5,
-                    'model' => $model,
-                    'options' => ['class' => 'table'],
-                    'attributes' => [
-                        [
-                            'label' => Yii::t('app', 'Operator License No. / Class'),
-                            'value' => 'D647362 (CLASS 5)',
+        <?php if(!empty($owner) && !(empty($vehicle))): ?>
+            <div class="row">
+                <div class="col-xs-12">
+                    <?= DetailView::widget([
+                        'id' => 'violator-details',
+                        'title' => Yii::t('app', 'Violator details'),
+                        'max_rows' => 5,
+                        'model' => $vehicle,
+                        'options' => ['class' => 'table'],
+                        'attributes' => [
+                            [
+                                'label' => Yii::t('app', 'Operator License No. / Class'),
+                                'value' => join(' / ', [$owner->license, 'CLASS 5 (H)']),
+                            ],
+                            [
+                                'label' => Yii::t('app', 'License Issuer / Expiry'),
+                                'value' => join(' / ', [$vehicle->state, '23 AUG 2017 (H)']),
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Vehicle Make / Year'),
+                                'value' => join(' / ', [$vehicle->make, $vehicle->year]),
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Style / Color'),
+                                'value' => join(' / ', ['CIVIC TYPE R (H)', $vehicle->color]),
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Registration No./Year/State'),
+                                'value' => 'H7D 7J3 (2015/TX)',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Operator License No. / Class'),
+                                'value' => 'D647362 (CLASS 5)',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'License Issuer / Expiry'),
+                                'value' => 'GA / 23 AUG 2017',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Vehicle Make / Year'),
+                                'value' => 'HONDA 2006'
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Style / Color'),
+                                'value' => 'CIVIC TYPE R (PEARL WHITE)',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Registration No./Year/State'),
+                                'value' => 'H7D 7J3 (2015/TX)',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Registration No./Year/State'),
+                                'value' => 'H7D 7J3 (2015/TX)',
+                            ],
                         ],
-                        [
-                            'label' => Yii::t('app', 'License Issuer / Expiry'),
-                            'value' => 'GA / 23 AUG 2017',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Vehicle Make / Year'),
-                            'value' => 'HONDA 2006'
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Style / Color'),
-                            'value' => 'CIVIC TYPE R (PEARL WHITE)',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Registration No./Year/State'),
-                            'value' => 'H7D 7J3 (2015/TX)',
-                        ],
-
-                        [
-                            'label' => Yii::t('app', 'Operator License No. / Class'),
-                            'value' => 'D647362 (CLASS 5)',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'License Issuer / Expiry'),
-                            'value' => 'GA / 23 AUG 2017',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Vehicle Make / Year'),
-                            'value' => 'HONDA 2006'
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Style / Color'),
-                            'value' => 'CIVIC TYPE R (PEARL WHITE)',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Registration No./Year/State'),
-                            'value' => 'H7D 7J3 (2015/TX)',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Registration No./Year/State'),
-                            'value' => 'H7D 7J3 (2015/TX)',
-                        ],
-                    ],
-                ]) ?>
+                    ]) ?>
+                </div>
             </div>
-        </div>
+        <?php endif;?>
 
         <div class="row">
             <div class="col-xs-12">
