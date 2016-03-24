@@ -69,6 +69,7 @@ body::after {
   background-color: rgba(14, 81, 126, 0.3);
 }
 .wrap header .sub-title .control-group {
+  width: 256px;
   text-align: center;
 }
 .wrap header .sub-title .control-group > a {
@@ -77,8 +78,9 @@ body::after {
 }
 .wrap header .container h1 {
   margin: 0;
+  padding: 12px 0;
   font-size: 32px;
-  line-height: 54px;
+  line-height: 48px;
   color: rgba(255, 255, 255, 0.6);
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.96), 0 0 4px rgba(14, 81, 126, 0.96);
 }

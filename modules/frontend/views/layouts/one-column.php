@@ -6,6 +6,10 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap\Nav;
+use app\modules\frontend\Module;
+use app\widgets\user\info\Info as UserInfo;
+use app\enums\Role;
 ?>
 
 <?php $this->beginPage() ?>
@@ -14,8 +18,8 @@ use yii\helpers\Url;
 <head>
     <meta charset="<?= \Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= yii\helpers\Html::csrfMetaTags() ?>
-    <title><?= yii\helpers\Html::encode($this->title) ?></title>
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -24,7 +28,7 @@ use yii\helpers\Url;
 
     <header>
         <div class="container">
-            <?= \app\widgets\user\info\Info::widget(); ?>
+            <?= UserInfo::widget(); ?>
             <?= Html::tag('h1', Yii::t('app', '{logo} Traffic Infraction Management System', ['logo' => Html::tag('span', 'TIMS', ['class' => 'title-abbr'])])); ?>
         </div>
         <div class="sub-title">
@@ -32,7 +36,7 @@ use yii\helpers\Url;
 
                 <div class="control-group pull-right">
                     <?= Html::a('User profile', Url::to('/frontend/default/profile'))?>
-                    <?php if(Yii::$app->user->hasRole([\app\enums\Role::ROLE_ROOT_SUPERUSER])):?>
+                    <?php if(Yii::$app->user->hasRole([Role::ROLE_ROOT_SUPERUSER])):?>
                         <?= Html::a('Admin portal', Url::to('/admin/users/manage'))?>
                     <?php endif;?>
                     <?= Html::a('Logout', Url::to('/logout'))?>
@@ -51,22 +55,16 @@ use yii\helpers\Url;
         </div>
 
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="top-menu">
-                    <?= yii\bootstrap\Nav::widget([
+                    <?= Nav::widget([
                         'options' => ['class' => 'nav nav-tabs nav-justified'],
-                        'items' => \app\modules\frontend\Module::getMenuItems(),
+                        'items' => Module::getMenuItems(),
                     ]); ?>
                 </div>
                 <div class="header-title"><h1><?=$this->title?></h1></div>
-            </div>
-            <div class="col-md-3">
-                <?= \app\widgets\user\info\Info::widget(); ?>
-            </div>
-        </div>
-
-        <div class="row">
                 <?= $content ?>
+            </div>
         </div>
 
     </div>
