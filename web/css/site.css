@@ -73,8 +73,10 @@ body::before {
   text-align: center;
 }
 .wrap header .sub-title .control-group > a {
+  float: left;
+  margin-right: 16px;
+  line-height: 42px;
   color: rgba(255, 255, 255, 0.96);
-  line-height: 40px;
 }
 .wrap header .container h1 {
   margin: 0;
@@ -95,8 +97,8 @@ body::before {
   margin: 0;
   font-size: 24px;
   line-height: 42px;
-  color: rgba(255, 255, 255, 0.6);
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.96), 0 0 4px rgba(14, 81, 126, 0.96);
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.96), 0 0 2px rgba(14, 81, 126, 0.96);
 }
 /* login-form */
 #login-form {
