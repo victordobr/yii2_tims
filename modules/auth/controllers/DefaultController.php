@@ -226,7 +226,7 @@ class DefaultController extends Controller
      */
     public function actionCabinet()
     {
-        return !in_array(Yii::$app->user->role->name, [Role::ROLE_ROOT_SUPERUSER]) ?
+        return Yii::$app->user->hasRole([Role::ROLE_ROOT_SUPERUSER]) ?
             $this->redirect(Yii::$app->params['url.frontend.default']) :
             $this->redirect(Yii::$app->params['url.admin.default']);
     }

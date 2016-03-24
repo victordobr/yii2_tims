@@ -17,7 +17,7 @@ $this->title = Yii::t('app', 'Login');
     <?php endif; ?>
 
 
-        <div class="col-md-offset-6 col-md-6">
+        <div class="col-md-offset-7 col-md-5">
 
             <?php $form = ActiveForm::begin([
                 'id' => 'login-form',
