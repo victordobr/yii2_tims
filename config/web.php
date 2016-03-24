@@ -109,7 +109,7 @@ $config = [
             'class' => 'app\components\RbacUser',
             'identityClass' => 'app\modules\auth\models\mappers\classes\UserIdentity',
             'enableAutoLogin' => true,
-            'loginUrl' => '/auth/default/login',
+            'loginUrl' => 'login',
         ],
         'errorHandler' => [
             'errorAction' => '/frontend/default/error',
