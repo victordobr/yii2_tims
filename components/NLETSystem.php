@@ -27,7 +27,7 @@ class NLETSystem
     {
         $data = self::initData();
 
-        return array_key_exists($tag, $data) ? $data[$tag] : null;
+        return array_key_exists($tag, $data) ? self::parseData($data[$tag]) : null;
     }
 
     /**
@@ -41,6 +41,38 @@ class NLETSystem
         }
 
         return self::$data;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    private static function parseData(array $data)
+    {
+        $name = explode(' ', $data['OwnerName']);
+        $owner = [
+            'first_name' => !empty($name[0]) ? $name[0] : '',
+            'last_name' => !empty($name[1]) ? $name[1] : '',
+            'address_1' => $data['OwnerAddress1'],
+            'address_2' => $data['OwnerAddress2'],
+            'city' => $data['OwnerCity'],
+            'state_id' => 9, // todo: temp
+            'zip_code' => $data['OwnerZIP'],
+        ];
+        $vehicle = [
+            'tag' => $data['Plate'],
+            'state' => 9, // todo: temp
+            'year' => (string)$data['VehYear'],
+            'make' => $data['VehMake'],
+            'model' => $data['VehModel'],
+            'color' => 'white', // todo: temp
+        ];
+
+        return [
+            'owner' => $owner,
+            'vehicle' => $vehicle,
+        ];
     }
 
 }
