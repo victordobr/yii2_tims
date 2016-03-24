@@ -156,9 +156,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // login
                 '/' => 'auth/default/login',
                 'login' => 'auth/default/login',
                 'logout' => 'auth/default/logout',
+
+                // frontend
+                'welcome' => 'frontend/default/welcome',
 
                 // upload
                 [
