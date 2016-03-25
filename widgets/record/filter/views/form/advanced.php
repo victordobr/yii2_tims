@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this \yii\web\View
+ * @var $this  \yii\web\View
  * @var $model \app\modules\frontend\models\base\RecordFilter
  */
 
@@ -11,13 +11,14 @@ use yii\helpers\Html;
 
 ?>
 
-<?php $form = ActiveForm::begin([
-    'id' => 'form-record-search-filter-advanced',
-    'type' => ActiveForm::TYPE_VERTICAL,
-    'enableClientScript' => false,
-    'method' => 'GET',
-    'options' => ['data-pjax' => true]
-]); ?>
+<div class="col-lg-12">
+    <?php $form = ActiveForm::begin([
+        'id' => 'form-record-search-filter-advanced',
+        'type' => ActiveForm::TYPE_VERTICAL,
+        'enableClientScript' => false,
+        'method' => 'GET',
+        'options' => ['data-pjax' => true]
+    ]); ?>
 
     <div class="row">
         <?= Form::widget([
@@ -96,7 +97,7 @@ use yii\helpers\Html;
                             'type' => Form::INPUT_TEXT,
                             'fieldConfig' => ['options' => ['class' => 'form-group form-group-sm']],
                             'options' => [
-                                'class'=>'input-in-text',
+                                'class' => 'input-in-text',
                                 'placeholder' => 'X',
                                 'maxlength' => 3,
                             ],
@@ -188,7 +189,8 @@ use yii\helpers\Html;
                             'type' => Form::INPUT_RADIO_LIST,
                             'items' => $model->getSmartSearchTypes(),
                             'options' => [
-                                'item' => function ($index, $label, $name, $checked, $value) {
+                                'item' => function ($index, $label, $name, $checked, $value)
+                                {
                                     return Html::tag('div',
                                         Html::label(
                                             Html::input(Form::INPUT_RADIO, $name, $value, ['checked' => $checked]) . ' ' . $label, null, [
@@ -212,4 +214,7 @@ use yii\helpers\Html;
         </div>
     </div>
 
-<?php ActiveForm::end(); ?>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

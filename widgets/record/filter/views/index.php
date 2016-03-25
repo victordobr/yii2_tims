@@ -17,7 +17,7 @@ use kartik\icons\Icon;
         <div id="record-search-filter" class="panel-body">
 
             <?php if ($advanced): ?>
-                <div class="row panel-subtitle">
+                <div class="panel-subtitle">
                     <a href="#"><?= Yii::t('app', 'Basic') ?><?= Icon::show('angle-double-down') ?></a>
                 </div>
             <?php endif; ?>
@@ -29,7 +29,7 @@ use kartik\icons\Icon;
             </div>
 
             <?php if ($advanced): ?>
-                <div class="row panel-subtitle">
+                <div class="panel-subtitle">
                     <a href="#"><?= Yii::t('app', 'Advanced') ?><?= Icon::show('angle-double-down') ?></a>
                 </div>
 

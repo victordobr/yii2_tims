@@ -1,97 +1,200 @@
 .panel.panel-record-filter {
-    border: none;
+  border: none;
+  box-shadow: none;
+  background: transparent;
 }
-
 .panel.panel-record-filter > .panel-heading {
-    font-size: 18px;
-    font-weight: normal;
-    color: #666;
-    background: transparent;
-    text-align: center;
+  padding: 12px 0 0 0;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: center;
+  color: rgba(14, 81, 126, 0.6);
+  background: transparent;
 }
-
+.panel-body {
+  padding: 16px 16px 0 16px;
+}
+.panel-subtitle {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 4px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+.panel-subtitle > a {
+  position: relative;
+  display: block;
+  padding: 0 8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 32px;
+  color: rgba(255, 255, 255, 0.96);
+}
+.panel-subtitle > a:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(14, 81, 126, 0.5);
+  z-index: -1;
+  border-radius: 4px;
+}
+.panel-subtitle > a > .fa {
+  float: right;
+  margin-right: 4px;
+  font-size: 24px;
+  line-height: 32px;
+  color: rgba(255, 255, 255, 0.96);
+}
+/* common styles */
+.search-filter-label {
+  margin: 0;
+  padding: 2px;
+  font-size: 15px;
+  line-height: 24px;
+  color: rgba(14, 81, 126, 0.6);
+  font-weight: bold;
+  text-transform: lowercase;
+}
+.search-filter-list-label {
+  display: block;
+  font-size: 15px;
+  line-height: 20px;
+  color: rgba(14, 81, 126, 0.6);
+  font-weight: bold;
+}
+.search-filter-label-in-text {
+  display: inline-block;
+  font-size: 15px;
+  line-height: 22px;
+  color: rgba(14, 81, 126, 0.6);
+  font-weight: bold;
+  text-transform: lowercase;
+}
+.form-control.input-in-text {
+  display: inline-block;
+  width: 36px;
+  padding: 0;
+  margin: -6px 0;
+  text-align: center;
+}
+/* form */
+#record-filter_created_at .radio {
+  margin: 4px 0;
+  text-transform: lowercase;
+  font-weight: bold;
+}
+#record-filter_created_at .radio > label {
+  color: rgba(14, 81, 126, 0.6);
+  font-weight: bold;
+}
 #record-filter_created_at > label > input[type="radio"] {
-    vertical-align: text-bottom;
+  vertical-align: text-bottom;
 }
 #record-filter_created_at > label > input[name="Record[X]"] {
-    width: 32px;
-    text-align: center;
+  width: 32px;
+  text-align: center;
 }
-
+#record-filter_status .checkbox {
+  text-transform: lowercase;
+}
+#record-filter_status .checkbox > label {
+  color: rgba(14, 81, 126, 0.6);
+  font-weight: bold;
+}
+#record-filter_smart_search_type .radio-inline {
+  text-transform: lowercase;
+  font-weight: bold;
+}
 #form-record-search-filter > .field-record-filter_status {
-    margin: 0;
+  margin: 0;
 }
 #form-record-search-filter > .field-record-filter_status > label {
-    margin-left: 16px;
-    line-height: 18px;
-    color: #8c8c8c;
-    font-weight: normal;
+  margin-left: 16px;
+  line-height: 18px;
+  color: #8c8c8c;
+  font-weight: normal;
 }
 #form-record-search-filter > .field-record-filter_status > label > input[type="checkbox"] {
-    margin-left: -18px;
-    vertical-align: text-bottom;
+  margin-left: -18px;
+  vertical-align: text-bottom;
 }
-
 #form-record-search-filter > .field-record-user_id > label {
-    color: #8c8c8c;
-    font-weight: normal;
+  color: #8c8c8c;
+  font-weight: normal;
 }
-
-.panel-body {
-    padding: 16px 16px 0 16px;
+#record-filter_author_id {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
 }
-
-.panel-subtitle {
-    border-radius: 4px;
-    box-shadow: 0 -1px 1px rgba(0, 0, 0, .05);
+#form-record-search-filter-basic .btn.btn-default.btn-reset {
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(14, 81, 126, 0.5);
+  border-color: rgba(14, 81, 126, 0.1);
+  text-transform: uppercase;
 }
-
-.panel-subtitle > a {
-    display: block;
-    padding: 2px 6px;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 15px;
-    line-height: 32px;
-    color: #777;
+#form-record-search-filter-advanced #record-filter_created_at_from {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
 }
-
-.panel-subtitle > a > .fa {
-    float: right;
-    margin-right: 4px;
-    font-size: 24px;
-    line-height: 32px;
+#form-record-search-filter-advanced #record-filter_created_at_from ~ span {
+  padding: 0 8px;
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(14, 81, 126, 0.5);
+  border-color: rgba(14, 81, 126, 0.1);
 }
-
-/* common styles */
-
-.search-filter-label {
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: normal;
-    color: #777;
+#form-record-search-filter-advanced #record-filter_created_at_to {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
 }
-
-.search-filter-list-label {
-    display: block;
-    font-size: 14px;
-    line-height: 20px;
-    color: #777;
-    font-weight: normal;
+#form-record-search-filter-advanced #record-filter_created_at_to ~ span {
+  padding: 0 8px;
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(14, 81, 126, 0.5);
+  border-color: rgba(14, 81, 126, 0.1);
 }
-
-.search-filter-label-in-text {
-    display: inline-block;
-    font-size: 14px;
-    line-height: 22px;
-    color: #777;
-    font-weight: normal;
+#form-record-search-filter-advanced #record-filter_state {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
 }
-
-.form-control.input-in-text {
-    display: inline-block;
-    width: 36px;
-    padding: 0;
-    margin: -6px 0;
-    text-align: center;
+#form-record-search-filter-advanced #record-filter_case_number {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
+}
+#form-record-search-filter-advanced #record-filter_smart_search_text {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
+}
+#form-record-search-filter-advanced #record-filter_smart_search_type {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
+}
+#form-record-search-filter-advanced .btn.btn-default.btn-reset {
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(14, 81, 126, 0.5);
+  border-color: rgba(14, 81, 126, 0.1);
+  text-transform: uppercase;
+}
+/* styles */
+.cyan-light {
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(14, 81, 126, 0.5);
+  border-color: rgba(14, 81, 126, 0.1);
+}
+.transparent-cyan {
+  color: rgba(14, 81, 126, 0.7);
+  background: transparent;
+  border-color: rgba(14, 81, 126, 0.3);
 }
