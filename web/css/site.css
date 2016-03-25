@@ -100,6 +100,12 @@ body::before {
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.96), 0 0 2px rgba(14, 81, 126, 0.96);
 }
+/* welcome title  */
+.jumbotron > h1 {
+  letter-spacing: -4px;
+  color: transparent;
+  text-shadow: 0 0 0 #fffacd, 0 0 1px rgba(14, 81, 126, 0.7), 0 0 2px rgba(14, 81, 126, 0.3);
+}
 /* login-form */
 #login-form {
   margin: 50px auto;
