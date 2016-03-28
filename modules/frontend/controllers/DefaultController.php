@@ -53,7 +53,29 @@ class DefaultController extends Controller
      */
     public function actionWelcome()
     {
-        return $this->render('welcome');
+        $user = self::user();
+        $last_login = date('d M Y|H:i:s T.', $user->last_login_at);
+        list($last_login_date, $last_login_time) = explode('|', $last_login);
+
+        return $this->render('welcome', [
+            'username' => Yii::t('app', '{pre}. {first} {last}', [
+                'pre' => $user->pre_name,
+                'first' => $user->first_name,
+                'last' => $user->last_name,
+            ]),
+            'last_login' => Yii::t('app', '{date} at {time}', [
+                'date' => $last_login_date,
+                'time' => $last_login_time,
+            ]),
+        ]);
+    }
+
+    /**
+     * @return User
+     */
+    private static function user()
+    {
+        return Yii::$app->user->identity;
     }
 
     /**
