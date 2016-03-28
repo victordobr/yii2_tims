@@ -33,54 +33,6 @@ $this->title = \Yii::t('app', 'Update Profile');
 
                 <?php endif;?>
 
-                <?= $form->field($model, 'agency')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'pre_name')->dropDownList(
-                    \app\models\User::getPreNameList()
-                ); ?>
-
-                <?= $form->field($model, 'first_name')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'middle_name')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'last_name')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'email')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'phone')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'state_id')->dropDownList(
-                    \app\enums\States::listData()
-                ); ?>
-
-                <?= $form->field($model, 'zip_code')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
-                <?= $form->field($model, 'address')->textInput([
-                    'maxlength' => true,
-                    'class' => 'form-control form-field-short',
-                ]) ?>
-
                 <?= $form->field($model, 'question_id')->dropDownList(
                     Question::find()->select(['text', 'id'])->indexBy('id')->column(),
                     array('prompt' => ' - choose question - ')
