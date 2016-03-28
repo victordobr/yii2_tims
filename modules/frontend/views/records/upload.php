@@ -95,6 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'pluginOptions' => [
                 'format' => Yii::$app->params['date.view.format'],
+//                'startDate' => '-10d',
+                'endDate' => '0d',
             ]
         ]);
         ?>
