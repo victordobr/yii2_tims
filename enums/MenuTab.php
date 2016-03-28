@@ -37,4 +37,29 @@ class MenuTab extends Enum
         return (new \ReflectionClass(__CLASS__))->getConstants();
     }
 
+    public static function label($tab)
+    {
+        return Yii::t('app', ucfirst($tab));
+    }
+
+    public static function icon($tab)
+    {
+        $icons = self::icons();
+
+        return $icons[$tab];
+    }
+
+    public static function icons()
+    {
+        return [
+            self::TAB_UPLOAD => 'upload',
+            self::TAB_SEARCH => 'search',
+            self::TAB_REVIEW => 'eye-open',
+            self::TAB_PRINT => 'print',
+            self::TAB_UPDATE => 'pencil',
+            self::TAB_REPORTS => 'list-alt',
+            self::TAB_SETTINGS => 'asterisk',
+        ];
+    }
+
 }

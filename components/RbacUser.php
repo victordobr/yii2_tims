@@ -9,6 +9,7 @@
 namespace app\components;
 
 
+use app\enums\MenuTab;
 use app\enums\ReportType;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -29,6 +30,54 @@ class RbacUser extends \app\modules\auth\components\Auth
      * @var Permission[]
      */
     protected $_permissions;
+
+    /**
+     * @return array
+     */
+    public function getTabs()
+    {
+        $tabs = [];
+
+        !$this->hasRole([
+            RoleName::ROLE_VIDEO_ANALYST,
+            RoleName::ROLE_SYSTEM_ADMINISTRATOR,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_UPLOAD);
+
+        !$this->hasRole([
+            RoleName::ROLE_VIDEO_ANALYST,
+            RoleName::ROLE_POLICE_OFFICER,
+            RoleName::ROLE_PRINT_OPERATOR,
+            RoleName::ROLE_OPERATIONS_MANAGER,
+            RoleName::ROLE_SYSTEM_ADMINISTRATOR,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_SEARCH);
+
+        !$this->hasRole([
+            RoleName::ROLE_POLICE_OFFICER,
+            RoleName::ROLE_SYSTEM_ADMINISTRATOR,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_REVIEW);
+
+        !$this->hasRole([
+            RoleName::ROLE_PRINT_OPERATOR,
+            RoleName::ROLE_OPERATIONS_MANAGER,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_PRINT);
+
+        !$this->hasRole([
+            RoleName::ROLE_OPERATIONS_MANAGER,
+            RoleName::ROLE_ACCOUNTS_RECONCILIATION,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_REPORTS);
+
+        !$this->hasRole([
+            RoleName::ROLE_SYSTEM_ADMINISTRATOR,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_SETTINGS);
+
+        return $tabs;
+    }
 
     public function getRole()
     {
