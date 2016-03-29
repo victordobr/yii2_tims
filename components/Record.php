@@ -1,6 +1,7 @@
 <?php
 namespace app\components;
 
+use app\base\Module;
 use app\enums\location\Code as LocationCode;
 use app\models\Citation;
 use app\models\Owner;
@@ -13,6 +14,7 @@ use app\models\Reason;
 use app\enums\CaseStatus as Status;
 use app\events\record\Upload as UploadEvent;
 use app\components\NLETSystem as NLETS;
+use yii\helpers\VarDumper;
 
 /**
  * Record component to handle record statuses
@@ -258,7 +260,7 @@ class Record extends Component
             $status = Status::DMV_DATA_RETRIEVED_COMPLETE;
             $time = time();
 
-            $owner = new Owner(['record_id' => $record->id]);
+            $owner = new Owner();
             $owner->setAttributes($data['owner']);
             $owner->setAttributes([
                 'license' => $record->license,
@@ -282,8 +284,9 @@ class Record extends Component
         $record->setAttributes([
             'status_id' => $status,
             'dmv_received_at' => $time,
+            'owner_id' => $owner->id,
         ]);
-        if (!$record->save(true, ['status_id', 'dmv_received_at'])) {
+        if (!$record->save(true, ['status_id', 'dmv_received_at', 'owner_id'])) {
             throw new \Exception('Record status do not updated');
         }
 

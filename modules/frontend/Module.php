@@ -119,7 +119,7 @@ class Module extends \app\base\Module  implements MenuInterface
                         'icon' => Html::icon(MenuTab::icon($tab)),
                         'label' => MenuTab::label($tab),
                     ]),
-                'url' => [$tab],
+                'url' => ['/' . $tab],
                 'active' => self::isCurrentTab($tab),
             ];
         }

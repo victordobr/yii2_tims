@@ -28,7 +28,7 @@ class Record extends base\Record
         return [
             [['infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
             [['videoLprId', 'videoOverviewCameraId', 'imageLprId', 'imageOverviewCameraId'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            [['state_id', 'ticket_fee', 'status_id', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
+            [['state_id', 'owner_id', 'ticket_fee', 'status_id', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
             [['infraction_date'],  'filter', 'filter' => function ($value) {
                 // TODO
 //                if(time($value)<=time() && time($value)>=mktime(0, 0, 0, date("m"), date("d")-10, date("Y"))) {
