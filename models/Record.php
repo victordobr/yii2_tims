@@ -173,7 +173,7 @@ class Record extends base\Record
      */
     public function getOwner()
     {
-        return $this->hasOne(Owner::className(), ['record_id' => 'id']);
+        return $this->hasOne(Owner::className(), ['id' => 'owner_id']);
     }
 
     /**

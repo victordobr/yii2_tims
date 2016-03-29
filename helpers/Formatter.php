@@ -227,6 +227,9 @@ class Formatter extends \yii\i18n\Formatter
         if (empty($timestamp)) {
             return 'unknown';
         }
+        if (!is_int($timestamp)) {
+            $timestamp = strtotime($timestamp);
+        }
 
         $time = time() - $timestamp;
 
