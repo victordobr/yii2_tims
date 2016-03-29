@@ -1,0 +1,17 @@
+.transition(@arguments) {
+  transition: @arguments;
+  -o-transition: @arguments;
+  -ms-transition: @arguments;
+  -moz-transition: @arguments;
+  -webkit-transition: @arguments;
+}
+
+.transition-property(@arguments, @opacity) {
+  -webkit-transition-property: @arguments, @opacity;
+  transition-property: @arguments, @opacity;
+}
+
+.transition-duration(@arguments) {
+  transition-duration: @arguments;
+  -webkit-transition-duration: @arguments;
+}
