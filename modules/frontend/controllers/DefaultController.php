@@ -4,10 +4,11 @@
 namespace app\modules\frontend\controllers;
 
 
+use app\base\Module;
 use yii\filters\AccessControl;
 use \app\modules\frontend\base\Controller;
-use \app\models\User;
-use \app\models\forms\Password as PasswordForm;
+use \app\modules\frontend\models\User;
+use \app\modules\frontend\models\form\Password as PasswordForm;
 
 use \Yii;
 use \yii\filters\VerbFilter;

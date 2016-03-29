@@ -138,16 +138,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!--            --><?php //var_dump($model->infraction_date); die;?>
 
-                <?php echo $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
-                    'layout' => '{input}{picker}',
-                    'options' => [
-                        'placeholder' => 'Enter infraction date ...',
-                    ],
-                    'pluginOptions' => [
-                        'format' => Yii::$app->params['date.view.format'],
-                    ]
-                ]);
-                ?>
+            <?php echo $form->field($model, 'infraction_date')->widget(DatePicker::classname(), [
+                'layout' => '{input}{picker}',
+                'options' => [
+                    'placeholder' => 'Enter infraction date ...',
+                ],
+                'pluginOptions' => [
+                    'format' => Yii::$app->params['date.view.format'],
+                    'startDate' => '-10d',
+                    'endDate' => '0d',
+                ]
+            ]);
+            ?>
 
         <?= $form->field($location, 'lat_ddm')->widget(MaskedInput::classname())->hint('(eg. 49.2.66200N)') ?>
         <?= $form->field($location, 'lng_ddm')->widget(MaskedInput::classname())->hint('(eg. 122.21.73060W)') ?>
