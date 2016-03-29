@@ -10,6 +10,7 @@ use app\enums\EvidenceFileType;
  * This is the model class for table "Record".
  *
  * @property integer $id
+ * @property integer $owner_id
  * @property integer $infraction_date
  * @property integer $state_id
  * @property string $license
@@ -47,7 +48,7 @@ class Record extends ActiveRecord
         return [
 
             [['infraction_date', 'state_id', 'license', 'bus_number'], 'required'],
-            [['infraction_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
+            [['owner_id', 'infraction_date', 'state_id', 'ticket_fee', 'ticket_payment_expire_date', 'status_id', 'created_at', 'approved_at', 'dmv_received_at', 'printed_at', 'qc_verified_at'], 'integer'],
             [['comments', 'user_plea_request'], 'string'],
             [['license'], 'string', 'max' => 250],
             [['bus_number'], 'string', 'max' => 10],
@@ -82,7 +83,7 @@ class Record extends ActiveRecord
      */
     public function getOwner()
     {
-        return $this->hasOne(Owner::className(), ['record_id' => 'id']);
+        return $this->hasOne(Owner::className(), ['id' => 'owner_id']);
     }
 
     /**
