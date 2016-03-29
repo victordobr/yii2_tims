@@ -67,6 +67,11 @@ class RbacUser extends \app\modules\auth\components\Auth
 
         !$this->hasRole([
             RoleName::ROLE_OPERATIONS_MANAGER,
+            RoleName::ROLE_ROOT_SUPERUSER,
+        ]) || array_push($tabs, MenuTab::TAB_UPDATE);
+
+        !$this->hasRole([
+            RoleName::ROLE_OPERATIONS_MANAGER,
             RoleName::ROLE_ACCOUNTS_RECONCILIATION,
             RoleName::ROLE_ROOT_SUPERUSER,
         ]) || array_push($tabs, MenuTab::TAB_REPORTS);
