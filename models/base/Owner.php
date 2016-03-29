@@ -23,7 +23,6 @@ use Yii;
  * @property integer $vehicle_year
  * @property integer $vehicle_color_id
  * @property integer $created_at
- * @property integer $record_id
  *
  * @property Record $record
  */
@@ -43,9 +42,9 @@ class Owner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'address_1', 'city', 'state_id', 'license', 'zip_code', 'vehicle_id', 'vehicle_color_id', 'record_id'], 'required'],
+            [['first_name', 'last_name', 'address_1', 'city', 'state_id', 'license', 'zip_code', 'vehicle_id', 'vehicle_color_id'], 'required'],
             [['address_1', 'address_2'], 'string'],
-            [['state_id', 'vehicle_id', 'vehicle_year', 'vehicle_color_id', 'created_at', 'record_id'], 'integer'],
+            [['state_id', 'vehicle_id', 'vehicle_year', 'vehicle_color_id', 'created_at'], 'integer'],
             [['first_name', 'middle_name', 'last_name', 'city'], 'string', 'max' => 255],
             [['license', 'zip_code'], 'string', 'max' => 20],
             [['email', 'phone'], 'string', 'max' => 50]
@@ -74,7 +73,6 @@ class Owner extends \yii\db\ActiveRecord
             'vehicle_year' => 'Vehicle Year',
             'vehicle_color_id' => 'Vehicle Color ID',
             'created_at' => 'Created At',
-            'record_id' => 'Record ID',
         ];
     }
 
@@ -83,7 +81,7 @@ class Owner extends \yii\db\ActiveRecord
      */
     public function getRecord()
     {
-        return $this->hasOne(Record::className(), ['id' => 'record_id']);
+        return $this->hasOne(Record::className(), ['owner_id' => 'id']);
     }
 
     /**
